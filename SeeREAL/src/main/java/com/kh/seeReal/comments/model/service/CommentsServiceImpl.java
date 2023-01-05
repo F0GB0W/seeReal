@@ -17,7 +17,7 @@ public class CommentsServiceImpl implements CommentsService{
 	private SqlSessionTemplate sqlSession;//기존의 mybatis의 sqlSession 대체
 
 	@Override
-	public int ratingGet(String movie,SqlSessionTemplate sqlSession) {
+	public int ratingGet(String movie) {
 		
 		return CommentsDao.ratingGet(movie,sqlSession);
 	}
