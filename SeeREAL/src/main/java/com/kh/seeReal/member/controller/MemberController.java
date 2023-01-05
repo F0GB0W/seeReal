@@ -10,6 +10,7 @@ import com.kh.seeReal.member.model.service.MemberService;
 @Controller
 public class MemberController {
 
+	/*
 	@Autowired
 	private JavaMailSender sender; // 전송도구
 	
@@ -21,4 +22,5 @@ public class MemberController {
 		
 		return 0;
 	}
+	*/
 }
