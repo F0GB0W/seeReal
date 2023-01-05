@@ -3,8 +3,34 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="feedMapper">
-
+	<resultMap id="comments" type="com.kh.seeReal.comments.model.vo.Comments">
+		<result column="comment_no" property="commentNo" />
+		<result column="member_no"  property="memberNo" />
+		<result column="status"     property="status" />
+	</resultMap>
 	
+	<resultMap id="comment_like" type="com.kh.seeReal.comments.model.vo.CommentsLike">
+		<result column="comment_like"   property="commentLike" />
+		<result column="comment_writer" property="commentWriter"/>
+	</resultMap>
+
+	<resultMap id="movie_rating" type="com.kh.seeReal.comments.model.vo.MovieRating">
+		<result column="member_no" property="memberNo" />	
+		<result column="rating"    property="rating" />	
+	</resultMap>
+
+	<resultMap id="comments" type="com.kh.seeReal.member.model.vo.Member">
+		<result column="member_no"       property="memberNo" />
+		<result column="member_nickname" property="memberNickname" />
+		<result column="member_photo"    property="memberPhoto" />
+	</resultMap>
+
+	<select id="selectCommentsCount" resultMap="">
+	
+	</select>
+
+
+
 
 
 
