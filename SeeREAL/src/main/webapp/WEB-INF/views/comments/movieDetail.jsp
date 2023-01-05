@@ -14,6 +14,11 @@
 	<div>
 	<p>${movieTitle }</p>
 	<p>${movieDate }</p>
+	<p>${movieDirector }</p>
 	</div>
+	<br><br>
+	
+	
+	
 </body>
 </html>

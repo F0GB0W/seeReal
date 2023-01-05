@@ -37,6 +37,7 @@
 		<input type="hidden" id="movieDate" name="movieDate">
 		<input type="hidden" id="movieTitle" name="movieTitle">
 		<input type="hidden" id="movieImg" name="movieImg">
+		<input type="hidden" id="movieDirector" name="movieDirector">
 		
 	</form>
 	<input type="text" id="test1">
@@ -94,6 +95,7 @@
 				$('#movieTitle').val($(this).children().eq(0).text());
 				$('#movieDate').val($(this).children().eq(2).text());
 				$('#movieImg').val($(this).children().children().eq(1).attr('src'));
+				$('#moviemovieDirector').val($(this).children().eq(3).text());
 				$('#form1').submit();
 			})
 		}
