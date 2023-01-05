@@ -18,8 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="member_no" property="memberNo" />	
 		<result column="rating"    property="rating" />	
 	</resultMap>
-
-	<resultMap id="comments" type="com.kh.seeReal.member.model.vo.Member">
+	
+	<resultMap id="member" type="com.kh.seeReal.member.model.vo.Member">
 		<result column="member_no"       property="memberNo" />
 		<result column="member_nickname" property="memberNickname" />
 		<result column="member_photo"    property="memberPhoto" />
