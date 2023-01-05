@@ -28,15 +28,15 @@
         <tbody>
           <tr>
             <th scope="row">작성자</th>
-            <td><input type="text" id="iptName" value="" /></td>
+            <td><input type="text" id="iptName" width="100px;" value="${loginUser.memberId }" /></td>
           </tr>
           <tr>
             <th scope="row">제목</th>
-            <td><input type="text" id="iptTitle" value="" /></td>
+            <td><input type="text" id="iptTitle" width="100px;" value="" /></td>
           </tr>
           <tr>
             <th scope="row">내용</th>
-            <td><textarea id="iptCont" rows="10" cols="20" style="resize:none;"></textarea></td>
+            <td><textarea id="iptCont" rows="10" cols="100" style="resize:none;"></textarea></td>
           </tr>
         </tbody>
 
