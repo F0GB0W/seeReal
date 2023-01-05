@@ -27,7 +27,10 @@ public class BoardController {
 		
 		return mv;
 	}
-	 
+	 @RequestMapping("spoilerEnrollForm.bo")
+	 public String spoilerEnrollForm() {
+		 return "board/spoiler/spoilerEnrollForm";
+	 }
 	
 	
 	
