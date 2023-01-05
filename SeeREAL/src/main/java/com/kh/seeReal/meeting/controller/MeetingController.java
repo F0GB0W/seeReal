@@ -11,6 +11,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.seeReal.meeting.model.service.MeetingService;
+import com.kh.seeReal.meeting.model.vo.Meeting;
+import com.kh.seeReal.member.model.vo.Member;
 
 @Controller
 public class MeetingController {
@@ -26,14 +30,19 @@ public class MeetingController {
 	private MeetingService meetingService;
 	
 	@RequestMapping("enrollForm.mt")
-	public String enrollForm() {
+	public String enrollForm(HttpSession session) {
+		// loginUser 세션에 담기 
+		Member loginUser = new Member();
+		loginUser.setMemberNo(1);
+		session.setAttribute("loginUser", loginUser);
+		
 		return "meeting/meetingEnrollForm";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "movie.mt", produces="application/json; charset=UTF-8")
 	public String searchMovie(String title, 
-							  @RequestParam(value = "year", defaultValue = "0")int year) throws IOException {
+							  @RequestParam(value = "year", defaultValue = "0") int year) throws IOException {
 		//String[] mvList = box();
 		
 		String clientId = "Uw8Fe7ZNBoyhy9E3Qn2R"; //애플리케이션 클라이언트 아이디 필수작성
@@ -113,11 +122,23 @@ public class MeetingController {
             while ((line = lineReader.readLine()) != null) {
                 responseBody.append(line);
             }
-            System.out.println(responseBody.toString());
+            // System.out.println(responseBody.toString());
             
             return responseBody.toString();
         } catch (IOException e) {
             throw new RuntimeException("API 응답을 읽는 데 실패했습니다.", e);
         }
+    }
+    
+    @RequestMapping("insert.mt")
+    public String insertMeeting(Meeting meet) {
+    	
+    	if(meetingService.insertMeeting(meet) > 0) {
+    		System.out.println("저장 성공~");
+    	} else {
+    		System.out.println("저장 실패~!!!");
+    	}
+    	
+    	return "redirect:/enrollForm.mt";
     }
 }
