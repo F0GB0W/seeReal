@@ -27,8 +27,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public ArrayList<Board> selectBoardList(PageInfo pi) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDao.selectBoardList(sqlSession, pi);
 	}
 
 	@Override
