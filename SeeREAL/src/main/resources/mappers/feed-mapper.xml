@@ -24,11 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="member_nickname" property="memberNickname" />
 		<result column="member_photo"    property="memberPhoto" />
 	</resultMap>
-
-	<select id="selectCommentsCount" resultMap="">
 	
-	</select>
+	<!-- 
+	<select id="selectCommentsCount" resultMap="">
 
+	</select>
+	 -->
 
 
 
