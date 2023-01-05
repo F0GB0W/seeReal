@@ -193,7 +193,7 @@
               <h3>자유게시판</h3>
               <br>
               <c:if test="${not empty loginUser }">
-              	<a href="#" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
+              	<a href="spoilerEnrollForm.bo" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
           	  </c:if>
           </div>
             <br><br>
@@ -206,6 +206,7 @@
 	                  <tr>
 	                      <th scope="col" class="th-num">번호</th>
 	                      <th scope="col" class="th-title">제목</th>
+	                      <th scope="col" class="th-title">작성자</th>
 	                      <th scope="col" class="th-date">등록일</th>
 	                  </tr>
                   </thead>
@@ -213,6 +214,7 @@
 	                  <tr>
 	                      <td>3</td>
 	                      <th><a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a></th>
+	                      <td>관리자</td>
 	                      <td>2017.07.13</td>
 	                  </tr>
                   </tbody>
