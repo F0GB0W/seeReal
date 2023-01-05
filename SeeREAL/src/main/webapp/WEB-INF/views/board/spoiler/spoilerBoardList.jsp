@@ -190,7 +190,7 @@
 <section class="notice">
     <div class="page-title">
           <div class="container">
-              <h3>자유게시판</h3>
+              <h3>스포 게시판</h3>
               <br>
               <c:if test="${not empty loginUser }">
               	<a href="spoilerEnrollForm.bo" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>

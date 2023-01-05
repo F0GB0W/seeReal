@@ -37,6 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				board
 		where
 				status = 'Y'
+		  and
+		  		boardType = 2
 		order
 		   by
 		   		board_no desc
