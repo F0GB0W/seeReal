@@ -21,13 +21,16 @@ public class BoardController {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, 5);
 		
-		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi)).setViewName("board/spoiler/spolerBoardList");
+		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi)).setViewName("board/spoiler/spoilerBoardList");
 		
-		System.out.println(pi);
+		//System.out.println(pi);
 		
 		return mv;
 	}
-	 
+	 @RequestMapping("spoilerEnrollForm.bo")
+	 public String spoilerEnrollForm() {
+		 return "board/spoiler/spoilerEnrollForm";
+	 }
 	
 	
 	

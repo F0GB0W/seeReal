@@ -211,12 +211,14 @@
 	                  </tr>
                   </thead>
                   <tbody>
-	                  <tr>
-	                      <td>3</td>
-	                      <th><a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a></th>
-	                      <td>관리자</td>
-	                      <td>2017.07.13</td>
-	                  </tr>
+	                  <c:forEach items="${list }" var="b">
+		                  <tr>
+		                      <td><${b.boardNo }</td>
+		                      <th><a href="#!">${b.boardTitle }</a></th>
+		                      <td>${b.boardWriter }</td>
+		                      <td>${b.enrollDate }</td>
+		                  </tr>
+		              </c:forEach>
                   </tbody>
               </table>
           </div>
