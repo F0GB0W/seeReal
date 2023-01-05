@@ -38,7 +38,7 @@ public class CommentsController {
 	@RequestMapping(value="movieSelect.co")
 	public String test1() {
 		
-		return "movieMain";
+		return "comments/movieMain";
 	}
 	
 	
