@@ -17,8 +17,8 @@
 	<div></div>
 
 	
-	<div><a data-toggle="modal" data-target="#sign-up">login</a></div>
-	<jsp:include page="login.jsp" />
+	<div><a data-toggle="modal" data-target="#sign-up">회원가입</a></div>
+	<jsp:include page="../member/enrollForm.jsp" />
 	
 </body>
 </html>
