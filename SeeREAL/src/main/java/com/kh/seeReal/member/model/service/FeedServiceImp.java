@@ -16,8 +16,8 @@ public class FeedServiceImp implements FeedService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int selectCommentsCount() {
-		return feedDao.selectCommentsCount(sqlSession) ;
+	public int selectFeed() {
+		return feedDao.selectFeed(sqlSession) ;
 	}
 
 }
