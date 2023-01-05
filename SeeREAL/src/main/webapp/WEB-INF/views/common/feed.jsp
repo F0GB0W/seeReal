@@ -10,15 +10,17 @@
 </head>
 <body>
 	
-	<!-- 
+	
 	<div class="outer">
 		<div class="profile">
 			<image></image>
-			${ sessionScope.loginUser.nickName }님의 리얼피드
+			<%-- ${ sessionScope.loginUser.nickName } --%>
+			예진 님의 리얼피드
 		</div>
 		
 		<div class="ratingCount"></div>
-			평가수 : 
+			평가수 : 아직 남긴 리얼평이 없습니다.
+			<%-- 
 			<c:choose>
 				<c:when test="${ Count(*) > 0 }">
 					${ Count(*) }
@@ -27,7 +29,10 @@
 					아직 남긴 리얼평이 없습니다.
 				</c:otherwise>
 			</c:choose>
+			 --%>
 		<div class="ratingSpread"></div>
+			별점을 남기고 분포도를 확인해보세요!
+			<%-- 
 			<c:choose>
 				<c:when test="${ Count(*) > 0 }">
 					<canvas id="myChart"></canvas>
@@ -36,6 +41,7 @@
 					별점을 남기고 분포도를 확인해보세요!
 				</c:otherwise>
 			</c:choose>
+			 --%>
 		<div class="comments"></div>
 	</div>
 	

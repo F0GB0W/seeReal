@@ -10,15 +10,15 @@
 <body>
 	<div><a href="spoilerList.bo">스포 게시판</a></div>
 	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
-	<div></div>
+	<div><div><a href="feed.me">(임시)피드</a></div></div>
 	<div></div>
 	<div></div>
 	<div></div>
 	<div></div>
 
 	
-	<div><a data-toggle="modal" data-target="#sign-up">login</a></div>
-	<jsp:include page="login.jsp" />
+	<div><a data-toggle="modal" data-target="#sign-up">회원가입</a></div>
+	<jsp:include page="../member/enrollForm.jsp" />
 	
 </body>
 </html>

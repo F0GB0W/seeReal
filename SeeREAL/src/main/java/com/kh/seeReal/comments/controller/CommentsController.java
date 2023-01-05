@@ -43,16 +43,18 @@ public class CommentsController {
 	
 	
 	@RequestMapping(value="movieDetail.co")
-	public String detailMovie(String movieDate,String movieTitle,String movieImg,String movieDirector,Model model) {
+	public String detailMovie(String movieDate,String movieTitle,String movieImg,String movieDirector,String movieSubTitle,Model model) {
 		
 		System.out.println(movieDate);
 		System.out.println(movieTitle);
 		System.out.println(movieImg);
+		System.out.println(movieSubTitle);
 		
 		model.addAttribute("movieDate",movieDate);
 		model.addAttribute("movieTitle",movieTitle);
 		model.addAttribute("movieImg",movieImg);
 		model.addAttribute("movieDirector",movieDirector);
+		model.addAttribute("movieSubTitle",movieSubTitle);
 		
 		return "comments/movieDetail";
 		
