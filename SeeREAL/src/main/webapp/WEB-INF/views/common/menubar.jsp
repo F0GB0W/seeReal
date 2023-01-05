@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div><a href="spoiler.bo">스포 게시판</a></div>
+	<div><a href="spoilerList.bo">스포 게시판</a></div>
 	<div></div>
 	<div></div>
 	<div></div>
