@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class FeedDao {
-	public int selectCommentsCount(SqlSessionTemplate sqlSession) {
+	public int selectFeed(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("feedMapper.selectCommentsCount");
 	}
 }
