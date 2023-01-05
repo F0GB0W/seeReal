@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,16 +40,26 @@
             영화를 골라 보아요
         </button><br>
 
-        <input placeholder="같이 볼 영화" id="movieTitle" readonly>
+        <input placeholder="같이 볼 영화" id="movieTitle" readonly required>
         <input type="hidden" name="movieTitle" id="movieSubtitle" readonly>
-        <input placeholder="개봉연도" name="movieYear" id="movieYear" readonly> <br>
+        <input placeholder="개봉연도" name="movieYear" id="movieYear" readonly required> <br>
         <img id="movieThumb"> <br>
         <a id="movieLink">영화정보 상세보기(네이버)</a> <br>
         <div id="movieDirector">감독 : </div>
         <div id="movieActor">출연진 : </div>
         <hr>
 
+        <input type="button" onclick="serachAddress()" value="주소 검색"><br>
+        <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+        <input type="text" id="meetingAddress" placeholder="주소" name="meetingPlace" readonly required><br>
+        <input type="text" name="meetingPlaceDetail" placeholder="상세주소"><br>
 
+        <hr>
+
+        <textarea name="meetingExp" placeholder="모임 설명" style="resize: none;" required></textarea>
+
+        <input type="hidden" value="${ loginUser.memberNo }" name="memberNo">
+        <button type="submit" class="btn btn-primary">만들기~</button>
     </form>
     
     
@@ -166,7 +177,55 @@
         }
 	</script>
 	
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11b518aa98db14042a755e81842e7615&libraries=services"></script>
+    <script>
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+                level: 5 // 지도의 확대 레벨
+            };
 
+        //지도를 미리 생성
+        var map = new daum.maps.Map(mapContainer, mapOption);
+        //주소-좌표 변환 객체를 생성
+        var geocoder = new daum.maps.services.Geocoder();
+        //마커를 미리 생성
+        var marker = new daum.maps.Marker({
+            position: new daum.maps.LatLng(37.537187, 127.005476),
+            map: map
+        });
+
+
+        function serachAddress() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    var addr = data.address; // 최종 주소 변수
+
+                    // 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById("meetingAddress").value = addr;
+                    // 주소로 상세 정보를 검색
+                    geocoder.addressSearch(data.address, function(results, status) {
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === daum.maps.services.Status.OK) {
+
+                            var result = results[0]; //첫번째 결과의 값을 활용
+
+                            // 해당 주소에 대한 좌표를 받아서
+                            var coords = new daum.maps.LatLng(result.y, result.x);
+                            // 지도를 보여준다.
+                            mapContainer.style.display = "block";
+                            map.relayout();
+                            // 지도 중심을 변경한다.
+                            map.setCenter(coords);
+                            // 마커를 결과값으로 받은 위치로 옮긴다.
+                            marker.setPosition(coords)
+                        }
+                    });
+                }
+            }).open();
+        }
+    </script>
 	
 
 </body>

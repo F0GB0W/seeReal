@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="board_title"	property="boardTitle"/>
 		<result column="board_writer"	property="baordWriter"/>
 		<result column="count"			property="count"/>
+		<result column="enroll_date"	property="enrollDate"/>
 		<result column="origin_name"	property="originName"/>
 		<result column="change_name"	property="changeName"/>
 		<result column="report_count"	property="reportCount"/>
@@ -24,13 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  where
 	  		status = 'Y'
 	</select>
-	<select id="selectBoardList" resultMap="boardResultSet" >
+	<select id="selectBoardList" resultMap="boardResultSet">
 		select
 				board_no,
 				board_title,
 				board_writer,
 				count,
-				to_char(create_date, 'YYYY-MM-DD') as "CREATE_DATE",
+				to_char(enroll_date, 'YYYY-MM-DD') as "ENROLL_DATE",
 				origin_name
 		 from
 				board
@@ -41,6 +42,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   		board_no desc
 	</select>
 	
+	<update id="sanctionsBoard" parameterType="_int">
+
+		update
+				board
+		set
+				status = 'N'
+		where
+				report_count >= 10			
+			
+
+	
+	</update>
 
 
 </mapper>

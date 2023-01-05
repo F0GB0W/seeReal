@@ -17,9 +17,8 @@ public class MeetingServiceImpl implements MeetingService {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public Meeting insertMeeting(Meeting meeting) {
-		// TODO Auto-generated method stub
-		return null;
+	public int insertMeeting(Meeting meeting) {
+		return meetingDao.insertMeeting(sqlSession, meeting);
 	}
 
 }

@@ -30,5 +30,7 @@ public interface BoardService {
 	int updateBoardReply(int boardNo);
 	// 댓글 삭제(update)
 	int deleteBoardReply(int boardNo);
-
+	// 게시판 신고 누적 제재(update) 
+	int sanctionsBoard();
+	
 }
