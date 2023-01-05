@@ -30,7 +30,7 @@
 
          <div class="modal-body">
 
-            <form action="알아서작성" name="signup" id="signUpForm" method="post"
+            <form action="" name="signup" id="signUpForm" method="post"
                style="margin-bottom: 0;">
                <table
                   style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
@@ -42,11 +42,11 @@
                      </td>
                   </tr>
                   <tr>
-                     <td><input type="email" name="알아서 작성" id="user_email"
+                     <td><input type="email" name="" id="user_email"
                         class="form-control tooltipstered" 
                         required="required" aria-required="true"
                         style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
-                        placeholder="ex) 260@view.16"></td>
+                        placeholder="ex) "></td>
                      
                   </tr>
                   
@@ -71,7 +71,7 @@
                   </tr>
                   <tr>
                      <td><input type="password" size="17" maxlength="20" id="password"
-                        name="알아서 작성" class="form-control tooltipstered" 
+                        name="" class="form-control tooltipstered" 
                         maxlength="20" required="required" aria-required="true"
                         style="ime-mode: inactive; margin-bottom: 25px; height: 40px; border: 1px solid #d9d9de"
                         placeholder="영문과 특수문자를 포함한 최소 6자"></td>
@@ -85,7 +85,7 @@
                   </tr>
                   <tr>
                      <td><input type="password" size="17" maxlength="20" id="password_check"
-                        name="알아서 작성" class="form-control tooltipstered" 
+                        name="" class="form-control tooltipstered" 
                         maxlength="20" required="required" aria-required="true"
                         style="ime-mode: inactive; margin-bottom: 25px; height: 40px; border: 1px solid #d9d9de"
                         placeholder="비밀번호가 일치해야합니다."></td>
@@ -98,7 +98,7 @@
                      </td>                     
                   </tr>
                   <tr>
-                     <td><input type="text" name="알아서 작성" id="nickname"
+                     <td><input type="text" name="" id="nickname"
                         class="form-control tooltipstered" maxlength="14"
                         required="required" aria-required="true"
                         style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
@@ -115,7 +115,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <td><input type="text" name="알아서 작성" id="phone"
+                     <td><input type="text" name="" id="phone"
                         class="form-control tooltipstered" maxlength="6"
                         required="required" aria-required="true"
                         style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
