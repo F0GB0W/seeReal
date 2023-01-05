@@ -42,6 +42,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   		board_no desc
 	</select>
 	
+	<update id="sanctionsBoard" parameterType="_int">
+
+		update
+				board
+		set
+				status = 'N'
+		where
+				report_count >= 10			
+			
+
+	
+	</update>
 
 
 </mapper>

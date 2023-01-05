@@ -83,5 +83,16 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public int sanctionsBoard() {
+		
+		return boardDao.sanctionsBoard(sqlSession);
+	}
+	
+	
+	
+	
+	
 
 }

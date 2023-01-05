@@ -23,4 +23,20 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectBoardList", pi, rowBounds);
 	}
 
+	public int sanctionsBoard(SqlSessionTemplate sqlSession) {
+
+		return sqlSession.update("boardMapper.sanctionsBoard") ;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
