@@ -3,4 +3,44 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
+	<resultMap id="boardResultSet" type="board">
+		<result column="board_no"		property="boardNo"/>
+		<result column="board_title"	property="boardTitle"/>
+		<result column="board_writer"	property="baordWriter"/>
+		<result column="count"			property="count"/>
+		<result column="origin_name"	property="originName"/>
+		<result column="change_name"	property="changeName"/>
+		<result column="report_count"	property="reportCount"/>
+		<result column="status"			property="status"/>
+		<result column="board_type"		property="boardType"/>
+		<result column="member_no"		property="memberNo"/>
+	</resultMap>
+
+	<select id="selectBoardListCount" resultType="_int">
+	select
+			count(*)
+	  from
+	  		board
+	  where
+	  		status = 'Y'
+	</select>
+	<select id="selectBoardList" resultMap="boardResultSet" >
+		select
+				board_no,
+				board_title,
+				board_writer,
+				count,
+				to_char(create_date, 'YYYY-MM-DD') as "CREATE_DATE",
+				origin_name
+		 from
+				board
+		where
+				status = 'Y'
+		order
+		   by
+		   		board_no desc
+	</select>
+	
+
+
 </mapper>
