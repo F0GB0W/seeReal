@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div><a href="spoilerList.bo">스포 게시판</a></div>
-	<div></div>
+	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
 	<div></div>
 	<div></div>
 	<div></div>
