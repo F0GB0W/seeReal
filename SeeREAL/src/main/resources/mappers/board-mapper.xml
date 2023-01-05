@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where
 				status = 'Y'
 		  and
-		  		boardType = 2
+		  		board_type = 2
 		order
 		   by
 		   		board_no desc
@@ -52,10 +52,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				status = 'N'
 		where
 				report_count >= 10			
-			
-
-	
 	</update>
+	<insert id="insertSpoiler">
+		insert
+		  into
+		  		board
+		  		(
+		  		board_no,
+		  		board_title,
+		  		board_writer
+		  		board_content,
+		  		status,
+		  		board_type,
+		  		)
+		values
+				(
+				seq_bno.nextval,
+				#{boardTitle},
+				#{boardWriter}
+				#{boardContent},
+				#{status},
+				2,
+				)
+	</insert>
 
 
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.board.model.service.BoardServiceImpl;
+import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 
@@ -23,6 +24,7 @@ public class BoardController {
 		
 		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi)).setViewName("board/spoiler/spoilerBoardList");
 		
+		
 		//System.out.println(pi);
 		
 		return mv;
@@ -30,6 +32,11 @@ public class BoardController {
 	 @RequestMapping("spoilerEnrollForm.bo")
 	 public String spoilerEnrollForm() {
 		 return "board/spoiler/spoilerEnrollForm";
+	 }
+	 @RequestMapping("insertSpoiler.bo")
+	 public String insertSopiler(Board b) {
+		 boardService.insertSpoiler(b);
+		 return "main";
 	 }
 	
 	

@@ -17,7 +17,7 @@
 
   <fieldset>
     <legend>board</legend>
-    <form id="frm1">
+    <form action="insertSpoiler.bo">
 
       <table>
         <caption></caption>
@@ -28,15 +28,15 @@
         <tbody>
           <tr>
             <th scope="row">작성자</th>
-            <td><input type="text" id="iptName" width="100px;" value="${loginUser.memberId }" /></td>
+            <td><input type="text" id="iptName" width="100px;" value="${loginUser.memberId }" mame="boardWriter" /></td>
           </tr>
           <tr>
             <th scope="row">제목</th>
-            <td><input type="text" id="iptTitle" width="100px;" value="" /></td>
+            <td><input type="text" id="iptTitle" width="100px;" name="boardTitle" /></td>
           </tr>
           <tr>
             <th scope="row">내용</th>
-            <td><textarea id="iptCont" rows="10" cols="100" style="resize:none;"></textarea></td>
+            <td><textarea id="iptCont" rows="10" cols="100" style="resize:none;" name="boardContent" ></textarea></td>
           </tr>
         </tbody>
 

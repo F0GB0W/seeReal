@@ -17,5 +17,6 @@ public class Board {
 	private String status; //STATUS
 	private String boardType; //BOARD_TYPE
 	private int memberNo; //MEMBER_NO
+	private String boardWriter;
 	
 }

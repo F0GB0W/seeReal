@@ -17,7 +17,7 @@ public interface BoardService {
 	// 조회수 증가(update)
 	int increaseBoardCount(int boardNo);
 	// 글 작성(insert)
-	int  insertBoard(Board b);
+	int  insertSpoiler(Board b);
 	// 게시글 업데이트(update)
 	int updateBoard(int boardNo);
 	// 게시글 삭제(update)

@@ -43,9 +43,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int insertBoard(Board b) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertSpoiler(Board b) {
+		return boardDao.insertSpoiler(sqlSession, b);
 	}
 
 	@Override
@@ -89,6 +88,8 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDao.sanctionsBoard(sqlSession);
 	}
+
+		
 	
 	
 	
