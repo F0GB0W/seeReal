@@ -1,5 +1,5 @@
 package com.kh.seeReal.comments.model.service;
 
-public class CommnetsServiceImpl {
+public class CommentsService {
 
 }
