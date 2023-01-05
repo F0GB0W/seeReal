@@ -33,7 +33,7 @@ public class MeetingController {
 	@ResponseBody
 	@RequestMapping(value = "movie.mt", produces="application/json; charset=UTF-8")
 	public String searchMovie(String title, 
-							  @RequestParam(value = "year" , defaultValue = "0")int year) throws IOException {
+							  @RequestParam(value = "year", defaultValue = "0")int year) throws IOException {
 		//String[] mvList = box();
 		
 		String clientId = "Uw8Fe7ZNBoyhy9E3Qn2R"; //애플리케이션 클라이언트 아이디 필수작성

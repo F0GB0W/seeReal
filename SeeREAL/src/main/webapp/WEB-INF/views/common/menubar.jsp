@@ -16,5 +16,9 @@
 	<div></div>
 	<div></div>
 
+	
+	<div><a data-toggle="modal" data-target="#sign-up">login</a></div>
+	<jsp:include page="login.jsp" />
+	
 </body>
 </html>
