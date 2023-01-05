@@ -38,6 +38,7 @@
 		<input type="hidden" id="movieTitle" name="movieTitle">
 		<input type="hidden" id="movieImg" name="movieImg">
 		<input type="hidden" id="movieDirector" name="movieDirector">
+		<input type="hidden" id="movieSubTitle" name="movieSubTitle">
 		
 	</form>
 	<input type="text" id="test1">
@@ -68,6 +69,7 @@
 							   + '<td>' + item.director + '</td>'
 							   + '<td>' + item.actor + '</td>'
 							   + '<td>' + item.userRating + '</td>'
+							   + '<input type="hidden" value="'+item.subtitle+'">'
 							   + '</tr>' 
 					}
 					
@@ -95,7 +97,12 @@
 				$('#movieTitle').val($(this).children().eq(0).text());
 				$('#movieDate').val($(this).children().eq(2).text());
 				$('#movieImg').val($(this).children().children().eq(1).attr('src'));
-				$('#moviemovieDirector').val($(this).children().eq(3).text());
+				$('#movieDirector').val($(this).children().eq(3).text());
+				$('#movieSubTitle').val($(this).children().eq(6).val());
+				console.log('--3--')
+				console.log($(this).children().eq(6).val())
+				console.log($(this).children().eq(6))
+				
 				$('#form1').submit();
 			})
 		}
