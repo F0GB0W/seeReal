@@ -23,10 +23,11 @@ public class BoardController {
 		
 		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi)).setViewName("board/spoiler/spolerBoardList");
 		
-		
+		System.out.println(pi);
 		
 		return mv;
 	}
+	 
 	
 	
 	
