@@ -42,10 +42,10 @@
 
       </table>
 
-    </form>
     <div class="btn-wrap">
-      <input type="button" id="btnRegist" class="btn" value="글쓰기">
+      <button type="submit" id="btnRegist" class="btn" >글쓰기</button>
     </div>
+    </form>
   </fieldset>
 </div>
 
