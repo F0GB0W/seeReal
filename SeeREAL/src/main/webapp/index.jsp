@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	3434343
+	<jsp:include page="WEB-INF/views/common/menubar.jsp"/>
 </body>
 </html>
