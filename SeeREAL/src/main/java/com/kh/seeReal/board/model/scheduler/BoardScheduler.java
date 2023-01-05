@@ -20,7 +20,7 @@ public class BoardScheduler {
 	  @Scheduled(cron ="0 0/1 * * * *")
 	  public void sanctionsBoard() {
 		  BoardDao.sanctionsBoard(sqlSession);
-		  System.out.println("1분에 한번씩");
+	
 	    }
 	  
 	
