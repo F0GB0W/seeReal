@@ -44,7 +44,7 @@
 	<script>
 		function movie(){
 			$.ajax({
-				url : 'movieTest1.do',
+				url : 'movie.do',
 				data : {title : $('#title').val()},
 				success : data => {
 					console.log(data.items[0]);

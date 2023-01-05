@@ -7,6 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<div>
+	<img src="${movieImg }">
+	
+	</div>
+	<div>
+	<p>${movieTitle }</p>
+	<p>${movieDate }</p>
+	</div>
 </body>
 </html>
