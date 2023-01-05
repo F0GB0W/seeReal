@@ -8,27 +8,27 @@ import com.kh.seeReal.common.model.vo.PageInfo;
 
 public interface BoardService {
 	// spoiler, freeboard
-	// ¸®½ºÆ® Ä«¿îÆ®(select)
+	// ë¦¬ìŠ¤íŠ¸ ì¹´ìš´íŠ¸(select)
 	int selectBoardListCount();
-	// °Ô½Ã±Û Á¶È¸(select)
+	// ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ(select)
 	ArrayList<Board> selectBoardList(PageInfo pi);
-	// »ó¼¼ Á¶È¸(select)
+	// ê²Œì‹œê¸€ ìƒì„¸ì¡°íšŒ(select)
 	Board boardDetailView(int boardNo);
-	// Á¶È¸¼ö Áõ°¡(update)
+	// ì¡°íšŒìˆ˜ ì¦ê°€(update)
 	int increaseBoardCount(int boardNo);
-	// °Ô½Ã±Û ÀÛ¼º(insert)
+	// ê¸€ ì‘ì„±(insert)
 	int  insertBoard(Board b);
-	// °Ô½Ã±Û ¼öÁ¤(update)
+	// ê²Œì‹œê¸€ ì—…ë°ì´íŠ¸(update)
 	int updateBoard(int boardNo);
-	// °Ô½Ã±Û »èÁ¦(update)
+	// ê²Œì‹œê¸€ ì‚­ì œ(update)
 	int deleteBoard(int boardNo);
-	// ´ñ±Û ¸®½ºÆ®(select)
+	// ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸(select)
 	ArrayList<BoardReply> selectReplyList(int boardNo);
-	// ´ñ±Û ÀÛ¼º(insert)
+	// ëŒ“ê¸€ ì‘ì„±(insert)
 	int insertBoardReply(BoardReply br);
-	// ´ñ±Û ¼öÁ¤(update)
+	// ëŒ“ê¸€ ìˆ˜ì •(update)
 	int updateBoardReply(int boardNo);
-	// ´ñ±Û »èÁ¦(update)
+	// ëŒ“ê¸€ ì‚­ì œ(update)
 	int deleteBoardReply(int boardNo);
 
 }
