@@ -27,16 +27,12 @@
         </colgroup>
         <tbody>
           <tr>
-            <th scope="row">글번호</th>
-            <td><input type="text" id="bno" name="boardNo" readonly value="100" /></td>
-          </tr>
-          <tr>
             <th scope="row">제목</th>
             <td><input type="text" id="title" width="100px;" name="boardTitle" /></td>
           </tr>
           <tr>
             <th scope="row">작성자</th>
-            <td><input type="text" id="writer" width="100px;" value="user01" readonly name="boardWriter" /></td>
+            <td><input type="text" id="writer" width="100px;" value="${loginUser }" readonly name="boardWriter" /></td>
           </tr>
           <tr>
             <th scope="row">첨부파일</th>

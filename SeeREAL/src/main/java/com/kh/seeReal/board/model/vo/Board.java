@@ -16,6 +16,6 @@ public class Board {
 	private int reportCount; //REPORT_COUNT
 	private String status; //STATUS
 	private String boardType; //BOARD_TYPE
-	private String boardWriter;
+	private int boardWriter;
 	
 }
