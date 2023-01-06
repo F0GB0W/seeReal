@@ -40,6 +40,7 @@ public class BoardController {
 	}
 	 @RequestMapping("spoilerEnrollForm.bo")
 	 public String spoilerEnrollForm(HttpSession session) {
+		 session.setAttribute("loginUser", 1);
 		 return "board/spoiler/spoilerEnrollForm";
 	 }
 	 @RequestMapping("insertSpoiler.bo")
@@ -48,7 +49,7 @@ public class BoardController {
 		 if(!upfile.getOriginalFilename().equals("")) {
 			
 			 b.setOriginName(upfile.getOriginalFilename());
-			 b.setChangeName("resources/uploadFiles/" + saveFile(upfile, session));
+			 b.setChangeName("/resources/uploadFiles/" + saveFile(upfile, session));
 		 }
 		 
 		 
@@ -69,6 +70,7 @@ public class BoardController {
 		 String ext = originName.substring(originName.lastIndexOf("."));
 		 String changeName = currentTime + ranNum + ext;
 		 String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
+		 // System.out.println(savePath);
 		 
 		 try {
 			upfile.transferTo(new File(savePath + changeName));

@@ -29,7 +29,7 @@
 			<tr>
 				<th>첨부파일</th>
 				<c:choose>
-				<c:when test="${empty originName }">
+				<c:when test="${empty b.originName }">
 					첨부파일이 없습니다.
 				</c:when>
 				<c:otherwise>
