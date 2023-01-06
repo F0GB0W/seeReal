@@ -189,42 +189,58 @@
 <body>
 <section class="notice">
     <div class="page-title">
-          <div class="container">
-              <h3>모임 게시판</h3>
-              <br>
-              <c:if test="${ not empty loginUser }">
-              	<a href="enrollForm.mt" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
-          	  </c:if>
-          </div>
+        <div class="container">
+			<h3>모임 게시판</h3>
+			<br>
+			<c:if test="${ not empty loginUser }">
+			<a href="enrollForm.mt" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
+			</c:if>
+		</div>
             <br><br>
         </div>
     <!-- board list area -->
-      <div id="board-list">
-          <div class="container">
-              <table class="board-table">
-                  <thead>
-	                  <tr>
-	                      <th scope="col" class="th-num">번호</th>
-	                      <th scope="col" class="th-title">제목</th>
-	                      <th scope="col" class="th-title">작성자</th>
-	                      <th scope="col" class="th-date">등록일</th>
-	                  </tr>
-                  </thead>
-                  <tbody>
-	                  <c:forEach items="${ list }" var="m">
-		                  <tr>
-		                      <td>${ m.meetingNo }</td>
-		                      <th><a href="#!">${ m.meetingTitle }</a></th>
-		                      <td>${ m.meetingWriter }</td>
-		                      <td>${ m.meetingEnrollDate }</td>
-		                  </tr>
-		              </c:forEach>
-                  </tbody>
-              </table>
-          </div>
-      </div>
-  
-  </section>
+	<div id="board-list">
+		<div class="container">
+			<table class="board-table table-hover" id="board-table">
+				<thead>
+					<tr>
+						<th scope="col" class="th-num">번호</th>
+						<th scope="col" class="th-title">제목</th>
+						<th scope="col" class="th-title">작성자</th>
+						<th scope="col" class="th-date">등록일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${ list }" var="m">
+						<tr>
+							<td class="mtno">${ m.meetingNo }</td>
+							<td class="title">${ m.meetingTitle }</td>
+							<td class="nickName">${ m.meetingWriter }</td>
+							<input type="hidden" value="${ m.memberNo }" class="memberNo">
+							<td>${ m.meetingEnrollDate }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</section>
+
+	<script>
+		// 동적으로 생성된 요소?? -> JavaScript
+		$(function() {
+			$('#board-table > tbody > tr > .title').click(function() {
+				//console.log('제목눌림');
+				// location.href = 'detail.mt?mtno=' + $(this).children('.mtno').text();
+			})
+
+			$('#board-table > tbody > tr > .nickName').click(function() {
+				// console.log($(this).parent().children('.memberNo').val());
+				location.href = 'feed.me?memberNo=' + $(this).parent().children('.memberNo').val();
+			})
+		});
+	</script>
 
 </body>
 </html>
