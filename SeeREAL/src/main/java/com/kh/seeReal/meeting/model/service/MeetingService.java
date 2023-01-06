@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.meeting.model.vo.Meeting;
+import com.kh.seeReal.meeting.model.vo.MeetingUser;
 
 public interface MeetingService {
 
@@ -16,4 +17,6 @@ public interface MeetingService {
 	int increaseMeetingCount(int mtno);
 
 	Meeting selectMeetingDetail(int mtno);
+
+	void insertMeetingUser(MeetingUser mu);
 }

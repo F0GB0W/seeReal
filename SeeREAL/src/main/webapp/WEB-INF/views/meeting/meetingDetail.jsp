@@ -54,8 +54,12 @@
 					console.log(data);
                     const item = data.items[0];
 
+                    let title = item.title  // b태그 지워주기
+                    title = title.replace('<b>', '');
+                    title = title.replace('</b>', '');
+
                     $('#movieImg').attr('src', item.image);
-                    $('#movieTitle').text(item.title + '(' + item.pubDate + ')');
+                    $('#movieTitle').text(title + '(' + item.pubDate + ')');
                     $('#movieDirector').text('감독 : ' + item.director.slice(0, - 1));  // 끝에 | 잘라줌
                     $('#movieActor').text('출연진 : ' + item.actor.slice(0, - 1));   
                     $('#movieLink').attr('href', item.link).attr('target', '_blank');

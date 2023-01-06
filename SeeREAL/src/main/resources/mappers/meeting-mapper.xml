@@ -102,6 +102,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			MEETING_NO = #{ mtno }
 			AND MEETING.STATUS = 'Y'
 	</select>
+	
+	<insert id="insertMeetingUser" parameterType="meetingUser">
+		INSERT INTO
+			MEETING_USER
+				(
+				 MEETING_NO
+				,MEMBER_NO
+				,MEETING_ACCEPT
+				,MEETING_CONTENT
+				)
+			VALUES
+				(
+				 SEQ_METNO.CURRVAL
+				,#{ memberNo }
+				,#{ meetingAccept }
+				,#{ meetingContent }
+				)
+	</insert>
 
 
 </mapper>
