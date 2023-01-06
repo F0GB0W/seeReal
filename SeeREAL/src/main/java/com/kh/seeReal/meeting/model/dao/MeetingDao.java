@@ -33,4 +33,8 @@ public class MeetingDao {
 		return sqlSession.update("meetingMapper.increaseMeetingCount", mtno);
 	}
 
+	public Meeting selectMeetingDetail(SqlSessionTemplate sqlSession, int mtno) {
+		return sqlSession.selectOne("meetingMapper.selectMeetingDetail", mtno);
+	}
+
 }

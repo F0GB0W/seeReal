@@ -165,10 +165,11 @@ public class MeetingController {
     public ModelAndView selectMeeting(int mtno, ModelAndView mv) {
     	
     	if(meetingService.increaseMeetingCount(mtno) > 0) {
-    		System.out.println("조회 성공~");
-    		mv.setViewName("meeting/meetingDetail");
+    		mv.addObject("meet", meetingService.selectMeetingDetail(mtno))
+    		  .setViewName("meeting/meetingDetail");
     	} else {
-    		mv.addObject("errorMsg", "상세조회 실패~!").setViewName("common/errorPage");
+    		mv.addObject("errorMsg", "상세조회 실패~!")
+    		  .setViewName("common/errorPage");
     	}
     	
     	return mv;
