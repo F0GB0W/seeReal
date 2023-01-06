@@ -29,4 +29,8 @@ public class MeetingDao {
 		return (ArrayList)sqlSession.selectList("meetingMapper.selectMeetingList", pi, rowBounds);
 	}
 
+	public int increaseMeetingCount(SqlSessionTemplate sqlSession, int mtno) {
+		return sqlSession.update("meetingMapper.increaseMeetingCount", mtno);
+	}
+
 }

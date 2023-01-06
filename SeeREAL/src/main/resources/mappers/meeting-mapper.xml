@@ -70,5 +70,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			MEETING.STATUS = 'Y'
 	</select>
+	
+	<update id="increaseMeetingCount" parameterType="_int">
+		UPDATE
+			MEETING
+		SET
+			COUNT = COUNT + 1
+		WHERE
+			MEETING_NO = #{ mtno }
+			AND STATUS = 'Y'
+			
+	</update>
+
 
 </mapper>

@@ -164,7 +164,12 @@ public class MeetingController {
     @RequestMapping("detail.mt")
     public ModelAndView selectMeeting(int mtno, ModelAndView mv) {
     	
-    	System.out.println(mtno);
+    	if(meetingService.increaseMeetingCount(mtno) > 0) {
+    		System.out.println("조회 성공~");
+    		mv.setViewName("meeting/meetingDetail");
+    	} else {
+    		mv.addObject("errorMsg", "상세조회 실패~!").setViewName("common/errorPage");
+    	}
     	
     	return mv;
     }

@@ -231,13 +231,13 @@
 		// 동적으로 생성된 요소?? -> JavaScript
 		$(function() {
 			$('#board-table > tbody > tr > .title').click(function() {
-				//console.log('제목눌림');
-				// location.href = 'detail.mt?mtno=' + $(this).children('.mtno').text();
+				// console.log($(this).siblings('.mtno').text());
+				location.href = 'detail.mt?mtno=' + $(this).siblings('.mtno').text();
 			})
 
 			$('#board-table > tbody > tr > .nickName').click(function() {
-				// console.log($(this).parent().children('.memberNo').val());
-				location.href = 'feed.me?memberNo=' + $(this).parent().children('.memberNo').val();
+				// console.log($(this).siblings('.memberNo').val());
+				location.href = 'feed.me?memberNo=' + $(this).siblings('.memberNo').val();
 			})
 		});
 	</script>
