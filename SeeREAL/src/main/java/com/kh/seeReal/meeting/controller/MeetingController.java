@@ -18,7 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.seeReal.common.model.vo.PageInfo;
+import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.meeting.model.service.MeetingService;
 import com.kh.seeReal.meeting.model.vo.Meeting;
 import com.kh.seeReal.member.model.vo.Member;
@@ -130,6 +133,21 @@ public class MeetingController {
         }
     }
     
+    
+    // 모임 리스트 보여주기
+    @RequestMapping("meetingList.mt")
+    public ModelAndView selectMeetingList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage
+    									, ModelAndView mv) {
+    	PageInfo pi = Pagination.getPageInfo(meetingService.selectMeetingListCount(), currentPage, 10, 5);
+		
+    	mv.addObject("pi", pi)
+		  .addObject("list", meetingService.selectMeetingList(pi))
+		  .setViewName("meeting/meetingList");
+    	
+    	return mv;
+    }
+    
+    // 모임 작성 
     @RequestMapping("insert.mt")
     public String insertMeeting(Meeting meet) {
     	

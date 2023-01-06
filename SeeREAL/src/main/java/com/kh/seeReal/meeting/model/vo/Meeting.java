@@ -18,4 +18,7 @@ public class Meeting {
 	private Date meetingEnrollDate; // MEETING_ENROLL	DATE
 	private int memberNo; // MEMBER_NO	NUMBER
 	private int meetingReport; // MEETING_REPORT	NUMBER
+
+	// 작성자 아이디가 필요
+	private String meetingWriter;
 }

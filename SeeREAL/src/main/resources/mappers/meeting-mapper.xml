@@ -4,6 +4,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="meetingMapper">
 
+	<resultMap id="meetingResultSet" type="meeting">
+		<result column="MEETING_NO" property="meetingNo" />
+		<result column="MEETING_TITLE" property="meetingTitle" />
+		<result column="MEETING_EXP" property="meetingExp" />
+		<result column="MEETING_PLACE" property="meetingPlace" />
+		<result column="MEETING_PLACE_DETAIL" property="meetingPlaceDetial" />
+		<result column="MOVIE_TITLE" property="movieTitle" />
+		<result column="MOVIE_YEAR" property="movieYear" />
+		<result column="STATUS" property="status" />
+		<result column="MEETING_ENROLL" property="meetingEnrollDate" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="MEETING_REPORT" property="meetingReport" />
+		<result column="MEETING_WRITER" property="meetingWriter" />
+	</resultMap>
+
 	<insert id="insertMeeting" parameterType="meeting">
 		INSERT INTO
 			MEETING
@@ -32,7 +47,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 
+	<select id="selectMeetingListCount" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM
+			MEETING
+		WHERE
+			STATUS = 'Y'
+	</select>
 
-
+	<select id="selectMeetingList" resultMap="meetingResultSet">
+		SELECT
+			MEETING_NO,
+			MEETING_TITLE,
+			MEETING_ENROLL,
+			NICK_NAME AS MEETING_WRITER
+		FROM
+			MEETING
+		JOIN MEMBER ON
+			(MEMBER.MEMBER_NO = MEETING.MEMBER_NO)
+		WHERE
+			MEETING.STATUS = 'Y'
+	</select>
 
 </mapper>

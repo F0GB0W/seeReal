@@ -14,24 +14,25 @@
 	<div class="outer">
 		<div class="profile">
 			<image></image>
-			<%-- ${ sessionScope.loginUser.nickName } --%>
-			예진 님의 리얼피드
+			<%-- ${ b.memberNickName } --%>
+			 님의 리얼피드
 		</div>
 		
 		<div class="ratingCount"></div>
-			평가수 : 아직 남긴 리얼평이 없습니다.
-			<%-- 
+			평가수 :
+			 <%--
 			<c:choose>
-				<c:when test="${ Count(*) > 0 }">
+				<c:when test="${  }">
 					${ Count(*) }
 				</c:when>
 				<c:otherwise>
 					아직 남긴 리얼평이 없습니다.
 				</c:otherwise>
 			</c:choose>
-			 --%>
+			  --%>
+			
 		<div class="ratingSpread"></div>
-			별점을 남기고 분포도를 확인해보세요!
+			
 			<%-- 
 			<c:choose>
 				<c:when test="${ Count(*) > 0 }">
@@ -43,9 +44,10 @@
 			</c:choose>
 			 --%>
 		<div class="comments"></div>
-	</div>
+	    </div>
 	
 	<script>
+	// chart.js
 		var ctx = document.getElementById('myChart').getContext('2d');
 			var chart = new Chart(ctx, {
 				type: 'bar',

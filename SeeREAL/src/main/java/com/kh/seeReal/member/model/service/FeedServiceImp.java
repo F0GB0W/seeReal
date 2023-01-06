@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.seeReal.member.model.dao.FeedDao;
+import com.kh.seeReal.member.model.vo.Member;
 
 @Service
 public class FeedServiceImp implements FeedService{
@@ -16,8 +17,8 @@ public class FeedServiceImp implements FeedService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int selectFeed() {
-		return feedDao.selectFeed(sqlSession) ;
+	public int selectCommentsCount(Member loginUser) {
+		return feedDao.selectCommentsCount(sqlSession, loginUser);
 	}
 
 }
