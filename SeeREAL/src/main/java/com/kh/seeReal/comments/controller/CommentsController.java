@@ -58,7 +58,8 @@ public class CommentsController {
 		
 		String movie=movieDate+movieSubTitle;
 		
-		commentsService.ratingGet(movie);
+		
+		model.addAttribute("rating",commentsService.ratingGet(movie));
 		
 		return "comments/movieDetail";
 		

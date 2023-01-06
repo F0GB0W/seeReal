@@ -3,7 +3,18 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="comments-mapper">
-	<resultMap id="boardResultSet" type="board">
+	<resultMap id="comments-ratingSet" type="comments">
+		<result column="RATING" property="rating"/>
 		
 	</resultMap>
+	<select id="ratingGet" resultType="_int">
+		SELECT
+		      ROUND(SUM(RATING)/COUNT(*),1)
+		  FROM
+		      MOVIE_RATING
+		 WHERE
+		      MOVIE_TITLE = #{movieTitle}
+		   AND
+		      MOVIE_DATE = #{movieDate}
+	</select>
 </mapper>
