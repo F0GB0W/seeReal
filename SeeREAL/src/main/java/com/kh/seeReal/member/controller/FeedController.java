@@ -15,14 +15,14 @@ public class FeedController {
 	private FeedService feedService;
 	
 	@RequestMapping("feed.me")
-	public ModelAndView selectCommentsCount(@RequestParam(value="nickname") String memberNickname, ModelAndView mv) {
+	public ModelAndView selectCommentsCount(int memberNo, ModelAndView mv) {
 		
 		// memberNickname
 		
 		//mv.addObject("count", feedService.selectCommentsCount(nickname))
 		//int count = feedService.selectCommentsCount();
 
-		
+		System.out.println(memberNo);
 		
 		return mv;
 	}

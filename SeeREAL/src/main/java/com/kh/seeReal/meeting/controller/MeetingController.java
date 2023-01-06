@@ -159,4 +159,13 @@ public class MeetingController {
     	
     	return "redirect:/enrollForm.mt";
     }
+    
+    // 모임 상세보기
+    @RequestMapping("detail.mt")
+    public ModelAndView selectMeeting(int mtno, ModelAndView mv) {
+    	
+    	System.out.println(mtno);
+    	
+    	return mv;
+    }
 }
