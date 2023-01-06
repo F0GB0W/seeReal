@@ -78,4 +78,14 @@ public class BoardController {
 		 return changeName;
 	 
 	 }
+	 @RequestMapping("spoilerDetail.bo")
+	 public ModelAndView spoilerDetailView(ModelAndView mv, @RequestParam(value="bno")int bno) {
+
+		 if(boardService.spoilerIncreaseCount(bno) > 0) {
+			 mv.addObject("b", boardService.spoilerDetailView(bno)).setViewName("board/spoiler/spoilerDetail");
+		 }else {
+			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
+		 }
+		 return mv;
+	 }
 }

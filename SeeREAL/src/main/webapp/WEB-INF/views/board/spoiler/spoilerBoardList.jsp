@@ -84,8 +84,14 @@
         text-align: center;
       }
       
-      .board-table .th-date {
+      .board-table .th-date  {
         width: 200px;
+      }
+      .th-writer{
+      	width : 150px;
+      }
+      .th-count{
+      	width : 80px;
       }
       
       .board-table th, .board-table td {
@@ -181,7 +187,7 @@
         height: 1px;
       }
       #spoilerTitle{
-      margin-left : 327px;
+      margin-left : 257px;
       }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -204,26 +210,39 @@
     <!-- board list area -->
       <div id="board-list">
           <div class="container">
-              <table class="board-table">
+              <table class="board-table" id="spoilerList">
                   <thead>
 	                  <tr>
 	                      <th scope="col" class="th-num">번호</th>
 	                      <th scope="col" class="th-title">제목</th>
-	                      <th scope="col" class="th-title">작성자</th>
+	                      <th scope="col" class="th-writer">작성자</th>
+	                      <th scope="col" class="th-count">조회수</th>
 	                      <th scope="col" class="th-date">등록일</th>
 	                  </tr>
                   </thead>
                   <tbody>
 	                  <c:forEach items="${list }" var="b">
 		                  <tr>
-		                      <td>${b.boardNo }</td>
-		                      <th><a href="spoilerDetail.bo" id="spoilerTitle">${b.boardTitle }</a></th>
+		                      <td class="bno">${b.boardNo }</td>
+		                      <td id="spoilerTitle">${b.boardTitle }</td>
 		                      <td>${b.nickName }</td>
+		                      <td>${b.count }</td>
 		                      <td>${b.enrollDate }</td>
 		                  </tr>
 		              </c:forEach>
                   </tbody>
               </table>
+              <script>
+              	
+              		// 동적으로 생성된 요소
+              		
+              		$(function(){
+              			$('#spoilerList>tbody>tr').click(function(){
+	              				location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
+              			})	
+              		});
+              
+              </script>
           </div>
       </div>
   
