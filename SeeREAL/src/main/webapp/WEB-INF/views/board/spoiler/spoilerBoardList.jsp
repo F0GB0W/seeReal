@@ -218,7 +218,7 @@
 		                  <tr>
 		                      <td>${b.boardNo }</td>
 		                      <th><a href="spoilerDetail.bo" id="spoilerTitle">${b.boardTitle }</a></th>
-		                      <td>${b.boardWriter }</td>
+		                      <td>${b.nickName }</td>
 		                      <td>${b.enrollDate }</td>
 		                  </tr>
 		              </c:forEach>

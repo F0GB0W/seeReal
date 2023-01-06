@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="report_count"	property="reportCount"/>
 		<result column="status"			property="status"/>
 		<result column="board_type"		property="boardType"/>
+		<result column="nick_name"		property="nickName"/>
 	</resultMap>
 
 	<select id="selectBoardListCount" resultType="_int">
@@ -28,14 +29,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select
 				board_no,
 				board_title,
-				board_writer,
+				nick_name,
 				count,
 				to_char(enroll_date, 'YYYY-MM-DD') as "ENROLL_DATE",
 				origin_name
 		 from
-				board
+				board b
+		 join
+		 		member on(member_no = board_writer)
 		where
-				status = 'Y'
+				b.status = 'Y'
 		  and
 		  		board_type = 2
 		order
