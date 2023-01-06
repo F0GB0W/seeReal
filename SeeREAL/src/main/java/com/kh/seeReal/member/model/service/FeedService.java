@@ -4,7 +4,7 @@ import com.kh.seeReal.member.model.vo.Member;
 
 public interface FeedService {
 	
-	int selectCommentsCount(Member loginUser);
+	//int selectCommentsCount();
 	
 	
 }

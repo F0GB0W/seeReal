@@ -26,12 +26,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
-	<select id="selectCommentsCount" resultType="_int">
+<!-- 	<select id="selectCommentsCount" resultType="_int">
 		select count(*)
 		from comments
 		where member_no = ${memberNo}
 		and status='Y'
-	</select>
+	</select> -->
 	
 
 

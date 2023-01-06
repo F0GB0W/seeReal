@@ -13,9 +13,9 @@ public interface BoardService {
 	// 게시글 리스트 조회(select)
 	ArrayList<Board> selectBoardList(PageInfo pi);
 	// 게시글 상세조회(select)
-	Board boardDetailView(int boardNo);
+	Board spoilerDetailView(int boardNo);
 	// 조회수 증가(update)
-	int increaseBoardCount(int boardNo);
+	int spoilerIncreaseCount(int boardNo);
 	// 글 작성(insert)
 	int  insertSpoiler(Board b);
 	// 게시글 업데이트(update)

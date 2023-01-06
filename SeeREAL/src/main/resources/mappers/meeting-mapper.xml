@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEETING_TITLE" property="meetingTitle" />
 		<result column="MEETING_EXP" property="meetingExp" />
 		<result column="MEETING_PLACE" property="meetingPlace" />
-		<result column="MEETING_PLACE_DETAIL" property="meetingPlaceDetial" />
+		<result column="MEETING_PLACE_DETAIL" property="meetingPlaceDetail" />
 		<result column="MOVIE_TITLE" property="movieTitle" />
 		<result column="MOVIE_YEAR" property="movieYear" />
 		<result column="STATUS" property="status" />
@@ -79,8 +79,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			MEETING_NO = #{ mtno }
 			AND STATUS = 'Y'
-			
 	</update>
+	
+	<select id="selectMeetingDetail" parameterType="_int" resultMap="meetingResultSet">
+		SELECT 
+			MEETING_NO,
+			MEETING_TITLE,
+			MEETING_EXP,
+			MEETING_PLACE,
+			MEETING_PLACE_DETAIL,
+			MOVIE_TITLE,
+			MOVIE_YEAR,
+			MEETING_ENROLL,
+			MEETING.MEMBER_NO,
+			COUNT,
+			NICK_NAME AS MEETING_WRITER
+		FROM
+			MEETING
+		JOIN MEMBER ON
+			(MEMBER.MEMBER_NO = MEETING.MEMBER_NO)
+		WHERE
+			MEETING_NO = #{ mtno }
+			AND MEETING.STATUS = 'Y'
+	</select>
+	
+	<insert id="insertMeetingUser" parameterType="meetingUser">
+		INSERT INTO
+			MEETING_USER
+				(
+				 MEETING_NO
+				,MEMBER_NO
+				,MEETING_ACCEPT
+				,MEETING_CONTENT
+				)
+			VALUES
+				(
+				 SEQ_METNO.CURRVAL
+				,#{ memberNo }
+				,#{ meetingAccept }
+				,#{ meetingContent }
+				)
+	</insert>
 
 
 </mapper>

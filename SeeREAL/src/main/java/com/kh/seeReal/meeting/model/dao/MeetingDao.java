@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.meeting.model.vo.Meeting;
+import com.kh.seeReal.meeting.model.vo.MeetingUser;
 
 @Repository
 public class MeetingDao {
@@ -31,6 +32,15 @@ public class MeetingDao {
 
 	public int increaseMeetingCount(SqlSessionTemplate sqlSession, int mtno) {
 		return sqlSession.update("meetingMapper.increaseMeetingCount", mtno);
+	}
+
+	public Meeting selectMeetingDetail(SqlSessionTemplate sqlSession, int mtno) {
+		return sqlSession.selectOne("meetingMapper.selectMeetingDetail", mtno);
+	}
+
+	public void insertMeetingUser(SqlSessionTemplate sqlSession, MeetingUser mu) {
+		sqlSession.insert("meetingMapper.insertMeetingUser", mu);
+		
 	}
 
 }

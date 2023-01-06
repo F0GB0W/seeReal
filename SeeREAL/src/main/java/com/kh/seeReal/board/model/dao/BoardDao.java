@@ -30,6 +30,12 @@ public class BoardDao {
 	public int insertSpoiler(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.insert("boardMapper.insertSpoiler", b);
 	}
+	public Board spoilerDetailView(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.spoilerDetailView", boardNo);
+	}
+	public int spoilerIncreaseCount(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.spoilerIncreaseCount", boardNo);
+	}
 
 	
 	

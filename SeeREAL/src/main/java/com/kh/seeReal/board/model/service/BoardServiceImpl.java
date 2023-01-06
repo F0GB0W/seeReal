@@ -31,15 +31,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Board boardDetailView(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public Board spoilerDetailView(int boardNo) {
+		return boardDao.spoilerDetailView(sqlSession, boardNo);
 	}
 
 	@Override
-	public int increaseBoardCount(int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int spoilerIncreaseCount(int boardNo) {
+		return boardDao.spoilerIncreaseCount(sqlSession, boardNo);
 	}
 
 	@Override

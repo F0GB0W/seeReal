@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.seeReal.meeting.model.vo.Meeting" alias="meeting"/>
 		<typeAlias type="com.kh.seeReal.comments.model.vo.Comments" alias="comments"/>
 		<typeAlias type="com.kh.seeReal.comments.model.vo.MovieRating" alias="movieRating"/>
+		<typeAlias type="com.kh.seeReal.meeting.model.vo.MeetingUser" alias="meetingUser"/>
 	</typeAliases>
 	<!-- ***주의 : 미리 등록을 해두려면 해당 클래스가 존재하고 있는 상태여야함 -->
 	

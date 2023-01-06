@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,7 @@ import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.meeting.model.service.MeetingService;
 import com.kh.seeReal.meeting.model.vo.Meeting;
+import com.kh.seeReal.meeting.model.vo.MeetingUser;
 import com.kh.seeReal.member.model.vo.Member;
 
 @Controller
@@ -148,11 +150,19 @@ public class MeetingController {
     }
     
     // 모임 작성 
+    @Transactional
     @RequestMapping("insert.mt")
     public String insertMeeting(Meeting meet) {
     	
     	if(meetingService.insertMeeting(meet) > 0) {
-    		System.out.println("저장 성공~");
+    		MeetingUser mu = new MeetingUser();
+    		mu.setMemberNo(meet.getMemberNo());
+    		mu.setMeetingNo(meet.getMeetingNo());
+    		mu.setMeetingAccept("Y");
+    		mu.setMeetingContent("기본 참가");
+    		
+    		meetingService.insertMeetingUser(mu);
+    		
     	} else {
     		System.out.println("저장 실패~!!!");
     	}
@@ -165,10 +175,11 @@ public class MeetingController {
     public ModelAndView selectMeeting(int mtno, ModelAndView mv) {
     	
     	if(meetingService.increaseMeetingCount(mtno) > 0) {
-    		System.out.println("조회 성공~");
-    		mv.setViewName("meeting/meetingDetail");
+    		mv.addObject("meet", meetingService.selectMeetingDetail(mtno))
+    		  .setViewName("meeting/meetingDetail");
     	} else {
-    		mv.addObject("errorMsg", "상세조회 실패~!").setViewName("common/errorPage");
+    		mv.addObject("errorMsg", "상세조회 실패~!")
+    		  .setViewName("common/errorPage");
     	}
     	
     	return mv;

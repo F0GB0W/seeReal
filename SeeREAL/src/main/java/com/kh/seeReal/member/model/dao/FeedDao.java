@@ -8,7 +8,7 @@ import com.kh.seeReal.member.model.vo.Member;
 @Repository
 public class FeedDao {
 
-	public int selectCommentsCount(SqlSessionTemplate sqlSession, Member loginUser) {
-		return sqlSession.selectOne("feedMapper.selectCommentsCount", loginUser);
-	}
+//	public int selectCommentsCount(SqlSessionTemplate sqlSession, Member loginUser) {
+//		return sqlSession.selectOne("feedMapper.selectCommentsCount", loginUser);
+//	}
 }

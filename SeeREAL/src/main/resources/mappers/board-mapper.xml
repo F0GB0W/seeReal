@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="status"			property="status"/>
 		<result column="board_type"		property="boardType"/>
 		<result column="nick_name"		property="nickName"/>
+		<result column="board_content"	property="boardContent"/>
 	</resultMap>
 
 	<select id="selectBoardListCount" resultType="_int">
@@ -79,6 +80,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				2
 				)
 	</insert>
+	<select id="spoilerDetailView" parameterType="board" resultMap="boardResultSet">
+		select
+				board_title,
+				board_writer,
+				to_char(enroll_date, 'YYYY-MM-DD') as "ENROLL_DATE",
+				origin_name,
+				change_name,
+				board_content
+				
+		 from
+		 		board
+		 where
+		 		board_no = #{boardNo}
+		   and
+		   		status = 'Y'
+				
+				
+	</select>
+	<update id="spoilerIncreaseCount">
+		update
+				board
+		   set
+		   		count = count + 1
+		 where
+		  		board_no = #{boardNo}
+		   and
+		   		status = 'Y'
+	</update>
 
 
 </mapper>
