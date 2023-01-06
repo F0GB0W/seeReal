@@ -17,7 +17,7 @@
 
   <fieldset>
     <legend>board</legend>
-    <form action="insertSpoiler.bo">
+    <form action="insertSpoiler.bo" method="post" enctype="multipart/form-data">
 
       <table>
         <caption></caption>
@@ -28,27 +28,27 @@
         <tbody>
           <tr>
             <th scope="row">글번호</th>
-            <td><input type="text" id="iptTitle" name="boardNo" readonly /></td>
+            <td><input type="text" id="bno" name="boardNo" readonly value="100" /></td>
           </tr>
           <tr>
             <th scope="row">제목</th>
-            <td><input type="text" id="iptTitle" width="100px;" name="boardTitle" /></td>
+            <td><input type="text" id="title" width="100px;" name="boardTitle" /></td>
           </tr>
           <tr>
             <th scope="row">작성자</th>
-            <td><input type="text" id="iptName" width="100px;" value="${loginUser.memberId }" readonly mame="boardWriter" /></td>
+            <td><input type="text" id="writer" width="100px;" value="user01" readonly name="boardWriter" /></td>
           </tr>
           <tr>
             <th scope="row">첨부파일</th>
-            <td><input type="text" id="iptTitle" width="100px;" name="upfile" /></td>
+            <td><input type="file" id="upfile" width="100px;" name="upfile" /></td>
           </tr>
           <tr>
             <th scope="row">내용</th>
-            <td><textarea id="iptCont" rows="10" cols="100" style="resize:none;" name="boardContent" ></textarea></td>
+            <td><textarea id="content" rows="10" cols="100" style="resize:none;" name="boardContent" ></textarea></td>
           </tr>
           <tr>
             <th scope="row">게시판 번호</th>
-            <td><input type="hidden" id="iptName" width="100px;" value="${b.boardType}" readonly mame="boardWriter" /></td>
+            <td><input type="hidden" id="btype" width="100px;" value="${b.boardType}" readonly name="boardType" /></td>
           </tr>
         </tbody>
 

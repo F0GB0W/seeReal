@@ -180,6 +180,9 @@
         width: 1px;
         height: 1px;
       }
+      #spoilerTitle{
+      margin-left : 327px;
+      }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -213,8 +216,8 @@
                   <tbody>
 	                  <c:forEach items="${list }" var="b">
 		                  <tr>
-		                      <td><${b.boardNo }</td>
-		                      <th><a href="#!">${b.boardTitle }</a></th>
+		                      <td>${b.boardNo }</td>
+		                      <th><a href="spoilerDetail.bo" id="spoilerTitle">${b.boardTitle }</a></th>
 		                      <td>${b.boardWriter }</td>
 		                      <td>${b.enrollDate }</td>
 		                  </tr>

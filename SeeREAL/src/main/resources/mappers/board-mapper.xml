@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap id="boardResultSet" type="board">
 		<result column="board_no"		property="boardNo"/>
 		<result column="board_title"	property="boardTitle"/>
-		<result column="board_writer"	property="baordWriter"/>
+		<result column="board_writer"	property="boardWriter"/>
 		<result column="count"			property="count"/>
 		<result column="enroll_date"	property="enrollDate"/>
 		<result column="origin_name"	property="originName"/>
@@ -14,7 +14,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="report_count"	property="reportCount"/>
 		<result column="status"			property="status"/>
 		<result column="board_type"		property="boardType"/>
-		<result column="member_no"		property="memberNo"/>
 	</resultMap>
 
 	<select id="selectBoardListCount" resultType="_int">
@@ -53,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where
 				report_count >= 10			
 	</update>
-	<insert id="insertSpoiler">
+	<insert id="insertSpoiler" parameterType="board">
 		insert
 		  into
 		  		board

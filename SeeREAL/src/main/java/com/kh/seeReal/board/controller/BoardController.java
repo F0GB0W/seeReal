@@ -39,7 +39,7 @@ public class BoardController {
 		return mv;
 	}
 	 @RequestMapping("spoilerEnrollForm.bo")
-	 public String spoilerEnrollForm() {
+	 public String spoilerEnrollForm(HttpSession session) {
 		 return "board/spoiler/spoilerEnrollForm";
 	 }
 	 @RequestMapping("insertSpoiler.bo")
