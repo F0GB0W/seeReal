@@ -25,11 +25,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="member_photo"    property="memberPhoto" />
 	</resultMap>
 	
-	<!-- 
+	
 	<select id="selectCommentsCount" resultMap="">
-
+		select count(*)
+		from comments
+		where member_no = ${memberNo}
+		and status='Y'
 	</select>
-	 -->
+	
 
 
 

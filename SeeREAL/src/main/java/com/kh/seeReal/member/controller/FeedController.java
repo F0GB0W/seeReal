@@ -1,14 +1,12 @@
 package com.kh.seeReal.member.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.member.model.service.FeedService;
-import com.kh.seeReal.member.model.vo.Member;
 
 @Controller
 public class FeedController {
@@ -17,13 +15,15 @@ public class FeedController {
 	private FeedService feedService;
 	
 	@RequestMapping("feed.me")
-	public String selectFeed() {
+	public ModelAndView selectCommentsCount(@RequestParam(value="nickname") String memberNickname, ModelAndView mv) {
 		
-		/*
-		 * 로그인 되어있을 때만
-		 * 
-		 */
+		// memberNickname
 		
-		return "common/feed";
+		//mv.addObject("count", feedService.selectCommentsCount(nickname))
+		//int count = feedService.selectCommentsCount();
+
+		
+		
+		return mv;
 	}
 }
