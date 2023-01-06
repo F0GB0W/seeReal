@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 public class CommentsDao {
 	
 	public int ratingGet(String movie,SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("CommentsMapper.ratingGet",movie);
+		return 3;
+		//return sqlSession.selectOne("CommentsMapper.ratingGet",movie);
 	}
 }

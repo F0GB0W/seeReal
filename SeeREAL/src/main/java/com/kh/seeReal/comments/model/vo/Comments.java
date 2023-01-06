@@ -11,7 +11,7 @@ public class Comments {
 	private Date commentEnrollDate;
 	private String spoiler;
 	private String movieTitle;
-	private Date movieYear;
+	private String movieYear;
 	private String status;
 	private int memberNo;
 	

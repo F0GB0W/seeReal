@@ -12,4 +12,8 @@ public interface MeetingService {
 	int selectMeetingListCount();
 
 	ArrayList<Meeting> selectMeetingList(PageInfo pi);
+
+	int increaseMeetingCount(int mtno);
+
+	Meeting selectMeetingDetail(int mtno);
 }

@@ -34,4 +34,14 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingDao.selectMeetingList(sqlSession, pi);
 	}
 
+	@Override
+	public int increaseMeetingCount(int mtno) {
+		return meetingDao.increaseMeetingCount(sqlSession, mtno);
+	}
+
+	@Override
+	public Meeting selectMeetingDetail(int mtno) {
+		return meetingDao.selectMeetingDetail(sqlSession, mtno);
+	}
+
 }
