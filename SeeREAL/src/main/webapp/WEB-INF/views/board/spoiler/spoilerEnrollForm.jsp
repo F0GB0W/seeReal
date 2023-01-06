@@ -27,16 +27,28 @@
         </colgroup>
         <tbody>
           <tr>
-            <th scope="row">작성자</th>
-            <td><input type="text" id="iptName" width="100px;" value="${loginUser.memberId }" mame="boardWriter" /></td>
+            <th scope="row">글번호</th>
+            <td><input type="text" id="iptTitle" name="boardNo" readonly /></td>
           </tr>
           <tr>
             <th scope="row">제목</th>
             <td><input type="text" id="iptTitle" width="100px;" name="boardTitle" /></td>
           </tr>
           <tr>
+            <th scope="row">작성자</th>
+            <td><input type="text" id="iptName" width="100px;" value="${loginUser.memberId }" readonly mame="boardWriter" /></td>
+          </tr>
+          <tr>
+            <th scope="row">첨부파일</th>
+            <td><input type="text" id="iptTitle" width="100px;" name="upfile" /></td>
+          </tr>
+          <tr>
             <th scope="row">내용</th>
             <td><textarea id="iptCont" rows="10" cols="100" style="resize:none;" name="boardContent" ></textarea></td>
+          </tr>
+          <tr>
+            <th scope="row">게시판 번호</th>
+            <td><input type="hidden" id="iptName" width="100px;" value="${b.boardType}" readonly mame="boardWriter" /></td>
           </tr>
         </tbody>
 

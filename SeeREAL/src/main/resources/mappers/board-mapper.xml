@@ -62,7 +62,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  		board_title,
 		  		board_writer,
 		  		board_content,
-		  		status,
+		  		origin_name,
+		  		change_name,
 		  		board_type
 		  		)
 		values
@@ -71,7 +72,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{boardTitle},
 				#{boardWriter},
 				#{boardContent},
-				#{status},
+				#{originName},
+				#{changeName},
 				2
 				)
 	</insert>

@@ -1,9 +1,13 @@
 package com.kh.seeReal.board.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.board.model.service.BoardServiceImpl;
@@ -34,7 +38,14 @@ public class BoardController {
 		 return "board/spoiler/spoilerEnrollForm";
 	 }
 	 @RequestMapping("insertSpoiler.bo")
-	 public String insertSopiler(Board b) {
+	 public String insertSopiler(Board b, MultipartFile upfile, HttpSession session, Model model ) {
+		 
+		 if(!upfile.getOriginalFilename().equals("")) {
+			 b.setOriginName(upfile.getOriginalFilename());
+		 }
+		 
+		 
+		 
 		 boardService.insertSpoiler(b);
 		 return "main";
 	 }
