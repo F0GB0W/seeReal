@@ -8,22 +8,19 @@
 	 <!-- 1.단계 DB연결을 위한 도구 설 -->
 	 <bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
 	 	<!-- 어떤 DB에 접속할 건지 정보 작성 -->
-	 	
+	 	<!--
 	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 	 	<property name="url" value="jdbc:oracle:thin:@192.168.31.9:1521:xe" />
 	 	<property name="username" value="REAL" />
 	 	<property name="password" value="REAL" /> 
-	 	
+	 	-->
 	 	<!-- 집에서 할때는 위에 네줄을 주석하고 요 아래 경로를 사용해 주세요~ -->
 	
-		<!--
 	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 	 	<property name="username" value="REAL" />
 	 	<property name="password" value="REAL" /> 
-	 	 -->
 	 	 
-	 	
 	 </bean>
 	
 	 
@@ -48,7 +45,7 @@
 	 	SqlSessionFacory.setConfigLocation("classpath:mybatis-config.xml"0;
 	 	sqlSessionFactory.setDataSource(datesSource):
 	  -->
-	  
+			  
 	  <!--3단계. SQL구문 실행을 위한 템플릿을 제공하는 도구 등록 -->
 	  	<!--  SQL명령어 수행을 위한 도구에 대한 참조를 설정 -->
 	  <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
@@ -71,5 +68,19 @@
 		<property name="maxUploadSize" value="10000000"	/>
 		<property name="maxInMemorySize" value="10000000" />
 	 </bean>
-		
+	 
+	 <!-- 메일 전송도구 등록 -->
+	<bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="ic0025983@gmail.com" />
+		<property name="password" value="qakrwjdbiclnxitr" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean> 
+	
 </beans>
