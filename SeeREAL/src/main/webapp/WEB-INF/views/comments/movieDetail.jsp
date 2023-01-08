@@ -134,15 +134,23 @@
         <!-- Modal footer -->
         <div class="modal-footer">
         
- 	         <button type="button" class="mr-auto" style="border:none;"><span>스포일러&nbsp;</span><span id="on-off">off</span></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 	         <button type="button" class="mr-auto" style="border:none;"><span>스포일러&nbsp;</span><span id="on-off">off</span></button>
         	
           <p class="textarea-length">0/1000</p>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">저장</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" id="CommentsInsert" onclick="commentsInsert();">저장</button>
         </div>
 	
 	
 	
 	<script>
+		$(document).on('click','#CommentsInsert',function(){
+			console.log('성공')
+			alert('성')
+		})
+		function commentsInsert(){
+			console.log('ddd')
+		}
+	
 		$(".star").on('mouseenter',function(){
 	        
 	        var idx = $(this).index();
