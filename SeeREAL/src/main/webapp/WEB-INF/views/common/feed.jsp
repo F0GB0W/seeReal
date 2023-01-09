@@ -48,12 +48,20 @@
 	<div class="outer">
 		<div class="profile">
 			<image></image>
-			<h3>user01님의 리얼피드</h3>
+			<h3>${ memberNickname }님의 리얼피드</h3>
 		</div>
 		
 		<div class="ratingCount">
+		<!-- comments가 있으면 count 가져오고, 없으면 없다고 보여주기 -->
 			<h3>평가수</h3>
-            <h3>10</h3>
+			<c:choose>
+				<c:when test="${ not empty comments }">
+					${ count }
+				</c:when>
+				<c:otherwise>
+					아직 남긴 리얼평이 없습니다.
+				</c:otherwise>
+			</c:choose>
         </div>
             
 		<div class="ratingSpread">
@@ -69,6 +77,7 @@
                     <th>좋아요</th>
                 </tr>
                 <tr>
+                	<%-- td onclick="location.href=''" 도 달고싶은데 url 어떻게 연결하지? --%>
                     <td>탑건</td>
                     <td>★★★</td>
                     <td>50</td>
@@ -101,7 +110,6 @@
 	// chart.js
         var xValues = ["★","","★★","","★★★","","★★★★","","★★★★★"];
         var yValues = [5, 1, 10, 2, 15, 3, 10, 4, 5];
-        // var barColors = ["red", "green","blue","orange","brown"];
 
         var myChart = new Chart("myChart", {
             type: "bar",

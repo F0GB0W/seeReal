@@ -5,8 +5,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="feedMapper">
 	<resultMap id="comments" type="com.kh.seeReal.comments.model.vo.Comments">
 		<result column="comment_no" property="commentNo" />
-		<result column="member_no"  property="memberNo" />
+		<result column="comment_content" property="commentContent" />
+		<result column="comment_enrollDate" property="commentEnrollDate" />
+		<result column="spoiler" property="spoiler" />
+		<result column="comment_report" property="commentReport" />
+		<result column="movie_title" property="movieTitle" />
+		<result column="movie_year" property="movieYear" />
 		<result column="status"     property="status" />
+		<result column="member_no"  property="memberNo" />
 	</resultMap>
 	
 	<resultMap id="comment_like" type="com.kh.seeReal.comments.model.vo.CommentsLike">
@@ -17,6 +23,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap id="movie_rating" type="com.kh.seeReal.comments.model.vo.MovieRating">
 		<result column="member_no" property="memberNo" />	
 		<result column="rating"    property="rating" />	
+		<result column="movie_title"    property="movieTitle" />	
+		<result column="movie_year"    property="movieYear" />	
 	</resultMap>
 	
 	<resultMap id="member" type="com.kh.seeReal.member.model.vo.Member">
@@ -26,13 +34,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
-<!-- 	<select id="selectCommentsCount" resultType="_int">
+	<select id="selectCommentsCount" resultType="_int">
 		select count(*)
-		from comments
-		where member_no = ${memberNo}
-		and status='Y'
-	</select> -->
+		  from comments
+		 where member_no = ${memberNo}
+		   and status='Y'
+	</select> 
 	
+	<select id="selectCommentsList" resultMap="comments">
+		select comment_no,
+			   comment_content,
+			   comment_enrollDate,
+		       movie_title,
+			   member_no
+		  from comments
+		 where member_no = ${memberNo}
+	</select>
+	
+	<select id="reviewList" resultMap="movie_rating">
+		select movie_title, rating, comment_like
+		  from movie_rating 
+		  join comment_like on (member_no = comment_writer)
+		 where member_no = ${memberNo}
+		  order
+		     by comment_like desc
+	</select>
 
 
 
