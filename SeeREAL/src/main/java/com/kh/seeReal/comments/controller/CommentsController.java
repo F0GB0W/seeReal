@@ -194,23 +194,30 @@ public class CommentsController {
     }
     
     @ResponseBody
-    @RequestMapping(value="commentsWrite.co")
+    @RequestMapping(value="commentsList.co",produces="application/json; charset=UTF-8")
     public String commentsList(Comments comments,Model model) {
     	
+    	System.out.println("-2-2-");
+    	System.out.println(comments);
     	ArrayList<Comments> commentsList=commentsService.commentsList(comments);
-
+    	System.out.println("-0000-");
+    	System.out.println(commentsList);
     	
     	return new Gson().toJson(commentsList);
     	
     }
+    
+    @ResponseBody
+    @RequestMapping(value="commentsWrite.co")
     public String commentsWrite(Comments comments,Model model) {
+    	comments.setMemberNo(1);
     	int result=commentsService.commentsWrite(comments);
     	
     	return "comments/movieDetail";
     	
     	
-    	
     }
+     
     
     
 }
