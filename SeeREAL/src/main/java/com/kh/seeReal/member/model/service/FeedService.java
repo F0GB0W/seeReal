@@ -17,4 +17,6 @@ public interface FeedService {
 	ArrayList<MovieRating> ratingList(int memberNo);	
 	
 	Member selectMember(int memberNo);
+	
+//	int selectMemberPhoto(int memberNo);
 }
