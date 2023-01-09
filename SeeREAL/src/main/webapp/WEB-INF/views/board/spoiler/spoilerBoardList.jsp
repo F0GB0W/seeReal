@@ -11,8 +11,9 @@
         border-collapse: collapse;
         border-spacing: 0;
       }
-      section.notice {
+      div.outer {
         padding: 80px 0;
+        width:"80%"
       }
       
       .page-title {
@@ -189,6 +190,12 @@
       #spoilerTitle{
       margin-left : 257px;
       }
+      ul{list-style-type:none;}
+      #pagingBar {}
+      #pagination{ margin-left: 450px; display:flex; float:center;}
+      #searchForm{margin-left: 380px; display:flex;}
+      #searchSelect{margin-top:7px;}
+      
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -196,7 +203,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<section class="notice">
+<div class="outer">
     <div class="page-title">
           <div class="container">
               <h3>스포 게시판</h3>
@@ -209,7 +216,7 @@
         </div>
     <!-- board list area -->
       <div id="board-list">
-          <div class="container">
+          <div class="container content">
               <table class="board-table" id="spoilerList">
                   <thead>
 	                  <tr>
@@ -245,8 +252,72 @@
               </script>
           </div>
       </div>
-  
-  </section>
+      <br>
+      <div id="pagingBar">
+      	<ul id="pagination">
+      	
+      		<c:choose>
+      			<c:when test="${pi.currentPage eq 1 }">
+      				<li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
+      			</c:when>
+      			<c:otherwise>
+      			<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage - 1 }">Previous</a></li>
+      			</c:otherwise>
+      		</c:choose>
+      		
+      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
+      			<c:choose>
+      			<c:when test="${empty condition }">
+      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+      			</c:when>
+      			<c:otherwise>
+      				<li class="page-item"><a href="spoilerSearch.bo?cpage=${p }&keyword=${keyword}">${p }</a>
+      			</c:otherwise>
+      			</c:choose>
+      		</c:forEach>
+      		
+      		<c:choose>
+      			<c:when test="${pi.currentPage eq pi.maxPage }">
+      				<li class="page-item disabled" ><a class="page-link" href="#">Next</a></li>
+      			</c:when>
+      			<c:otherwise>
+      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage + 1 }">Next</a></li>
+      			</c:otherwise>
+      		</c:choose>
+      	</ul>
+      </div>
+      <br>
+      <c:if test="${not empty condition }">
+      <script>
+		$(function(){
+			$('#search-area option[value=${condition}]').attr('selected', true);					
+		
+		});     
+      </script>
+      </c:if>
+	      <div id="search-area">
+	      	<form id="searchForm" action="spoilerSearch.bo" method="get" align="center">
+	      		<input type="hidden" name="currentPage" value="1">
+	 			<select class="cumstom-select" name="condition" id="searchSelect">
+					<option value="writer">작성자</option> 			
+					<option value="title">제목</option> 			
+					<option value="content">글 내용</option> 			
+	 			</select>   
+	    	  <div class="text">
+	    	  	<input type="text" class="form-control" style="width:fit-content" name="keyword" value="${keyword }">
+	    	  </div>
+	    	  <button type="submit" class="searchBtn btn btn-secondary">검색</button>
+      		</form>
+     	</div>
+      
+      
+      
+      
+      
+      
+      
+      
+  </div>
 
 </body>
 </html>

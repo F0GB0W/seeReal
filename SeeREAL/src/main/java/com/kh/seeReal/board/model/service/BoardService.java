@@ -1,6 +1,7 @@
 package com.kh.seeReal.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.board.model.vo.BoardReply;
@@ -20,6 +21,11 @@ public interface BoardService {
 	int  insertSpoiler(Board b);
 	// 게시글 업데이트(update)
 	int updateBoard(int boardNo);
+	// 게시글 검색
+	// 게시글 검색 갯수
+	int spoilerSearchListCount(HashMap<String, String> map);
+	// 게시글  검색 글 목록
+	ArrayList<Board> spoilerSearchList(HashMap<String, String> map, PageInfo pi);
 	// 게시글 삭제(update)
 	int deleteBoard(int boardNo);
 	// 댓글 리스트(select)

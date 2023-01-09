@@ -2,8 +2,8 @@ package com.kh.seeReal.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.member.model.service.FeedService;
@@ -15,15 +15,15 @@ public class FeedController {
 	private FeedService feedService;
 	
 	@RequestMapping("feed.me")
-	public String selectCommentsCount() {
+	public ModelAndView feed(ModelAndView mv, int memberNo) {
 		
-		// memberNickname
-		
-		//mv.addObject("count", feedService.selectCommentsCount(nickname))
-		//int count = feedService.selectCommentsCount();
+		mv.addObject("count", feedService.selectCommentsCount(memberNo))
+		  .addObject("comments", feedService.commentsCount(memberNo))
+		  .addObject("review", feedService.reviewList(memberNo))
+		  .setViewName("common/feed");
 
-		//System.out.println(memberNo);
-		
-		return "common/feed";
+		return mv;
 	}
+
+
 }

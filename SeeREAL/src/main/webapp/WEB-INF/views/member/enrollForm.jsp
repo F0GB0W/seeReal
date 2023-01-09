@@ -146,8 +146,7 @@
 			//입력창을 제대로 입력했는지를 판별할 논리 변수들 선언 후 초기화
 			let emailCheck = false, passwordCheck = false, nickNameCheck = false, phoneCheck = true;
 			
-			
-			//회원가입 입력값 검증 시작!
+			//회원가입 입력값 검증 
 			//이메일 입력창 키보드 입력 이벤트 함수 만들기
 			$('#user_email').on('keyup', function(){
 		
@@ -161,7 +160,7 @@
 					//html함수는 콘텐트영역을 바꾸는 함수			
 					$('#emailChk').html("<b style='color:red;'>[이메일은 필수 정보에요!]</b>");
 					//조건에 부합하지 않는다면 논리변수에 false값 대입
-					emailCheck = false; // 다 적고 지울 수도 있으니까
+					emailCheck = false; 
 		
 				} else if(!getMail.test(emailInput.val())) { // 정규표현식 객체의 test()메소드를 이용해서 패턴에 부합하는지 조건검사 (부합하면 true, !를 붙이면 부합하지않으면)
 					// 정규표현식을 만족하지 않으면
@@ -170,26 +169,17 @@
 					emailCheck = false;
 		
 				} else {
-
 					// db에서 select(ajax)
 					$.ajax({
 						url:'selectEmail.me',
-						data : {email : emailInput},
+						data : {email : emailInput.val()},
 						success : function(result){
-							console.log(result);
 							if(result == 1){  // == : 문자, 숫자 상관없음
 								emailInput.css("background-color", "pink"); 
 								$('#emailChk').html("<b style='color:red;'>[이미 존재하는 이메일입니다.]</b>");
 							}else{
 								emailInput.css("background-color", "transparent"); 
-								$('#emailChk').html("<b style='color:green;'>[사용가능한 이메일입니다.]</b>");
-								$('#user_email').attr('readonly',true);
-								$('#check').attr("display", "none");
-								
-								var result = '<button type="button" id="emailChange" class="btn form-control tooltipstered"'
-									+ 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 변경</button>';
-								$('#check').after(result);
-								
+								$('#emailChk').html("<b style='color:green;'>[사용가능한 이메일입니다.]</b>");				
 							}
 						},
 						error : function(){
@@ -197,28 +187,22 @@
 						},
 						method:'post'
 					});
-					/*
-					function check(){
-						emailInput.css("background-color", "transparent"); 
-						$('#emailChk').html("<b style='color:red;'>남은 시간 5 : 00</b>");
-					}
-					*/
 				}
 			}); 
 			
 			// 수정하기 버튼 
-			$('#emailChange').on('click', function(){
-				$('#user_email').attr('readonly',false);
-				$('#check').attr("display", true);
-				$('#emailChange').attr("display", "none");	
+			$(document).on('click', '#emailChange', function(){
+	
+				$('#user_email').removeAttr('readonly');
+				$('#check').css("display", 'block');
+				$('#emailChange').css("display", "none");	
 				emailCheck = false;
 			});
-				
-				
+					
 			// 이메일 인증 버튼 
 			$('#check').on('click',function(){ 
-				
-				//if(){ // 중복이 아닐때 조건문 어떻게 해야할까?!?!?!? ★★★★★★★★★★★★★★★★★★★★
+				   
+				if($('#user_email').val() != ''){ 
 					$.ajax({ // 이메일 보내는 요청
 						url:'sendEmail.me',
 						method:'post',
@@ -240,7 +224,14 @@
 											success : function(result2){
 												if(result2 == 1){
 													alert("인증성공");
+													$('#user_email').attr('readonly',true);
 													emailCheck = true;
+													$('#check').css("display", "none");
+													
+													var result = '<button type="button" id="emailChange" class="btn form-control tooltipstered"'
+														+ 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 변경</button>';
+													$('#check').after(result);
+													
 												}else{
 													alert("인증실패");
 													emailCheck = false;
@@ -251,9 +242,8 @@
 											}	
 										});	
 									}
-									
 								}
-							}else{ // 메일을 못보냈음
+							}else{ // 메일 전송 실패
 								alert("인증 메일 전송에 실패했습니다. 다시 시도해주세요.");
 							}
 						},
@@ -261,10 +251,9 @@
 							console.log("ajax error");
 						}
 					});	
+				}
 			});
 			//이메일 입력창 키보드 입력 이벤트 함수 끝
-			
-			
 		
 			// 패스워드 입력값 검증  
 			$('#password').on('keyup', function(){
@@ -279,19 +268,24 @@
 				} else if(!getPwCheck.test(passwordInput.val())){
 					passwordInput.css("background-color", "pink"); 
 					$("#pwChk").html("<b style='color:red;'>[영문, 숫자, 특수문자 중 2개 이상 조합하여 6~15글자 입력해주세요!]</b>");
+					pwdCheck();
 					passwordCheck = false;
 				} else if(getPwCheck.test(passwordInput.val())){ 
 					passwordInput.css("background-color", "transparent"); 
 					$("#pwChk").html("<b style='color:green;'>[가능]</b>");
+					pwdCheck();
 					passwordCheck = true;
-				}else if($('#password_check').val() != ''){ // 확인 후에 입력값 바뀌면 어떻게 하지??★★★★★★★★★
-					// keyup되도록?
 				}
 			}); // 패스워드 입력값 검증 끝
 			
-			// 비밀번호 동일한지 확인 > input값 비교만 하면 ㅇㅇ
+			
 			$('#password_check').on('keyup',function(){
-
+				pwdCheck();
+			});
+			
+			// 비밀번호 입력 값 동일한지 확인
+			function pwdCheck(){
+				
 				if($('#password').val() != $('#password_check').val()){
 					$('#password_check').css("background-color", "pink"); 
 					$("#pwChk2").html("<b style='color:red;'>[비밀번호가 다릅니다.]</b>");
@@ -301,8 +295,7 @@
 					$("#pwChk2").html("<b style='color:green;'>[비밀번호가 같습니다.]</b>");
 					passwordCheck = true;
 				}
-			});
-			// 비밀번호 검증 끝
+			}
 		
 			// 닉네임 입력값 검증
 			$('#nickname').on('keyup', function(){ 
@@ -311,7 +304,7 @@
 				if(!getName.test($('#nickname').val())){ // 특수문자 있음
 					$('#nickname').css("background", "pink");			
 					$('#nickChk').html("<b style='color:red;'>[다시 확인해주세요]</b>");			
-					nickChk = false;		
+					nickNameCheck = false;		
 				}else{
 					
 					$.ajax({
@@ -321,11 +314,11 @@
 							if(result == 1){
 								$('#nickname').css("background", "pink");			
 								$('#nickChk').html("<b style='color:red;'>[이미 존재하는 닉네임]</b>");			
-								nickChk = false;	
+								nickNameCheck = false;	
 							}else{
 								$('#nickname').css("background", "transparent");			
 								$('#nickChk').html("<b style='color:green;'>[사용가능한 닉네임]</b>");			
-								nickChk = true;	
+								nickNameCheck = true;	
 							}
 						},
 						error : function(){
@@ -338,7 +331,7 @@
 			// 닉네임 검증 끝
 		
 			// 핸드폰 번호 입력값 검증
-			$('#phone').on('keyup', function(){ // 다하고 확인해보기
+			$('#phone').on('keyup', function(){ 
 				if($('#phone').val().length == 11){
 					if(!getPhone.test($('#phone').val())){
 						$('#phone').css("background-color", "pink"); 
@@ -361,18 +354,15 @@
 					}
 				}
 			}); // 핸드폰 번호 검증 끝
-
 		
 			// 회원가입 버튼 클릭 이벤트 처리
-			$('#sign-upbtn').on('click', function(){
-		
+			$('#signup-btn').on('click', function(){
 				if(emailCheck && passwordCheck && nickNameCheck && phoneCheck){ 
 					$(this).submit();
 				} else {
 
 					alert('입력정보를 다시 확인하세요');
-					return false;
-					//요청 못보내게 만들기!!
+					return false; //요청 못보냄	
 				}
 			});
 			// 회원가입 버튼 클릭 이벤트 처리 끝

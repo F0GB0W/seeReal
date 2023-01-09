@@ -95,6 +95,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		board_no = #{boardNo}
 		   and
 		   		status = 'Y'
+		   and
+		   		board_type = 2
 				
 				
 	</select>
@@ -108,6 +110,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   and
 		   		status = 'Y'
 	</update>
+<select id="spoilerSearchListCount" resultType="_int" parameterType="hashmap" >
+select
+		count(*)
+ from
+ 		board
+ join
+ 		member on(board_writer = member_no)
+ where
+ 		board.status = 'Y'
+   and
+   		board_type = 2
+ 	<if test="condition == 'writer'">
+ 		and nick_name
+ 	</if>
+	<if test="condition == 'title'">
+		and board_title
+	</if>
+	<if test="condition == 'content'">
+		and baord_content
+	</if>	
+	like '%' || #{keyword} || '%'
+	
+</select>
+<select id="spoilerSearchList" parameterType="hashmap" resultMap="boardResultSet">
+select
+		board_no,
+		board_title,
+		nick_name,
+		count,
+		enroll_date
+  from
+  		board
+  join
+  		member on(board_writer = member_no)
+ where
+ 		board.status = 'Y'
+   and
+   		board_type = 2
+ <choose>
+ 	<when test="condition == 'writer'">
+ 		and nick_name
+ 	</when>
+	<when test="condition == 'title'">
+		and board_title
+	</when>
+	<otherwise>
+		and board_content
+	</otherwise> 		
+ </choose>
+			like '%' || #{keyword} || '%'		
+	order
+	   by
+	   		board_no desc	
+		
+</select>
 
 
 </mapper>

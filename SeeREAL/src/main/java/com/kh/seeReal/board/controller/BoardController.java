@@ -3,7 +3,9 @@ package com.kh.seeReal.board.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -88,6 +90,27 @@ public class BoardController {
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
+		 return mv;
+	 }
+	
+	 
+	 @RequestMapping("spoilerSearch.bo")
+	 public ModelAndView spoilerSearch(@RequestParam(value="condition", defaultValue="nick_name") String condition, @RequestParam(value="keyword", defaultValue="") String keyword, @RequestParam(value="cpage", defaultValue="1")int currentPage, Model m){
+		 ModelAndView mv = new ModelAndView();
+		 HashMap<String, String> map = new HashMap();
+		 
+		 map.put("condition", condition);
+		 map.put("keyword", keyword);
+		 
+		 int spoilerSearchListCount = boardService.spoilerSearchListCount(map);
+		 PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
+		 ArrayList<Board> list = boardService.spoilerSearchList(map, pi);
+		 
+		 // System.out.println(list);
+		mv.addObject("list", list);
+		
+		mv.setViewName("board/spoiler/spoilerBoardList");
+		 
 		 return mv;
 	 }
 }
