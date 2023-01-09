@@ -4,6 +4,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
 
+	<resultMap id="memberResultSet" type="member">
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="MEMBER_EMAIL" property="memberEmail"/>
+		<result column="NICK_NAME" property="memberNickname"/>
+		<result column="MEMBER_PWD" property="memberPwd"/>
+		<result column="MEMBER_PHONE" property="memberPhone"/>
+		<result column="MEMBER_PHOTO" property="memberPhoto"/>
+		<result column="MEMBER_CREATEDATE" property="memberCreateDate"/>
+		<result column="MEMBER_MODIFYDATE" property="memberModifyDate"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
+
 	<!-- 이메일 중복체크를 위한 select -->
 	<select id="selectEmail" parameterType="String" resultType="_int">
 		select
@@ -45,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   and 
 		      secret = #{secret}
 		   and 
-		      when between sysdate - 3/24/60 and sysdate
+		      when between sysdate - 5/24/60 and sysdate
 	</select>
 	
 	<delete id="deleteCert" parameterType="cert">
@@ -72,13 +84,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="member">
-		insert into member(MEMBER_NO,
-			NICK_NAME,
-			MEMBER_PWD,
-			MEMBER_PHONE,
-			MEMBER_EMAIL
-			)
-			values(seq_mno.nextval,#{memberNickname}, #{memberPwd},#{memberPhone},#{memberEmail} )
+		insert 
+		  into 
+		      member
+		      (
+		      MEMBER_NO,
+			  NICK_NAME,
+			  MEMBER_PWD,
+			  MEMBER_PHONE,
+			  MEMBER_EMAIL
+			  )
+	   values
+	         (
+	         seq_mno.nextval,
+	         #{memberNickname}, 
+	         #{memberPwd},
+	         #{memberPhone},
+	         #{memberEmail} 
+	         )
 	</insert>
+	
+	<select id="selectMember" parameterType="member" resultMap="memberResultSet">
+		select 
+			  MEMBER_NO
+			  ,NICK_NAME
+			  ,MEMBER_PWD
+			  ,MEMBER_PHONE
+			  ,MEMBER_EMAIL
+			  ,MEMBER_PHOTO
+			  ,MEMBER_CREATEDATE
+			  ,MEMBER_MODIFYDATE
+			  ,STATUS
+		  from 
+		      member
+		 where 
+		      status='Y'
+		   and 
+		      MEMBER_EMAIL = #{memberEmail}
+	</select>
 
 </mapper>

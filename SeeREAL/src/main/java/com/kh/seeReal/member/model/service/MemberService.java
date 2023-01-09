@@ -19,4 +19,7 @@ public interface MemberService {
 	
 	// 회원가입
 	public int insertMember(Member m);
+	
+	// 로그인
+	public Member loginMember(Member m);
 }
