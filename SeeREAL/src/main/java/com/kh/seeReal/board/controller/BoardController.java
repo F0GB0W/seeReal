@@ -42,7 +42,6 @@ public class BoardController {
 	}
 	 @RequestMapping("spoilerEnrollForm.bo")
 	 public String spoilerEnrollForm(HttpSession session) {
-		 session.setAttribute("loginUser", 1);
 		 return "board/spoiler/spoilerEnrollForm";
 	 }
 	 @RequestMapping("insertSpoiler.bo")
