@@ -41,13 +41,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int insertMember(Member m) {	
+	public int insertMember(Member m) {
+		
 		return memberDao.insertMember(sqlSession,m);
-	}
-
-	@Override
-	public Member loginMember(Member m) {
-		return memberDao.selectMember(sqlSession,m);
 	}
 
 	
