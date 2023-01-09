@@ -16,9 +16,21 @@
 	<div></div>
 	<div></div>
 
+	<c:choose>
+		<c:when test="${empty loginUser}">
+			<div><a data-toggle="modal" data-target="#log-in">로그인</a></div>
+			<jsp:include page="../member/login.jsp" />
+			<div><a data-toggle="modal" data-target="#sign-up">회원가입</a></div>
+			<jsp:include page="../member/enrollForm.jsp" />
+		</c:when>
+		<c:otherwise>
+			<p>${loginUser.memberNickname}님 환영합니다.</p>
+			<div><a href="logout.me">로그아웃</a></div>
+			<input type="hidden" value="${loginUser.memberEmail}"/>
+		</c:otherwise>
+	</c:choose>
 	
-	<div><a data-toggle="modal" data-target="#sign-up">회원가입</a></div>
-	<jsp:include page="../member/enrollForm.jsp" />
+	
 	
 </body>
 </html>

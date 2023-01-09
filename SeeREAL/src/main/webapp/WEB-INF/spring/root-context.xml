@@ -48,7 +48,7 @@
 	 	SqlSessionFacory.setConfigLocation("classpath:mybatis-config.xml"0;
 	 	sqlSessionFactory.setDataSource(datesSource):
 	  -->
-	  
+			  
 	  <!--3단계. SQL구문 실행을 위한 템플릿을 제공하는 도구 등록 -->
 	  	<!--  SQL명령어 수행을 위한 도구에 대한 참조를 설정 -->
 	  <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
@@ -71,5 +71,19 @@
 		<property name="maxUploadSize" value="10000000"	/>
 		<property name="maxInMemorySize" value="10000000" />
 	 </bean>
-		
+	 
+	 <!-- 메일 전송도구 등록 -->
+	<bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="ic0025983@gmail.com" />
+		<property name="password" value="qakrwjdbiclnxitr" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean> 
+	
 </beans>
