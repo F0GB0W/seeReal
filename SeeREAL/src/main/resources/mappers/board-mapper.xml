@@ -95,6 +95,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		board_no = #{boardNo}
 		   and
 		   		status = 'Y'
+		   and
+		   		board_type = 2
 				
 				
 	</select>
@@ -117,6 +119,8 @@ select
  		member on(board_writer = member_no)
  where
  		board.status = 'Y'
+   and
+   		board_type = 2
  	<if test="condition == 'writer'">
  		and nick_name
  	</if>
@@ -142,6 +146,8 @@ select
   		member on(board_writer = member_no)
  where
  		board.status = 'Y'
+   and
+   		board_type = 2
  <choose>
  	<when test="condition == 'writer'">
  		and nick_name

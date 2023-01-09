@@ -266,7 +266,14 @@
       		</c:choose>
       		
       		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
-      		<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+      			<c:choose>
+      			<c:when test="${empty condition }">
+      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+      			</c:when>
+      			<c:otherwise>
+      				<li class="page-item"><a href="spoilerSearch.bo?cpage=${p }&keyword=${keyword}">${p }</a>
+      			</c:otherwise>
+      			</c:choose>
       		</c:forEach>
       		
       		<c:choose>
@@ -280,20 +287,28 @@
       	</ul>
       </div>
       <br>
-      
-      <form id="searchForm" action="spoilerSearch.bo?cpage=${pi.currentPage}" method="get" align="center">
-	      <div class="select">
- 			<select class="cumstom-select" name="condition" id="searchSelect">
-				<option value="writer">작성자</option> 			
-				<option value="title">제목</option> 			
-				<option value="content">글 내용</option> 			
- 			</select>   
-    	  </div>
-    	  <div class="text">
-    	  	<input type="text" class="form-control" style="width:fit-content" name="keyword">
-    	  </div>
-    	  <button type="submit" class="searchBtn btn btn-secondary">검색</button>
-      </form>
+      <c:if test="${not empty condition }">
+      <script>
+		$(function(){
+			$('#search-area option[value=${condition}]').attr('selected', true);					
+		
+		});     
+      </script>
+      </c:if>
+	      <div id="search-area">
+	      	<form id="searchForm" action="spoilerSearch.bo" method="get" align="center">
+	      		<input type="hidden" name="currentPage" value="1">
+	 			<select class="cumstom-select" name="condition" id="searchSelect">
+					<option value="writer">작성자</option> 			
+					<option value="title">제목</option> 			
+					<option value="content">글 내용</option> 			
+	 			</select>   
+	    	  <div class="text">
+	    	  	<input type="text" class="form-control" style="width:fit-content" name="keyword" value="${keyword }">
+	    	  </div>
+	    	  <button type="submit" class="searchBtn btn btn-secondary">검색</button>
+      		</form>
+     	</div>
       
       
       

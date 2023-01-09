@@ -95,7 +95,8 @@ public class BoardController {
 	
 	 
 	 @RequestMapping("spoilerSearch.bo")
-	 public HashMap<String, String> spoilerSearch(@RequestParam(value="condition") String condition, @RequestParam(value="keyword") String keyword, @RequestParam(value="cpage")int currentPage){
+	 public ModelAndView spoilerSearch(@RequestParam(value="condition", defaultValue="nick_name") String condition, @RequestParam(value="keyword", defaultValue="") String keyword, @RequestParam(value="cpage", defaultValue="1")int currentPage, Model m){
+		 ModelAndView mv = new ModelAndView();
 		 HashMap<String, String> map = new HashMap();
 		 
 		 map.put("condition", condition);
@@ -104,7 +105,12 @@ public class BoardController {
 		 int spoilerSearchListCount = boardService.spoilerSearchListCount(map);
 		 PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
 		 ArrayList<Board> list = boardService.spoilerSearchList(map, pi);
+		 
+		 // System.out.println(list);
+		mv.addObject("list", list);
 		
-		 return map;
+		mv.setViewName("board/spoiler/spoilerBoardList");
+		 
+		 return mv;
 	 }
 }
