@@ -95,7 +95,7 @@ public class BoardController {
 	
 	 
 	 @RequestMapping("spoilerSearch.bo")
-	 public ModelAndView spoilerSearch(@RequestParam(value="condition", defaultValue="nick_name") String condition, @RequestParam(value="keyword", defaultValue="") String keyword, @RequestParam(value="cpage", defaultValue="1")int currentPage, Model m){
+	 public ModelAndView spoilerSearch(@RequestParam(value="condition", defaultValue="writer") String condition, @RequestParam(value="keyword", defaultValue="") String keyword, @RequestParam(value="cpage", defaultValue="1")int currentPage, Model m){
 		 ModelAndView mv = new ModelAndView();
 		 HashMap<String, String> map = new HashMap();
 		 
