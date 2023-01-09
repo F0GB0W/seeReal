@@ -24,6 +24,7 @@
 			<jsp:include page="../member/enrollForm.jsp" />
 		</c:when>
 		<c:otherwise>
+			<div><a href="myPage.me">마이페이지</a></div>
 			<p>${loginUser.memberNickname}님 환영합니다.</p>
 			<div><a href="logout.me">로그아웃</a></div>
 			<input type="hidden" value="${loginUser.memberEmail}"/>

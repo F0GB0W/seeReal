@@ -122,8 +122,13 @@ public class MemberController {
 		Member loginUser = memberService.loginMember(m);
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) { // 회원 있으면
+			// 평문으로 변경해서 저장해야함 : 마이페이지에서 보여주기 위해
+			// 평문을 저장할 컬럼이 필요할까??  
 			
 			// 암호화된 비밀번호랑 동일한지 확인
+			
+			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
+			System.out.println(loginUser.getMemberPwd());
 			session.setAttribute("loginUser", loginUser);
 	
 		}else {
@@ -137,8 +142,21 @@ public class MemberController {
 	@RequestMapping("logout.me")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/"; // 메인페이지로 돌아가는 게 맞나?
+		return "redirect:/"; // 메인페이지로 이동
 		// 요청한 페이지로 돌려주기
+	}
+	
+	
+	// 마이페이지
+	@RequestMapping(value="myPage.me")
+	public String myPage() {
+		return "member/myPage";
+	}
+	
+	// 정보수정페이지
+	@RequestMapping(value="updateForm.me")
+	public String updateForm() {
+		return "member/updateForm";
 	}
 	
 	// 회원탈퇴
