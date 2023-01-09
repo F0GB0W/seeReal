@@ -56,7 +56,9 @@ public class MemberController {
 		Cert cert = Cert.builder().who(ip).secret(code).build();
 		
 		message.setSubject("see:Real 회원가입");
-		message.setText("인증번호 : " + code + "<br> see:Real으로 돌아가 인증번호를 입력해주세요.");
+		// "see:Real 화면으로 돌아가 인증번호를 입력해주세요."
+		// 시간되면 예쁘게 전송하기 : MimeMessage 사용
+		message.setText("인증번호 : " + code );
 		message.setTo(email);	
 		sender.send(message);
 		
@@ -83,9 +85,7 @@ public class MemberController {
 		return result;
 	}
 	
-	
 
-	
 	// 닉네임 중복체크
 	@ResponseBody
 	@RequestMapping(value="selectNickname.me", produces= "text/html; UTF-8")
@@ -112,7 +112,6 @@ public class MemberController {
 			session.setAttribute("errorMsg", "회원가입 실패");
 			return "common/errorPage";
 		}	
-		
 	}
 	
 	// 로그인
@@ -122,9 +121,6 @@ public class MemberController {
 		// 아이디, 비밀번호 확인
 		Member loginUser = memberService.loginMember(m);
 		
-		System.out.println("loginUser : " + loginUser);
-		System.out.println(loginUser.getMemberPwd());
-		
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) { // 회원 있으면
 			
 			// 암호화된 비밀번호랑 동일한지 확인
@@ -132,7 +128,6 @@ public class MemberController {
 	
 		}else {
 			model.addAttribute("alertMsg", "로그인 실패");
-			// 화면
 		}
 		return "redirect:/";
 		
