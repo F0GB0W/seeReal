@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.member.model.dao.FeedDao;
 import com.kh.seeReal.member.model.vo.Member;
 
@@ -32,6 +33,16 @@ public class FeedServiceImp implements FeedService{
 	@Override
 	public ArrayList<Comments> reviewList(int memberNo) {
 		return feedDao.reviewList(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<MovieRating> ratingList(int memberNo) {
+		return feedDao.ratingList(sqlSession, memberNo);
+	}
+
+	@Override
+	public Member selectMember(int memberNo) {
+		return feedDao.selectMember(sqlSession, memberNo);
 	}
 
 }

@@ -309,7 +309,7 @@
 					
 					$.ajax({
 						url : 'selectNickname.me',
-						date : {nickname : nicknameInput},
+						date : {nickname : nicknameInput.val()},
 						success : function(result){
 							if(result == 1){
 								$('#nickname').css("background", "pink");			

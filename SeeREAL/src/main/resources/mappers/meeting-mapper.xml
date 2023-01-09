@@ -19,6 +19,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEETING_WRITER" property="meetingWriter" />
 	</resultMap>
 
+	<resultMap id="meetingUserResultSet" type="meetingUser">
+		<result column="MEETING_NO" property="meetingNo" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="MEETING_ACCEPT" property="meetingAccept" />
+		<result column="MEETING_CONTENT" property="meetingContent" />
+		<result column="NICK_NAME" property="nickName" />
+		<result column="MEMBER_PHOTO" property="memberPhoto" />
+	</resultMap>
+
 	<insert id="insertMeeting" parameterType="meeting">
 		INSERT INTO
 			MEETING
@@ -103,7 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND MEETING.STATUS = 'Y'
 	</select>
 	
-	<insert id="insertMeetingUser" parameterType="meetingUser">
+	<insert id="meetingMaker" parameterType="meetingUser">
 		INSERT INTO
 			MEETING_USER
 				(
@@ -121,5 +130,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				)
 	</insert>
 
+	<select id="selectMeetingMember" parameterType="_int" resultMap="meetingUserResultSet">
+		SELECT 
+			mu.MEMBER_NO,
+			MEETING_ACCEPT,
+			MEETING_CONTENT,
+			m.NICK_NAME,
+			m.MEMBER_PHOTO
+		FROM
+			MEETING_USER mu
+		JOIN MEMBER m ON
+			mu.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			mu.MEETING_NO = #{ meetingNo }
+			AND m.STATUS = 'Y'
+	</select>
 
+
+	<insert id="insertMeetingUser" parameterType="meetingUser">
+		INSERT INTO
+			MEETING_USER
+				(
+				 MEETING_NO
+				,MEMBER_NO
+				,MEETING_ACCEPT
+				,MEETING_CONTENT
+				)
+			VALUES
+				(
+				 #{ meetingNo }
+				,#{ memberNo }
+				,'N'
+				,#{ meetingContent }
+				)
+	</insert>
+	
+	
 </mapper>

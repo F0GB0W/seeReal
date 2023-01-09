@@ -46,8 +46,18 @@ public class MeetingServiceImpl implements MeetingService {
 	}
 
 	@Override
-	public void insertMeetingUser(MeetingUser mu) {
-		meetingDao.insertMeetingUser(sqlSession, mu);
+	public int meetingMaker(MeetingUser mu) {
+		return meetingDao.meetingMaker(sqlSession, mu);
+	}
+
+	@Override
+	public ArrayList<MeetingUser> selectMeetingMember(int meetingNo) {
+		return meetingDao.selectMeetingMember(sqlSession, meetingNo);
+	}
+
+	@Override
+	public int insertMeetingUser(MeetingUser mu) {
+		return meetingDao.insertMeetingUser(sqlSession, mu);
 	}
 
 }

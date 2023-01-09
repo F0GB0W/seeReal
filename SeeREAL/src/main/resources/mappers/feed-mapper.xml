@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<resultMap id="member" type="com.kh.seeReal.member.model.vo.Member">
 		<result column="member_no"       property="memberNo" />
-		<result column="member_nickname" property="memberNickname" />
+		<result column="nick_name" property="memberNickname" />
 		<result column="member_photo"    property="memberPhoto" />
 	</resultMap>
 	
@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectCommentsCount" resultType="_int">
 		select count(*)
 		  from comments
-		 where member_no = ${memberNo}
+		 where member_no = #{memberNo}
 		   and status='Y'
 	</select> 
 	
@@ -48,19 +48,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		       movie_title,
 			   member_no
 		  from comments
-		 where member_no = ${memberNo}
+		 where member_no = #{memberNo}
 	</select>
 	
 	<select id="reviewList" resultMap="movie_rating">
 		select movie_title, rating, comment_like
 		  from movie_rating 
 		  join comment_like on (member_no = comment_writer)
-		 where member_no = ${memberNo}
+		 where member_no = #{memberNo}
 		  order
 		     by comment_like desc
 	</select>
+	
+	<select id="ratingList" resultMap="movie_rating">
+		select rating
+		  from movie_rating
+		 where member_no = #{memberNo}
+		 order
+			by
+			   rating asc
+	</select>
 
-
+	<select id="selectMember" parameterType="_int" resultMap="member">
+		select nick_name
+		  from member
+		 where member_no = #{memberNo}
+	</select>
 
 
 

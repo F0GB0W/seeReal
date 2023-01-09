@@ -8,4 +8,7 @@ public class MeetingUser {
 	private int memberNo; // MEMBER_NO	NUMBER
 	private String meetingAccept; // MEETING_ ACCEPT	CHAR(1 BYTE)
 	private String meetingContent; //MEETING_CONETNT	VARCHAR2(300 BYTE)
+	
+	private String nickName;
+	private String memberPhoto;
 }

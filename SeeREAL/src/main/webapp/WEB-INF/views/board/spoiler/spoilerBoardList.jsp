@@ -192,9 +192,10 @@
       }
       ul{list-style-type:none;}
       #pagingBar {}
-      #pagination{ margin-left: 450px; display:flex; float:center;}
-      #searchForm{margin-left: 380px; display:flex;}
+      #pagination{ margin-left: 870px; display:flex; float:center;}
+      #searchForm{margin-left: 780px; display:flex;}
       #searchSelect{margin-top:7px;}
+      #page-count{float:right;}
       
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -208,7 +209,14 @@
           <div class="container">
               <h3>스포 게시판</h3>
               <br>
-              <c:if test="${not empty loginUser }">
+              <select id="page-count" name="pageCount">
+              	<option value="">5개씩</option>
+              	<option value="">10개씩</option>
+              	<option value="">15개씩</option>
+              	<option value="">20개씩</option>
+              </select>
+              <br><br>
+              <c:if test="${not empty loginUser}">
               	<a href="spoilerEnrollForm.bo" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
           	  </c:if>
           </div>
@@ -217,7 +225,7 @@
     <!-- board list area -->
       <div id="board-list">
           <div class="container content">
-              <table class="board-table" id="spoilerList">
+              <table class="board-table table table-hover" id="spoilerList">
                   <thead>
 	                  <tr>
 	                      <th scope="col" class="th-num">번호</th>
@@ -265,14 +273,14 @@
       			</c:otherwise>
       		</c:choose>
       		
-      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
+      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
       			<c:choose>
-      			<c:when test="${empty condition }">
-      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-      			</c:when>
-      			<c:otherwise>
-      				<li class="page-item"><a href="spoilerSearch.bo?cpage=${p }&keyword=${keyword}">${p }</a>
-      			</c:otherwise>
+	      			<c:when test="${ empty condition }">
+	      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+	      			</c:when>
+	      			<c:otherwise>
+	      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
+	      			</c:otherwise>
       			</c:choose>
       		</c:forEach>
       		
@@ -297,7 +305,7 @@
       </c:if>
 	      <div id="search-area">
 	      	<form id="searchForm" action="spoilerSearch.bo" method="get" align="center">
-	      		<input type="hidden" name="currentPage" value="1">
+	      		<input type="hidden" name="cpage" value="1">
 	 			<select class="cumstom-select" name="condition" id="searchSelect">
 					<option value="writer">작성자</option> 			
 					<option value="title">제목</option> 			

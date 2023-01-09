@@ -18,5 +18,9 @@ public interface MeetingService {
 
 	Meeting selectMeetingDetail(int mtno);
 
-	void insertMeetingUser(MeetingUser mu);
+	int meetingMaker(MeetingUser mu);
+
+	ArrayList<MeetingUser> selectMeetingMember(int meetingNo);
+
+	int insertMeetingUser(MeetingUser mu);
 }

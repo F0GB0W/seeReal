@@ -109,6 +109,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  		board_no = #{boardNo}
 		   and
 		   		status = 'Y'
+		   and
+		   		board_type = 2
 	</update>
 <select id="spoilerSearchListCount" resultType="_int" parameterType="hashmap" >
 select
@@ -128,7 +130,7 @@ select
 		and board_title
 	</if>
 	<if test="condition == 'content'">
-		and baord_content
+		and board_content
 	</if>	
 	like '%' || #{keyword} || '%'
 	

@@ -15,5 +15,5 @@ public class Member {
 	private String memberPhoto;	//MEMBER_PHOTO
 	private Date memberCreateDate;	//MEMBER_CREATEDATE
 	private Date memberModifyDate;	//MEMBER_MODIFYDATE
-	private String status;		//STATUS
+	private String status;		//STATUS  
 }

@@ -56,7 +56,9 @@ public class MemberController {
 		Cert cert = Cert.builder().who(ip).secret(code).build();
 		
 		message.setSubject("see:Real 회원가입");
-		message.setText("인증번호 : " + code + "<br> see:Real으로 돌아가 인증번호를 입력해주세요.");
+		// "see:Real 화면으로 돌아가 인증번호를 입력해주세요."
+		// 시간되면 예쁘게 전송하기 : MimeMessage 사용
+		message.setText("인증번호 : " + code );
 		message.setTo(email);	
 		sender.send(message);
 		
@@ -83,9 +85,7 @@ public class MemberController {
 		return result;
 	}
 	
-	
 
-	
 	// 닉네임 중복체크
 	@ResponseBody
 	@RequestMapping(value="selectNickname.me", produces= "text/html; UTF-8")
@@ -112,7 +112,6 @@ public class MemberController {
 			session.setAttribute("errorMsg", "회원가입 실패");
 			return "common/errorPage";
 		}	
-		
 	}
 	
 	// 로그인
@@ -122,17 +121,18 @@ public class MemberController {
 		// 아이디, 비밀번호 확인
 		Member loginUser = memberService.loginMember(m);
 		
-		System.out.println("loginUser : " + loginUser);
-		System.out.println(loginUser.getMemberPwd());
-		
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) { // 회원 있으면
+			// 평문으로 변경해서 저장해야함 : 마이페이지에서 보여주기 위해
+			// 평문을 저장할 컬럼이 필요할까??  
 			
 			// 암호화된 비밀번호랑 동일한지 확인
+			
+			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
+			System.out.println(loginUser.getMemberPwd());
 			session.setAttribute("loginUser", loginUser);
 	
 		}else {
 			model.addAttribute("alertMsg", "로그인 실패");
-			// 화면
 		}
 		return "redirect:/";
 		
@@ -142,8 +142,21 @@ public class MemberController {
 	@RequestMapping("logout.me")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/"; // 메인페이지로 돌아가는 게 맞나?
+		return "redirect:/"; // 메인페이지로 이동
 		// 요청한 페이지로 돌려주기
+	}
+	
+	
+	// 마이페이지
+	@RequestMapping(value="myPage.me")
+	public String myPage() {
+		return "member/myPage";
+	}
+	
+	// 정보수정페이지
+	@RequestMapping(value="updateForm.me")
+	public String updateForm() {
+		return "member/updateForm";
 	}
 	
 	// 회원탈퇴
