@@ -1,6 +1,8 @@
 package com.kh.seeReal.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,15 @@ public class BoardServiceImpl implements BoardService{
 	public int insertSpoiler(Board b) {
 		return boardDao.insertSpoiler(sqlSession, b);
 	}
+	
+	@Override
+	public int spoilerSearchListCount(HashMap<String, String> map) {
+		return boardDao.spoilerSearchListCount(sqlSession, map);
+	}
+	@Override
+	public ArrayList<Board> spoilerSearchList(HashMap<String, String> map, PageInfo pi) {
+		return boardDao.spoilerSearchListCount(sqlSession, map, pi);
+	}
 
 	@Override
 	public int updateBoard(int boardNo) {
@@ -86,6 +97,9 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDao.sanctionsBoard(sqlSession);
 	}
+
+
+
 
 		
 	

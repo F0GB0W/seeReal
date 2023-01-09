@@ -19,4 +19,7 @@ public class Board {
 	private int boardWriter;
 	private String nickName;
 	
+	private String condition; // 검색 조건
+	private String keyword; // 검색어
+	
 }

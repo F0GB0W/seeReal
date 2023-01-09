@@ -1,6 +1,8 @@
 package com.kh.seeReal.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,6 +37,16 @@ public class BoardDao {
 	}
 	public int spoilerIncreaseCount(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.spoilerIncreaseCount", boardNo);
+	}
+	public int spoilerSearchListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map){
+		return sqlSession.selectOne("boardMapper.spoilerSearch", map);
+	}
+	public ArrayList<Board> spoilerSearchListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.spoilerSearchListCount", map, rowBounds);
 	}
 
 	
