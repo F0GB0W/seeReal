@@ -32,7 +32,7 @@
           </tr>
           <tr>
             <th scope="row">작성자</th>
-            <td><input type="text" id="writer" width="100px;" value="${loginUser }" readonly name="boardWriter" /></td>
+            <td><input type="text" id="writer" width="100px;" value="" readonly name="boardWriter" /></td>
           </tr>
           <tr>
             <th scope="row">첨부파일</th>
