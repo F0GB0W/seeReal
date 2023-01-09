@@ -12,6 +12,14 @@
 </head>
     <input type="hidden" id="title" value="${ meet.movieTitle }" >
     <input type="hidden" id="year" value="${ meet.movieYear }" >
+    <c:choose>
+        <c:when test="${ not empty loginUser}">
+            <input type="hidden" id="memberNo" value="${ loginUser.memberNo }">
+        </c:when>
+        <c:otherwise>
+            <input type="hidden" id="memberNo" value="1">
+        </c:otherwise>
+    </c:choose>
 
     <h1>${ meetingTitle }</h1>
 
@@ -43,15 +51,19 @@
 
     <h1>함께하는 사람들</h1> <p id="meetingMembercount"></p>
 
+    <c:choose>
+        <c:when test="${ not empty loginUser }">
+            <table class="table">
+                <tr>
+                    <td>${ loginUser.memberNickname }</td>
+                    <td><input type="text" id="meetingContent"></td>
+                    <td><button onclick="enrollMeetingMember()">참여하기</button></td>
+                </tr>
+            </table>
+        </c:when>
+    </c:choose>
     
-    <input type="hidden" value="${ loginUser.memberNo }" name="memberNo" id="loginUser">
-    <table class="table">
-        <tr>
-            <td>${ loginUser.memberNickname }</td>
-            <td><input type="text" id="meetingContent"></td>
-            <td><button onclick="enrollMeetingMember()">참여하기</button></td>
-        </tr>
-    </table>
+    
 
 
     <table id="meetingUserTable" class="table">
@@ -115,9 +127,12 @@
                             if(itemArr[i].meetingAccept == 'Y') {   // 이미 참여중이라면
                                 value += '<td>' + '참여중' + '</td></tr>';
                             } else {
-                                if($('#loginUser').val() == ${ meet.memberNo} ) {
-                                    value += '<td>승인</td></tr>';
+                                if(${ not empty loginUser}) {
+                                    if(${ loginUser.memberNo } == ${ meet.memberNo}) {
+
+                                    }
                                 }
+                                
                             }
                         }
 
@@ -137,7 +152,7 @@
                 url : 'enrollMeetingMember.mt',
                 data : {
                     meetingNo : ${ meet.meetingNo },
-                    memberNo : ${ loginUser.memberNo },
+                    memberNo : $('#memberNo').val(),
                     meetingContent : $('#meetingContent').val()
                 },
                 success : status => {

@@ -192,8 +192,8 @@
       }
       ul{list-style-type:none;}
       #pagingBar {}
-      #pagination{ margin-left: 450px; display:flex; float:center;}
-      #searchForm{margin-left: 380px; display:flex;}
+      #pagination{ margin-left: 870px; display:flex; float:center;}
+      #searchForm{margin-left: 780px; display:flex;}
       #searchSelect{margin-top:7px;}
       #page-count{float:right;}
       
@@ -215,7 +215,8 @@
               	<option value="">15개씩</option>
               	<option value="">20개씩</option>
               </select>
-              <c:if test="${not empty loginUser }">
+              <br><br>
+              <c:if test="${not empty loginUser}">
               	<a href="spoilerEnrollForm.bo" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
           	  </c:if>
           </div>
@@ -224,7 +225,7 @@
     <!-- board list area -->
       <div id="board-list">
           <div class="container content">
-              <table class="board-table" id="spoilerList">
+              <table class="board-table table table-hover" id="spoilerList">
                   <thead>
 	                  <tr>
 	                      <th scope="col" class="th-num">번호</th>
