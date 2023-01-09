@@ -7,6 +7,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="RATING" property="rating"/>
 		
 	</resultMap>
+	<resultMap id="commentsListView" type="comments">
+		<result column="COMMENT_NO" property="commentNo"/>
+		<result column="COMMENT_CONTENT" property="commentContent"/>
+		<result column="COMMENT_ENROLLDATE" property="commentEnrollDate"/>
+		<result column="SPOILER" property="spoiler"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="COMMENT_REPORT" property="commentReport"/>
+
+	</resultMap>
 	<select id="ratingGet" resultType="_int">
 		SELECT
 		      ROUND(SUM(RATING)/COUNT(*),1)
@@ -17,4 +26,82 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   AND
 		      MOVIE_DATE = #{movieDate}
 	</select>
+	<insert id="ratingCheck" parameterType="MovieRating">
+		INSERT
+		  INTO
+		      MOVIE_RATING
+		      (
+		      MEMBER_NO,
+		      RATING,
+		      MOVIE_TITLE,
+		      MOVIE_YEAR
+		      )
+		  VALUES
+		  	  (
+		  	  #{memberNo},
+		  	  #{rating},
+		  	  #{movieTitle},
+		  	  #{movieYear}
+		  	  )
+		  
+	</insert>
+	<update id="ratingUpdate" parameterType="MovieRating">
+		UPDATE
+			  MOVIE_RATING
+		   SET
+		      RATING=#{rating}
+		 WHERE
+		      MOVIE_TITLE=#{movieTitle}
+		   AND
+		      MOVIE_YEAR=#{movieYear}
+		   AND
+		      MEMBER_NO=#{memberNo}
+			  
+	</update>
+	
+	<select id="commentsList" parameterType="Comments" resultMap="commentsListView">
+		SELECT
+		      COMMENT_NO,
+		      COMMENT_CONTENT,
+		      COMMENT_ENROLLDATE,
+		      SPOLER,
+		      COMMENT_REPORT,
+		      MOVIE_TITLE,
+		      MOVIE_YEAR,
+		      MEMBER_ID
+		  FROM
+		      COMMENTS 
+		  JOIN 
+		  	  MEMBER 
+		 USING 
+		 	  (MEMBER_NO)
+		 WHERE
+		      STATUS='Y'
+		  
+	</select>
+	<insert id="commentsWrite" parameterType="Comments">
+		INSERT
+		  INTO
+		      COMMENTS
+		      (
+		      COMMENT_NO,
+		      COMMENT_CONTENT,
+		      COMMENT_ENROLLDATE,
+		      SPOLER,
+		      MOVIE_TITLE,
+		      MOVIE_YEAR,
+		      MEMBER_NO
+		      )
+		VALUES
+			  (
+			  SEQ_COMNO.NEXTVAL,
+			  #{commentContent},
+			  #{commentEnrollDate},
+			  #{spoiler},
+			  #{movieTitle},
+			  #{movieYear},
+			  #{memberNo}
+			  )
+		     
+	</insert>
 </mapper>

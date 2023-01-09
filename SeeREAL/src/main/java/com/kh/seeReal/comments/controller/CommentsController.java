@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.kh.seeReal.comments.model.service.CommentsService;
+import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.MovieRating;
 
 
 
@@ -152,4 +155,62 @@ public class CommentsController {
             throw new RuntimeException("API 응답을 읽는 데 실패했습니다.", e);
         }
     }
+    
+    @ResponseBody
+    @RequestMapping(value="ratingGet.co")
+    public int ratingGet(MovieRating movieRating) {
+    	
+    	String movie=movieRating.getMovieYear()+movieRating.getMovieTitle();
+    	
+    	return commentsService.ratingGet(movie);
+    	
+    	
+    	
+    }
+    
+    
+    
+    @ResponseBody
+    @RequestMapping(value="ratingCheck.co")
+    public String ratingCheck(MovieRating movieRating,String beforeRating,Model model) {
+    	
+    	//String movie=movieRating.getMovieTitle()+movieRating.getMovieYear();
+    	//int resultRating=CommentsService.ratingCheck(movie,movieRating.getRating());
+    	int resultRating=0;
+    	
+    	if(beforeRating != null) {
+    		resultRating=commentsService.ratingCheck(movieRating);
+    	}else {
+    		resultRating=commentsService.ratingUpdate(movieRating);
+    	}
+    	
+    	if(resultRating >0) {
+    		model.addAttribute("resultRating",resultRating);
+    	}else {
+    		System.out.println("평점매기기실패");
+    		
+    	}
+    	return "comments/movieDetail";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="commentsWrite.co")
+    public String commentsList(Comments comments,Model model) {
+    	
+    	ArrayList<Comments> commentsList=commentsService.commentsList(comments);
+
+    	
+    	return new Gson().toJson(commentsList);
+    	
+    }
+    public String commentsWrite(Comments comments,Model model) {
+    	int result=commentsService.commentsWrite(comments);
+    	
+    	return "comments/movieDetail";
+    	
+    	
+    	
+    }
+    
+    
 }
