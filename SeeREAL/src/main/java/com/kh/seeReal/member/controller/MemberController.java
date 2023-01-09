@@ -35,11 +35,11 @@ public class MemberController {
 	// 이메일 중복 체크 : select
 	@ResponseBody
 	@RequestMapping(value="selectEmail.me",produces="text/html; UTF-8")
-	public int selectEmail(String email) {
+	public String selectEmail(String email) {
 		
 		int result = memberService.selectEmail(email);
-		
-		return result;
+		String result2 = String.valueOf(result);
+		return result2;
 	}
 	
 	// 이메일 인증 : 이메일 보내는 메소드 / 확인하는 메소드
@@ -48,8 +48,8 @@ public class MemberController {
 
 	@ResponseBody
 	@RequestMapping(value="sendEmail.me",produces="text/html; UTF-8")
-	public int sendEmail(String email, HttpServletRequest request) { // 이메일 인증 버튼을 눌렀을 때, 
-		
+	public String sendEmail(String email, HttpServletRequest request) { // 이메일 인증 버튼을 눌렀을 때, 
+		System.out.println(email);
 		SimpleMailMessage message = new SimpleMailMessage();
 		String ip = request.getRemoteAddr();
 		String code = createCode();
@@ -60,8 +60,10 @@ public class MemberController {
 		message.setText("인증번호 : " + code ); // true, false 차이 알아보기
 		message.setTo(email);	
 		sender.send(message);
+		
+		String result = String.valueOf(memberService.insertCert(cert));
 			
-		return memberService.insertCert(cert);
+		return result;
 	}
 	
 	// 랜덤 인증번호 생성하는 메소드
@@ -75,9 +77,11 @@ public class MemberController {
 	// 인증번호 확인
 	@ResponseBody
 	@RequestMapping(value="checkEmail.me",produces="text/html; UTF-8")
-	public int selectCert(String code,HttpServletRequest request) {
+	public String selectCert(String code,HttpServletRequest request) {
 		Cert cert = Cert.builder().who(request.getRemoteAddr()).secret(code).build();
-		return memberService.selectCert(cert);
+		String result = String.valueOf(memberService.selectCert(cert));
+		System.out.println(result);
+		return result;
 	}
 	
 	
@@ -86,8 +90,8 @@ public class MemberController {
 	// 닉네임 중복체크
 	@ResponseBody
 	@RequestMapping(value="selectNickname.me", produces= "text/html; UTF-8")
-	public int selectNickname(String nickname) {
-		return memberService.selectNickname(nickname);
+	public String selectNickname(String nickname) {
+		return String.valueOf(memberService.selectNickname(nickname));
 	}
 	
 	

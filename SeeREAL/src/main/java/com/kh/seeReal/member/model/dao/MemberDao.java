@@ -11,6 +11,7 @@ public class MemberDao {
 
 	// 이메일 중복체크 
 	public int selectEmail(SqlSessionTemplate sqlSession, String email) {
+		System.out.println(sqlSession);
 		return sqlSession.selectOne("memberMapper.selectEmail", email);
 	}
 	
@@ -23,12 +24,12 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectCert", cert);
 	}
 	public int deleteCert(SqlSessionTemplate sqlSession, Cert cert) {
-		return sqlSession.delete("memberMapper.selectCert", cert);
+		return sqlSession.delete("memberMapper.deleteCert", cert);
 	}
 	
 	// 닉네임 중복체크
 	public int selectNickname(SqlSessionTemplate sqlSession, String nickname) {
-		return sqlSession.selectOne("memberMapper.selectNickName", nickname);
+		return sqlSession.selectOne("memberMapper.selectNickname", nickname);
 	}
 	// 회원가입 
 	public int insertMember(SqlSessionTemplate sqlSession, Member m) {

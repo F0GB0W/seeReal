@@ -174,7 +174,7 @@
 					// db에서 select(ajax)
 					$.ajax({
 						url:'selectEmail.me',
-						data : {email : emailInput},
+						data : {email : emailInput.val()},
 						success : function(result){
 							console.log(result);
 							if(result == 1){  // == : 문자, 숫자 상관없음
@@ -183,7 +183,7 @@
 							}else{
 								emailInput.css("background-color", "transparent"); 
 								$('#emailChk').html("<b style='color:green;'>[사용가능한 이메일입니다.]</b>");
-								$('#user_email').attr('readonly',true);
+								//$('#user_email').attr('readonly',true);
 								$('#check').attr("display", "none");
 								
 								var result = '<button type="button" id="emailChange" class="btn form-control tooltipstered"'
@@ -232,7 +232,7 @@
 										alert('먼저 인증번호를 입력하세요.');
 									}else{
 										$.ajax({
-											url: 'checkEmail.me',
+											url: 'checkEmail.me',s
 											data : {
 													email :$('#user_email').val(),
 													code : code
@@ -240,6 +240,7 @@
 											success : function(result2){
 												if(result2 == 1){
 													alert("인증성공");
+													$('#user_email').attr('readonly',true);
 													emailCheck = true;
 												}else{
 													alert("인증실패");
@@ -311,7 +312,7 @@
 				if(!getName.test($('#nickname').val())){ // 특수문자 있음
 					$('#nickname').css("background", "pink");			
 					$('#nickChk').html("<b style='color:red;'>[다시 확인해주세요]</b>");			
-					nickChk = false;		
+					nickNameCheck = false;		
 				}else{
 					
 					$.ajax({
@@ -321,11 +322,11 @@
 							if(result == 1){
 								$('#nickname').css("background", "pink");			
 								$('#nickChk').html("<b style='color:red;'>[이미 존재하는 닉네임]</b>");			
-								nickChk = false;	
+								nickNameCheck = false;	
 							}else{
 								$('#nickname').css("background", "transparent");			
 								$('#nickChk').html("<b style='color:green;'>[사용가능한 닉네임]</b>");			
-								nickChk = true;	
+								nickNameCheck = true;	
 							}
 						},
 						error : function(){
@@ -364,8 +365,11 @@
 
 		
 			// 회원가입 버튼 클릭 이벤트 처리
-			$('#sign-upbtn').on('click', function(){
-		
+			$('#signup-btn').on('click', function(){
+				console.log(emailCheck);
+				console.log(passwordCheck);
+				console.log(nickNameCheck);
+				console.log(phoneCheck);
 				if(emailCheck && passwordCheck && nickNameCheck && phoneCheck){ 
 					$(this).submit();
 				} else {

@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 이메일 중복체크를 위한 select -->
 	<select id="selectEmail" parameterType="String" resultType="_int">
 		select
-			  member_email
+			  count(member_email)
 		  from 
 		      member
 		 where 
@@ -37,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 이메일 인증 번호 체크 select -->
 	<select id = "selectCert" parameterType="cert" resultType="_int">
 		select
+			  COUNT(*)
 		  from
 			  cert
 		 where 
@@ -44,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   and 
 		      secret = #{secret}
 		   and 
-		      when = between sysdate - 3/24/60 and sysdate
+		      when between sysdate - 3/24/60 and sysdate
 	</select>
 	
 	<delete id="deleteCert" parameterType="cert">
@@ -66,7 +67,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     where 
 	          status='Y'
 	       and 
-	          member_nickname = #{nickname}
+	          nick_name = #{nickname}
 	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="member">
+		insert into member(MEMBER_NO,
+			NICK_NAME,
+			MEMBER_PWD,
+			MEMBER_PHONE,
+			MEMBER_EMAIL
+			)
+			values(seq_mno.nextval,#{memberNickname}, #{memberPwd},#{memberPhone},#{memberEmail} )
+	</insert>
 
 </mapper>
