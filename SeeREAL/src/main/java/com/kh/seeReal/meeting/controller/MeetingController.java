@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.meeting.model.service.MeetingService;
@@ -36,10 +37,6 @@ public class MeetingController {
 	
 	@RequestMapping("enrollForm.mt")
 	public String enrollForm(HttpSession session) {
-		// loginUser 세션에 담기 
-		Member loginUser = new Member();
-		loginUser.setMemberNo(1);
-		session.setAttribute("loginUser", loginUser);
 		
 		return "meeting/meetingEnrollForm";
 	}
@@ -161,7 +158,7 @@ public class MeetingController {
     		mu.setMeetingAccept("Y");
     		mu.setMeetingContent("기본 참가");
     		
-    		meetingService.insertMeetingUser(mu);
+    		meetingService.meetingMaker(mu);
     		
     	} else {
     		System.out.println("저장 실패~!!!");
@@ -172,7 +169,7 @@ public class MeetingController {
     
     // 모임 상세보기
     @RequestMapping("detail.mt")
-    public ModelAndView selectMeeting(int mtno, ModelAndView mv) {
+    public ModelAndView selectMeeting(int mtno, ModelAndView mv, HttpSession session) {
     	
     	if(meetingService.increaseMeetingCount(mtno) > 0) {
     		mv.addObject("meet", meetingService.selectMeetingDetail(mtno))
@@ -183,5 +180,25 @@ public class MeetingController {
     	}
     	
     	return mv;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "detailMeetingMember.mt", produces = "application/json; charset=UTF-8")
+    public String ajaxSelectMeetingMember(int meetingNo) {
+    	
+    	return new Gson().toJson(meetingService.selectMeetingMember(meetingNo));
+    
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "enrollMeetingMember.mt")
+    public String ajaxInsertMeetingMember(int meetingNo, int memberNo, String meetingContent) {
+    	
+    	MeetingUser mu = new MeetingUser();
+    	mu.setMeetingNo(meetingNo);
+    	mu.setMemberNo(memberNo);
+    	mu.setMeetingContent(meetingContent);
+    	
+    	return meetingService.insertMeetingUser(mu) > 0 ? "success" : "fail";
     }
 }
