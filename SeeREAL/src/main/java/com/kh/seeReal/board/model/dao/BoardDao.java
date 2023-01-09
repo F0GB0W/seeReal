@@ -39,14 +39,14 @@ public class BoardDao {
 		return sqlSession.update("boardMapper.spoilerIncreaseCount", boardNo);
 	}
 	public int spoilerSearchListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map){
-		return sqlSession.selectOne("boardMapper.spoilerSearch", map);
+		return sqlSession.selectOne("boardMapper.spoilerSearchListCount", map);
 	}
 	public ArrayList<Board> spoilerSearchListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("boardMapper.spoilerSearchListCount", map, rowBounds);
+		return (ArrayList)sqlSession.selectList("boardMapper.spoilerSearchList", map, rowBounds);
 	}
 
 	

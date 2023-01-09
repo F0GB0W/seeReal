@@ -11,4 +11,6 @@ public interface FeedService {
 	ArrayList<Comments> commentsCount(int memberNo);
 	
 	ArrayList<Comments> reviewList(int memberNo);
+	
+	
 }

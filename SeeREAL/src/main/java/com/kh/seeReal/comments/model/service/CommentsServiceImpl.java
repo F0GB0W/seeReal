@@ -1,10 +1,14 @@
 package com.kh.seeReal.comments.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.seeReal.comments.model.dao.CommentsDao;
+import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.MovieRating;
 
 @Service
 public class CommentsServiceImpl implements CommentsService{
@@ -21,4 +25,29 @@ public class CommentsServiceImpl implements CommentsService{
 		
 		return CommentsDao.ratingGet(movie,sqlSession);
 	}
+
+	@Override
+	public int ratingCheck(MovieRating movieRating) {
+		return CommentsDao.ratingCheck(movieRating,sqlSession);
+		
+	}
+
+	@Override
+	public int ratingUpdate(MovieRating movieRating) {
+		
+		return CommentsDao.ratingUpdate(movieRating,sqlSession);
+	}
+
+	@Override
+	public ArrayList<Comments> commentsList(Comments comments) {
+		
+		return CommentsDao.commentsList(comments,sqlSession);
+	}
+
+	@Override
+	public int commentsWrite(Comments comments) {
+		
+		return CommentsDao.commentsWrite(comments,sqlSession);
+	}
+	
 }
