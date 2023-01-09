@@ -12,7 +12,7 @@
 </head>
     <input type="hidden" id="title" value="${ meet.movieTitle }" >
     <input type="hidden" id="year" value="${ meet.movieYear }" >
-    
+
     <h1>${ meetingTitle }</h1>
 
     <hr>
@@ -41,7 +41,24 @@
 
     <hr>
 
-    <h1>함께하는 사람들</h1>
+    <h1>함께하는 사람들</h1> <p id="meetingMembercount"></p>
+
+    
+    <input type="hidden" value="${ loginUser.memberNo }" name="memberNo" id="loginUser">
+    <table class="table">
+        <tr>
+            <td>${ loginUser.memberNickname }</td>
+            <td><input type="text" id="meetingContent"></td>
+            <td><button onclick="enrollMeetingMember()">참여하기</button></td>
+        </tr>
+    </table>
+
+
+    <table id="meetingUserTable" class="table">
+    </table>
+
+
+
     <script>
         $(function() {
             $.ajax({
@@ -68,8 +85,72 @@
 					console.log('요건조금...');
 				}
 				
-			});		
+			});	
+            
+            detailMeetingMember();
         });	
+
+        function detailMeetingMember() {
+            $.ajax({
+                url : 'detailMeetingMember.mt',
+                data : {
+                    meetingNo : ${ meet.meetingNo }
+                },
+                success : data => {
+                    console.log(data);
+                    const itemArr = data;
+                    
+                    let memberCount = 0;
+                    let value = '';
+                    for(let i in itemArr) {
+                        if(itemArr[i].meetingAccept == 'Y') {   // 글작성자 포함 count
+                            memberCount++;
+                        }
+
+                        if(itemArr[i].memberNo != ${ meet.memberNo }) { // 글작성자는 나오면 안 됨!!
+                            value += '<tr>'
+                                    + '<td>' + itemArr[i].nickName + '</td>'
+                                    + '<td>' + itemArr[i].meetingContent + '</td>';
+                            
+                            if(itemArr[i].meetingAccept == 'Y') {   // 이미 참여중이라면
+                                value += '<td>' + '참여중' + '</td></tr>';
+                            } else {
+                                if($('#loginUser').val() == ${ meet.memberNo} ) {
+                                    value += '<td>승인</td></tr>';
+                                }
+                            }
+                        }
+
+                        $('#meetingUserTable').html(value);
+
+                    }
+                    $('#meetingMembercount').text(memberCount + '명이 함께하고 있습니다.');
+                },
+                error : () => {
+                    console.log('통신 실패~~~');
+                }
+            });
+        };
+
+        function enrollMeetingMember() {
+            $.ajax({
+                url : 'enrollMeetingMember.mt',
+                data : {
+                    meetingNo : ${ meet.meetingNo },
+                    memberNo : ${ loginUser.memberNo },
+                    meetingContent : $('#meetingContent').val()
+                },
+                success : status => {
+                    if(status == 'success') {
+                        detailMeetingMember();
+                            $('#content').val('');
+                        }
+                },
+                error : () => {
+                    console.log('에러 발생!!');
+                }
+            });
+        };
     </script>
 
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11b518aa98db14042a755e81842e7615&libraries=services"></script>

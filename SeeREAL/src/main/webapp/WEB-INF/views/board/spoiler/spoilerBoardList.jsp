@@ -195,6 +195,7 @@
       #pagination{ margin-left: 450px; display:flex; float:center;}
       #searchForm{margin-left: 380px; display:flex;}
       #searchSelect{margin-top:7px;}
+      #page-count{float:right;}
       
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -273,12 +274,12 @@
       		
       		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
       			<c:choose>
-      			<c:when test="${ empty condition }">
-      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-      			</c:when>
-      			<c:otherwise>
-      				<li class="page-item"><a href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a>
-      			</c:otherwise>
+	      			<c:when test="${ empty condition }">
+	      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+	      			</c:when>
+	      			<c:otherwise>
+	      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
+	      			</c:otherwise>
       			</c:choose>
       		</c:forEach>
       		

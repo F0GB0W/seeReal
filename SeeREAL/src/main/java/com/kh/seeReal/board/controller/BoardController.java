@@ -90,13 +90,13 @@ public class BoardController {
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
+		 //System.out.println(boardService.spoilerIncreaseCount(bno));
 		 return mv;
 	 }
 	
 	 
 	 @RequestMapping("spoilerSearch.bo")
-	 public ModelAndView spoilerSearch(@RequestParam(value="condition", defaultValue="writer") String condition, @RequestParam(value="keyword", defaultValue="") String keyword, @RequestParam(value="cpage", defaultValue="1")int currentPage, Model m){
-		 ModelAndView mv = new ModelAndView();
+	 public ModelAndView spoilerSearch(ModelAndView mv, @RequestParam(value="condition", defaultValue="writer") String condition, @RequestParam(value="keyword", defaultValue="") String keyword, @RequestParam(value="cpage", defaultValue="1")int currentPage, Model m){
 		 HashMap<String, String> map = new HashMap();
 		 
 		 map.put("condition", condition);
@@ -104,10 +104,12 @@ public class BoardController {
 		 
 		 int spoilerSearchListCount = boardService.spoilerSearchListCount(map);
 		 PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
-		 ArrayList<Board> list = boardService.spoilerSearchList(map, pi);
+		 ArrayList<Board> list = boardService.spoilerSearchList(map, pi); // 페이징 바
 		 
-		 // System.out.println(list);
-		mv.addObject("list", list);
+		 System.out.println(pi);
+		 //System.out.println(list);
+		mv.addObject("list", list); // 조회 결과
+		mv.addObject("pi", pi); // 페이징 바
 		
 		mv.setViewName("board/spoiler/spoilerBoardList");
 		 

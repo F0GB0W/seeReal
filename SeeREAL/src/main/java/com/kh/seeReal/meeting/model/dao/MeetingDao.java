@@ -38,9 +38,17 @@ public class MeetingDao {
 		return sqlSession.selectOne("meetingMapper.selectMeetingDetail", mtno);
 	}
 
-	public void insertMeetingUser(SqlSessionTemplate sqlSession, MeetingUser mu) {
-		sqlSession.insert("meetingMapper.insertMeetingUser", mu);
+	public int meetingMaker(SqlSessionTemplate sqlSession, MeetingUser mu) {
+		return sqlSession.insert("meetingMapper.meetingMaker", mu);
 		
+	}
+
+	public ArrayList<MeetingUser> selectMeetingMember(SqlSessionTemplate sqlSession, int meetingNo) {
+		return (ArrayList)sqlSession.selectList("meetingMapper.selectMeetingMember", meetingNo);
+	}
+
+	public int insertMeetingUser(SqlSessionTemplate sqlSession, MeetingUser mu) {
+		return sqlSession.insert("meetingMapper.insertMeetingUser", mu);
 	}
 
 }
