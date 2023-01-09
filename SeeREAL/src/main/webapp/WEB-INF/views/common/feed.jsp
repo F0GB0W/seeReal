@@ -17,7 +17,8 @@
     .profile{
         height: 150px;
         background-color: orange;
-        text-align: left;
+        text-align: center;
+        margin: auto;
     }
 
     .ratingCount{
@@ -48,7 +49,7 @@
 	
 	<div class="outer">
 		<div class="profile">
-			<image></image>
+			<%--  <img src="${ selectMember.selectMemberPhoto }"> --%>
 			<h3>${ selectMember.memberNickname }님의 리얼피드</h3>
 		</div>
 		
