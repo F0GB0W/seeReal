@@ -46,7 +46,9 @@
 	<p>${movieSubTitle }</p>
 	
 	</div>
-	<div>${rating }</div>
+	<div>
+	<p id="ratingShow">${rating }</p>
+	</div>
 	<br><br>
 	
 	<div class="rating-scope">
@@ -143,7 +145,11 @@
 	
 	
 	<script>
-		$(document).on('click','#CommentsInsert',function(){
+		
+	
+	
+	
+	$(document).on('click','#CommentsInsert',function(){
 			console.log('성공')
 			alert('성')
 		})
@@ -168,9 +174,12 @@
 	            url:'ratingCheck.co',
 	            data:{rating:idx2,
 	                movieTitle:${movieTitle},
-	                movieDate:${movieDate}
+	                movieDate:${movieDate},
+	                memberNo:${memberNo},
+	                beforeRating:${rating}
 	            },
-	            success:function(){
+	            success:function(data){
+	            	
 	              $('.rating-number').text(idx2);//별점점수 별 옆에 표시
 	            },
 	            error{
@@ -182,6 +191,27 @@
 	    });
 	        
 		$(function(){
+			
+			showMovieRating();
+			
+			function ShowMovieRating(){
+				
+			$.ajax({
+				url:'ratingGet.co',
+				data:{movieTitle:${movieTitle},
+					  movieDate:${movieDate}
+				},
+				success:function(data){
+					$('#ratingShow').text(data);
+				},
+				error:function(){
+					
+				}
+				
+			});
+			}
+			
+			
 			$('#commentsWrite').on('click',function(){
 				
 			})
