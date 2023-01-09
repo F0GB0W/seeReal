@@ -210,7 +210,7 @@ public class CommentsController {
     @ResponseBody
     @RequestMapping(value="commentsWrite.co")
     public String commentsWrite(Comments comments,Model model) {
-    	comments.setMemberNo(1);
+    	System.out.println(comments);
     	int result=commentsService.commentsWrite(comments);
     	
     	return "comments/movieDetail";

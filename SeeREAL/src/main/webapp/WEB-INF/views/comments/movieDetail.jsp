@@ -44,7 +44,7 @@
 	<p>${movieDate }</p>
 	<p>${movieDirector }</p>
 	<p>${movieSubTitle }</p>
-	
+	<p>${loginUser}</p>
 	</div>
 	<div>
 	<p id="ratingShow">${rating }</p>
@@ -165,11 +165,12 @@
 			alert('성')
 		})
 		function commentsInsert(){
-			$.ajax({
+		
+		
 				$.ajax({
 					url:'commentsWrite.co',
-					data:{/*memberNo:${memberNo},*/
-						  commentContent:$('.form-control').text(),
+					data:{memberNo:${loginUser.memberNo},
+						  commentContent:$('.form-control').val(),
 						  spoiler:$('#on-off').text(),
 						  movieTitle:"${movieTitle}",
 						  movieYear:${movieDate}
@@ -183,8 +184,8 @@
 						
 					}
 				});
-				
-			});
+		
+			
 		}
 	
 		

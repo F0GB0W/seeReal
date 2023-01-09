@@ -120,9 +120,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		      COMMENTS
 		      (
 		      COMMENT_NO,
-		      COMMENT_CONTENT,
-		      COMMENT_ENROLLDATE,
-		      SPOLER,
+		      COMMENT_CONTENT,		      
+		      SPOILER,
 		      MOVIE_TITLE,
 		      MOVIE_YEAR,
 		      MEMBER_NO
@@ -130,8 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 			  (
 			  SEQ_COMNO.NEXTVAL,
-			  #{commentContent},
-			  #{commentEnrollDate},
+			  #{commentContent},			  
 			  #{spoiler},
 			  #{movieTitle},
 			  #{movieYear},
