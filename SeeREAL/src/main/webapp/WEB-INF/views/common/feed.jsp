@@ -35,7 +35,7 @@
         background-color: rgb(232, 232, 232);
         text-align: center;
         width: 500px;
-        height: 200px;
+        height: 20%;
         margin-left: 50px;
     }
 
@@ -48,7 +48,7 @@
 	<div class="outer">
 		<div class="profile">
 			<image></image>
-			<h3>${ memberNickname }님의 리얼피드</h3>
+			<h3>${ m.memberNickname }님의 리얼피드</h3>
 		</div>
 		
 		<div class="ratingCount">
@@ -59,7 +59,7 @@
 					${ count }
 				</c:when>
 				<c:otherwise>
-					아직 남긴 리얼평이 없습니다.
+					아직 남긴 리얼평이 없어요🥺
 				</c:otherwise>
 			</c:choose>
         </div>
@@ -71,37 +71,45 @@
 		<div class="comments">
             <h3>씨리즌이 사랑한 리얼평 TOP 5</h3>
             <table>
-                <tr>
-                    <th>영화제목</th>
-                    <th>별점</th>
-                    <th>좋아요</th>
-                </tr>
-                <tr>
-                	<%-- td onclick="location.href=''" 도 달고싶은데 url 어떻게 연결하지? --%>
-                    <td>탑건</td>
-                    <td>★★★</td>
-                    <td>50</td>
-                </tr>
-                <tr>
-                    <td>헤어질결심</td>
-                    <td>★★★★</td>
-                    <td>30</td>
-                </tr>
-                <tr>
-                    <td>장화신은고양이</td>
-                    <td>★★★</td>
-                    <td>29</td>
-                </tr>
-                <tr>
-                    <td>영웅</td>
-                    <td>★★★★★</td>
-                    <td>25</td>
-                </tr>
-                <tr>
-                    <td>HER</td>
-                    <td>★</td>
-                    <td>9</td>
-                </tr>
+            	<c:choose>
+            	<c:when test="${ empty review }">
+            		😽지금 바로 리얼평을 남겨보세요😽
+            	</c:when>
+            	<c:otherwise>
+	                <tr>
+	                    <th>영화제목</th>
+	                    <th>별점</th>
+	                    <th>좋아요</th>
+	                </tr>
+	                <c:forEach items="${ review }" var="f">
+		                <tr>
+		                	<%-- td onclick="location.href=''" 도 달고싶은데 url 어떻게 연결하지? --%>
+		                    <td>${f.movieTitle}</td>
+		                    <c:choose>
+		                    	<c:when test="${f.rating == 1}">
+		                    		<td>★</td>
+		                    	</c:when>
+		                    	<c:when test="${f.rating == 2}">
+		                    		<td>★★</td>
+		                    	</c:when>
+		                    	<c:when test="${f.rating == 3}">
+		                    		<td>★★★</td>
+		                    	</c:when>
+		                    	<c:when test="${f.rating == 4}">
+		                    		<td>★★★★</td>
+		                    	</c:when>
+		                    	<c:when test="${f.rating == 5}">
+		                    		<td>★★★★★</td>
+		                    	</c:when>
+		                    	<c:otherwise>
+		                    		☆☆☆☆☆
+		                    	</c:otherwise>
+		                    </c:choose>
+		                    <td>👍${f.commentLike}</td>
+		                </tr>
+					</c:forEach>
+	                </c:otherwise>
+                </c:choose>
             </table>
         </div>
 	</div>
@@ -123,8 +131,6 @@
         },
         options: {}
         });
-
-
 	</script>
 </body>
 </html>
