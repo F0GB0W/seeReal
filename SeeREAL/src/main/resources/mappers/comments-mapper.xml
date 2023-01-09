@@ -12,10 +12,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="COMMENT_CONTENT" property="commentContent"/>
 		<result column="COMMENT_ENROLLDATE" property="commentEnrollDate"/>
 		<result column="SPOILER" property="spoiler"/>
+		<result column="MOVIE_TITLE" property="movieTitle"/>
+		<result column="MOVIE_YEAR" property="movieYear"/>
 		<result column="MEMBER_NO" property="memberNo"/>
 		<result column="COMMENT_REPORT" property="commentReport"/>
 
 	</resultMap>
+	<resultMap id="tess1" type="member">
+		<result column="NICK_NAME" property="memberNickname"/>
+	</resultMap>
+	
 	<select id="ratingGet" resultType="_int">
 		SELECT
 		      ROUND(SUM(RATING)/COUNT(*),1)
@@ -58,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		      MEMBER_NO=#{memberNo}
 			  
 	</update>
-	
+	<!--  
 	<select id="commentsList" parameterType="Comments" resultMap="commentsListView">
 		SELECT
 		      COMMENT_NO,
@@ -77,7 +83,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 	  (MEMBER_NO)
 		 WHERE
 		      STATUS='Y'
-		  
+		  AND
+		     MOVIE_TITLE=#{movieTitle}
+		  AND
+		     MOVIE_YEAR=#{movieYear} 
+	</select>
+	-->
+	<select id="commentsList" parameterType="hashmap" resultMap="commentsListView">
+		SELECT
+		      C.COMMENT_NO,
+		      C.COMMENT_CONTENT,
+		      C.COMMENT_ENROLLDATE,
+		      C.SPOILER,
+		      C.COMMENT_REPORT,
+		      C.MOVIE_TITLE,
+		      C.MOVIE_YEAR,
+		      M.NICK_NAME
+		  FROM
+		      COMMENTS C
+		  JOIN 
+		  	  MEMBER M
+		 USING 
+		 	  (MEMBER_NO)
+		 WHERE
+		      C.STATUS='Y'
+		  AND
+		     C.MOVIE_TITLE=#{movieTitle}
+		  AND
+		     C.MOVIE_YEAR=#{movieYear} 
+		  AND
+		     M.NICK_NAME=#{memberId}
 	</select>
 	<insert id="commentsWrite" parameterType="Comments">
 		INSERT
@@ -104,4 +139,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  )
 		     
 	</insert>
+	<select id="selectMemberIdTest" resultMap="tess1">
+		select
+      			NICK_NAME
+		from
+     		MEMBER
+		WHERE MEMBER_NO =1
+	</select>
 </mapper>

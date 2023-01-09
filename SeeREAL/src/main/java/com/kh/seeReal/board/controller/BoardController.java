@@ -42,7 +42,6 @@ public class BoardController {
 	}
 	 @RequestMapping("spoilerEnrollForm.bo")
 	 public String spoilerEnrollForm(HttpSession session) {
-		 session.setAttribute("loginUser", 1);
 		 return "board/spoiler/spoilerEnrollForm";
 	 }
 	 @RequestMapping("insertSpoiler.bo")
@@ -74,11 +73,13 @@ public class BoardController {
 		 String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
 		 // System.out.println(savePath);
 		 
-		 try {
-			upfile.transferTo(new File(savePath + changeName));
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
+			try {
+				upfile.transferTo(new File(savePath + changeName));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		 return changeName;
 	 
 	 }
