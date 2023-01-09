@@ -59,8 +59,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  order
 		     by comment_like desc
 	</select>
+	
+	<select id="ratingList" resultMap="movie_rating">
+		select rating
+		  from movie_rating
+		 where member_no = ${memberNo}
+		 order
+			by
+			   rating asc
+	</select>
 
-
+	<select id="selectMember" resultMap="member">
+		select nick_name
+		  from member
+		 where member_no = ${memberNo}
+	</select>
 
 
 

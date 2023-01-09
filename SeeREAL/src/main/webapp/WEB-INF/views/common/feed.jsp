@@ -10,8 +10,9 @@
 <style>
     .outer{
         width:600px;
-        margin-top: 100px;
-        margin-left: 700px;
+/*         margin-top: 100px;
+        margin-left: 700px; */
+        align: center;
     }
     .profile{
         height: 150px;
@@ -36,7 +37,7 @@
         text-align: center;
         width: 500px;
         height: 20%;
-        margin-left: 50px;
+        /* margin-left: 50px; */
     }
 
 
@@ -48,7 +49,7 @@
 	<div class="outer">
 		<div class="profile">
 			<image></image>
-			<h3>${ m.memberNickname }님의 리얼피드</h3>
+			<h3>${ selectMember.memberNickname }님의 리얼피드</h3>
 		</div>
 		
 		<div class="ratingCount">
@@ -117,19 +118,22 @@
 	<script>
 	// chart.js
         var xValues = ["★","","★★","","★★★","","★★★★","","★★★★★"];
-        var yValues = [5, 1, 10, 2, 15, 3, 10, 4, 5];
+        var yValues = ${ratingList};
 
         var myChart = new Chart("myChart", {
             type: "bar",
             data: {
-                label:'별점분포',
                 labels: xValues,
                 datasets: [{
                 backgroundColor: 'orange',
                 data: yValues
                 }]
         },
-        options: {}
+        options: {
+        	legend: {
+        		display:false
+        	}
+        }
         });
 	</script>
 </body>
