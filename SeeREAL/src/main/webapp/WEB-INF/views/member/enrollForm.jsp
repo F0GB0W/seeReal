@@ -201,7 +201,7 @@
 					
 			// 이메일 인증 버튼 
 			$('#check').on('click',function(){ 
-				
+				   
 				if($('#user_email').val() != ''){ 
 					$.ajax({ // 이메일 보내는 요청
 						url:'sendEmail.me',
