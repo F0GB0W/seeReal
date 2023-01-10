@@ -18,9 +18,10 @@ public class SearchDao {
 	}
 	
 	public ArrayList<Meeting>searchMeetingList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi){
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("searchMapper.searchMeetingList", pi, rowBounds);
+		
+		return (ArrayList)sqlSession.selectList("searchMapper.searchMeetingList", map, rowBounds);
 	}
 }

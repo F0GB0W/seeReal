@@ -14,17 +14,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEETING_WRITER" property="meetingWriter" />
 	</resultMap>
 
-	<select id="searchCountList"> 
-	  select count(*)
-		from meeting
-		where status='Y'
-		 and meeting_title
-		like '%' || #{ keyword } || '%'
+	<select id="searchCountList" resultType="_int" parameterType="hashmap"> 
+	  select 
+	  		 count(*)
+		from 
+			 meeting
+		where
+			 status='Y'
+		 and
+		 	 meeting_title
+		 like
+			 '%' || #{ keyword } || '%'
 		order
-		by meeting_no desc
+		   by 
+		   	  meeting_no desc
 	</select>
 	
-
+	<select id="searchMeetingList" parameterType="hashmap" resultMap="meetingResultSet">
+		select
+			   meeting_title, 
+			   movie_title, 
+			   meeting_place
+		  from
+		  	   meeting
+		 where
+		 	   status='Y'
+		   and
+		   	   meeting_title
+		  like 
+		  	   '%' || #{ keyword } || '%'
+		 order
+		    by 
+		      meeting_no desc 
+	</select>
 
 
 
