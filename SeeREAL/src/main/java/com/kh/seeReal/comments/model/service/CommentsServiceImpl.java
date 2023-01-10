@@ -1,6 +1,7 @@
 package com.kh.seeReal.comments.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class CommentsServiceImpl implements CommentsService{
 	private SqlSessionTemplate sqlSession;//기존의 mybatis의 sqlSession 대체
 
 	@Override
-	public int ratingGet(String movie) {
+	public double ratingGet(MovieRating movieRating) {
 		
-		return CommentsDao.ratingGet(movie,sqlSession);
+		return CommentsDao.ratingGet(movieRating,sqlSession);
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class CommentsServiceImpl implements CommentsService{
 	}
 
 	@Override
-	public ArrayList<Comments> commentsList(Comments comments) {
+	public HashMap commentsList(Comments comments) {
 		
 		return CommentsDao.commentsList(comments,sqlSession);
 	}

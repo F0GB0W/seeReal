@@ -113,7 +113,7 @@
                     year : $('#year').val()
                     },
 				success : data => {
-					console.log(data);
+					// console.log(data);
 					//console.log(data.getFoodKr.item);
 					
 					const itemArr = data.items;

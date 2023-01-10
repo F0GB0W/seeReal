@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 public class CollectionMovieList {
 
-	private ArrayList<CollectionMovie> moiveList = new ArrayList();
+	private ArrayList<CollectionMovie> moiveList = new ArrayList<CollectionMovie>();
 
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class CollectionMovie {
+	
 	private int collectionNo;
 	private String movieTitle;
 	private String movieYear;

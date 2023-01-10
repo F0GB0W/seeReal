@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.seeReal.member.model.service.MemberService;
 import com.kh.seeReal.member.model.vo.Cert;
@@ -55,7 +56,7 @@ public class MemberController {
 		String code = createCode();
 		Cert cert = Cert.builder().who(ip).secret(code).build(); // 다시 확인하기
 		
-		message.setSubject("see:Real 회원가입");
+		message.setSubject("see:Real");
 		// "see:Real 화면으로 돌아가 인증번호를 입력해주세요."
 		// 시간되면 예쁘게 전송하기 : MimeMessage 사용
 		message.setText("인증번호 : " + code );
@@ -137,9 +138,7 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/"; // 메인페이지로 이동
-		// 요청한 페이지로 돌려주기
 	}
-	
 	
 	// 마이페이지
 	@RequestMapping(value="myPage.me")
@@ -160,12 +159,22 @@ public class MemberController {
 		->비밀번호 수정 3번과 동일하게!
 	 */
 	
-	// 회원정보 수정 // 수정 결과 알림창 보여주고 원래 화면 보여주기 > select 해온 결과 > redirect/ 
+	// 회원정보 수정 
+	// 수정 결과 알림창 보여주고 원래 화면 보여주기 > select 해온 결과 > redirect 
 	@RequestMapping(value="updateMember.me")
-	public String updateMember(Member m) {
-		memberService.updateMember(m);// 조건 판별해서 loginMember(), 화면으로 보내주기
-		// int는 화면으로 돌려줄 필요 없음 
-		return "return:updateForm.me";
+	public String updateMember(Member m, HttpSession session, Model model, MultipartFile upfile) {
+		//m.setMemberPhoto("resources/uploadFiles/" + saveFile(upfile,session)); 
+		if(memberService.updateMember(m) > 1){// 조건 판별해서 loginMember(), 화면으로 보내주기
+			
+			Member loginUser = memberService.loginMember(m);
+			model.addAttribute("alertMsg","수정 성공");
+			session.setAttribute("loginUser", loginUser);
+			return "redirect:updateForm.me";
+			
+		}else {
+			model.addAttribute("alertMsg","수정 실패");
+			return "redirect:updateForm.me";
+		}	
 	}
 	
 	// 비밀번호 수정페이지
@@ -194,7 +203,7 @@ public class MemberController {
 			
 		}else { // 입력한 비밀번호가 다르면
 			session.setAttribute("alertMsg", "현재 비밀번호를 확인해주세요.");
-			return "redirect:updatePwdForm.me"; // 어디로 보내지? ajax로 수정하면 요청 화면으로 보낼 수 있음
+			return "redirect:updatePwdForm.me"; 
 		}
 
 	}
@@ -203,6 +212,19 @@ public class MemberController {
 	@RequestMapping(value="deleteForm.me")
 	public String deleteMemberForm() {
 		return "member/deleteForm";
+	}
+	
+	// 회원탈퇴
+	@RequestMapping(value="deleteMember.me")
+	public String deleteMember(String memberEmail) {
+		System.out.println(343);
+		if(memberService.deleteMember(memberEmail) > 0) { // 탈퇴 성공
+			System.out.println(343);
+			return "redirect:/";// 메인 페이지로 포워딩
+		}else {
+			return "redirect:deleteForm.me"; // 원래 화면 으로 다시 재요청
+		}
+		
 	}
 	
 	/* 남은 시간 보여주기 ★★★★★★★★★★★★★ > 시간 남으면!!

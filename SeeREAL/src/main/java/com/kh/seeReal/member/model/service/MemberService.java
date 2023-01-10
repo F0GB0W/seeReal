@@ -28,4 +28,7 @@ public interface MemberService {
 
 	// 회원정보 수정
 	public int updateMember(Member m);
+
+	// 회원 탈퇴
+	public int deleteMember(String memberEmail);
 }

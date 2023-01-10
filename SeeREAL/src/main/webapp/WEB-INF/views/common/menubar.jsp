@@ -10,7 +10,7 @@
 	
 </head>
 <body>
-	<div></div>
+	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
 	<div><a href="spoilerList.bo">스포 게시판</a></div>
 	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
 	<div><a href="meetingList.mt">(임시)모임</a></div>
@@ -53,7 +53,31 @@
 		</c:otherwise>
 	</c:choose>
 	
+	<hr>
 	
+	<div>
+		<style>
+			.red {
+				color: red;
+			}
+		</style>
+
+		<h1>아이콘 쓰기~~</h1>
+		<p>아래 스크립트 태그를 head에 추가하기(개발자 모드나 파일로보세용)</p>
+		<script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
+		<a href="https://fontawesome.com/">여기에서 아이콘 검색~</a>
+		<p>쓰고싶은 아이콘 누르고 옆에 뜨는 태그 눌러서 복사~~</p>
+		<i class="fa-solid fa-heart"></i>
+
+		<p>색깔 바꾸고 싶으면 style태그에 정의(코드참고!!)후 클래스 추가!</p>
+		<i class="fa-solid fa-heart red"></i>
+
+		<p>크기 바꾸고 싶으면 </p>
+		<a href="https://fontawesome.com/docs/web/style/size">여기 참고해서</a>
+		<p>아이콘 태그에 클래스 속성 추가~~</p>
+		<i class="fa-solid fa-heart red fa-5x"></i>
+
+	</div>
 	
 </body>
 </html>
