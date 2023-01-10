@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="searchMapper">
+
+	<resultMap id="meetingResultSet" type="meeting">
+		<result column="MEETING_NO" property="meetingNo" />
+		<result column="MEETING_TITLE" property="meetingTitle" />
+		<result column="MEETING_PLACE" property="meetingPlace" />
+		<result column="MOVIE_TITLE" property="movieTitle" />
+		<result column="STATUS" property="status" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="MEETING_WRITER" property="meetingWriter" />
+	</resultMap>
+
+	<select id="searchCountList"> 
+	  select count(*)
+		from meeting
+		where status='Y'
+		 and meeting_title
+		like '%' || #{ keyword } || '%'
+		order
+		by meeting_no desc
+	</select>
+
+
+
+
+
+
+
+
+
+</mapper>
