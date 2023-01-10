@@ -119,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  from 
 		      member
 		 where 
-		      status != 'N'
+		      status != 'N' or status != 'S'
 		   and 
 		      MEMBER_EMAIL = #{memberEmail}
 	</select>
