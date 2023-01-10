@@ -210,10 +210,10 @@
               <h3>스포 게시판</h3>
               <br>
               <select id="page-count" name="pageCount">
-              	<option value="">5개씩</option>
-              	<option value="">10개씩</option>
-              	<option value="">15개씩</option>
-              	<option value="">20개씩</option>
+              	<option value="1">5개</option>
+              	<option value="2">10개</option>
+              	<option value="3">15개</option>
+              	<option value="4">20개</option>
               </select>
               <br><br>
               <c:if test="${not empty loginUser}">

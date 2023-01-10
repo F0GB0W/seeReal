@@ -60,6 +60,7 @@
 
     <div class="btn-wrap">
       <button type="submit" id="btnRegist" class="btn btn-secondary" >수정완료</button>
+      <button type="reset" class="btn btn-danger">이전으로</button>
     </div>
     </form>
   </fieldset>

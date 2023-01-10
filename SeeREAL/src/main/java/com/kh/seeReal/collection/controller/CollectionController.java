@@ -3,6 +3,7 @@ package com.kh.seeReal.collection.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionMovie;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
 
 @Controller
@@ -24,7 +26,7 @@ public class CollectionController {
 	}
 	
 	@RequestMapping("insert.ch")
-	public ModelAndView insertCollection(ModelAndView mv, HttpSession session,
+	public void insertCollection(ModelAndView mv, HttpSession session,
 										Collection collection, CollectionMovieList movieList, 
 										MultipartFile upfile) {
 		
@@ -33,10 +35,9 @@ public class CollectionController {
 			collection.setChangeName("resources/uploadFiles/collectionThumb/" + saveFile(upfile, session));
 		}
 		
-		System.out.println(collection);
+		System.out.println(movieList);
 		
 		
-		return mv;
 	}
 	
 	public String saveFile(MultipartFile upfile, HttpSession session) {

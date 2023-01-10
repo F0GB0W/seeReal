@@ -51,6 +51,9 @@ public class BoardDao {
 	public int spoilerUpdate(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.update("boardMapper.spoilerUpdate", b);
 	}
+	public int spoilerDelete(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.spoilerDelete", boardNo);
+	}
 
 	
 	
