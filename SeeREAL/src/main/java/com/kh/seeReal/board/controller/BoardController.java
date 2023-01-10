@@ -30,11 +30,13 @@ public class BoardController {
 	private BoardServiceImpl boardService;
 	
 	@RequestMapping("spoilerList.bo")
-	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
+	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="boardLimit", defaultValue="5") int boardLimit,   ModelAndView mv) {
+		
+		
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, 5);
 		
-		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi)).setViewName("board/spoiler/spoilerBoardList");
+		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi, boardLimit)).setViewName("board/spoiler/spoilerBoardList");
 		
 		
 		
@@ -52,7 +54,7 @@ public class BoardController {
 			 b.setOriginName(upfile.getOriginalFilename());
 			 b.setChangeName("/resources/uploadFiles/" + saveFile(upfile, session));
 		 }
-		 
+		   
 		 
 		 
 		 if(boardService.insertSpoiler(b) > 0) {

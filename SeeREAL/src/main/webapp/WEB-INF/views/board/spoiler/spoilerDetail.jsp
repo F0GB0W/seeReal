@@ -86,6 +86,57 @@
 			}
 		}
 	</script>
+	<table id="replyArea" class="table" align="center">
+		<thead>
+			<c:choose>
+				<c:when test="${empty loginUser }">
+					<th>
+						<textarea class="form-control" readonly id="reply-content" cols="55" rows="2" style="resize:none;" width="100%";>로그인 후 이용가능합니다.</textarea>
+					</th>
+					<th style="vertical-align:middle"><button class="btn btn-secondary disabled">등록하기</button>
+				</c:when>
+				<c:otherwise>
+					<th>
+						<textarea class="form-control" id="reply-content" cols="55" rows="2" style="resize:none;" width="100%";></textarea>
+					</th>
+					<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addReply();">등록하기</button>
+				</c:otherwise>
+			</c:choose>
+		</thead>
+		<tbody></tbody>
+	
+	</table>
+	<script>
+		function addReply(){
+		
+			if($('#reply-content').val().trim() != ''){
+				$.ajax({
+					url : 'spoilerReply.bo',
+					data :{
+						boReplyNo : ${b.boardNo},
+						boReplyContent : $('#reply-content').val(),
+						memberNo : '${loginUser.memberNo}'
+					},
+					success:function(status){
+						console.log(status);
+						
+						if(status == 'success'){
+							selectReplyList();
+							$('#reply-content').val('');
+							
+						}
+					},
+					error:function(){
+						console.log('실패');
+					}
+				});
+			}else{
+				alertify.alert('댓글을 다시 입력하세요')
+			}
+	}		
+	
+	
+	</script>
 
 
 

@@ -17,7 +17,7 @@ public class BoardDao {
 	public int selectBoardListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.selectBoardListCount");
 	}
-	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi){
+	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int boardLimit){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
