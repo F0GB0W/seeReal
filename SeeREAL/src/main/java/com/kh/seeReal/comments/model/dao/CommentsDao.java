@@ -2,6 +2,7 @@ package com.kh.seeReal.comments.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -38,13 +39,15 @@ public class CommentsDao {
 	public int commentsWrite(Comments comments,SqlSessionTemplate sqlSession) {	
 		return sqlSession.insert("comments-mapper.commentsWrite", comments);
 	}
-	public HashMap<String,Object> commentsList(Comments comments,SqlSessionTemplate sqlSession) {
+	public List<Map<String, Object>> commentsList(Comments comments,SqlSessionTemplate sqlSession) {
 		
-		
-		
-		  
-		HashMap<String,Object> list=(HashMap)sqlSession.selectList("comments-mapper.commentsList", comments);
+		List<Map<String, Object>> list = (ArrayList)sqlSession.selectList("comments-mapper.commentsList", comments);
+		//Map<String,Object> list = sqlSession.selectMap("comments-mapper.commentsList", comments);
+		//Map list=  sqlSession.selectMap("comments-mapper.commentsList", comments);
+		//HashMap<String,Object> list=(HashMap)sqlSession.selectList("comments-mapper.commentsList", comments);
+		System.out.println("222222");
 		System.out.println(list);
+		System.out.println("222222");
 		  return list;
 		  
 		  

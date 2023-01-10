@@ -2,6 +2,8 @@ package com.kh.seeReal.comments.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.MovieRating;
@@ -14,7 +16,7 @@ public interface CommentsService {
 	
 	int ratingUpdate(MovieRating movieRating);
 	
-	HashMap commentsList(Comments comments);
+	List<Map<String, Object>> commentsList(Comments comments);
 	
 	int commentsWrite(Comments comments);
 	
