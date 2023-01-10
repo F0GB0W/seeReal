@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,6 +64,7 @@ public class BoardController {
 		 }
 	 }
 	 
+	 // 첨부 파일 업로드 메소드
 	 public String saveFile(MultipartFile upfile, HttpSession session) {
 		 
 		 String originName = upfile.getOriginalFilename();
@@ -91,7 +93,7 @@ public class BoardController {
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
-		 //System.out.println(boardService.spoilerIncreaseCount(bno));
+		 // System.out.println(boardService.spoilerIncreaseCount(bno));
 		 return mv;
 	 }
 	
@@ -107,7 +109,7 @@ public class BoardController {
 		 PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
 		 ArrayList<Board> list = boardService.spoilerSearchList(map, pi); // 페이징 바
 		 
-		 System.out.println(pi);
+		 //System.out.println(pi);
 		 //System.out.println(list);
 		mv.addObject("list", list); // 조회 결과
 		mv.addObject("pi", pi); // 페이징 바
@@ -119,6 +121,35 @@ public class BoardController {
 	 @RequestMapping("spoilerUpdateForm.bo")
 	 public ModelAndView spoilerUpdateForm(ModelAndView mv, int bno) {
 		 mv.addObject("b", boardService.spoilerDetailView(bno)).setViewName("board/spoiler/spoilerUpdateForm");
+		 //System.out.println(boardService.spoilerDetailView(bno));
 		 return mv;
 	 }
+	 @RequestMapping("spoilerUpdate.bo")
+	 public String spoilerUpdate(@ModelAttribute Board b, MultipartFile reUpfile, HttpSession session, Model model){
+		 
+		 // 새로 첨부파일이 넘어온 경우
+		 if(!reUpfile.getOriginalFilename().equals("")) {
+			 // 기존에 첨부타일이 있었을 경우 => 기존의 첨부파일을 삭제
+			 if(b.getOriginName() != null) {
+				 new File(session.getServletContext().getRealPath(b.getChangeName())).delete();
+		 
+			 }
+			 // 새로 넘어온 첨부파일 서버 업로드 시키기
+			 // saveFile() 호출해서 첨부파일을 업로드
+			 String changeName = saveFile(reUpfile, session);
+			 
+			 // b라는 Board객체에 새로운 정보(원본명, 저장경로) 담기
+			 b.setOriginName(reUpfile.getOriginalFilename());
+			 b.setChangeName("resources/uploadFiles/" + changeName);
+		 }
+		 if(boardService.spoilerUpdate(b) > 0) {
+			 session.setAttribute("alertMsg", "수정 완료");
+			 return "redirect:spoilerDetail.bo?bno=" + b.getBoardNo();
+		 }else {
+			 model.addAttribute("errorMsg", "수정 실패");
+			 return "common/errorPage";
+		 }
+		 
+	 }
+		 
 }

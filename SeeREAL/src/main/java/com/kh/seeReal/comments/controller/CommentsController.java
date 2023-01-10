@@ -177,7 +177,9 @@ public class CommentsController {
     	//String movie=movieRating.getMovieTitle()+movieRating.getMovieYear();
     	//int resultRating=CommentsService.ratingCheck(movie,movieRating.getRating());
     	int resultRating=0;
-    	
+    	System.out.println("---------별점매기기------------");
+    	System.out.println(movieRating);
+    	System.out.println("---------별점매기기------------");
     	if(beforeRating != null) {
     		resultRating=commentsService.ratingCheck(movieRating);
     	}else {
@@ -210,7 +212,9 @@ public class CommentsController {
     @ResponseBody
     @RequestMapping(value="commentsWrite.co")
     public String commentsWrite(Comments comments,Model model) {
+    	System.out.println("--커멘트쓰기");
     	System.out.println(comments);
+    	System.out.println("--커멘트쓰기");
     	int result=commentsService.commentsWrite(comments);
     	
     	return "comments/movieDetail";

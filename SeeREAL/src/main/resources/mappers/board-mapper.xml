@@ -82,6 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<select id="spoilerDetailView" parameterType="board" resultMap="boardResultSet">
 		select
+				board_no,
 				board_title,
 				board_writer,
 				to_char(enroll_date, 'YYYY-MM-DD') as "ENROLL_DATE",
@@ -167,6 +168,19 @@ select
 	   		board_no desc	
 		
 </select>
+<update id="spoilerUpdate" parameterType="board">
+ update
+ 		board
+ 	set
+ 		board_title = #{boardTitle},
+ 		origin_name = #{originName},
+ 		change_name = #{changeName},
+ 		board_content = #{boardContent}
+ where
+   		board_no = #{boardNo}
+ 		
+
+</update>
 
 
 </mapper>

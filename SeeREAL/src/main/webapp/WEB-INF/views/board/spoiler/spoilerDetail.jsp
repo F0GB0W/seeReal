@@ -82,7 +82,7 @@
 			if(num == 1){ // 수정하기
 				$('#postForm').attr('action', 'spoilerUpdateForm.bo').submit();
 			}else{//삭제하기
-				$('#postForm').attr('action', 'spoilerDeleteForm.bo').submit();
+				$('#postForm').attr('action', 'spoilerDelete.bo').submit();
 			}
 		}
 	</script>

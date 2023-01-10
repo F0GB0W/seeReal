@@ -20,7 +20,7 @@ public interface BoardService {
 	// 글 작성(insert)
 	int  insertSpoiler(Board b);
 	// 게시글 업데이트(update)
-	int updateBoard(int boardNo);
+	int spoilerUpdate(Board b);
 	// 게시글 검색
 	// 게시글 검색 갯수
 	int spoilerSearchListCount(HashMap<String, String> map);

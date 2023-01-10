@@ -35,6 +35,7 @@
 </style>
 </head>
 <body>
+
 	<div>
 	<img src="${movieImg }">
 	
@@ -48,6 +49,7 @@
 	</div>
 	<div>
 	<p id="ratingShow">${rating }</p>
+	<p>${rating }</p>
 	</div>
 	<br><br>
 	
@@ -73,7 +75,11 @@
        <span class="rating-number"></span>
       </div>
 	
-	
+		<src img="blob:https://twitter.com/0e1b67d1-0c98-4d69-9885-f8a8e4543629">
+		<src img="blob:https://twitter.com/0e1b67d1-0c98-4d69-9885-f8a8e4543629" height="10" width="10">
+		<src img="blob:https://twitter.com/63b6b2bb-3164-4f41-b01d-6d22838154b9">
+		<src img="blob:https://twitter.com/63b6b2bb-3164-4f41-b01d-6d22838154b9" eight="15" width="15">
+		
 	<div style="width:500px;">
 		<div align="right">
 			<c:choose>
@@ -106,8 +112,17 @@
 		    </div>
     	</div>
 	</div>
+	
+	
+	
 	<script>
 	$(function(){
+		if('${loginUser}' != ''){
+			
+		}
+		
+		
+		
 		console.log($('.form-control').val().length)
 		console.log($('.textarea-length'))
 		$('.form-control').on('keyup',function(){
@@ -141,7 +156,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
         
- 	         <button type="button" class="mr-auto" style="border:none;" onclick="spoiler();"><span>스포일러&nbsp;</span><span id="on-off">off</span></button>
+ 	         <button type="button" class="mr-auto" style="border:none;" onclick="spoiler();"><span>스포일러&nbsp;</span><span id="on-off" class="N">off</span></button>
         	
           <p class="textarea-length">0/1000</p>
           <button type="button" class="btn btn-danger" data-dismiss="modal" id="CommentsInsert" onclick="commentsInsert();">저장</button>
@@ -150,13 +165,22 @@
 	
 	
 	<script>
+	
 		
 	function spoiler(){
 		if($('#on-off').text() =="off"){
 			$('#on-off').text("on");
+			
+			console.log('로그인유저')
+			console.log(loginUser)
+			console.log('로그인유저')
+			
+			$('#on-off').attr('class','Y');
 		}else{
 			$('#on-off').text("off");
+			$('#on-off').attr('class','N');
 		}
+		console.log($('#on-off').attr('class'));
 	}
 	
 	
@@ -166,12 +190,12 @@
 		})
 		function commentsInsert(){
 		
-		
+		/*
 				$.ajax({
 					url:'commentsWrite.co',
-					data:{memberNo:${loginUser.memberNo},
+					data:{"memberNo":(loginUser ? ${loginUser.memberNo} : null),
 						  commentContent:$('.form-control').val(),
-						  spoiler:$('#on-off').text(),
+						  spoiler:$('#on-off').attr('class'),
 						  movieTitle:"${movieTitle}",
 						  movieYear:${movieDate}
 						  
@@ -184,8 +208,24 @@
 						
 					}
 				});
-		
-			
+		*/
+			/*복붙*/
+				$.ajax({
+					  url: 'commentsWrite.co',
+					  data: {
+					    memberNo: loginUser ? loginUser.memberNo : null,
+					    commentContent: $('.form-control').val(),
+					    spoiler: $('#on-off').attr('class'),
+					    movieTitle: "${movieTitle}",
+					    movieYear: ${movieDate}
+					  },
+					  success: function() {
+					    alert('글쓰기 완료');
+					  },
+					  error: function() {
+					    // handle error
+					  }
+					});
 		}
 	
 		
@@ -201,24 +241,28 @@
 	    $(".star").on('click',function(){
 	          
 	        var idx2 = 0.5*($(this).index()+1); //별점점수
+	        if('${loginUser}' != ''){
+				
 	          
-	          
-	        $.ajax({
-	            url:'ratingCheck.co',
-	            data:{rating:idx2,
-	                /*movieTitle:${movieTitle},*/
-	                movieYear:${movieDate},
-	                memberNo:/*${memberNo}*/5,
-	                beforeRating:${rating}
-	            },
-	            success:function(data){
-	            	
-	              $('.rating-number').text(idx2);//별점점수 별 옆에 표시
-	            },
-	            error:{
-	              
-	            }     
-	        });
+		        $.ajax({
+		            url:'ratingCheck.co',
+		            data:{rating:idx2,
+		                movieTitle:"${movieTitle}",
+		                movieYear:${movieDate},
+		                memberNo:${loginUser.memberNo},
+		                beforeRating:${rating}
+		            },
+		            success:function(data){
+		            	
+		              $('.rating-number').text(idx2);//별점점수 별 옆에 표시
+		            },
+		            error:{
+		              
+		            }     
+		        });
+			} else{
+				alert('로그인 후 평가해주세요')
+			} 
 	        
 	        
 	    });
@@ -231,8 +275,8 @@
 				
 			$.ajax({
 				url:'ratingGet.co',
-				data:{/*movieTitle:${movieTitle},*/
-					  movieDate:${movieDate}
+				data:{movieTitle:"${movieTitle}",
+					  movieYear:${movieDate}
 				},
 				success:function(data){
 					$('#ratingShow').text(data);
