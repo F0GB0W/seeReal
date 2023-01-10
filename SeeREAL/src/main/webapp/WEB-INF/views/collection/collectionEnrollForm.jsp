@@ -31,8 +31,52 @@
 </style>
 </head>
 <body>
-	<h1>나는 컬렉션 만들기</h1>
 
-    
+    <form action="insert.ch" method="post" enctype="multipart/form-data">   
+        
+        <input type="hidden" name="memberNo" value="${ loginUser.memberNo }">
+
+        <input type="text" name="collectionTitle" placeholder="컬렉션 제목 입력" required><br>
+
+        <label for="upfile">썸네일 등록</label>
+        <input type="file" id="upfile" class="form-control-file border" name="upfile"><br>
+
+        <textarea name="collectionContent" placeholder="컬렉션 설명 입력" required></textarea><br>
+
+        <input type="submit" value="만들기">
+    </form>
+
+    <script>
+       function movie(){
+			$.ajax({
+				url : 'movie.mt',
+				data : {
+                    title : $('#title').val(),
+                    year : $('#year').val()
+                    },
+				success : data => {
+					console.log(data);
+					//console.log(data.getFoodKr.item);
+					
+					const itemArr = data.items;
+					
+					let value = '';
+					for(let i in itemArr){
+						
+					}
+					
+					
+					$('#result1 tbody').html(value);
+					// console.log(value);
+					// $('#title').val(title);
+					
+				},
+				error : () => {
+					console.log('요건조금...');
+				}
+				
+			});		
+        }
+    </script>
 </body>
 </html>
