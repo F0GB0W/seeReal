@@ -162,8 +162,9 @@
                 success : status => {
                     if(status == 'success') {
                         detailMeetingMember();
-                            $('#content').val('');
-                        }
+                        $('#content').val('');
+                        location.reload(); 
+                    }
                 },
                 error : () => {
                     console.log('에러 발생!!');
@@ -173,7 +174,21 @@
 
         function acceptMeeting(meetingNo, memberNo) {
             // 여기에 ajax 작업하기
-            
+            $.ajax({
+                url : 'enrollAccept.mt',
+                data : {
+                    meetingNo : meetingNo,
+                    memberNo : memberNo
+                },
+                success : status => {
+                    if(status == 'success') {
+                        detailMeetingMember();
+                    }
+                },
+                error : () => {
+                    console.log('에러 발생!!');
+                }
+            })
         }
     </script>
 
