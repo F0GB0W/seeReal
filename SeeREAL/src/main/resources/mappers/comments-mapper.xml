@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="NICK_NAME" property="memberNickname"/>
 	</resultMap>
 	
-	<select id="ratingGet" resultType="_int">
+	<select id="ratingGet" resultType="_double" parameterType="MovieRating">
 		SELECT
 		      ROUND(SUM(RATING)/COUNT(*),1)
 		  FROM
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE
 		      MOVIE_TITLE = #{movieTitle}
 		   AND
-		      MOVIE_DATE = #{movieDate}
+		      MOVIE_YEAR = #{movieYear}
 	</select>
 	<insert id="ratingCheck" parameterType="MovieRating">
 		INSERT
@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     MOVIE_YEAR=#{movieYear} 
 	</select>
 	-->
-	<select id="commentsList" parameterType="hashmap" resultMap="commentsListView">
+	<select id="commentsList" parameterType="Comments" resultType="hashmap">
 		SELECT
 		      C.COMMENT_NO,
 		      C.COMMENT_CONTENT,
@@ -111,8 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     C.MOVIE_TITLE=#{movieTitle}
 		  AND
 		     C.MOVIE_YEAR=#{movieYear} 
-		  AND
-		     M.NICK_NAME=#{memberId}
+		  
 	</select>
 	<insert id="commentsWrite" parameterType="Comments">
 		INSERT
@@ -137,11 +136,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  )
 		     
 	</insert>
-	<select id="selectMemberIdTest" resultMap="tess1">
-		select
-      			NICK_NAME
-		from
-     		MEMBER
-		WHERE MEMBER_NO =1
-	</select>
+	
 </mapper>

@@ -14,11 +14,17 @@ import com.kh.seeReal.member.model.vo.Member;
 @Repository
 public class CommentsDao {
 	
-	public int ratingGet(String movie,SqlSessionTemplate sqlSession) {
-		return 3;
-		//return sqlSession.selectOne("CommentsMapper.ratingGet",movie);
+	public double ratingGet(MovieRating movieRating,SqlSessionTemplate sqlSession) {
+		
+				System.out.println("movie rating dldi");
+				System.out.println(movieRating);
+				System.out.println("movie rating dldi");
+				double tt=sqlSession.selectOne("comments-mapper.ratingGet",movieRating);
+				System.out.println("tt값은:  "+tt);
+				return tt;
 	}
 	public int ratingCheck(MovieRating movieRating,SqlSessionTemplate sqlSession) {
+		System.out.println("dao"+movieRating);
 		return sqlSession.insert("comments-mapper.ratingCheck", movieRating);
 	}
 	public int ratingUpdate(MovieRating movieRating,SqlSessionTemplate sqlSession) {
@@ -32,15 +38,15 @@ public class CommentsDao {
 	public int commentsWrite(Comments comments,SqlSessionTemplate sqlSession) {	
 		return sqlSession.insert("comments-mapper.commentsWrite", comments);
 	}
-	public ArrayList<Comments> commentsList(Comments comments,SqlSessionTemplate sqlSession) {
-		Member m=sqlSession.selectOne("comments-mapper.selectMemberIdTest");
-		System.out.println(m);
-		System.out.println("--");
+	public HashMap<String,Object> commentsList(Comments comments,SqlSessionTemplate sqlSession) {
 		
-		Map<String, Object> params = new HashMap<>();
-		  params.put("comments", comments);
-		  params.put("memberId", m.getMemberNickname());
+		
+		
 		  
-		  return (ArrayList)sqlSession.selectList("comments-mapper.commentsList", params);  
+		HashMap<String,Object> list=(HashMap)sqlSession.selectList("comments-mapper.commentsList", comments);
+		System.out.println(list);
+		  return list;
+		  
+		  
 	}
 }
