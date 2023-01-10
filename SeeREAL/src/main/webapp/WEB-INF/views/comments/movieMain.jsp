@@ -34,7 +34,7 @@
 		</tbody>
 	</table>
 	<form action="movieDetail.co" method="post" id="form1">
-		<input type="hidden" id="movieDate" name="movieDate">
+		<input type="hidden" id="movieYear" name="movieYear">
 		<input type="hidden" id="movieTitle" name="movieTitle">
 		<input type="hidden" id="movieImg" name="movieImg">
 		<input type="hidden" id="movieDirector" name="movieDirector">
@@ -65,7 +65,7 @@
 						value += '<tr>'
 							   + '<td><a href="'+ item.link + '">' + item.title + '</a></td>'
 							   + '<td><img src="' + thumb + '"/></td>'
-							   + '<td name="movieDate">' + item.pubDate + '</td>'
+							   + '<td name="movieYear">' + item.pubDate + '</td>'
 							   + '<td>' + item.director + '</td>'
 							   + '<td>' + item.actor + '</td>'
 							   + '<td>' + item.userRating + '</td>'
@@ -95,7 +95,7 @@
 				console.log($(this).children().children().eq(1).attr('src'))
 				
 				$('#movieTitle').val($(this).children().eq(0).text());
-				$('#movieDate').val($(this).children().eq(2).text());
+				$('#movieYear').val($(this).children().eq(2).text());
 				$('#movieImg').val($(this).children().children().eq(1).attr('src'));
 				$('#movieDirector').val($(this).children().eq(3).text());
 				$('#movieSubTitle').val($(this).children().eq(6).val());

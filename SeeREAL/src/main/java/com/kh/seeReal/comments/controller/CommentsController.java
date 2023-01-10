@@ -46,23 +46,27 @@ public class CommentsController {
 	
 	
 	@RequestMapping(value="movieDetail.co")
-	public String detailMovie(String movieDate,String movieTitle,String movieImg,String movieDirector,String movieSubTitle,Model model) {
+	//public String detailMovie(String movieDate,String movieTitle,String movieImg,String movieDirector,String movieSubTitle,Model model) {
+	public String detailMovie(MovieRating movieRating,String movieImg,String movieDirector,String movieSubTitle,Model model) {
 		
-		System.out.println(movieDate);
-		System.out.println(movieTitle);
+		//System.out.println(movieDate);
+		//System.out.println(movieTitle);
 		System.out.println(movieImg);
 		System.out.println(movieSubTitle);
-		
-		model.addAttribute("movieDate",movieDate);
-		model.addAttribute("movieTitle",movieTitle);
+		System.out.println("movieRating상세페이지값:"+movieRating);
+		//model.addAttribute("movieDate",movieDate);
+		model.addAttribute("movieYear",movieRating.getMovieYear());
+		//model.addAttribute("movieTitle",movieTitle);
+		model.addAttribute("movieTitle",movieRating.getMovieTitle());
 		model.addAttribute("movieImg",movieImg);
 		model.addAttribute("movieDirector",movieDirector);
 		model.addAttribute("movieSubTitle",movieSubTitle);
 		
-		String movie=movieDate+movieSubTitle;
 		
 		
-		model.addAttribute("rating",commentsService.ratingGet(movie));
+		
+		
+		model.addAttribute("rating",commentsService.ratingGet(movieRating));
 		
 		return "comments/movieDetail";
 		
@@ -158,11 +162,11 @@ public class CommentsController {
     
     @ResponseBody
     @RequestMapping(value="ratingGet.co")
-    public int ratingGet(MovieRating movieRating) {
+    public double ratingGet(MovieRating movieRating) {
     	
-    	String movie=movieRating.getMovieYear()+movieRating.getMovieTitle();
     	
-    	return commentsService.ratingGet(movie);
+    	
+    	return commentsService.ratingGet(movieRating);
     	
     	
     	
@@ -179,11 +183,12 @@ public class CommentsController {
     	int resultRating=0;
     	System.out.println("---------별점매기기------------");
     	System.out.println(movieRating);
+    	System.out.println(beforeRating);
     	System.out.println("---------별점매기기------------");
     	if(beforeRating != null) {
-    		resultRating=commentsService.ratingCheck(movieRating);
-    	}else {
     		resultRating=commentsService.ratingUpdate(movieRating);
+    	}else {
+    		resultRating=commentsService.ratingCheck(movieRating);
     	}
     	
     	if(resultRating >0) {
@@ -201,7 +206,7 @@ public class CommentsController {
     	
     	System.out.println("-2-2-");
     	System.out.println(comments);
-    	ArrayList<Comments> commentsList=commentsService.commentsList(comments);
+    	HashMap commentsList=commentsService.commentsList(comments);
     	System.out.println("-0000-");
     	System.out.println(commentsList);
     	
