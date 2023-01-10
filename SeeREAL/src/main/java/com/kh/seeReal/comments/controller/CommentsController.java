@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
@@ -206,7 +207,7 @@ public class CommentsController {
     	
     	System.out.println("-2-2-");
     	System.out.println(comments);
-    	HashMap commentsList=commentsService.commentsList(comments);
+    	List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
     	System.out.println("-0000-");
     	System.out.println(commentsList);
     	
