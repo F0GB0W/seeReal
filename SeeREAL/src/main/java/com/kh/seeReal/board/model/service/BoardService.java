@@ -27,7 +27,7 @@ public interface BoardService {
 	// 게시글  검색 글 목록
 	ArrayList<Board> spoilerSearchList(HashMap<String, String> map, PageInfo pi);
 	// 게시글 삭제(update)
-	int deleteBoard(int boardNo);
+	int spoilerDelete(int boardNo);
 	// 댓글 리스트(select)
 	ArrayList<BoardReply> selectReplyList(int boardNo);
 	// 댓글 작성(insert)

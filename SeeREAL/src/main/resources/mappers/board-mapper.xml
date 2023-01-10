@@ -181,6 +181,13 @@ select
  		
 
 </update>
-
+<update id="spoilerDelete" parameterType="board">
+update
+		board
+   set
+   		status = 'N'
+  where
+  		board_no = #{boardNo}
+</update>
 
 </mapper>
