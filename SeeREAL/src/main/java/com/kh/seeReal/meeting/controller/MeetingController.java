@@ -214,4 +214,14 @@ public class MeetingController {
     	
     	return meetingService.insertMeetingUser(mu) > 0 ? "success" : "fail";
     }
+    
+    @ResponseBody
+    @RequestMapping("enrollAccept.mt")
+    public String ajaxUpdateMeetingMember(int meetingNo, int memberNo) {
+    	MeetingUser mu = new MeetingUser();
+    	mu.setMeetingNo(meetingNo);
+    	mu.setMemberNo(memberNo);
+    	
+    	return meetingService.updateMeetingUser(mu) > 0 ? "success" : "fail";
+    }
 }

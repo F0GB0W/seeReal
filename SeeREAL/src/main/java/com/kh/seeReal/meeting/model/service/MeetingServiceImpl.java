@@ -65,4 +65,9 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingDao.checkJoinMeeting(sqlSession, mu);
 	}
 
+	@Override
+	public int updateMeetingUser(MeetingUser mu) {
+		return meetingDao.updateMeetingUser(sqlSession, mu);
+	}
+
 }
