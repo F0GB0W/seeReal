@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -91,7 +92,7 @@ public class BoardController {
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
-		 //System.out.println(boardService.spoilerIncreaseCount(bno));
+		 // System.out.println(boardService.spoilerIncreaseCount(bno));
 		 return mv;
 	 }
 	
@@ -107,7 +108,7 @@ public class BoardController {
 		 PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
 		 ArrayList<Board> list = boardService.spoilerSearchList(map, pi); // 페이징 바
 		 
-		 System.out.println(pi);
+		 //System.out.println(pi);
 		 //System.out.println(list);
 		mv.addObject("list", list); // 조회 결과
 		mv.addObject("pi", pi); // 페이징 바
@@ -119,6 +120,12 @@ public class BoardController {
 	 @RequestMapping("spoilerUpdateForm.bo")
 	 public ModelAndView spoilerUpdateForm(ModelAndView mv, int bno) {
 		 mv.addObject("b", boardService.spoilerDetailView(bno)).setViewName("board/spoiler/spoilerUpdateForm");
+		 //System.out.println(boardService.spoilerDetailView(bno));
 		 return mv;
+	 }
+	 @RequestMapping("spoilerUpdate.bo")
+	 public String spoilerUpdate(@ModelAttribute Board b, MultipartFile reUpfile, HttpSession session, Model model){
+		 
+		 return "main";
 	 }
 }
