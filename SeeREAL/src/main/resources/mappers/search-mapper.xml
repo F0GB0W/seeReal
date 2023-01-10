@@ -2,7 +2,7 @@
 <!DOCTYPE mapper 
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mappers namespace="searchMapper">
+<mapper namespace="searchMapper">
 
 	<resultMap id="meetingResultSet" type="meeting">
 		<result column="MEETING_NO" property="meetingNo" />
@@ -32,4 +32,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
-</mappers>
+</mapper>
