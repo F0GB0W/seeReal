@@ -90,7 +90,7 @@
 	                  
 	                  		<tr>
 	                     		<td style="text-align: left">
-	                        		<p><strong>닉네임을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="nickChk"></span></p>
+	                        		<p><strong>닉네임을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="nicknameChk"></span></p>
 	                     		</td>                     
 	                  		</tr>
 	                  		<tr>
@@ -145,10 +145,10 @@
 		
 			//입력창을 제대로 입력했는지를 판별할 논리 변수들 선언 후 초기화
 			let emailCheck = false, passwordCheck = false, nickNameCheck = false, phoneCheck = true;
-			
+			var $email = $('#user_email');
 			//회원가입 입력값 검증 
 			//이메일 입력창 키보드 입력 이벤트 함수 만들기
-			$('#user_email').on('keyup', function(){
+			$email.on('keyup', function(){
 		
 				const emailInput = $(this);
 		
@@ -174,7 +174,7 @@
 						url:'selectEmail.me',
 						data : {email : emailInput.val()},
 						success : function(result){
-							if(result == 1){  // == : 문자, 숫자 상관없음
+							if(result === '1'){  // == : 문자, 숫자 상관없음
 								emailInput.css("background-color", "pink"); 
 								$('#emailChk').html("<b style='color:red;'>[이미 존재하는 이메일입니다.]</b>");
 							}else{
@@ -193,7 +193,7 @@
 			// 수정하기 버튼 
 			$(document).on('click', '#emailChange', function(){
 	
-				$('#user_email').removeAttr('readonly');
+				$email.removeAttr('readonly');
 				$('#check').css("display", 'block');
 				$('#emailChange').css("display", "none");	
 				emailCheck = false;
@@ -202,13 +202,13 @@
 			// 이메일 인증 버튼 
 			$('#check').on('click',function(){ 
 				   
-				if($('#user_email').val() != ''){ 
+				if($email.val() != ''){ 
 					$.ajax({ // 이메일 보내는 요청
 						url:'sendEmail.me',
 						method:'post',
-						data : {email :$('#user_email').val()},
+						data : {email :$email.val()},
 						success : function(result){
-							if(result == 1){ // 인증메일 전송 성공
+							if(result === '1'){ // 인증메일 전송 성공
 								var code = prompt('인증번호를 입력하세요');
 								
 								if(code != null){ // 확인
@@ -218,11 +218,11 @@
 										$.ajax({
 											url: 'checkEmail.me',
 											data : {
-													email :$('#user_email').val(),
+													email :$email.val(),
 													code : code
 											}, 
 											success : function(result2){
-												if(result2 == 1){
+												if(result2 === '1'){
 													alert("인증성공");
 													$('#user_email').attr('readonly',true);
 													emailCheck = true;
@@ -273,7 +273,9 @@
 				} else if(getPwCheck.test(passwordInput.val())){ 
 					passwordInput.css("background-color", "transparent"); 
 					$("#pwChk").html("<b style='color:green;'>[가능]</b>");
-					pwdCheck();
+					if($('#password_check').val() != ''){
+						pwdCheck();
+					}	
 					passwordCheck = true;
 				}
 			}); // 패스워드 입력값 검증 끝
@@ -303,7 +305,7 @@
 				
 				if(!getName.test($('#nickname').val())){ // 특수문자 있음
 					$('#nickname').css("background", "pink");			
-					$('#nickChk').html("<b style='color:red;'>[다시 확인해주세요]</b>");			
+					$('#nicknameChk').html("<b style='color:red;'>[다시 확인해주세요]</b>");			
 					nickNameCheck = false;		
 				}else{
 					
@@ -311,13 +313,13 @@
 						url : 'selectNickname.me',
 						date : {nickname : nicknameInput.val()},
 						success : function(result){
-							if(result == 1){
+							if(result === '1'){
 								$('#nickname').css("background", "pink");			
-								$('#nickChk').html("<b style='color:red;'>[이미 존재하는 닉네임]</b>");			
+								$('#nicknameChk').html("<b style='color:red;'>[이미 존재하는 닉네임]</b>");			
 								nickNameCheck = false;	
 							}else{
 								$('#nickname').css("background", "transparent");			
-								$('#nickChk').html("<b style='color:green;'>[사용가능한 닉네임]</b>");			
+								$('#nicknameChk').html("<b style='color:green;'>[사용가능한 닉네임]</b>");			
 								nickNameCheck = true;	
 							}
 						},
