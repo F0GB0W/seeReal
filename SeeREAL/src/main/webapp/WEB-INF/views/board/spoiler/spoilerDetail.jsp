@@ -63,12 +63,28 @@
 				<td colspan="4"><p style="height:150px;">${b.boardContent }</p></td>
 			</tr>		
 		</table>
-	
+		<br>
+		<c:if test="${loginUser.memberNo eq b.boardWriter }">
+			<div align="center">
+				<a class="btn btn-secondary" onclick="postFormSubmit(1);">수정하기</a>
+				<a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+			</div>
+		</c:if>
+		<form action="" method="post" id="postForm">
+			<input type="hidden" name="bno" value="${b.boardNo }"/>
+			<input type="hidden" name="filePath" value="${b.changeName }"/>	
+		</form>
 	
 	</div>
 	
 	<script>
-	
+		function postFormSubmit(num){
+			if(num == 1){ // 수정하기
+				$('#postForm').attr('action', 'spoilerUpdateForm.bo').submit();
+			}else{//삭제하기
+				$('#postForm').attr('action', 'spoilerDeleteForm.bo').submit();
+			}
+		}
 	</script>
 
 

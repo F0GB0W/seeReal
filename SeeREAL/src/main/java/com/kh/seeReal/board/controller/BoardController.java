@@ -116,4 +116,9 @@ public class BoardController {
 		 
 		 return mv;
 	 }
+	 @RequestMapping("spoilerUpdateForm.bo")
+	 public ModelAndView spoilerUpdateForm(ModelAndView mv, int bno) {
+		 mv.addObject("b", boardService.spoilerDetailView(bno)).setViewName("board/spoiler/spoilerUpdateForm");
+		 return mv;
+	 }
 }
