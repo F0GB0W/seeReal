@@ -47,7 +47,13 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.updatePwd", m);
 	}
 	
+	// 회원정보 수정
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.updateMember", m);
+	}
+	
+	// 회원탈퇴
+	public int deleteMember(SqlSessionTemplate sqlSession, String memberEmail) {
+		return sqlSession.update("memberMapper.deleteMember", memberEmail);
 	}
 }

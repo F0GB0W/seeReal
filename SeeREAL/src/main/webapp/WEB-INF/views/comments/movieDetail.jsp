@@ -42,7 +42,7 @@
 	</div>
 	<div>
 	<p>${movieTitle }</p>
-	<p>${movieDate }</p>
+	<p>${movieYear }</p>
 	<p>${movieDirector }</p>
 	<p>${movieSubTitle }</p>
 	<p>${loginUser}</p>
@@ -121,7 +121,8 @@
 			
 		}
 		
-		
+		console.log('화면되면서 로딩됨')
+		showMovieCommentsList();
 		
 		console.log($('.form-control').val().length)
 		console.log($('.textarea-length'))
@@ -166,6 +167,74 @@
 	
 	<script>
 	
+	var memberNo='';
+	if('${loginUser}' != ''){
+	 	memberNo='${loginUser.memberNo}';
+	 } else{
+		memberNo=1; 
+	 }
+	if('${loginUser}' )
+	
+	
+	
+	function showMovieRating(){
+		
+		$.ajax({
+			url:'ratingGet.co',
+			data:{movieTitle:"${movieTitle}",
+				  movieYear:${movieYear}
+			},
+			success:function(data){
+				$('#ratingShow').text(data);
+			},
+			error:function(){
+				console.log("실패");
+			}
+			
+		});
+	};
+	
+	function showMovieCommentsList(){
+		$.ajax({
+			url:'commentsList.co',
+			data:{movieTitle:"${movieTitle}",
+				  movieYear:${movieYear}
+			},
+			success:function(commentsList){
+				
+				value='';
+				
+				value+='<div>'+
+					 +       '<div align="left">'
+					 +           '<p>아이디 시간</p>'
+					 +       '</div>'
+					 +       '<div align="right">'
+					 +           	'신고'
+					 +       '</div>'
+				     +	'</div>'
+				    
+					 +   '<div>'
+					 +       '<textarea>내용</textarea>'
+					 +   '</div>'
+					    
+					 +   '<div>'
+					 +       '<div align="left">'
+					 +          	 '별점'
+					 +       '</div>'
+					 +       '<div align="right">'
+					 +          	 '좋아요 실어요'
+					 +       '</div>'
+					 +   '</div>';
+						
+				    	
+				$('.commentsList').append(value);
+				
+			},
+			error:function(){
+				console.log('커멘츠불러오기실패')
+			}
+		});
+	};
 		
 	function spoiler(){
 		if($('#on-off').text() =="off"){
@@ -217,7 +286,7 @@
 					    commentContent: $('.form-control').val(),
 					    spoiler: $('#on-off').attr('class'),
 					    movieTitle: "${movieTitle}",
-					    movieYear: ${movieDate}
+					    movieYear: ${movieYear}
 					  },
 					  success: function() {
 					    alert('글쓰기 완료');
@@ -232,6 +301,7 @@
 		$(".star").on('mouseenter',function(){
 	        console.log("별모양"+this);
 	        var idx = $(this).index();
+	        
 	        $(".star").removeClass("on");
 	        for(var i=0; i<=idx; i++){
 	          $(".star").eq(i).addClass("on");
@@ -248,93 +318,29 @@
 		            url:'ratingCheck.co',
 		            data:{rating:idx2,
 		                movieTitle:"${movieTitle}",
-		                movieYear:${movieDate},
-		                memberNo:${loginUser.memberNo},
+		                movieYear:${movieYear},
+		                memberNo:memberNo,
 		                beforeRating:${rating}
 		            },
 		            success:function(data){
 		            	
 		              $('.rating-number').text(idx2);//별점점수 별 옆에 표시
+		              showMovieRating();//별점보여주기
 		            },
 		            error:{
 		              
 		            }     
 		        });
-			} else{
+			
+	        
+	        } else{
 				alert('로그인 후 평가해주세요')
 			} 
 	        
 	        
 	    });
 	        
-		$(function(){
-			
-			showMovieRating();
-			
-			function showMovieRating(){
-				
-			$.ajax({
-				url:'ratingGet.co',
-				data:{movieTitle:"${movieTitle}",
-					  movieYear:${movieDate}
-				},
-				success:function(data){
-					$('#ratingShow').text(data);
-				},
-				error:function(){
-					console.log("실패");
-				}
-				
-			});
-			};
-			
-			
-			
-			
-			
-			
-			$.ajax({
-				url:'commentsList.co',
-				data:{movieTitle:"${movieTitle}",
-					  movieYear:${movieDate}
-				},
-				success:function(commentsList){
-					
-					value='';
-					
-					value+='<div>'+
-						 +       '<div align="left">'
-						 +           '<p>아이디 시간</p>'
-						 +       '</div>'
-						 +       '<div align="right">'
-						 +           	'신고'
-						 +       '</div>'
-					     +	'</div>'
-					    
-						 +   '<div>'
-						 +       '<textarea>내용</textarea>'
-						 +   '</div>'
-						    
-						 +   '<div>'
-						 +       '<div align="left">'
-						 +          	 '별점'
-						 +       '</div>'
-						 +       '<div align="right">'
-						 +          	 '좋아요 실어요'
-						 +       '</div>'
-						 +   '</div>';
-							
-					    	
-					$('.commentsList').append(value);
-					
-				},
-				error:function(){
-					console.log('커멘츠불러오기실패')
-				}
-			});
-			
-			
-		});
+		
 	
 	
 	</script>

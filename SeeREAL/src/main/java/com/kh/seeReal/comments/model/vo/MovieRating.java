@@ -7,7 +7,7 @@ import lombok.Data;
 public class MovieRating {
 	
 	private int memberNo;
-	private int rating;
+	private double rating;
 	private String movieTitle;
 	private String movieYear;
 
