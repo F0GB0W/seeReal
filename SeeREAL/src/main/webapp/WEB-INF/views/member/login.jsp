@@ -20,9 +20,7 @@
 	
 				<!-- Modal Header -->
 				<div class="modal-header">
-					<h4 class="modal-title">
-						<span style="color: #ff52a0;">see:Real</span> 로그인
-					</h4>
+					<h4 class="modal-title"><span style="color: #ff52a0;">see:Real</span> 로그인</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 	

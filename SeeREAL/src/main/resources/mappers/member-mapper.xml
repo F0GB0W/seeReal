@@ -119,9 +119,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  from 
 		      member
 		 where 
-		      status='Y'
+		      (status != 'N' or status != 'S')
 		   and 
 		      MEMBER_EMAIL = #{memberEmail}
 	</select>
 
+	<!-- 비밀번호 수정을 위한 update  -->
+	<update id="updatePwd" parameterType="member">
+		update 
+		       member
+		   set 
+		       MEMBER_PWD = #{memberPwd}
+		 where 
+		       MEMBER_EMAIL= #{memberEmail}
+	</update>
+	
+	<!-- 회원정보 수정을 위한 update -->
+	<update id="updateMember" parameterType="member">
+		update
+		       member
+		   set
+		       MEMBER_PHONE = #{memberPhone}
+			   ,MEMBER_PHOTO = #{memberPhoto}
+			   ,NICK_NAME = #{memberNickname}
+	     where
+	           MEMBER_EMAIL = #{memberEmail}
+	</update>
+	
+	
 </mapper>

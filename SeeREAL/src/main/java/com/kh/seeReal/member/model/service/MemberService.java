@@ -22,4 +22,10 @@ public interface MemberService {
 	
 	// 로그인
 	public Member loginMember(Member m);
+
+	// 비밀번호 수정
+	public int updatePwd(Member m);
+
+	// 회원정보 수정
+	public int updateMember(Member m);
 }

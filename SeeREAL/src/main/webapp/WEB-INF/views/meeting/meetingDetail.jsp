@@ -17,7 +17,7 @@
             <input type="hidden" id="memberNo" value="${ loginUser.memberNo }">
         </c:when>
         <c:otherwise>
-            <input type="hidden" id="memberNo" value="1">
+            <input type="hidden" id="memberNo" value="0">
         </c:otherwise>
     </c:choose>
 
@@ -53,13 +53,15 @@
 
     <c:choose>
         <c:when test="${ not empty loginUser }">
-            <table class="table">
-                <tr>
-                    <td>${ loginUser.memberNickname }</td>
-                    <td><input type="text" id="meetingContent"></td>
-                    <td><button onclick="enrollMeetingMember()">참여하기</button></td>
-                </tr>
-            </table>
+	        <c:if test="${ meetingCount != 1 }">
+		        <table class="table">
+	                <tr>
+	                    <td>${ loginUser.memberNickname }</td>
+	                    <td><input type="text" id="meetingContent"></td>
+	                    <td><button onclick="enrollMeetingMember()">참여하기</button></td>
+	                </tr>
+	            </table>
+	        </c:if>
         </c:when>
     </c:choose>
     
@@ -127,9 +129,11 @@
                             if(itemArr[i].meetingAccept == 'Y') {   // 이미 참여중이라면
                                 value += '<td>' + '참여중' + '</td></tr>';
                             } else {
-                                if(${ not empty loginUser}) {
-                                    if(${ loginUser.memberNo } == ${ meet.memberNo}) {
-
+                                if(${ not empty loginUser}) {   // 로그인 유저가 null이 아니고
+                                    if($('#memberNo').val() == ${ meet.memberNo }) {  // 작성자가 로그인 한 상태라면
+                                        value += '<td>' 
+                                              + '<button onclick="acceptMeeting(' + itemArr[i].meetingNo + ', ' + itemArr[i].memberNo + ');">승인</button>' 
+                                              + '</td></tr>';
                                     }
                                 }
                                 
@@ -158,14 +162,34 @@
                 success : status => {
                     if(status == 'success') {
                         detailMeetingMember();
-                            $('#content').val('');
-                        }
+                        $('#content').val('');
+                        location.reload(); 
+                    }
                 },
                 error : () => {
                     console.log('에러 발생!!');
                 }
             });
         };
+
+        function acceptMeeting(meetingNo, memberNo) {
+            // 여기에 ajax 작업하기
+            $.ajax({
+                url : 'enrollAccept.mt',
+                data : {
+                    meetingNo : meetingNo,
+                    memberNo : memberNo
+                },
+                success : status => {
+                    if(status == 'success') {
+                        detailMeetingMember();
+                    }
+                },
+                error : () => {
+                    console.log('에러 발생!!');
+                }
+            })
+        }
     </script>
 
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11b518aa98db14042a755e81842e7615&libraries=services"></script>

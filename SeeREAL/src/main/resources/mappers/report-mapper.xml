@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="reportMapper">
+
+	<resultMap id="boardResultSet" type="board">
+		<result column="board_no" property="boardNo" />
+		<result column="board_title" property="boardTitle" />
+		<result column="board_writer" property="boardWriter" />
+		<result column="count" property="count" />
+		<result column="enroll_date" property="enrollDate" />
+		<result column="origin_name" property="originName" />
+		<result column="change_name" property="changeName" />
+		<result column="report_count" property="reportCount" />
+		<result column="status" property="status" />
+		<result column="board_type" property="boardType" />
+		<result column="nick_name" property="nickName" />
+		<result column="board_content" property="boardContent" />
+	</resultMap>
+
+	<resultMap id="meetingResultSet" type="meeting">
+		<result column="MEETING_NO" property="meetingNo" />
+		<result column="MEETING_TITLE" property="meetingTitle" />
+		<result column="MEETING_EXP" property="meetingExp" />
+		<result column="MEETING_PLACE" property="meetingPlace" />
+		<result column="MEETING_PLACE_DETAIL" property="meetingPlaceDetail" />
+		<result column="MOVIE_TITLE" property="movieTitle" />
+		<result column="MOVIE_YEAR" property="movieYear" />
+		<result column="STATUS" property="status" />
+		<result column="MEETING_ENROLL" property="meetingEnrollDate" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="MEETING_REPORT" property="meetingReport" />
+		<result column="MEETING_WRITER" property="meetingWriter" />
+	</resultMap>
+
+
+	<select id="selectReportMeetingList" resultMap="meetingResultSet">
+		SELECT
+			MEETING_NO,
+			MEETING_TITLE,
+			MEETING_ENROLL,
+			NICK_NAME AS MEETING_WRITER,
+			MEMBER.MEMBER_NO AS MEMBER_NO
+		FROM
+			MEETING
+		JOIN MEMBER ON
+			(MEMBER.MEMBER_NO = MEETING.MEMBER_NO)
+		WHERE
+			MEETING.STATUS = 'N'
+	</select>
+		<select id="selectMeetingReportCount" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM
+			MEETING
+		WHERE
+			STATUS = 'N'
+	</select>
+		<select id="selectReportBoardList" resultMap="boardResultSet">
+		select
+				board_no,
+				board_type,
+				board_title,
+				nick_name,
+				count,
+				to_char(enroll_date, 'YYYY-MM-DD') as "ENROLL_DATE",
+				origin_name
+		 from
+				board b
+		 join
+		 		member on(member_no = board_writer)
+		where
+				b.status = 'N'
+		order
+		   by
+		   		board_no desc
+	</select>
+	<select id="selectBoardReportCount" resultType="_int">
+	select
+			count(*)
+	  from
+	  		board
+	  where
+	  		status = 'N'
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
