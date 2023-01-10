@@ -48,6 +48,9 @@ public class BoardDao {
 		
 		return (ArrayList)sqlSession.selectList("boardMapper.spoilerSearchList", map, rowBounds);
 	}
+	public int spoilerUpdate(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.spoilerUpdate", b);
+	}
 
 	
 	

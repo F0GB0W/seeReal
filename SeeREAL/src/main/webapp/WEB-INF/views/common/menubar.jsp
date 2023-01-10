@@ -10,12 +10,23 @@
 	
 </head>
 <body>
-	<div></div>
+	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
 	<div><a href="spoilerList.bo">스포 게시판</a></div>
 	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
 	<div><a href="meetingList.mt">(임시)모임</a></div>
 	<div><a href="makeCollection.cl">(임시)컬렉션만들기</a></div>
-	<div></div>
+	<div id="search-area">
+		<form action="search.yj" method="get">
+			<input type="hidden" name="currentPage" value="1">
+			<select name="condition">
+				<option value="all">전체</option>
+				<option value="movie">영화</option>
+				<option value="meeting">모임</option>
+			</select>
+			<input type="text" name="keyword" value="${ keyword }">
+			<button type="submit">검색</button>
+		</form>
+	</div>
 	<div></div>
 
 	<c:choose>
