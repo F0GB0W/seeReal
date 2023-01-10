@@ -23,4 +23,6 @@ public interface MeetingService {
 	ArrayList<MeetingUser> selectMeetingMember(int meetingNo);
 
 	int insertMeetingUser(MeetingUser mu);
+
+	int checkJoinMeeting(MeetingUser mu);
 }

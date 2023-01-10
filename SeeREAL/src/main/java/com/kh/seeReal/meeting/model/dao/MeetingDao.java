@@ -51,4 +51,8 @@ public class MeetingDao {
 		return sqlSession.insert("meetingMapper.insertMeetingUser", mu);
 	}
 
+	public int checkJoinMeeting(SqlSessionTemplate sqlSession, MeetingUser mu) {
+		return sqlSession.selectOne("meetingMapper.checkJoinMeeting", mu);
+	}
+
 }
