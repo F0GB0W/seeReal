@@ -50,6 +50,16 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.selectMember(sqlSession,m);
 	}
 
+	@Override
+	public int updatePwd(Member m) {
+		return memberDao.updatePwd(sqlSession,m);
+	}
+
+	@Override
+	public int updateMember(Member m) {
+		return memberDao.updateMember(sqlSession,m);
+	}
+
 	
 
 }
