@@ -38,7 +38,7 @@
           <tr>
             <th scope="row">첨부파일</th>
             <td>
-            <input type="file" id="upfile" width="100px;" name="reupfile" />
+            <input type="file" id="upfile" width="100px;" name="reUpfile" />
 			<c:if test="${ not empty b.originName }">
 				업로드된 파일 :
 			<a href="${b.changeName }" download="${b.originName }">${b.originName }</a>

@@ -64,6 +64,7 @@ public class BoardController {
 		 }
 	 }
 	 
+	 // 첨부 파일 업로드 메소드
 	 public String saveFile(MultipartFile upfile, HttpSession session) {
 		 
 		 String originName = upfile.getOriginalFilename();
@@ -126,6 +127,29 @@ public class BoardController {
 	 @RequestMapping("spoilerUpdate.bo")
 	 public String spoilerUpdate(@ModelAttribute Board b, MultipartFile reUpfile, HttpSession session, Model model){
 		 
-		 return "main";
+		 // 새로 첨부파일이 넘어온 경우
+		 if(!reUpfile.getOriginalFilename().equals("")) {
+			 // 기존에 첨부타일이 있었을 경우 => 기존의 첨부파일을 삭제
+			 if(b.getOriginName() != null) {
+				 new File(session.getServletContext().getRealPath(b.getChangeName())).delete();
+		 
+			 }
+			 // 새로 넘어온 첨부파일 서버 업로드 시키기
+			 // saveFile() 호출해서 첨부파일을 업로드
+			 String changeName = saveFile(reUpfile, session);
+			 
+			 // b라는 Board객체에 새로운 정보(원본명, 저장경로) 담기
+			 b.setOriginName(reUpfile.getOriginalFilename());
+			 b.setChangeName("resources/uploadFiles/" + changeName);
+		 }
+		 if(boardService.spoilerUpdate(b) > 0) {
+			 session.setAttribute("alertMsg", "수정 완료");
+			 return "redirect:spoilerDetail.bo?bno=" + b.getBoardNo();
+		 }else {
+			 model.addAttribute("errorMsg", "수정 실패");
+			 return "common/errorPage";
+		 }
+		 
 	 }
+		 
 }

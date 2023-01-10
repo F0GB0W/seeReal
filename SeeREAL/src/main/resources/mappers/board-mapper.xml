@@ -168,6 +168,19 @@ select
 	   		board_no desc	
 		
 </select>
+<update id="spoilerUpdate" parameterType="board">
+ update
+ 		board
+ 	set
+ 		board_title = #{boardTitle},
+ 		origin_name = #{originName},
+ 		change_name = #{changeName},
+ 		board_content = #{boardContent}
+ where
+   		board_no = #{boardNo}
+ 		
+
+</update>
 
 
 </mapper>
