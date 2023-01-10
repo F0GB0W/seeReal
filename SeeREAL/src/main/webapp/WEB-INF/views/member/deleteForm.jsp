@@ -28,22 +28,24 @@
 	
 			<h4 style="color: #ff52a0;">회원 탈퇴</h4><hr/><br/>
 		
-			<form action="" method="post" style="margin-bottom: 0;">
+			<form action="deleteMember.me" method="post" style="margin-bottom: 0;" id="aa">
 				<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
 					<tr>
 						<td style="text-align: left">
-							<p><strong>이메일을 입력하세요.</strong>&nbsp;&nbsp;&nbsp;<span id="oldCheck"></span></p>
+							<p><strong>이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
 						</td>
-					</tr>
+				    </tr>
 					<tr>
-						<td><input type="password" size="17" maxlength="20" id="check_pw"
-							name="chkPw" class="form-control tooltipstered" 
-							maxlength="20" required="required" aria-required="true"
-							style="ime-mode: inactive; margin-bottom: 25px; height: 40px; border: 1px solid #d9d9de"></td>
+						<td><input type="email" name="memberEmail" id="user_email"
+							    		class="form-control tooltipstered" 
+							    		required="required" aria-required="true"
+							    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
+										placeholder="이메일 형식으로 작성해주세요."></td>
 					</tr>
 			
 					<tr>
-						<td style="width: 100%; text-align: center; colspan: 2;"><button type="button" id="check" class="btn form-control tooltipstered" 
+						<td style="width: 100%; text-align: center; colspan: 2;">
+							<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
 									style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 인증</button>
 						</td>
 					</tr>
@@ -56,80 +58,48 @@
 	
 	<br><br>
 	
+	
 	<script>
 		$(function() {
 			//자바스크립트 정규 표현식
-			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/); // 메일체크 특수문자는 _랑 -랑 . 가능!!	
+			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);	
 			let emailCheck = false;
-			//회원가입 입력값 검증 
-			//이메일 입력창 키보드 입력 이벤트 함수 만들기
-			$('#user_email').on('keyup', function(){
-		
-				const emailInput = $(this);
-		
+			
+			// 이메일 인증 버튼 
+			$('#delete-btn').on('click',function(){
+				
+				//자바스크립트 정규 표현식
+				const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/); 
+
+				const emailInput = $('#user_email').val();
+				
 				//조건식으로 만든 논리적인코드(빈 문자열이면)
-				if(emailInput.val() == ''){
+				if(emailInput == ''){
 		
-					//css함수는 디자인을 바꾸는 함수 
-					emailInput.css("background", "pink");			
-					//html함수는 콘텐트영역을 바꾸는 함수			
-					$('#emailChk').html("<b style='color:red;'>[이메일은 필수 정보에요!]</b>");
-					//조건에 부합하지 않는다면 논리변수에 false값 대입
-					emailCheck = false; 
-		
-				} else if(!getMail.test(emailInput.val())) { // 정규표현식 객체의 test()메소드를 이용해서 패턴에 부합하는지 조건검사 (부합하면 true, !를 붙이면 부합하지않으면)
+					emailInput.css("background", "pink");				
+					$('#emailChk').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
+					
+				}else if(!getMail.test(emailInput)) { 
 					// 정규표현식을 만족하지 않으면
 					emailInput.css("background-color", "pink"); 
-					$('#emailChk').html("<b style='color:red;'>[입력정보를 확인해주세요]</b>");
-					emailCheck = false;
-		
-				} else {
-					// db에서 select(ajax)
-					$.ajax({
-						url:'selectEmail.me',
-						data : {email : emailInput.val()},
-						success : function(result){
-							if(result == 1){  // == : 문자, 숫자 상관없음
-								emailInput.css("background-color", "pink"); 
-								$('#emailChk').html("<b style='color:red;'>[이미 존재하는 이메일입니다.]</b>");
-							}else{
-								emailInput.css("background-color", "transparent"); 
-								$('#emailChk').html("<b style='color:green;'>[사용가능한 이메일입니다.]</b>");				
-							}
-						},
-						error : function(){
-							console.log("ajax error");
-						},
-						method:'post'
-					});
-				}
-			}); 
-			
-			// 수정하기 버튼 
-			$(document).on('click', '#emailChange', function(){
-	
-				$('#user_email').removeAttr('readonly');
-				$('#check').css("display", 'block');
-				$('#emailChange').css("display", "none");	
-				emailCheck = false;
-			});
+					$('#emailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
 					
-			// 이메일 인증 버튼 
-			$('#check').on('click',function(){ 
-				   
-				if($('#user_email').val() != ''){ 
+				}else{
+					console.log(1);
 					$.ajax({ // 이메일 보내는 요청
+						
 						url:'sendEmail.me',
 						method:'post',
 						data : {email :$('#user_email').val()},
 						success : function(result){
-							if(result == 1){ // 인증메일 전송 성공
+							if(result === '1'){ // 인증메일 전송 성공
 								var code = prompt('인증번호를 입력하세요');
 								
 								if(code != null){ // 확인
 									if(code == ''){
 										alert('먼저 인증번호를 입력하세요.');
 									}else{
+										console.log(2);
 										$.ajax({
 											url: 'checkEmail.me',
 											data : {
@@ -137,19 +107,12 @@
 													code : code
 											}, 
 											success : function(result2){
-												if(result2 == 1){
-													alert("인증성공");
-													$('#user_email').attr('readonly',true);
-													emailCheck = true;
-													$('#check').css("display", "none");
-													
-													var result = '<button type="button" id="emailChange" class="btn form-control tooltipstered"'
-														+ 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 변경</button>';
-													$('#check').after(result);
-													
+												console.log(3);
+												if(result2 === '1'){
+													deleteMember();
+													alert("탈퇴성공");
 												}else{
-													alert("인증실패");
-													emailCheck = false;
+													alert("인증 실패");
 												}
 											},
 											error : function(){
@@ -165,10 +128,17 @@
 						error : function(){
 							console.log("ajax error");
 						}
-					});	
+					});		
 				}
+			
 			});
 		}); 
+		
+		function deleteMember(){
+			$('#delete-btn').attr("type","submit");
+			$('#aa').submit();
+		}
+		
 	</script>
 </body>
 </html>

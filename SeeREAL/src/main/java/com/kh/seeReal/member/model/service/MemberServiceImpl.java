@@ -60,6 +60,11 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.updateMember(sqlSession,m);
 	}
 
+	@Override
+	public int deleteMember(String memberEmail) {
+		return memberDao.deleteMember(sqlSession, memberEmail);
+	}
+
 	
 
 }

@@ -10,7 +10,7 @@
 	
 </head>
 <body>
-	<div></div>
+	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
 	<div><a href="spoilerList.bo">스포 게시판</a></div>
 	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
 	<div><a href="meetingList.mt">(임시)모임</a></div>

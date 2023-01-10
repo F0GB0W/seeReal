@@ -52,7 +52,7 @@
 			<hr>
 			<br>
 			
-			<form action="updateMember.me" name="signup" id="signUpForm" method="post" style="margin-bottom: 0;">
+			<form action="updateMember.me" name="signup" id="signUpForm" method="post" style="margin-bottom: 0;" enctype="multipart/form-data">
 
 				<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
 	
