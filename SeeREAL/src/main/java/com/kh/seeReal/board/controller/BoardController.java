@@ -168,6 +168,8 @@ public class BoardController {
 			 model.addAttribute("errorMsg", "게시글 삭제 실패");
 			 return "common/errorMsg";
 		 }
+		 
 	 }
+	 
 		 
 }
