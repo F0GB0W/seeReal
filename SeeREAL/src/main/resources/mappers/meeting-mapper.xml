@@ -136,7 +136,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			MEETING_ACCEPT,
 			MEETING_CONTENT,
 			m.NICK_NAME,
-			m.MEMBER_PHOTO
+			m.MEMBER_PHOTO,
+			MEETING_NO
 		FROM
 			MEETING_USER mu
 		JOIN MEMBER m ON
@@ -165,5 +166,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				)
 	</insert>
 	
+	<select id="checkJoinMeeting" parameterType="meetingUser" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM
+			MEETING_USER mu
+		JOIN MEMBER m ON mu.MEMBER_NO = m.MEMBER_NO 
+		WHERE
+			mu.MEETING_NO = #{ meetingNo }
+			AND mu.MEMBER_NO = #{ memberNo } 
+			AND m.STATUS = 'Y'
+	</select>
 	
+	<update id="updateMeetingUser" parameterType="meetingUser">
+		UPDATE
+			MEETING_USER
+		SET
+			MEETING_ACCEPT = 'Y'
+		WHERE
+			MEETING_NO = #{ meetingNo }
+			AND MEMBER_NO = #{ memberNo }
+	</update>
 </mapper>

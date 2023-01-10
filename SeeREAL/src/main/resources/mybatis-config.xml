@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.seeReal.comments.model.vo.MovieRating" alias="movieRating"/>
 		<typeAlias type="com.kh.seeReal.meeting.model.vo.MeetingUser" alias="meetingUser"/>
 		<typeAlias type="com.kh.seeReal.member.model.vo.Cert" alias="cert"/>
+		<typeAlias type="com.kh.seeReal.report.model.vo.Report" alias="report"/>
 	</typeAliases>
 	<!-- ***주의 : 미리 등록을 해두려면 해당 클래스가 존재하고 있는 상태여야함 -->
 	
@@ -32,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="/mappers/feed-mapper.xml"/>
 		<mapper resource="/mappers/meeting-mapper.xml"/>
 		<mapper resource="/mappers/comments-mapper.xml"/>
+		<mapper resource="/mappers/report-mapper.xml"/>
 	</mappers>
 	<!-- ***주의 : 미리 등록을 해두려면 해당 mapper파일이 진짜 존재하고 있는 생태여야함 + namespace속성까지 작성되어 있어야 함 -->
 </configuration>

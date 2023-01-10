@@ -171,8 +171,21 @@ public class MeetingController {
     @RequestMapping("detail.mt")
     public ModelAndView selectMeeting(int mtno, ModelAndView mv, HttpSession session) {
     	
+    	Member loginUser = (Member) session.getAttribute("loginUser");
+    	
+    	int meetingCount = 1;
+    	
     	if(meetingService.increaseMeetingCount(mtno) > 0) {
+    		
+    		if(loginUser != null) {		// 로그인 되어있을 때 참가신청 했는지 안했는지 체크 
+    			MeetingUser mu = new MeetingUser();
+    			mu.setMeetingNo(mtno);
+    			mu.setMemberNo(loginUser.getMemberNo());
+    			
+    			meetingCount = meetingService.checkJoinMeeting(mu);
+    		}
     		mv.addObject("meet", meetingService.selectMeetingDetail(mtno))
+    		  .addObject("meetingCount", meetingCount)
     		  .setViewName("meeting/meetingDetail");
     	} else {
     		mv.addObject("errorMsg", "상세조회 실패~!")
@@ -200,5 +213,15 @@ public class MeetingController {
     	mu.setMeetingContent(meetingContent);
     	
     	return meetingService.insertMeetingUser(mu) > 0 ? "success" : "fail";
+    }
+    
+    @ResponseBody
+    @RequestMapping("enrollAccept.mt")
+    public String ajaxUpdateMeetingMember(int meetingNo, int memberNo) {
+    	MeetingUser mu = new MeetingUser();
+    	mu.setMeetingNo(meetingNo);
+    	mu.setMemberNo(memberNo);
+    	
+    	return meetingService.updateMeetingUser(mu) > 0 ? "success" : "fail";
     }
 }

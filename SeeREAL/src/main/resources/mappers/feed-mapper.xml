@@ -28,8 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<resultMap id="member" type="com.kh.seeReal.member.model.vo.Member">
-		<result column="member_no"       property="memberNo" />
+		<result column="member_no"       property="memberNo" /> 
 		<result column="nick_name" property="memberNickname" />
+		<result column="member_photo"       property="memberPhoto" /> 
 		<result column="member_photo"    property="memberPhoto" />
 	</resultMap>
 	
@@ -75,6 +76,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 where member_no = #{memberNo}
 	</select>
 
+<!-- 	<select id="selectMemberPhoto" resultMap="member">
+		select member_photo
+		  from member
+		  where member_no = #{memberNo}
+	</select> -->
 
 
 

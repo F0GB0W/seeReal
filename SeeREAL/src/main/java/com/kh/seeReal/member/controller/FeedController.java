@@ -22,6 +22,7 @@ public class FeedController {
 		  .addObject("review", feedService.reviewList(memberNo))
 		  .addObject("ratingList", feedService.ratingList(memberNo))
 		  .addObject("selectMember", feedService.selectMember(memberNo))
+		  //.addObject("selectMemberPhoto", feedService.selectMemberPhoto(memberNo))
 		  .setViewName("common/feed");
 
 		return mv;

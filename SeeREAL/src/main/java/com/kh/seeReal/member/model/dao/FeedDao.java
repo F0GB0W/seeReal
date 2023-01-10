@@ -31,4 +31,9 @@ public class FeedDao {
 	public Member selectMember(SqlSessionTemplate sqlSession, int memberNo) {
 		return (Member)sqlSession.selectOne("feedMapper.selectMember", memberNo);
 	}
+	
+	/*
+	 * public int selectMemberPhoto(SqlSessionTemplate sqlSession, int memberNo) {
+	 * return sqlSession.selectOne("feedMapper.selectMemberPhoto"); }
+	 */
 }

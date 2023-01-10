@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <title>Insert title here</title>
@@ -44,7 +44,7 @@
 	<p>${movieDate }</p>
 	<p>${movieDirector }</p>
 	<p>${movieSubTitle }</p>
-	
+	<p>${loginUser}</p>
 	</div>
 	<div>
 	<p id="ratingShow">${rating }</p>
@@ -76,30 +76,35 @@
 	
 	<div style="width:500px;">
 		<div align="right">
-			<button data-toggle="modal" data-target="#myModal" id="commentsWrite">글쓰기</button>
+			<c:choose>
+				<c:when test="${loginUser ne null }">			
+					<button data-toggle="modal" data-target="#myModal" class="commentsWrite">글쓰기</button>
+				</c:when>
+			</c:choose>
 		</div>
-		<div>
-	        <div align="left">
-	            <p>아이디 시간</p>
-	        </div>
-	        <div align="right">
-	            	신고
-	        </div>
-	    </div>
-	    
-	    <div>
-	        <textarea>내용</textarea>
-	    </div>
-	    
-	    <div>
-	        <div align="left">
-	           	 별점
-	        </div>
-	        <div align="right">
-	           	 좋아요 실어요
-	        </div>
-	    </div>
-    
+		<div class="commentList">
+			<div>
+		        <div align="left">
+		            <p>아이디 시간</p>
+		        </div>
+		        <div align="right">
+		            	<p>신고</p>
+		        </div>
+		    </div>
+		    
+		    <div>
+		        <textarea>내용</textarea>
+		    </div>
+		    
+		    <div>
+		        <div align="left">
+		           	 <p>별점</p>
+		        </div>
+		        <div align="right">
+		           	 <p>좋아요 실어요</p>
+		        </div>
+		    </div>
+    	</div>
 	</div>
 	<script>
 	$(function(){
@@ -136,7 +141,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
         
- 	         <button type="button" class="mr-auto" style="border:none;"><span>스포일러&nbsp;</span><span id="on-off">off</span></button>
+ 	         <button type="button" class="mr-auto" style="border:none;" onclick="spoiler();"><span>스포일러&nbsp;</span><span id="on-off">off</span></button>
         	
           <p class="textarea-length">0/1000</p>
           <button type="button" class="btn btn-danger" data-dismiss="modal" id="CommentsInsert" onclick="commentsInsert();">저장</button>
@@ -146,7 +151,13 @@
 	
 	<script>
 		
-	
+	function spoiler(){
+		if($('#on-off').text() =="off"){
+			$('#on-off').text("on");
+		}else{
+			$('#on-off').text("off");
+		}
+	}
 	
 	
 	$(document).on('click','#CommentsInsert',function(){
@@ -154,17 +165,39 @@
 			alert('성')
 		})
 		function commentsInsert(){
-			console.log('ddd')
+		
+		
+				$.ajax({
+					url:'commentsWrite.co',
+					data:{memberNo:${loginUser.memberNo},
+						  commentContent:$('.form-control').val(),
+						  spoiler:$('#on-off').text(),
+						  movieTitle:"${movieTitle}",
+						  movieYear:${movieDate}
+						  
+					},
+					success:function(){
+						
+						alert('글쓰기 완료');
+					},
+					error:function(){
+						
+					}
+				});
+		
+			
 		}
 	
+		
 		$(".star").on('mouseenter',function(){
-	        
+	        console.log("별모양"+this);
 	        var idx = $(this).index();
 	        $(".star").removeClass("on");
 	        for(var i=0; i<=idx; i++){
 	          $(".star").eq(i).addClass("on");
 	        }
 	    });  
+	
 	    $(".star").on('click',function(){
 	          
 	        var idx2 = 0.5*($(this).index()+1); //별점점수
@@ -173,17 +206,17 @@
 	        $.ajax({
 	            url:'ratingCheck.co',
 	            data:{rating:idx2,
-	                movieTitle:${movieTitle},
-	                movieDate:${movieDate},
-	                memberNo:${memberNo},
+	                /*movieTitle:${movieTitle},*/
+	                movieYear:${movieDate},
+	                memberNo:/*${memberNo}*/5,
 	                beforeRating:${rating}
 	            },
 	            success:function(data){
 	            	
 	              $('.rating-number').text(idx2);//별점점수 별 옆에 표시
 	            },
-	            error{
-	              console.log('실패')
+	            error:{
+	              
 	            }     
 	        });
 	        
@@ -194,52 +227,65 @@
 			
 			showMovieRating();
 			
-			function ShowMovieRating(){
+			function showMovieRating(){
 				
 			$.ajax({
 				url:'ratingGet.co',
-				data:{movieTitle:${movieTitle},
+				data:{/*movieTitle:${movieTitle},*/
 					  movieDate:${movieDate}
 				},
 				success:function(data){
 					$('#ratingShow').text(data);
 				},
 				error:function(){
-					
+					console.log("실패");
 				}
 				
 			});
-			}
+			};
 			
 			
-			$('#commentsWrite').on('click',function(){
-				
-			})
 			
-			$.ajax({
-				url:'commentsWrite.co',
-				data:{memberNo:${memberNo},
-					  commentContent:xx,
-					  spoiler:xx,
-					  movieTitle:xx,
-					  movieYear:xx
-					  
-				},
-				success:function(){
-					
-				},
-				error:function(){
-					
-				}
-			});
+			
+			
 			
 			$.ajax({
 				url:'commentsList.co',
-				success:function(){
+				data:{movieTitle:"${movieTitle}",
+					  movieYear:${movieDate}
+				},
+				success:function(commentsList){
+					
+					value='';
+					
+					value+='<div>'+
+						 +       '<div align="left">'
+						 +           '<p>아이디 시간</p>'
+						 +       '</div>'
+						 +       '<div align="right">'
+						 +           	'신고'
+						 +       '</div>'
+					     +	'</div>'
+					    
+						 +   '<div>'
+						 +       '<textarea>내용</textarea>'
+						 +   '</div>'
+						    
+						 +   '<div>'
+						 +       '<div align="left">'
+						 +          	 '별점'
+						 +       '</div>'
+						 +       '<div align="right">'
+						 +          	 '좋아요 실어요'
+						 +       '</div>'
+						 +   '</div>';
+							
+					    	
+					$('.commentsList').append(value);
 					
 				},
 				error:function(){
-					
+					console.log('커멘츠불러오기실패')
 				}
 			});
 			
