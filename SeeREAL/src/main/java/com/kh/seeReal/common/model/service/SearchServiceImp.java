@@ -1,5 +1,6 @@
 package com.kh.seeReal.common.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.seeReal.common.model.dao.SearchDao;
+import com.kh.seeReal.common.model.vo.PageInfo;
+import com.kh.seeReal.meeting.model.vo.Meeting;
 
 @Service
 public class SearchServiceImp implements SearchService{
@@ -22,4 +25,8 @@ public class SearchServiceImp implements SearchService{
 		return searchDao.searchCountList(sqlSession, map);
 	}
 
+	@Override
+	public ArrayList<Meeting> searchMeetingList(HashMap<String, String> map, PageInfo pi) {
+		return searchDao.searchMeetingList(sqlSession, map, pi);
+	}
 }
