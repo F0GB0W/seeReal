@@ -38,7 +38,7 @@ public class MemberController {
 	public String selectEmail(String email) {
 		
 		int result = memberService.selectEmail(email);
-		String result2 = String.valueOf(result);
+		String result2 = String.valueOf(result); // int > String으로 변경
 		return result2;
 	}
 	
@@ -53,7 +53,7 @@ public class MemberController {
 		SimpleMailMessage message = new SimpleMailMessage();
 		String ip = request.getRemoteAddr();
 		String code = createCode();
-		Cert cert = Cert.builder().who(ip).secret(code).build();
+		Cert cert = Cert.builder().who(ip).secret(code).build(); // 다시 확인하기
 		
 		message.setSubject("see:Real 회원가입");
 		// "see:Real 화면으로 돌아가 인증번호를 입력해주세요."
@@ -81,7 +81,6 @@ public class MemberController {
 	public String selectCert(String code,HttpServletRequest request) {
 		Cert cert = Cert.builder().who(request.getRemoteAddr()).secret(code).build();
 		String result = String.valueOf(memberService.selectCert(cert));
-		System.out.println(result);
 		return result;
 	}
 	
@@ -122,20 +121,15 @@ public class MemberController {
 		Member loginUser = memberService.loginMember(m);
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) { // 회원 있으면
-			// 평문으로 변경해서 저장해야함 : 마이페이지에서 보여주기 위해
-			// 평문을 저장할 컬럼이 필요할까??  
-			
+
 			// 암호화된 비밀번호랑 동일한지 확인
-			
 			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
-			System.out.println(loginUser.getMemberPwd());
 			session.setAttribute("loginUser", loginUser);
 	
 		}else {
 			model.addAttribute("alertMsg", "로그인 실패");
 		}
 		return "redirect:/";
-		
 	}
 	
 	// 로그아웃
@@ -153,13 +147,63 @@ public class MemberController {
 		return "member/myPage";
 	}
 	
-	// 정보수정페이지
+	// 회원정보 수정페이지
 	@RequestMapping(value="updateForm.me")
-	public String updateForm() {
+	public String updateMemberForm() {
 		return "member/updateForm";
 	}
+	/*
+	 	정보수정
+		-> 화면에서 중복체크 및 유효성 검사해서 버튼 누르면 Controller오 넘기기
+		-> 멤버 객체로 받아서 update
+		-> 사진 있는지 확인해서 있으면 경로 붙여서 set해야함
+		->비밀번호 수정 3번과 동일하게!
+	 */
 	
-	// 회원탈퇴
+	// 회원정보 수정 // 수정 결과 알림창 보여주고 원래 화면 보여주기 > select 해온 결과 > redirect/ 
+	@RequestMapping(value="updateMember.me")
+	public String updateMember(Member m) {
+		memberService.updateMember(m);// 조건 판별해서 loginMember(), 화면으로 보내주기
+		// int는 화면으로 돌려줄 필요 없음 
+		return "return:updateForm.me";
+	}
+	
+	// 비밀번호 수정페이지
+	@RequestMapping(value="updatePwdForm.me")
+	public String updatePwdForm() {
+		return "member/updatePwdForm";
+	}
+	
+	// 비밀번호 수정 update
+	/*
+	 수정 버튼 눌렀을 때 updatePwd.me가면
+	1. 입력한 비밀번호, 저장된 비밀번호 확인:matches()
+	2. 동일할 때만 새로 입력한 번호 암호하해서 update문 날리기
+	3. 로그인할 때 담은 loginUser에 담긴 비밀번호 변경 해야하니까 멤버 조회해서 loginUser에 담기 > redirect로 
+	 */
+	@RequestMapping(value="updatePwd.me")
+	public String updatePwd(Member m, String newPw, HttpSession session) { // Member : loginMember()사용 위해서
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		if(bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {	
+			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(newPw));
+			
+			memberService.updatePwd(loginUser); // 아이디(이메일) 필요
+			session.setAttribute("loginUser", memberService.loginMember(m));
+			return "redirect:myPage.me";
+			
+		}else { // 입력한 비밀번호가 다르면
+			session.setAttribute("alertMsg", "현재 비밀번호를 확인해주세요.");
+			return "redirect:updatePwdForm.me"; // 어디로 보내지? ajax로 수정하면 요청 화면으로 보낼 수 있음
+		}
+
+	}
+	
+	// 회원탈퇴 화면페이지
+	@RequestMapping(value="deleteForm.me")
+	public String deleteMemberForm() {
+		return "member/deleteForm";
+	}
 	
 	/* 남은 시간 보여주기 ★★★★★★★★★★★★★ > 시간 남으면!!
 	 * ajax로 
