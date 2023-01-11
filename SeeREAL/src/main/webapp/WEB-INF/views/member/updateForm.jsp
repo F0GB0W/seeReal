@@ -55,10 +55,10 @@
 			<form action="updateMember.me" name="signup" id="signUpForm" method="post" style="margin-bottom: 0;" enctype="multipart/form-data">
 
 				<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
-	
+					
 					<tr>
 						<td style="text-align: left">
-							
+							<input type="hidden" name="memberEmail" value="${loginUser.memberEmail}">
 							<p>
 								<strong>프로필 편집</strong>
 							</p>
@@ -73,11 +73,11 @@
 								</c:when>
 								<c:otherwise>
 										<img id="photo" src="${loginUser.memberPhoto}" class="photo"/>
-										<input id="photoInfo" type="hidden" name="" value="">
+										
 								</c:otherwise>
 							</c:choose>
-						
-                           <input type="file" name="upfile" id="file" onchange="loadImg(this);">
+							<input id="photoInfo" type="hidden" name="memberPhoto" value="1">
+                            <input type="file" name="upfile" id="file" onchange="loadImg(this);">
                            
                         </td>
 					</tr>
@@ -245,7 +245,7 @@
          }
 		$('#deletePhoto-btn').on('click',function(){
 			$('#photo').attr("src", "resources/img/user.png");
-			$('#photoInfo').attr("name", "memberPhoto");
+			//$('#photoInfo').attr("name", "memberPhoto");
      	    $('#photoInfo').val("delete");
 			
 		});
