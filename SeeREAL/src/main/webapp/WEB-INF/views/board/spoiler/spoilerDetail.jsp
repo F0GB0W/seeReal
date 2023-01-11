@@ -102,8 +102,13 @@
 					<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addReply();">등록하기</button>
 				</c:otherwise>
 			</c:choose>
+			<tr>
+				<td colspan="3">댓글(<span id="rcount"></span>)</td>
+			</tr>
 		</thead>
-		<tbody></tbody>
+		<tbody>
+			
+		</tbody>
 	
 	</table>
 	<script>
@@ -111,23 +116,25 @@
 		
 			if($('#reply-content').val().trim() != ''){
 				$.ajax({
-					url : 'spoilerReply.bo',
-					data :{
-						boReplyNo : ${b.boardNo},
+					url : 'sprInsert.bo',
+					data : {
+						boardNo : ${b.boardNo},
 						boReplyContent : $('#reply-content').val(),
 						memberNo : '${loginUser.memberNo}'
 					},
-					success:function(status){
+					success : function(status){
 						console.log(status);
 						
 						if(status == 'success'){
-							selectReplyList();
+							selectSpoilerReplyList();
 							$('#reply-content').val('');
 							
+							return false;
 						}
 					},
-					error:function(){
+					error : function(){
 						console.log('실패');
+						return false;
 					}
 				});
 			}else{
@@ -135,6 +142,29 @@
 			}
 	}		
 	
+		function selectSpoilerReplyList(){
+			$.ajax({
+				url:"sprList.bo",
+				data : {boardNo : ${b.boardNo}},
+				success : function(list){
+					console.log(list);
+					
+					var value = '';
+					for(var i in list){
+						value += '<tr>'
+							   + '<th>' + list[i].replyWriter + '</th>'
+							   + '<th>' + list[i].boReplyContent + '</th>'
+							   + '<th>' + list[i].boReplyDate + '</th>'
+							   + '<tr>';
+					}
+					$('#replyArea tbody').html(value);
+					$('#rcount').text(list.length);
+				},
+				error : function(){
+					console.log('댓글 조회 실패')
+				}
+			})
+		}
 	
 	</script>
 

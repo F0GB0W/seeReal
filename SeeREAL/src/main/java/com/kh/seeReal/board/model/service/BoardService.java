@@ -29,9 +29,9 @@ public interface BoardService {
 	// 게시글 삭제(update)
 	int spoilerDelete(int boardNo);
 	// 댓글 리스트(select)
-	ArrayList<BoardReply> selectReplyList(int boardNo);
+	ArrayList<BoardReply> spoilerReplyList(int boardNo);
 	// 댓글 작성(insert)
-	int insertBoardReply(BoardReply br);
+	int spoilerReplyInsert(BoardReply br);
 	// 댓글 수정(update)
 	int updateBoardReply(int boardNo);
 	// 댓글 삭제(update)
