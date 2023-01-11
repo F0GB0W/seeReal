@@ -91,9 +91,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	-->
 	<select id="commentsList" parameterType="Comments" resultType="hashmap">
 		SELECT
+			  MEMBER_NO,
 		      C.COMMENT_NO,
 		      C.COMMENT_CONTENT,
-		      C.COMMENT_ENROLLDATE,
+		      TO_CHAR(C.COMMENT_ENROLLDATE,'YYYY-MM-DD') "COMMENTENROLLDATE",
 		      C.SPOILER,
 		      C.COMMENT_REPORT,
 		      C.MOVIE_TITLE,
@@ -114,6 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  
 	</select>
 	<insert id="commentsWrite" parameterType="Comments">
+		<!-- 
 		INSERT
 		  INTO
 		      COMMENTS
@@ -134,7 +136,57 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  #{movieYear},
 			  #{memberNo}
 			  )
-		     
+		 -->
+		 INSERT ALL  
+		 	INTO 
+		      COMMENTS 
+		      (
+		      COMMENT_NO,
+		      COMMENT_CONTENT,		      
+		      SPOILER,
+		      MOVIE_TITLE,
+		      MOVIE_YEAR,
+		      MEMBER_NO
+		      )
+		VALUES
+			  (
+			  SEQ_COMNO.NEXTVAL,
+			  #{commentContent},			  
+			  #{spoiler},
+			  #{movieTitle},
+			  #{movieYear},
+			  #{memberNo}
+			  )
+		  INTO 
+			  COMMENT_LIKE 
+			  (COMMENT_WRITER,
+			  COMMENT_LIKE,
+			  COMMENT_DISLIKE,
+			  COMMENT_NO
+			  ) 
+			  VALUES
+			  (
+			  #{memberNo},
+			  'N',
+			  'N',
+			  SEQ_COMNO.CURRVAL
+			  )
+			SELECT 
+			  	  * 
+			  FROM 
+			  	  DUAL; 
+		    
 	</insert>
-	
+	<update id="thumbsUp" parameterType="Comments">
+		UPDATE
+		      COMMENT_LIKE
+		  SET
+		      COMMENT_LIKE = 'Y',
+		      COMMENT_DISLIKE = 'N'
+		WHERE
+		 	 COMMENT_NO=#{commentNo}
+		  
+		     
+		  	  
+	</update>
 </mapper>

@@ -44,12 +44,13 @@ public class CommentsDao {
 		List<Map<String, Object>> list = (ArrayList)sqlSession.selectList("comments-mapper.commentsList", comments);
 		//Map<String,Object> list = sqlSession.selectMap("comments-mapper.commentsList", comments);
 		//Map list=  sqlSession.selectMap("comments-mapper.commentsList", comments);
-		//HashMap<String,Object> list=(HashMap)sqlSession.selectList("comments-mapper.commentsList", comments);
-		System.out.println("222222");
-		System.out.println(list);
-		System.out.println("222222");
-		  return list;
-		  
-		  
+		//HashMap<String,Object> list=(HashMap)sqlSession.selectList("comments-mapper.commentsList", comments);		
+		  return list;	  
+	}
+	public int thumbsUp(Comments commnets,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.thumbsUp",commnets);
+	}
+	public int thumbsDown(Comments commnets,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.thumbsDown",commnets);
 	}
 }
