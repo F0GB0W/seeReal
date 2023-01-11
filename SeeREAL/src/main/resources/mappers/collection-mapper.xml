@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="COLLECTION_ENROLL" property="collectionEnroll" />
 		<result column="COLLECTION_TITLE" property="collectionTitle" />
 		<result column="COLLECTION_CONTENT" property="collectionContent" />
+		<result column="NICK_NAME" property="nickName" />
 	</resultMap>
 	
 	
@@ -54,4 +55,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					)
          </foreach>   
 	</insert>
+	
+	<select id="selectCollectionList" resultMap="collectionResultSet">
+		SELECT 
+			COLLECTION_NO,
+			COLLECTION_TITLE,
+			CHANGE_NAME,
+			m.NICK_NAME,
+			c.MEMBER_NO 
+		FROM
+			COLLECTION c
+		JOIN MEMBER m 
+			ON c.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			c.STATUS = 'Y'
+			AND m.STATUS = 'Y'
+		ORDER BY
+			COLLECTION_ENROLL
+	</select>
 </mapper>

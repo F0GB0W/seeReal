@@ -2,10 +2,12 @@ package com.kh.seeReal.report.model.service;
 
 import java.util.ArrayList;
 
+import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.meeting.model.vo.Meeting;
+import com.kh.seeReal.report.model.vo.Report;
 
 public interface ReportService {
 
@@ -23,12 +25,16 @@ public interface ReportService {
 	
 	
 
-	int insertReport(Board b);
 
-	int increaseReportCount(int boardNo);
+	int insertReport(Report r);
 	
-	
-	
-	
+	int increaseSpoBoardReport(int boardNo);
+	int increaseFreeBoardReport(int boardNo);
+	int increaseBoReplyReport(int boReplyNo);
+	int increaseMeetingReport(int meetingNo);
+	int increaseCollectionReport(int collectionNo);
+	int increaseCommentReport(int commentNo);
+	int increaseCoReplyReport(int coReplyNo);
+
 	
 }

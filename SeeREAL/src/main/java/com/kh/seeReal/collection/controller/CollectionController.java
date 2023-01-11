@@ -3,9 +3,8 @@ package com.kh.seeReal.collection.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -42,7 +41,7 @@ public class CollectionController {
 			collection.setChangeName("resources/uploadFiles/collectionThumb/" + saveFile(upfile, session));
 		} else {
 			collection.setOriginName("썸네일 없음");		// 파일 없으면 기본 파일 
-			collection.setChangeName("resources/uploadFiles/collectionThumb/noThumbnail.PNG");
+			collection.setChangeName("resources/uploadFiles/collectionThumb/noThumbnail.jpg");
 		}
 		
 		for(int i=0; i<movieList.getMoiveList().size(); i++) {		// 앞단에서 삭제했는데 인덱스에서 null값이 들어와서 해당 부분 지워줌 
@@ -96,7 +95,23 @@ public class CollectionController {
 	 }
 	
 	@RequestMapping("list.cl")
-	public String listCollection() {
-		return "collection/collectionList";
+	public ModelAndView listCollection(ModelAndView mv) {
+		
+		ArrayList<Collection> collection = collectionService.selectCollectionList();
+		
+		mv.addObject("collection", collection)
+		  .setViewName("collection/collectionList");
+		
+		return mv;
 	}
+	
+	@RequestMapping("detail.cl")
+	public ModelAndView selectCollection(int cno, ModelAndView mv) {
+		
+		mv.addObject("test", cno)
+		  .setViewName("collection/collectionDetail");
+		
+		return mv;
+	}
+	
 }

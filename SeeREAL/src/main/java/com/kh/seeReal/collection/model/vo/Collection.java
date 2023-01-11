@@ -15,4 +15,6 @@ public class Collection {
 	private String originName;
 	private String changeName;
 	private String collectionTitle;
+	
+	private String nickName;
 }
