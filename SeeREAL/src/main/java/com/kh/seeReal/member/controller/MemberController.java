@@ -1,7 +1,11 @@
 package com.kh.seeReal.member.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -157,14 +161,38 @@ public class MemberController {
 		-> 멤버 객체로 받아서 update
 		-> 사진 있는지 확인해서 있으면 경로 붙여서 set해야함
 		->비밀번호 수정 3번과 동일하게!
+		
+		1. 새로 첨부된 파일 x, 기존 첨부파일 x : origin : null, change : null
+        2. 새로 첨부된 파일 x, 기존 첨부파일 o : origin : 기존 첨부파일 이름, change : 기존 청부파일 경로
+        3. 새로 첨부된 파일 o, 기존 첨부파일 x : origin : 새로 첨부파일 이름, change : 새로 첨부파일 경로
+        4. 새로 첨부된 파일 o, 기존 첨부파일 o : origin : 새로 첨부파일 이름, change : 새로 첨부파일 경로
+
 	 */
 	
-	// 회원정보 수정 
-	// 수정 결과 알림창 보여주고 원래 화면 보여주기 > select 해온 결과 > redirect 
 	@RequestMapping(value="updateMember.me")
 	public String updateMember(Member m, HttpSession session, Model model, MultipartFile upfile) {
-		//m.setMemberPhoto("resources/uploadFiles/" + saveFile(upfile,session)); 
-		if(memberService.updateMember(m) > 1){// 조건 판별해서 loginMember(), 화면으로 보내주기
+	
+		String originPhoto = (((Member)session.getAttribute("loginUser")).getMemberPhoto());
+	
+		if(upfile.getSize()!=0) { // 새로운 사진 추가(변경)
+			
+			if(originPhoto == null) { // 기존 파일 없음
+				m.setMemberPhoto("resources/uploadFiles/"+ saveFile(upfile,session)); 	
+				
+			}else {
+				new File(session.getServletContext().getRealPath(originPhoto)).delete(); // 기존 파일 삭제
+				// 기존 memberPhoto : resources/uploadFiles/ + @@@
+				// 저 값을 받으면 또 resources/uploadFiles/ 붙음??? ㄴㄴㄴ
+			}
+		}
+		
+		if(m.getMemberPhoto().equals("delete")) { // nullpointer 발생 : 해결
+			
+			new File(session.getServletContext().getRealPath(originPhoto)).delete(); // 기존 파일 삭제
+			m.setMemberPhoto(""); 
+		}
+	
+		if(memberService.updateMember(m) > 0){
 			
 			Member loginUser = memberService.loginMember(m);
 			model.addAttribute("alertMsg","수정 성공");
@@ -172,11 +200,40 @@ public class MemberController {
 			return "redirect:updateForm.me";
 			
 		}else {
+			// 사진 업로드와 db 수정 동시에 해야해서
+			new File(session.getServletContext().getRealPath(m.getMemberPhoto())).delete();
 			model.addAttribute("alertMsg","수정 실패");
 			return "redirect:updateForm.me";
 		}	
 	}
 	
+	public String saveFile(MultipartFile upfile, HttpSession session) { // 실제 넘어온 파일의 이름을 변경해서 서버에 업로드
+		
+		// 파일 명 수정 작업 후 서버에 업로드 시키기("image.png" => 2022.12.38123.123.png)
+		String originName = upfile.getOriginalFilename();
+		
+		// "20221226103530"(년월일시분초)
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		// 12321(5자리 랜덤값)
+		int ranNum = (int)(Math.random() * 90000 + 10000);
+		// 확장자
+		String ext = originName.substring(originName.lastIndexOf("."));
+		
+		String changeName = currentTime + ranNum + ext;
+		
+		// 업로드 시키고자하는 폴더의 물리적인경로 알아내기
+		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
+		
+		try {
+			upfile.transferTo(new File(savePath + changeName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return changeName;
+	}
+	
+
 	// 비밀번호 수정페이지
 	@RequestMapping(value="updatePwdForm.me")
 	public String updatePwdForm() {
@@ -217,9 +274,9 @@ public class MemberController {
 	// 회원탈퇴
 	@RequestMapping(value="deleteMember.me")
 	public String deleteMember(String memberEmail) {
-		System.out.println(343);
+		
 		if(memberService.deleteMember(memberEmail) > 0) { // 탈퇴 성공
-			System.out.println(343);
+			
 			return "redirect:/";// 메인 페이지로 포워딩
 		}else {
 			return "redirect:deleteForm.me"; // 원래 화면 으로 다시 재요청

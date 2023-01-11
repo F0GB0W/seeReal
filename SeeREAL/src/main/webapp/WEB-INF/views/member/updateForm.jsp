@@ -17,7 +17,7 @@
 		width:100px;
 		height:100px;
 		margin-left : 5px;
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 	}
 	</style>
 </head>
@@ -55,36 +55,44 @@
 			<form action="updateMember.me" name="signup" id="signUpForm" method="post" style="margin-bottom: 0;" enctype="multipart/form-data">
 
 				<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
-	
+					
 					<tr>
 						<td style="text-align: left">
-							
+							<input type="hidden" name="memberEmail" value="${loginUser.memberEmail}">
 							<p>
 								<strong>프로필 편집</strong>
 							</p>
 						</td>
 					</tr>
+					
 					<tr>
 						<td style="text-align: left">
 							<c:choose>
 								<c:when test="${empty loginUser.memberPhoto}">
-									
 										<img id="photo" src="resources/img/user.png" class="photo"/>
-									
 								</c:when>
 								<c:otherwise>
-									
 										<img id="photo" src="${loginUser.memberPhoto}" class="photo"/>
-									
+										
 								</c:otherwise>
 							</c:choose>
-						
-                           <input type="file" name="file1" id="file1" onchange="loadImg(this);">
+							<input id="photoInfo" type="hidden" name="memberPhoto" value="1">
+                            <input type="file" name="upfile" id="file" onchange="loadImg(this);">
+                           
                         </td>
 					</tr>
 					<tr>
 						<td style="text-align: left">
+							<button id="updatePhoto-btn" type="button">사진변경</button>
+							<button id="deletePhoto-btn" type="button">삭제</button>
+							
+						</td>	
+					</tr>
+					
+					<tr>
+						<td style="text-align: left">
 							<p>
+								<br>
 								<strong>닉네임</strong>&nbsp;&nbsp;&nbsp;<span id="nicknameChk"></span>
 							</p>
 						</td>
@@ -125,7 +133,9 @@
 	</div>
 	<br>
 	<br>
-			
+	
+	
+	
 	<script>
 		$(function(){
 			
@@ -201,28 +211,44 @@
 			});
 			
 			// 프로필 편집 관련
-			$('#file1').css("display", "none");
+			$('#file').css("display", "none");
 			
-			// 사진 클릭하면
-			$('#photo').click(function(){
-                $('#file1').click();
-            });
-			
-			function loadImg(inputFile){
-               if(inputFile.files.length == 1){
-                  var reader = new FileReader();
-                  
-                  reader.readAsDataURL(inputFile.files[0]);
-                  
-                  reader.onload = function(e){
-                      $('#photo').attr("src", e.target.result);
-                  }
-               }else{
-                  $('#photo').attr("src", "seeReal/resources/img/user.png");
-               }   
-            }
 		});
 		
+		// 사진 클릭하면
+		$('#updatePhoto-btn').click(function(){			
+            $('#file').click();
+            
+        });
+		
+		function loadImg(inputFile){
+			
+			var img = '${ loginUser.memberPhoto }';
+			
+            if(inputFile.files.length == 1){
+               var reader = new FileReader();
+               
+               reader.readAsDataURL(inputFile.files[0]);
+               
+               reader.onload = function(e){
+            	   
+                   $('#photo').attr("src", e.target.result);
+                   
+               }
+            }else{ // 취소 누르면
+            	if(img = ''){
+            		$('#photo').attr("src", img);
+            	} else{
+                	$('#photo').attr("src", "resources/img/user.png");
+            	}
+            }   
+         }
+		$('#deletePhoto-btn').on('click',function(){
+			$('#photo').attr("src", "resources/img/user.png");
+			//$('#photoInfo').attr("name", "memberPhoto");
+     	    $('#photoInfo').val("delete");
+			
+		});
 	</script>
 </body>
 </html>

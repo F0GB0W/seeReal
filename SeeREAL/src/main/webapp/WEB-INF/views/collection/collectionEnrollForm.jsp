@@ -35,7 +35,7 @@
     <form action="insert.ch" method="post" enctype="multipart/form-data">   
         
         <input type="hidden" name="memberNo" value="${ loginUser.memberNo }">
-
+        
         <input type="text" name="collectionTitle" placeholder="컬렉션 제목 입력" required><br>
 
         <label for="upfile">썸네일 등록</label>
@@ -119,6 +119,13 @@
 						console.log(item);
 						let thumb = item.image;
 						
+                        item.subtitle = item.subtitle.replace(/\&apos;/gi, '');   // 따옴표 있으면 안됨...
+                        item.subtitle = item.subtitle.replace(/\&quot;/gi, '');   // 혹시 몰라 쌍따옴표도..
+
+                        item.title = item.title.replace(/\&apos;/gi, '');
+                        item.title = item.title.replace(/\&quot;/gi, '');   
+
+
 						value += '<tr>'
 							   + '<td><a href="'+ item.link + '">' + item.title + '</a></td>'
 							   + '<td><img src="' + thumb + '"/></td>'
@@ -161,6 +168,7 @@
             director = director.slice(0, director.length - 1);
             actor = actor.slice(0, actor.length - 1);
 
+
             for(let i in movieArr) {
                 if((subtitle + year) == movieArr[i]) {
                     alert('이미 추가된 영화입니다!');
@@ -172,7 +180,7 @@
 
             tableValue += '<tr>'
                    + '<td>'+ title 
-                           + '<input type="hidden" name="moiveList[' + count + '].movieTitle" value="' + "'" + subtitle + "'" + '">'
+                           + '<input type="hidden" name="moiveList[' + count + '].movieTitle" value="' + subtitle + '">'
                    + '</td>'
                    + '<td>' + pubDate 
                             + '<input type="hidden" name="moiveList[' + count + '].movieYear" value="' + pubDate + '">'

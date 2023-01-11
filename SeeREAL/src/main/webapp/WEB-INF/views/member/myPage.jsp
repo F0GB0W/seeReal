@@ -31,7 +31,7 @@
 		<c:when test="${empty loginUser}">
 			<script>
 				alert("로그인 후 사용 가능합니다."); // 메인 화면으로 보내기 : 경로 확인하기
-				location.href="menubar.jsp"
+				location.href="/views/common/menubar.jsp"
 			</script>
 		</c:when>
 		
@@ -43,7 +43,7 @@
 						<img src="resources/img/user.png" class="photo"/>
 					</c:when>
 					<c:otherwise>
-						<img src="${loginUser.photo}" class="photo"/>
+						<img src="${loginUser.memberPhoto}" class="photo"/>
 					</c:otherwise>
 				</c:choose>
 				

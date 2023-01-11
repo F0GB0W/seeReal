@@ -22,9 +22,8 @@ public class SearchController {
 	private SearchServiceImp searchService;
 
 	@RequestMapping("search.yj")
-	public ModelAndView searchList(ModelAndView mv, @RequestParam(value="condition", defaultValue="writer")String condition
+	public ModelAndView searchList(ModelAndView mv, @RequestParam(value="condition", defaultValue="meeting")String condition
 												  , @RequestParam(value="keyword", defaultValue="") String keyword
-												  , @RequestParam(value="cpage", defaultValue="1") int currentPage
 												  , Model m) {
 		
 		HashMap<String, String> map = new HashMap();
@@ -33,11 +32,9 @@ public class SearchController {
 		map.put("keyword", keyword);
 		
 		int searchCountList = searchService.searchCountList(map);
-		PageInfo pi = Pagination.getPageInfo(searchCountList, currentPage, 10, 5);
-		ArrayList<Meeting> list = searchService.searchMeetingList(map,pi); 
+		ArrayList<Meeting> mtList = searchService.searchMeetingList(map); 
 		
-		mv.addObject("list", list)
-			.addObject("pi", pi)
+		mv.addObject("mtList", mtList)
 			.setViewName("common/search");
 		
 		

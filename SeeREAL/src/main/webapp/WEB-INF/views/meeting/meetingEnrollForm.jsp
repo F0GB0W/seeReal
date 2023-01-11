@@ -123,6 +123,12 @@
 						let item = itemArr[i];
 						console.log(item);
 						let thumb = item.image;
+
+                        item.subtitle = item.subtitle.replace(/\&apos;/gi, '');   // 따옴표 있으면 안됨...
+                        item.subtitle = item.subtitle.replace(/\&quot;/gi, '');   // 혹시 몰라 쌍따옴표도..
+
+                        item.title = item.title.replace(/\&apos;/gi, '');
+                        item.title = item.title.replace(/\&quot;/gi, '');
 						
 						value += '<tr>'
 							   + '<td><a href="'+ item.link + '">' + item.title + '</a></td>'

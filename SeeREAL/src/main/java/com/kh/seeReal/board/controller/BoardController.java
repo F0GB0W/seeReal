@@ -15,11 +15,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.seeReal.board.model.service.BoardServiceImpl;
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 
@@ -170,6 +173,20 @@ public class BoardController {
 		 }
 		 
 	 }
-	 
+	 @ResponseBody
+	 @RequestMapping("sprInsert.bo")
+	 public String spoilerReplyInsert(BoardReply br) {
+		 
+		 System.out.println(br);
+		 //System.out.println(boardService.spoilerReplyInsert(br));
+		 return boardService.spoilerReplyInsert(br) > 0 ? "success" : "fail";
+	 }
+	 @ResponseBody
+	 @RequestMapping(value="sprList.bo", produces="application/json; charset=UTF-8")
+	 public String spoilerReplyList(int boardNo) {
+		 //System.out.println(boardNo);
+		 //System.out.println(boardService.spoilerReplyList(boardNo));
+		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
+	 }
 		 
 }
