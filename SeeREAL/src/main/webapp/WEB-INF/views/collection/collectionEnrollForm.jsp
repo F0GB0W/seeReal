@@ -121,6 +121,10 @@
 						
                         item.subtitle = item.subtitle.replace(/\&apos;/gi, '');   // 따옴표 있으면 안됨...
                         item.subtitle = item.subtitle.replace(/\&quot;/gi, '');   // 혹시 몰라 쌍따옴표도..
+                        item.subtitle = item.subtitle.replace(/<b>/g, '');
+                        item.subtitle = item.subtitle.replace(/<\/b>/g, '');
+
+                        console.log(item.subtitle);
 
                         item.title = item.title.replace(/\&apos;/gi, '');
                         item.title = item.title.replace(/\&quot;/gi, '');   

@@ -25,4 +25,8 @@ public class CollectionDao {
 		return sqlSession.insert("collectionMapper.insertMovieList", movieList.getMoiveList());
 	}
 
+	public ArrayList<Collection> selectCollectionList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("collectionMapper.selectCollectionList");
+	}
+
 }

@@ -15,4 +15,6 @@ public interface CollectionService {
 
 	int insertCollectionMovie(CollectionMovieList movieList);
 
+	ArrayList<Collection> selectCollectionList();
+
 }
