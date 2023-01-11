@@ -216,7 +216,7 @@ insert
 			bo_reply_no boReplyNo,
 			reply_writer replyWriter,
 			bo_reply_content boReplyContent,
-			to_char(bo_reply_date, 'YYYY-MM-DD') as "BO_REPLY_DATE"
+			to_char(bo_reply_date, 'YYYY-MM-DD') as "boReplyDate"
 	 from
 	 		board_reply
 	 join

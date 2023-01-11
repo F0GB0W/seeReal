@@ -184,8 +184,8 @@ public class BoardController {
 	 @ResponseBody
 	 @RequestMapping(value="sprList.bo", produces="application/json; charset=UTF-8")
 	 public String spoilerReplyList(int boardNo) {
-		 System.out.println(boardNo);
-		 System.out.println(boardService.spoilerReplyList(boardNo));
+		 //System.out.println(boardNo);
+		 //System.out.println(boardService.spoilerReplyList(boardNo));
 		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
 	 }
 		 
