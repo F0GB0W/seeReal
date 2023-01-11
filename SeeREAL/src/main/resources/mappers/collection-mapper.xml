@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="collectionMapper">
+
+	<resultMap id="collectionResultSet"	type="movieCollection">
+		<result column="COLLECTION_NO" property="collectionNo" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
+		<result column="COLLECTION_ENROLL" property="collectionEnroll" />
+		<result column="COLLECTION_TITLE" property="collectionTitle" />
+		<result column="COLLECTION_CONTENT" property="collectionContent" />
+	</resultMap>
+	
+	
+	<insert id="insertCollection" parameterType="movieCollection">
+		INSERT INTO
+			COLLECTION
+				(
+				 COLLECTION_NO
+				,MEMBER_NO
+				,ORIGIN_NAME
+				,COLLECTION_CONTENT
+				,CHANGE_NAME
+				,COLLECTION_TITLE
+				)
+			VALUES
+				(
+				 SEQ_CLNO.NEXTVAL
+				,#{ memberNo }
+				,#{ originName }
+				,#{ collectionContent }
+				,#{ changeName }
+				,#{ collectionTitle }
+				)
+	</insert>
+	
+	<insert id="insertMovieList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+        	INTO
+            	COLLECTION_MOVIE
+					(
+					 COLLECTION_NO
+					,MOVIE_TITLE
+					,MOVIE_YEAR
+					)
+				VALUES 
+					(
+					 SEQ_CLNO.CURRVAL
+					,#{ item.movieTitle }
+					,#{ item.movieYear }
+					)
+         </foreach>   
+	</insert>
+</mapper>
