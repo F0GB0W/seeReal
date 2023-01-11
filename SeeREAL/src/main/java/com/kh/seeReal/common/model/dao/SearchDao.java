@@ -17,11 +17,7 @@ public class SearchDao {
 		return sqlSession.selectOne("searchMapper.searchCountList", map);
 	}
 	
-	public ArrayList<Meeting>searchMeetingList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi){
-		
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("searchMapper.searchMeetingList", map, rowBounds);
+	public ArrayList<Meeting>searchMeetingList(SqlSessionTemplate sqlSession, HashMap<String, String> map){
+		return (ArrayList)sqlSession.selectList("searchMapper.searchMeetingList");
 	}
 }

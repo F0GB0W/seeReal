@@ -26,7 +26,7 @@ public class SearchServiceImp implements SearchService{
 	}
 
 	@Override
-	public ArrayList<Meeting> searchMeetingList(HashMap<String, String> map, PageInfo pi) {
-		return searchDao.searchMeetingList(sqlSession, map, pi);
+	public ArrayList<Meeting> searchMeetingList(HashMap<String, String> map) {
+		return searchDao.searchMeetingList(sqlSession, map);
 	}
 }
