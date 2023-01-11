@@ -51,13 +51,11 @@ public class CollectionController {
 			}
 		}
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("list", movieList.getMoiveList());
-		
-		System.out.println(map);
-		
-		
 		/*
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", movieList.getMoiveList());		
+		
+		
 		if(collectionService.insertCollection(collection) > 0) {
 			System.out.println("컬렉션 인서트 성공!~~");
 			if(collectionService.insertCollectionMovie(map) > 0) {
@@ -96,4 +94,9 @@ public class CollectionController {
 		 return changeName;
 	 
 	 }
+	
+	@RequestMapping("list.cl")
+	public String listCollection() {
+		return "collection/collectionList";
+	}
 }
