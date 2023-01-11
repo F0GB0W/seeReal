@@ -2,6 +2,8 @@ package com.kh.seeReal.comments.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class CommentsServiceImpl implements CommentsService{
 	}
 
 	@Override
-	public HashMap commentsList(Comments comments) {
+	public List<Map<String, Object>> commentsList(Comments comments) {
 		
 		return CommentsDao.commentsList(comments,sqlSession);
 	}

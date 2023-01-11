@@ -30,14 +30,15 @@ public class BoardController {
 	private BoardServiceImpl boardService;
 	
 	@RequestMapping("spoilerList.bo")
-	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
+	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="boardLimit", defaultValue="5") int boardLimit,   ModelAndView mv) {
+		
+		
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, 5);
 		
-		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi)).setViewName("board/spoiler/spoilerBoardList");
+		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi, boardLimit)).setViewName("board/spoiler/spoilerBoardList");
 		
 		
-		//System.out.println(pi);
 		
 		return mv;
 	}
@@ -53,7 +54,7 @@ public class BoardController {
 			 b.setOriginName(upfile.getOriginalFilename());
 			 b.setChangeName("/resources/uploadFiles/" + saveFile(upfile, session));
 		 }
-		 
+		   
 		 
 		 
 		 if(boardService.insertSpoiler(b) > 0) {
@@ -99,9 +100,7 @@ public class BoardController {
 	
 	 
 	 @RequestMapping("spoilerSearch.bo")
-	 public ModelAndView spoilerSearch(ModelAndView mv, @RequestParam(value="condition", defaultValue="writer") String condition, @RequestParam(value="keyword", defaultValue="") String keyword, @RequestParam(value="cpage", defaultValue="1")int currentPage, Model m){
-		 HashMap<String, String> map = new HashMap();
-		 
+	 public ModelAndView spoilerSearch(ModelAndView mv,HashMap<String, String> map, @RequestParam(value="condition", defaultValue="writer") String condition, @RequestParam(value="keyword", defaultValue="") String keyword, @RequestParam(value="cpage", defaultValue="1")int currentPage, Model m){
 		 map.put("condition", condition);
 		 map.put("keyword", keyword);
 		 
@@ -151,5 +150,26 @@ public class BoardController {
 		 }
 		 
 	 }
+	 @RequestMapping("spoilerDelete.bo")
+	 public String spoilerDelete(int bno, HttpSession session, Model model, String filePath) {
+		 
+		 if(boardService.spoilerDelete(bno) > 0) { // 삭제 성공 
+			 
+			 if(!filePath.equals("")) { // 만약 첨부파일이 존재한다면
+				 
+				 // 기존에 존재하는 첨부파일을 삭제
+				 // 파일 경로를 찾으려면?
+				 new File(session.getServletContext().getRealPath(filePath)).delete();
+				 
+			 }
+			 session.setAttribute("alertMsg", "삭제성공");
+			 return "redirect:/spoilerList.bo";
+		 }else {
+			 model.addAttribute("errorMsg", "게시글 삭제 실패");
+			 return "common/errorMsg";
+		 }
+		 
+	 }
+	 
 		 
 }

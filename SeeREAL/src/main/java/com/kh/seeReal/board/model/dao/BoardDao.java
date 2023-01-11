@@ -17,7 +17,7 @@ public class BoardDao {
 	public int selectBoardListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.selectBoardListCount");
 	}
-	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi){
+	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int boardLimit){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
@@ -50,6 +50,9 @@ public class BoardDao {
 	}
 	public int spoilerUpdate(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.update("boardMapper.spoilerUpdate", b);
+	}
+	public int spoilerDelete(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.spoilerDelete", boardNo);
 	}
 
 	
