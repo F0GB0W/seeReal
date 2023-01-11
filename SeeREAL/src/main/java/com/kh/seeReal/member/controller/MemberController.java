@@ -1,7 +1,11 @@
 package com.kh.seeReal.member.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -157,14 +161,87 @@ public class MemberController {
 		-> 멤버 객체로 받아서 update
 		-> 사진 있는지 확인해서 있으면 경로 붙여서 set해야함
 		->비밀번호 수정 3번과 동일하게!
+		
+		1. 새로 첨부된 파일 x, 기존 첨부파일 x : origin : null, change : null
+        2. 새로 첨부된 파일 x, 기존 첨부파일 o : origin : 기존 첨부파일 이름, change : 기존 청부파일 경로
+        3. 새로 첨부된 파일 o, 기존 첨부파일 x : origin : 새로 첨부파일 이름, change : 새로 첨부파일 경로
+        4. 새로 첨부된 파일 o, 기존 첨부파일 o : origin : 새로 첨부파일 이름, change : 새로 첨부파일 경로
+
 	 */
 	
+	/*
 	// 회원정보 수정 
 	// 수정 결과 알림창 보여주고 원래 화면 보여주기 > select 해온 결과 > redirect 
 	@RequestMapping(value="updateMember.me")
 	public String updateMember(Member m, HttpSession session, Model model, MultipartFile upfile) {
-		//m.setMemberPhoto("resources/uploadFiles/" + saveFile(upfile,session)); 
-		if(memberService.updateMember(m) > 1){// 조건 판별해서 loginMember(), 화면으로 보내주기
+		
+		String originPhoto = (((Member)session.getAttribute("loginUser")).getMemberPhoto());
+
+		// 경로를 memberPhoto에 넣어야함
+		// originName에 값이 있는지 없는지로 기존 파일 존재 여부 확인 가능
+		// session의 loginUser.(변경 전 내용 가지고 있음)memberPhoto에 값이 있으면도 가능할듯?
+		// 조건식으로(m.memberPhoto 값 있는 지 확인하면 새로운 파이ㄹ 있는 지 확인가능할듯)
+		
+		if(originPhoto != null) { // 기존 파일 있음
+			
+			new File(session.getServletContext().getRealPath(originPhoto)).delete(); // 기존 파일 삭제
+			
+			if(m.getMemberPhoto() != null) { // 변경(추가할 사진 있음) : 서버에 업로드
+				m.setMemberPhoto("resources/uploadFiles/"+ saveFile(upfile,session)); // 경로 만들어서 넣어야함
+			
+			}else { // 기존 사진 삭제
+				m.setMemberPhoto(""); // memberPhoto 값 변경, null 넣어도 되는 지 확인하기★★★★
+			}
+		}else { // 기존 파일 없음
+			System.out.println("m.getMemberPhoto() : " + m.getMemberPhoto());
+			if(m.getMemberPhoto() != null){ // 추가할 사진 있음 : 서버에 업로드
+				
+				m.setMemberPhoto("resources/uploadFiles/"+ saveFile(upfile,session)); 
+				// insert 맞는지? ㄴㄴㄴ : photo 공간있고, 값이 없는 거라서 update해야함
+			}
+		}
+	
+		if(memberService.updateMember(m) > 0){
+			
+			Member loginUser = memberService.loginMember(m);
+			model.addAttribute("alertMsg","수정 성공");
+			session.setAttribute("loginUser", loginUser);
+			return "redirect:updateForm.me";
+			
+		}else {
+			model.addAttribute("alertMsg","수정 실패");
+			return "redirect:updateForm.me";
+		}	
+	}
+	*/
+	
+	@RequestMapping(value="updateMember.me")
+	public String updateMember(Member m, HttpSession session, Model model, MultipartFile upfile) {
+		
+		String originPhoto = (((Member)session.getAttribute("loginUser")).getMemberPhoto());
+		// 기존에 null일 경우 오류 발생
+		System.out.println("1. originPhoto : " + originPhoto);
+		
+		if(upfile.getSize()!=0) { // 새로운 사진 추가(변경)
+			
+			if(originPhoto.equals("")) { // 기존 파일 있음
+				new File(session.getServletContext().getRealPath(originPhoto)).delete(); // 기존 파일 삭제
+				// 기존 memberPhoto : resources/uploadFiles/ + @@@
+				// 저 값을 받으면 또 resources/uploadFiles/ 붙음??? ㄴㄴㄴ
+			}
+			
+			m.setMemberPhoto("resources/uploadFiles/"+ saveFile(upfile,session)); 	
+			System.out.println("originPhoto : " + originPhoto);
+		}
+		
+		if(m.getMemberPhoto().equals("delete")) {
+			System.out.println("delete : " + m.getMemberPhoto());
+			new File(session.getServletContext().getRealPath(originPhoto)).delete(); // 기존 파일 삭제
+			m.setMemberPhoto("");
+		}
+	
+	
+		if(memberService.updateMember(m) > 0){
 			
 			Member loginUser = memberService.loginMember(m);
 			model.addAttribute("alertMsg","수정 성공");
@@ -177,6 +254,33 @@ public class MemberController {
 		}	
 	}
 	
+	public String saveFile(MultipartFile upfile, HttpSession session) { // 실제 넘어온 파일의 이름을 변경해서 서버에 업로드
+		
+		// 파일 명 수정 작업 후 서버에 업로드 시키기("image.png" => 2022.12.38123.123.png)
+		String originName = upfile.getOriginalFilename();
+		
+		// "20221226103530"(년월일시분초)
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		// 12321(5자리 랜덤값)
+		int ranNum = (int)(Math.random() * 90000 + 10000);
+		// 확장자
+		String ext = originName.substring(originName.lastIndexOf("."));
+		
+		String changeName = currentTime + ranNum + ext;
+		
+		// 업로드 시키고자하는 폴더의 물리적인경로 알아내기
+		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
+		
+		try {
+			upfile.transferTo(new File(savePath + changeName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return changeName;
+	}
+	
+
 	// 비밀번호 수정페이지
 	@RequestMapping(value="updatePwdForm.me")
 	public String updatePwdForm() {

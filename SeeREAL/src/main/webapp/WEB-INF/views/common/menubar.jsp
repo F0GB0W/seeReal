@@ -48,9 +48,7 @@
 			<div><a href="logout.me">로그아웃</a></div>
 			<input type="hidden" value="${loginUser.memberEmail}"/>
 		</c:when>
-		<c:otherwise>
-			<p>정지된 회원입니다 내용이 들어간 페이지로 이동시키기</p>
-		</c:otherwise>
+		
 	</c:choose>
 	
 	
