@@ -178,7 +178,7 @@ public class BoardController {
 	 public String spoilerReplyInsert(BoardReply br) {
 		 
 		 System.out.println(br);
-		 System.out.println(boardService.spoilerReplyInsert(br));
+		 //System.out.println(boardService.spoilerReplyInsert(br));
 		 return boardService.spoilerReplyInsert(br) > 0 ? "success" : "fail";
 	 }
 	 @ResponseBody

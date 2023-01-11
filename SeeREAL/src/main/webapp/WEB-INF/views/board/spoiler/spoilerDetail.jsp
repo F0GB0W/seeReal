@@ -22,13 +22,14 @@
 
         table * {margin:5px;}
         table {width:100%;}
+        spList{width:1000px;}
     </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div>
+	<div id="spList">
 		<a class="btn btn-secondary" style="float:right;" href="spoilerList.bo">목록으로</a>
 		<table id="detailView" align="center" class="table">
 			<tr>
@@ -91,13 +92,13 @@
 			<c:choose>
 				<c:when test="${empty loginUser }">
 					<th>
-						<textarea class="form-control" readonly id="reply-content" cols="55" rows="2" style="resize:none;" width="100%";>로그인 후 이용가능합니다.</textarea>
+						<textarea class="form-control" readonly id="reply-content" cols="55" rows="2" style="resize:none;";>로그인 후 이용가능합니다.</textarea>
 					</th>
 					<th style="vertical-align:middle"><button class="btn btn-secondary disabled">등록하기</button>
 				</c:when>
 				<c:otherwise>
 					<th>
-						<textarea class="form-control" id="reply-content" cols="55" rows="2" style="resize:none;" width="100%";></textarea>
+						<textarea class="form-control" id="reply-content" cols="55" rows="2" style="resize:none;"></textarea>
 					</th>
 					<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addReply();">등록하기</button>
 				</c:otherwise>
@@ -108,10 +109,14 @@
 		</thead>
 		<tbody>
 			
+			
 		</tbody>
 	
 	</table>
 	<script>
+		$(function(){
+			selectSpoilerReplyList();
+		});
 		function addReply(){
 		
 			if($('#reply-content').val().trim() != ''){
@@ -120,21 +125,21 @@
 					data : {
 						boardNo : ${b.boardNo},
 						boReplyContent : $('#reply-content').val(),
+						replyWriter : '${loginUser.memberNickname}',
 						memberNo : '${loginUser.memberNo}'
 					},
 					success : function(status){
-						console.log(status);
+						 console.log(status);
 						
 						if(status == 'success'){
 							selectSpoilerReplyList();
 							$('#reply-content').val('');
 							
-							return false;
 						}
+						alert("댓글 입력 성공");
 					},
 					error : function(){
-						console.log('실패');
-						return false;
+						// console.log('실패');
 					}
 				});
 			}else{
