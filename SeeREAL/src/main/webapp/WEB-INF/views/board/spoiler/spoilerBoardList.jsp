@@ -209,15 +209,27 @@
           <div class="container">
               <h3>스포 게시판</h3>
               <br>
-             <form action="spoilerList.bo" id="page-count">
+            <div id="page-count">
+             <form action="spoilerList.bo?boardLimit=${pi.boardLimit }&countKey=${pi.boardLimit }" id="">
              	<input type="hidden" name="cpage">
 		              <select  name="boardLimit">
 		              	<option value="5">5개</option>
 		              	<option value="10">10개</option>
 		              	<option value="25">15개</option>
 		              	<option value="20">20개</option>
+		              	<input type="hidden" name="countKey"/>
 		              </select>
+              <button type="submit" >버튼</button>
               </form>
+             </div>
+              <c:if test="${not empty boardLimit }">
+              <script>
+              $(function(){
+      			$('#page-count option[value=${boardLimit}]').attr('selected', true);					
+      		
+      		});     
+              </script>
+              </c:if>
               <br><br>
               <c:if test="${not empty loginUser}">
               	<a href="spoilerEnrollForm.bo" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>

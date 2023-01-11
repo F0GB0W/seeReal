@@ -36,8 +36,7 @@ public class BoardController {
 	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="boardLimit", defaultValue="5") int boardLimit,   ModelAndView mv) {
 		
 		
-		
-		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, boardLimit);
 		
 		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi, boardLimit)).setViewName("board/spoiler/spoilerBoardList");
 		
@@ -110,7 +109,7 @@ public class BoardController {
 		 int spoilerSearchListCount = boardService.spoilerSearchListCount(map);
 		 PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
 		 ArrayList<Board> list = boardService.spoilerSearchList(map, pi); // 페이징 바
-		 
+		 //System.out.println(map);
 		 //System.out.println(pi);
 		 //System.out.println(list);
 		mv.addObject("list", list); // 조회 결과
