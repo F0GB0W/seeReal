@@ -13,8 +13,8 @@
 	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
 	<div><a href="spoilerList.bo">스포 게시판</a></div>
 	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
-	<div><a href="meetingList.mt">(임시)모임</a></div>
-	<div><a href="makeCollection.cl">(임시)컬렉션만들기</a></div>
+	<div><a href="meetingList.mt">모임</a></div>
+	<div><a href="list.cl">(임시)컬렉션리스트</a></div>
 	<div id="search-area">
 		<form action="search.yj" method="get">
 			<input type="hidden" name="currentPage" value="1">

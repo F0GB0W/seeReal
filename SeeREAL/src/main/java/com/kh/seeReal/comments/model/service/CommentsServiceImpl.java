@@ -52,5 +52,17 @@ public class CommentsServiceImpl implements CommentsService{
 		
 		return CommentsDao.commentsWrite(comments,sqlSession);
 	}
+
+	@Override
+	public int thumbsUp(Comments comments) {
+		
+		return CommentsDao.thumbsUp(comments,sqlSession);
+	}
+
+	@Override
+	public int thumbsDown(Comments comments) {
+		
+		return CommentsDao.thumbsDown(comments,sqlSession);
+	}
 	
 }

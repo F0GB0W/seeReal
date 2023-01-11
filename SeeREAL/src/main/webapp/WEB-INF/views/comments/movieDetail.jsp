@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,8 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
+    
 <title>Insert title here</title>
 <style>
 	.star{
@@ -32,6 +35,12 @@
 	  font-size: 20px;
 	  
 	}
+	.commentsList{
+		border:1px solid black;
+	}
+	.commentsOne{
+		border:1px solid red;
+	}
 </style>
 </head>
 <body>
@@ -46,6 +55,9 @@
 	<p>${movieDirector }</p>
 	<p>${movieSubTitle }</p>
 	<p>${loginUser}</p>
+	<p>${commentsList}</p>
+	<p>${commentsList[0].NICK_NAME}</p>
+	<p>${commentsList}</p>
 	</div>
 	<div>
 	<p id="ratingShow">${rating }</p>
@@ -88,55 +100,43 @@
 				</c:when>
 			</c:choose>
 		</div>
-		<div class="commentList">
-			<div>
-		        <div align="left">
-		            <p>아이디 시간</p>
-		        </div>
-		        <div align="right">
-		            	<p>신고</p>
-		        </div>
-		    </div>
-		    
-		    <div>
-		        <textarea>내용</textarea>
-		    </div>
-		    
-		    <div>
-		        <div align="left">
-		           	 <p>별점</p>
-		        </div>
-		        <div align="right">
-		           	 <p>좋아요 실어요</p>
-		        </div>
-		    </div>
-    	</div>
+		<div class="commentsList">
+			<c:forEach items="${commentsList}" var="c">
+				
+				<div class="commentsOne">
+					<div>
+				        <div align="left">
+				            <p>${c.NICK_NAME} &nbsp; ${c.COMMENTENROLLDATE}</p>
+				        </div>
+				        <div align="right">
+				            	<button class="reportComment">신고</button>
+				        </div>
+				    </div>
+				    
+				    <div>
+				        <textarea>${c.COMMENT_CONTENT}</textarea>
+				    </div>
+				    
+				    <div>
+				        <div align="left">
+				           	 <p>별점</p>
+				        </div>
+				        <div align="right">
+				           	<i class="fa-solid fa-thumbs-up"></i><em class="like">좋아요값</em>
+					   		<i class="fa-solid fa-thumbs-down"></i><em class="dislike">싫어요 값</em>
+				        </div>
+				    </div>
+				    
+			    </div>
+			</c:forEach>
+			    <br>
+	    </div>   	
 	</div>
+	<br><br><br><br><br>
 	
 	
-	
-	<script>
-	$(function(){
-		if('${loginUser}' != ''){
-			
-		}
-		
-		console.log('화면되면서 로딩됨')
-		showMovieCommentsList();
-		
-		console.log($('.form-control').val().length)
-		console.log($('.textarea-length'))
-		$('.form-control').on('keyup',function(){
-			$('.textarea-length').text($('.form-control').val().length+'/1000')
-			console.log($('.textarea-length'))
-			console.log($('.form-control').val().length)
-			console.log($('.textarea-length').text())
-		})	
-		
-		})
-	</script>
 	<!-- Button to Open the Modal -->
-	<!-- The Modal -->
+	<!-- The Modal 글쓰기 버튼-->
   <div class="modal" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -162,7 +162,79 @@
           <p class="textarea-length">0/1000</p>
           <button type="button" class="btn btn-danger" data-dismiss="modal" id="CommentsInsert" onclick="commentsInsert();">저장</button>
         </div>
+		<!-- Modal end 글쓰기 버튼-->
+	<script>
+	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-up]',function(){
+		console.log($(this));
+		console.log($(this).parent());
+		console.log($(this).parent().parent());
+		console.log($(this).parent().parent().parent());
+		console.log($(this).parent().parent().parent().next());
+		console.log('달러디스확인끝')
+		console.log(this);
+		if('${loginUser}' != ''){
+			$.ajax({//좋아요 눌렀을때 기능
+				url:'thumbsUp.co',
+				data:{movieTitle:${movieTitle},
+					  movieYear:${movieYear},
+					  memberNo:$(loginUser.memberNo)
+				},
+				success:function(){
+					console.log('좋아요 성공');
+				},
+				error:function(){
+					console.log('좋아요실패')
+				}
+			});
+		}else{
+			alert('로그인후 좋아요를 누를수 있습니다')
+		}
+	});
+	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-down]',function(){
+		if('${loginUser}' != ''){
+			$.ajax({//좋아요 눌렀을때 기능
+				url:'thumbsDown.co',
+				data:{movieTitle:${movieTitle},
+					  movieYear:${movieYear},
+					  memberNo:$(loginUser.memberNo)
+				},
+				success:function(){
+					console.log('좋아요 성공');
+				},
+				error:function(){
+					console.log('좋아요실패')
+				}
+			});
+		}else{
+			alert('로그인후 싫어요를 누를수 있습니다')
+		}
+	});
 	
+	$(function(){
+		if('${loginUser}' != ''){
+			
+		}
+		console.log($('i[class~=fa-thumbs-up'));
+		$('i[class~=fa-thumbs-up').attr('name','ssddss');
+		console.log('===name===')
+        console.log($('i[class~=fa-thumbs-up').attr('name'));
+		console.log('===name===')
+		
+		
+		console.log('화면되면서 로딩됨')
+		//showMovieCommentsList();
+		
+		console.log($('.form-control').val().length)
+		console.log($('.textarea-length'))
+		$('.form-control').on('keyup',function(){
+			$('.textarea-length').text($('.form-control').val().length+'/1000')
+			console.log($('.textarea-length'))
+			console.log($('.form-control').val().length)
+			console.log($('.textarea-length').text())
+		})	
+		
+		})
+	</script>
 	
 	
 	<script>
@@ -202,29 +274,46 @@
 			},
 			success:function(commentsList){
 				
-				value='';
+				console.log('---커멘트리스트콘솔---')
+				console.log(commentsList);
 				
-				value+='<div>'+
-					 +       '<div align="left">'
-					 +           '<p>아이디 시간</p>'
-					 +       '</div>'
-					 +       '<div align="right">'
-					 +           	'신고'
-					 +       '</div>'
-				     +	'</div>'
-				    
-					 +   '<div>'
-					 +       '<textarea>내용</textarea>'
-					 +   '</div>'
-					    
-					 +   '<div>'
-					 +       '<div align="left">'
+				console.log(commentsList[0]);
+				console.log(commentsList[0].COMMENTENROLLDATE
+);
+				console.log(commentsList[0].COMMENT_CONTENT);
+				console.log('---커멘트리스트콘솔---')
+				
+				value='';
+				for(var i in commentsList){
+				
+					result=commentsList[i];
+					
+				value+='<div class="commentsOne">'
+					 +   	'<div>'
+					 +    	   '<div align="left">'
+					 +     	      '<p>'+result.NICK_NAME+'&nbsp;&nbsp;'+result.COMMENTENROLLDATE+'</p>'
+					 +     	   '</div>'
+					 +     	   '<div align="right">'
+					 +     	      	'<button class="reportComment">신고</button>'
+					 +     	   '</div>'
+				     +		'</div>'				    
+					 +  	'<div>'
+					 +       	'<textarea>'+result.COMMENT_CONTENT+'</textarea>'
+					 + 	 	'</div>'					    
+					 +  	'<div>'
+					 +       	'<div align="left">'
 					 +          	 '별점'
-					 +       '</div>'
-					 +       '<div align="right">'
-					 +          	 '좋아요 실어요'
-					 +       '</div>'
-					 +   '</div>';
+					 +       	'</div>'
+					 +       	'<div align="right">'
+					 +          	 '<i class="fa-solid fa-thumbs-up"></i><em class="like">좋아요값</em>'
+					 +				 '<i class="fa-solid fa-thumbs-down"></i><em class="dislike">싫어요 값</em>'
+					 +       	'</div>'
+					 +  	'</div>'
+					 +	 '</div>'
+					 +	 '<input type="hidden" value="'+result.MEMBER_NO+'">'
+					 +	 '<input type="hidden" value="'+result.COMMENT_NO+'">'
+					 +	 '<br>'
+				}
 						
 				    	
 				$('.commentsList').append(value);
@@ -235,7 +324,9 @@
 			}
 		});
 	};
-		
+	
+	
+	
 	function spoiler(){
 		if($('#on-off').text() =="off"){
 			$('#on-off').text("on");
