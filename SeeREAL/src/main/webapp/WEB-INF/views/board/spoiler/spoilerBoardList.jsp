@@ -212,10 +212,10 @@
              <form action="spoilerList.bo" id="page-count">
              	<input type="hidden" name="cpage">
 		              <select  name="boardLimit">
-		              	<option value="1">5개</option>
-		              	<option value="2">10개</option>
-		              	<option value="3">15개</option>
-		              	<option value="4">20개</option>
+		              	<option value="5">5개</option>
+		              	<option value="10">10개</option>
+		              	<option value="25">15개</option>
+		              	<option value="20">20개</option>
 		              </select>
               </form>
               <br><br>
