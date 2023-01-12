@@ -38,7 +38,9 @@
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td>${b.boardWriter }</td>
+				<td>
+					${b.nickName eq m.memberNickname}
+				</td>
 			</tr>
 			<tr>
 				<th>작성일</th>
@@ -104,7 +106,7 @@
 				</c:otherwise>
 			</c:choose>
 			<tr>
-				<td colspan="3">댓글(<span id="rcount"></span>)</td>
+				<td colspan="4">댓글(<span id="rcount"></span>)</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -160,14 +162,30 @@
 					
 					var value = '';
 					for(var i in list){
-						value += '<tr>'
-							   + '<td>' + list[i].replyWriter + '</td>'
-							   + '<td>' + list[i].boReplyContent + '</td>'
-							   + '<td>' + list[i].boReplyDate + '</td>';
-							  if(list[i].replyWriter == list[i].loginUser){
-							  }	   
-						value += '</tr>';
-							   
+						if(${ not empty loginUser}){
+							  if(${b.boardWriter == loginUser.memberNo}){
+								  value += '<tr>'
+									   + '<td>' + list[i].replyWriter + '</td>'
+									   + '<td>' + list[i].boReplyContent + '</td>'
+									   + '<td>' + list[i].boReplyDate + '</td>';
+									   + '<td><a href="#">삭제</a></td></tr>';
+							  } else {
+								  
+									value += '<tr>'
+										   + '<td>' + list[i].replyWriter + '</td>'
+										   + '<td>' + list[i].boReplyContent + '</td>'
+										   + '<td>' + list[i].boReplyDate + '</td>'
+										   + '</tr>';
+										   
+							  }
+								 
+						} else {
+							value += '<tr>'
+								   + '<td>' + list[i].replyWriter + '</td>'
+								   + '<td>' + list[i].boReplyContent + '</td>'
+								   + '<td>' + list[i].boReplyDate + '</td>';
+								   + '</tr>'
+						}
 						
 					}
 					$('#replyArea tbody').html(value);

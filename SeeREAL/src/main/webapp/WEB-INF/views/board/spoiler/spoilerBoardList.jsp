@@ -312,9 +312,7 @@
 		      			</c:choose>
 		      		</c:forEach>
 		      	</c:if>
-		      
-		     
-      		
+		      	
       		<c:choose>
       			<c:when test="${pi.currentPage eq pi.maxPage }">
       				<li class="page-item disabled" ><a class="page-link" href="#">Next</a></li>
