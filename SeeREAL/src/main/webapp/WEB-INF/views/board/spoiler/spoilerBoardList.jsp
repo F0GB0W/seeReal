@@ -286,17 +286,31 @@
       			<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage - 1 }">Previous</a></li>
       			</c:otherwise>
       		</c:choose>
+      		<c:if test="${empty pi.boardLimit }">
+	      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
+	      			<c:choose>
+		      			<c:when test="${ empty condition }">
+		      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+		      			</c:when>
+		      			<c:otherwise>
+		      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
+		      			</c:otherwise>
+	      			</c:choose>
+	      		</c:forEach>
+	      	</c:if>
       		
-      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
-      			<c:choose>
-	      			<c:when test="${ empty condition }">
-	      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-	      			</c:when>
-	      			<c:otherwise>
-	      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
-	      			</c:otherwise>
-      			</c:choose>
-      		</c:forEach>
+		      <c:if test="${not empty pi.boardLimit }">
+		      	<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
+		      			<c:choose>
+			      			<c:when test="${ empty pi.boardLimit }">
+			      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+			      			</c:when>
+			      			<c:otherwise>
+			      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }&board-count=${pi.boardLimit}">${p}</a></li>
+			      			</c:otherwise>
+		      			</c:choose>
+		      		</c:forEach>
+		      	</c:if>
       		
       		<c:choose>
       			<c:when test="${pi.currentPage eq pi.maxPage }">
@@ -308,6 +322,7 @@
       		</c:choose>
       	</ul>
       </div>
+     
       <br>
       <c:if test="${not empty condition }">
       <script>
