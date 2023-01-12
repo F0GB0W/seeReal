@@ -25,4 +25,6 @@ public interface CommentsService {
 	
 	ArrayList showCommentsLike(Comments comments);
 	
+	ArrayList commentsLikeSum(Comments comments);
+	
 }
