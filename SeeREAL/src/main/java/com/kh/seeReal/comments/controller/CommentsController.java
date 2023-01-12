@@ -253,4 +253,35 @@ public class CommentsController {
     	
     }
     
+    @ResponseBody
+    @RequestMapping(value="showCommentsLike.co")
+    public ArrayList showCommentsLike(String movieTitle,String movieYear,String memberNo,Model model) {
+    	//public ArrayList showCommentsLike(String movieTitle,String movieYear,String memberNo,Model model) {
+    	//public ArrayList showCommentsLike(Comments comments,Model model) {
+    	System.out.println("controller memberNo"+memberNo);
+    	Comments comments=new Comments();
+    	comments.setMovieTitle(movieTitle);
+    	comments.setMovieYear(movieYear);
+    	//if(memberNo == "") {
+    	//	comments.setMemberNo(0);
+    	//}else {
+    	//	comments.setMemberNo(Integer.parseInt(memberNo));
+    	//}
+    	
+    	//System.out.println("showCommentsLike 오긴왔니? comments:"+comments);
+    	if(memberNo == null) {
+    		comments.setMemberNo(0);
+    	} else {
+    		comments.setMemberNo(Integer.parseInt(memberNo));
+    	}
+    	return commentsService.showCommentsLike(comments);
+    	//System.out.println("comments 정보"+comments);
+    	//System.out.println(movieYear);
+    	//System.out.println(memberNo);
+    	//System.out.println("showCommentsLike 오긴왔니? comments:"+memberNo);
+    	//return "comments/movieDetail";
+    	
+    	
+    }
+    
 }

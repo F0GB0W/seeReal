@@ -73,4 +73,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY
 			COLLECTION_ENROLL
 	</select>
+	
+	<select id="selectCollectionDetail" parameterType="_int" resultMap="collectionResultSet">
+		SELECT 
+			COLLECTION_NO,
+			c.MEMBER_NO,
+			COLLECTION_CONTENT,
+			COLLECTION_TITLE,
+			CHANGE_NAME,
+			m.NICK_NAME
+		FROM
+			COLLECTION c
+		JOIN MEMBER m ON
+			c.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			m.STATUS = 'Y'
+			AND c.STATUS = 'Y'
+			AND c.COLLECTION_NO = #{ clno }
+	</select>
+	
+	<select id="selectMovieList" parameterType="_int" resultType="collectionMovie">
+		SELECT
+			COLLECTION_NO collectionNo,
+			MOVIE_TITLE movieTitle,
+			MOVIE_YEAR movieYear
+		FROM
+			COLLECTION_MOVIE
+		WHERE
+			COLLECTION_NO = #{ clno }
+		ORDER BY
+			MOVIE_YEAR
+	</select>
 </mapper>

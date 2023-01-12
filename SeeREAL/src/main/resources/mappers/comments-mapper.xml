@@ -22,6 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="NICK_NAME" property="memberNickname"/>
 	</resultMap>
 	
+	
+	
 	<select id="ratingGet" resultType="_double" parameterType="MovieRating">
 		SELECT
 		      ROUND(SUM(RATING)/COUNT(*),1)
@@ -189,4 +191,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     
 		  	  
 	</update>
+	
+	<select id="showCommentsLike" parameterType="Comments" resultType="arraylist">
+		SELECT 
+		      COMMENT_NO
+		  FROM
+		      COMMENT_LIKE
+		 WHERE
+		      COMMENT_WRITER = #{memberNo}
+		   AND
+		      COMMENT_NO IN (SELECT
+		                          COMMENT_NO
+		                      FROM
+		                          COMMENTS
+		                     WHERE
+		                          MOVIE_TITLE=#{movieTitle}
+		                       AND
+		                          MOVIE_YEAR=#{movieYear} )
+	
+	</select>
 </mapper>

@@ -64,5 +64,11 @@ public class CommentsServiceImpl implements CommentsService{
 		
 		return CommentsDao.thumbsDown(comments,sqlSession);
 	}
+
+	@Override
+	public ArrayList showCommentsLike(Comments comments) {
+		
+		return CommentsDao.showCommentsLike(comments,sqlSession);
+	}
 	
 }

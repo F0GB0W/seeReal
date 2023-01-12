@@ -47,10 +47,17 @@ public class CommentsDao {
 		//HashMap<String,Object> list=(HashMap)sqlSession.selectList("comments-mapper.commentsList", comments);		
 		  return list;	  
 	}
-	public int thumbsUp(Comments commnets,SqlSessionTemplate sqlSession) {
-		return sqlSession.update("comments-mapper.thumbsUp",commnets);
+	public int thumbsUp(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.thumbsUp",comments);
 	}
-	public int thumbsDown(Comments commnets,SqlSessionTemplate sqlSession) {
-		return sqlSession.update("comments-mapper.thumbsDown",commnets);
+	public int thumbsDown(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.thumbsDown",comments);
+	}
+	public ArrayList showCommentsLike(Comments comments,SqlSessionTemplate sqlSession) {
+		System.out.println("---showCommentsLike 가기전 ----"+comments);
+		
+		ArrayList list=(ArrayList)sqlSession.selectList("comments-mapper.showCommentsLike", comments);
+		System.out.println("---showCommentsLike 가기후 ----"+list);
+		return list;
 	}
 }

@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEETING_WRITER" property="meetingWriter" />
 	</resultMap>
 
-	<select id="searchCountList" resultType="_int" parameterType="hashmap"> 
+	<select id="searchCountList" resultType="_int" parameterType="java.util.HashMap"> 
 	  select 
 	  		 count(*)
 		from 
@@ -30,11 +30,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   	  meeting_no desc
 	</select>
 	
-	<select id="searchMeetingList" parameterType="hashmap" resultMap="meetingResultSet">
+	<select id="searchMeetingList" parameterType="java.util.HashMap" resultMap="meetingResultSet">
 		select
 			   meeting_title, 
-			   movie_title, 
-			   meeting_place
+			   movie_title,
+			   meeting_no
 		  from
 		  	   meeting
 		 where
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   and
 		   	   meeting_title
 		  like 
-		  	   '%' || #{ keyword } || '%'
+		  	   '%' || #{ keyword }|| '%'
 		 order
 		    by 
 		      meeting_no desc 
