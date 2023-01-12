@@ -42,14 +42,45 @@
 		<div><a href="updateForm.me">회원정보 수정</a></div>
 		<div><a href="updatePwdForm.me">비밀번호 수정</a></div>
 		
-		<a href="myboardList.me?boardType=1">수다게시판</a>
-		<a href="myboardList.me?boardType=2">스포일러게시판</a>	
+		<div><a href="myboardList.me?boardType=1">수다게시판</a></div>
+		<div><a href="myboardList.me?boardType=2">스포일러게시판</a></div>
+		<div><a href="myCollection.me">컬렉션</a></div>
+		
+		<div><a href="myReply.me">댓글</a></div>
+		
+		
 		<div><a>내 좋아요</a></div>
 		<div><a>내 싫어요</a></div>
-		<div><a>내 리얼모임</a></div>
+		<div>
+			<button onclick="postFormSubmit(1)">내가 만든 모임</button>
+			<button onclick="postFormSubmit(2)">참여한 모임</button>
+			<button onclick="postFormSubmit(3)">대기중</button>
+		</div>
+		
+		<form action="myMeeting.me" method="post" id="postForm">
+            	<input id="myMeeting" type="hidden" name="accept" value="" />
+        </form>
+            
 		<div><a href="deleteForm.me">회원탈퇴</a></div>
 	</div>
-
+	
+	<script>
+        function postFormSubmit(num){
+        
+		    if(num == 1){ 
+		   	    $('#postForm').attr('action', 'myMeeting.me').submit();
+		    }else if(num == 2){
+		    	$('#myMeeting').val(1);
+		    	$('#postForm').attr('action', 'myMeetingStatus.me').submit();
+		    	
+		    }else{	
+		    	$('#myMeeting').val(2);
+		    	console.log($('#myMeeting').val(2));
+		    	$('#postForm').attr('action', 'myMeetingStatus.me').submit();
+				
+			}
+        }
+    </script>
 	
 </body>
 </html>

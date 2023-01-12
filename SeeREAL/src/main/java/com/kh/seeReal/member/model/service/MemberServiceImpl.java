@@ -10,7 +10,9 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.common.model.vo.PageInfo;
+import com.kh.seeReal.meeting.model.vo.Meeting;
 import com.kh.seeReal.member.model.dao.MemberDao;
 import com.kh.seeReal.member.model.vo.Cert;
 import com.kh.seeReal.member.model.vo.Member;
@@ -80,6 +82,44 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Board> selectBoardList(HashMap<String, String> map, PageInfo pi) {
 		return memberDao.selectBoardList(sqlSession,map,pi);
 	}
+
+	@Override
+	public int selectReplyListCount(String memberEmail) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Board> selectReplyList(String memberEmail, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int selectMyMeetingListCount(int memberNo) {
+		return memberDao.selectMyMeetingListCount(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<Meeting> selectMyMeetingList(PageInfo pi,int memberNo) {
+		return memberDao.selectMyMeetingList(sqlSession, pi , memberNo);
+	}
+
+	@Override
+	public int selectMeetingListCount(HashMap map) {
+		return memberDao.selectMeetingListCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Meeting> selectMeetingList(PageInfo pi, HashMap map) {
+		return memberDao.selectMeetingList(sqlSession, pi, map);
+	}
+
+	@Override
+	public ArrayList<Collection> selectCollectionList(int memberNo) {
+		return memberDao.selectCollectionList(sqlSession, memberNo);
+	}
+	
 	
 
 }

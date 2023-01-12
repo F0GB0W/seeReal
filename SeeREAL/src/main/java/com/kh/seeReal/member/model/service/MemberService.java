@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.common.model.vo.PageInfo;
+import com.kh.seeReal.meeting.model.vo.Meeting;
 import com.kh.seeReal.member.model.vo.Cert;
 import com.kh.seeReal.member.model.vo.Member;
 
@@ -37,8 +39,29 @@ public interface MemberService {
 	// 회원 탈퇴
 	public int deleteMember(String memberEmail);
 
-	// 게시글 조회
+	// 게시글 리스트 조회
 	public int selectBoardListCount(HashMap<String, String> map);
 
 	public ArrayList<Board> selectBoardList(HashMap<String, String> map, PageInfo pi);
+
+	// 댓글 리스트 조회
+	public int selectReplyListCount(String memberEmail);
+
+	public ArrayList<Board> selectReplyList(String memberEmail, PageInfo pi);
+
+	// 모임 리스트 조회
+	public int selectMyMeetingListCount(int memberNo);
+
+	public ArrayList<Meeting> selectMyMeetingList(PageInfo pi, int memberNo);
+
+	// 참여, 대기 리스트 조회
+	public int selectMeetingListCount(HashMap map);
+
+	public Object selectMeetingList(PageInfo pi, HashMap map);
+
+	// collection 리스트 조회
+	public ArrayList<Collection> selectCollectionList(int memberNo);
+	
+	
+	
 }

@@ -8,7 +8,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.common.model.vo.PageInfo;
+import com.kh.seeReal.meeting.model.vo.Meeting;
 import com.kh.seeReal.member.model.vo.Cert;
 import com.kh.seeReal.member.model.vo.Member;
 
@@ -76,6 +78,40 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectBoardList", map, rowBounds);
 	}
 
+	// 내가 만든 모임 리스트 조회
+	public int selectMyMeetingListCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("memberMapper.selectMyMeetingListCount", memberNo);
+	}
+
+	public ArrayList<Meeting> selectMyMeetingList(SqlSessionTemplate sqlSession, PageInfo pi, int memberNo) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMyMeetingList", memberNo, rowBounds);
+	}
+
+	public int selectMeetingListCount(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.selectOne("memberMapper.selectMeetingListCount", map);
+	}
+
+	public ArrayList<Meeting> selectMeetingList(SqlSessionTemplate sqlSession,PageInfo pi, HashMap map) {
+		
+		System.out.println(pi);
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMeetingList", map, rowBounds);
+	}
+
+	// collection 리스트 조회
+	public ArrayList<Collection> selectCollectionList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectCollectionList", memberNo);
+	}
+
+	
+
+	// 댓글 조회
+	
 	
 	
 }
