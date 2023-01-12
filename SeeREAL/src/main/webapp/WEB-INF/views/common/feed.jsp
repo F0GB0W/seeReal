@@ -10,8 +10,6 @@
 <style>
     .outer{
         width:600px;
-/*         margin-top: 100px;
-        margin-left: 700px; */
         align: center;
     }
     .profile{
@@ -91,14 +89,26 @@
 			                    	<c:when test="${f.rating == 1}">
 			                    		<td>★</td>
 			                    	</c:when>
+			                    	<c:when test="${f.rating == 1.5}">
+			                    		<td>★☆</td>
+			                    	</c:when>			                    	
 			                    	<c:when test="${f.rating == 2}">
 			                    		<td>★★</td>
+			                    	</c:when>
+			                    	<c:when test="${f.rating == 2.5}">
+			                    		<td>★★☆</td>
 			                    	</c:when>
 			                    	<c:when test="${f.rating == 3}">
 			                    		<td>★★★</td>
 			                    	</c:when>
+			                    	<c:when test="${f.rating == 3.5}">
+			                    		<td>★★★☆</td>
+			                    	</c:when>
 			                    	<c:when test="${f.rating == 4}">
 			                    		<td>★★★★</td>
+			                    	</c:when>
+			                    	<c:when test="${f.rating == 4.5}">
+			                    		<td>★★★★☆</td>
 			                    	</c:when>
 			                    	<c:when test="${f.rating == 5}">
 			                    		<td>★★★★★</td>
@@ -129,12 +139,12 @@
                 backgroundColor: 'orange',
                 data: yValues
                 }]
-        },
-        options: {
-        	legend: {
-        		display:false
+        	},
+       		 options: {
+        			legend: {
+        			display:false
+        		}
         	}
-        }
         });
 	</script>
 </body>
