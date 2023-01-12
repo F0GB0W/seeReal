@@ -27,39 +27,29 @@
 </head>
 <body>
 
-	<c:choose>
-		<c:when test="${empty loginUser}">
-			<script>
-				alert("로그인 후 사용 가능합니다."); // 메인 화면으로 보내기 : 경로 확인하기
-				location.href="/views/common/menubar.jsp"
-			</script>
-		</c:when>
+	
+	<div id="myPage">
+		<c:choose>
+			<c:when test="${empty loginUser.memberPhoto}">
+				<img src="resources/img/user.png" class="photo"/>
+			</c:when>
+			<c:otherwise>
+				<img src="${loginUser.memberPhoto}" class="photo"/>
+			</c:otherwise>
+		</c:choose>
 		
-		<c:otherwise>
+		${loginUser.memberNickname}의 마이페이지
+		<div><a href="updateForm.me">회원정보 수정</a></div>
+		<div><a href="updatePwdForm.me">비밀번호 수정</a></div>
 		
-			<div id="myPage">
-				<c:choose>
-					<c:when test="${empty loginUser.memberPhoto}">
-						<img src="resources/img/user.png" class="photo"/>
-					</c:when>
-					<c:otherwise>
-						<img src="${loginUser.memberPhoto}" class="photo"/>
-					</c:otherwise>
-				</c:choose>
-				
-				${loginUser.memberNickname}의 마이페이지
-				<div><a href="updateForm.me">회원정보 수정</a></div>
-				<div><a href="updatePwdForm.me">비밀번호 수정</a></div>
-				
-				<div><a>내가 작성한 글</a></div>
-				<div><a>내 좋아요</a></div>
-				<div><a>내 싫어요</a></div>
-				<div><a>내 리얼모임</a></div>
-				<div><a href="deleteForm.me">회원탈퇴</a></div>
-			</div>
-		</c:otherwise>
-		
-	</c:choose>
+		<a href="myboardList.me?boardType=1">수다게시판</a>
+		<a href="myboardList.me?boardType=2">스포일러게시판</a>	
+		<div><a>내 좋아요</a></div>
+		<div><a>내 싫어요</a></div>
+		<div><a>내 리얼모임</a></div>
+		<div><a href="deleteForm.me">회원탈퇴</a></div>
+	</div>
+
 	
 </body>
 </html>

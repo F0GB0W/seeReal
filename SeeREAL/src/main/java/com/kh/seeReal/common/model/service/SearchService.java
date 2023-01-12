@@ -10,6 +10,6 @@ public interface SearchService {
 	
 	int searchCountList(HashMap<String,String> map);
 	ArrayList<Meeting> searchMeetingList(HashMap<String,String> map);
-	
+	ArrayList<Meeting> searchAjaxMeetingList(String keyword);
 	
 }

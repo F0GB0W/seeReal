@@ -3,8 +3,14 @@ package com.kh.seeReal.member.model.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.member.model.dao.MemberDao;
 import com.kh.seeReal.member.model.vo.Cert;
 import com.kh.seeReal.member.model.vo.Member;
@@ -65,6 +71,15 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.deleteMember(sqlSession, memberEmail);
 	}
 
+	@Override
+	public int selectBoardListCount(HashMap<String, String> map) {
+		return memberDao.selectBoardListCount(sqlSession,map);
+	}
+
+	@Override
+	public ArrayList<Board> selectBoardList(HashMap<String, String> map, PageInfo pi) {
+		return memberDao.selectBoardList(sqlSession,map,pi);
+	}
 	
 
 }

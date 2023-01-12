@@ -15,7 +15,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEMBER_MODIFYDATE" property="memberModifyDate"/>
 		<result column="STATUS" property="status"/>
 	</resultMap>
-
+	
+	<resultMap id="boardResultSet" type="board">
+		<result column="board_no"		property="boardNo"/>
+		<result column="board_title"	property="boardTitle"/>
+		<result column="board_writer"	property="boardWriter"/>
+		<result column="count"			property="count"/>
+		<result column="enroll_date"	property="enrollDate"/>
+		<result column="origin_name"	property="originName"/>
+		<result column="change_name"	property="changeName"/>
+		<result column="report_count"	property="reportCount"/>
+		<result column="status"			property="status"/>
+		<result column="board_type"		property="boardType"/>
+		<result column="nick_name"		property="nickName"/>
+		<result column="board_content"	property="boardContent"/>
+		<result column="MEMBER_EMAIL" property="memberEmail"/>
+	</resultMap>
+	
 	<!-- 이메일 중복체크를 위한 select -->
 	<select id="selectEmail" parameterType="String" resultType="_int">
 		select
@@ -159,5 +175,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		       status != 'N'
 	</update>
 	
+	<!-- 게시판별 게시글 조회를 위한 select -->
+	<select id="selectBoardListCount" resultType="_int" parameterType="java.util.HashMap" >
+		select
+				count(*)
+		 from
+		 		board b
+		 join
+		 		member on(board_writer = member_no)
+		 where
+		 		b.status = 'Y'
+		   	
+		 	<if test='boardType == "1"'>
+		 		and board_type = 1
+		 	</if>
+		 	<if test='boardType == "2"'>
+		 		and board_type = 2
+		 	</if>				
+
+		  and 
+		  	    MEMBER_EMAIL = #{memberEmail}
+	</select>
 	
+	<select id="selectBoardList" resultMap="boardResultSet" parameterType="java.util.HashMap">
+		select
+				board_no,
+				board_title,
+				nick_name,
+				count,
+				enroll_date,
+				board_type
+		  from
+		  		board
+		  join
+		  		member on(board_writer = member_no)
+		 where
+		 		board.status = 'Y'
+		 	<if test='boardType == "1"'>
+		 		and board_type = 1
+		 	</if>
+		 	<if test='boardType == "2"'>
+		 		and board_type = 2
+		 	</if>		
+		     and 
+		        MEMBER_EMAIL = #{memberEmail}			
+		   order
+			  by
+			   	board_no desc	
+	</select>
 </mapper>
