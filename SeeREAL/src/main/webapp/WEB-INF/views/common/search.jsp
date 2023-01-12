@@ -140,14 +140,13 @@
 						},
 						success : data => {
 							const movieData = data.items[0];
-							$('#movieTitle' + i).text(movieData.title);
-							
-		                    let title = movieData.title  
+
+							let title = movieData.title ;
 		                    title = title.replace('<b>', '');
-		                    title = title.replace('</b>', '');
-		                    
-		                    $('#movieImg').attr('src', movieData.image);
-		                    $('#movieTitle').text(title + '(' + movieData.pubDate + ')');
+							title = title.replace('</b>', '');
+								
+							$('#movieTitle' + i).text(title);
+		                    $('#movieImg' + i).attr('src', movieData.image);
 						},
 						error : () => {
 							console.log('api 요청 실패ㅠㅠ');
