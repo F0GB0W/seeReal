@@ -66,7 +66,7 @@
 								<div><img src="../../../../resources/img/user.png" alt="이미지" width="150" height="250"/></div>
 								<div>${ mt.meetingTitle }</div>
 								<div>${ mt.movieTitle }</div>		
-								<input type="hidden" value="${mt.meetingNo}" id="mtno">		
+								<input type="hidden" value="${mt.meetingNo}" id="mtno" name="mtno">		
 							</div>
 						</c:forEach>
 					</c:when>
@@ -108,8 +108,8 @@
 				$('.outer #searchList #list .meeting').click(function(){
 
 					//console.log('눌렷당');
-					// location.href = 'detail.mt?mtno=' + $(this).siblings('#mtno').text();
-					console.log('mtno : ' + $(this).children('#mtno').text());
+					location.href = 'detail.mt?mtno=' + $(this).children('#mtno').val();
+					// console.log('mtno : ' + $(this).children('#mtno').val());
 				})
 			});
 			
