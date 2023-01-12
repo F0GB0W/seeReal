@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +20,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.common.model.vo.PageInfo;
+import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.member.model.service.MemberService;
 import com.kh.seeReal.member.model.vo.Cert;
 import com.kh.seeReal.member.model.vo.Member;
@@ -262,7 +269,6 @@ public class MemberController {
 			session.setAttribute("alertMsg", "현재 비밀번호를 확인해주세요.");
 			return "redirect:updatePwdForm.me"; 
 		}
-
 	}
 	
 	// 회원탈퇴 화면페이지
@@ -284,11 +290,72 @@ public class MemberController {
 		
 	}
 	
+	
 	/* 남은 시간 보여주기 ★★★★★★★★★★★★★ > 시간 남으면!!
 	 * ajax로 
 	public String checkTime() {
 		
 	}
 	*/	
+	
+	/////////////////////////////////////////////// 마이페이지 관련 ////////////////////////////////////////////////
+	
+	// 게시글
+	@RequestMapping("myPost.me")
+	public String myPost() {
+		return "member/myPost";
+	}
+	
+	// 게시글 리스트
+	@RequestMapping("myboardList.me")
+	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
+			                            @RequestParam(value="boardType", defaultValue="1") String boardType,
+			                            HttpSession session, ModelAndView mv, HashMap<String, String> map) { // 쿼리스트링으로 넘겨도 잘 넘어
 		
+		String memberEmail = (((Member)session.getAttribute("loginUser")).getMemberEmail());
+		map.put("memberEmail", memberEmail);
+		map.put("boardType", boardType);
+		
+		int spoilerSearchListCount = memberService.selectBoardListCount(map);
+		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
+		ArrayList<Board> list = memberService.selectBoardList(map, pi); // 페이징 바
+	
+		mv.addObject("list", list); // 조회 결과
+		mv.addObject("pi", pi); // 페이징 바
+		
+		mv.setViewName("member/myPost");
+		 
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

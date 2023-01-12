@@ -22,7 +22,8 @@
 	</style>
 </head>
 <body>
-
+	<jsp:include page="../common/menubar.jsp" />
+	
 	<br>
 	<br>
 	<div class="row">
