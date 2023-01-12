@@ -128,6 +128,7 @@
 				    </div>
 				    
 			    </div>
+			    <input type="text" value="${c.COMMENT_NO}">
 			</c:forEach>
 			    <br>
 	    </div>   	
@@ -175,9 +176,9 @@
 		if('${loginUser}' != ''){
 			$.ajax({//좋아요 눌렀을때 기능
 				url:'thumbsUp.co',
-				data:{movieTitle:${movieTitle},
+				data:{movieTitle:"${movieTitle}",
 					  movieYear:${movieYear},
-					  memberNo:$(loginUser.memberNo)
+					  memberNo:"${loginUser.memberNo}"
 				},
 				success:function(){
 					console.log('좋아요 성공');
@@ -194,9 +195,9 @@
 		if('${loginUser}' != ''){
 			$.ajax({//좋아요 눌렀을때 기능
 				url:'thumbsDown.co',
-				data:{movieTitle:${movieTitle},
+				data:{movieTitle:"${movieTitle}",
 					  movieYear:${movieYear},
-					  memberNo:$(loginUser.memberNo)
+					  memberNo:"${loginUser.memberNo}"
 				},
 				success:function(){
 					console.log('좋아요 성공');
@@ -211,6 +212,10 @@
 	});
 	
 	$(function(){
+		
+		showCommentsLike();//좋아요 로그인한 사람한테 보여주기
+		
+		
 		if('${loginUser}' != ''){
 			
 		}
@@ -325,7 +330,40 @@
 		});
 	};
 	
-	
+	function showCommentsLike(){
+
+		
+		
+		$.ajax({
+			url:'showCommentsLike.co',
+			data:{"movieTitle":"${movieTitle}",
+			      "movieYear":${movieYear},
+			      "memberNo":JSON.stringify(${loginUser.memberNo})//json 형태로 보내기	
+			      //"memberNo":JSON.stringify("${memberNo}")	
+			},
+			success:function(list){
+				console.log('좋아요부르기 성공')
+				console.log(list);
+				console.log($('.commentsOne'))
+				console.log($('.commentsOne').children())
+				console.log($('.commentsOne').siblings('input'))
+				console.log($('.commentsOne').siblings('input')[0])
+				console.log($('.commentsOne').siblings('input').eq(0).val())
+				console.log(list.isEmpty);
+				
+				console.log(list.length)
+				if(list.length !=0){
+					
+				}
+				
+			},
+			error:function(){
+				console.log('좋아요부르기실패');
+			}		
+		});
+
+
+	};
 	
 	function spoiler(){
 		if($('#on-off').text() =="off"){
