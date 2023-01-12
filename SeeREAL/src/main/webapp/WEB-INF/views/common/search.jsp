@@ -105,15 +105,8 @@
 
 		<script>
 			$(function(){
-				$('#search-area option[value=${condition}]').attr('selected', true);					
-			
-			});     
-			$(function(){
 				$('.outer #searchList #list .meeting').click(function(){
-
-					//console.log('눌렷당');
 					location.href = 'detail.mt?mtno=' + $(this).children('#mtno').val();
-					// console.log('mtno : ' + $(this).children('#mtno').val());
 				})
 			});
 			
