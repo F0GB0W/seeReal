@@ -10,5 +10,7 @@ public class MovieRating {
 	private double rating;
 	private String movieTitle;
 	private String movieYear;
+	
+	private String commentLike;
 
 }

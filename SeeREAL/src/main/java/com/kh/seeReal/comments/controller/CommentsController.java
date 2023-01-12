@@ -283,5 +283,11 @@ public class CommentsController {
     	
     	
     }
-    
+    /*
+    @ResponseBody
+    @RequestMapping(value="commentsLikeSum.co")
+    public ArrayList commentsLikeSum(Comments comments) {
+    	commentsService.commentsLikeSum(comments);
+    }
+    */
 }
