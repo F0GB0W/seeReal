@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.member.model.service.MemberService;
@@ -304,7 +305,7 @@ public class MemberController {
 	// 게시글
 	@RequestMapping("myPost.me")
 	public String myPost() {
-		return "member/myPost";
+		return "member/myBoard";
 	}
 	
 	// 게시글 리스트
@@ -329,7 +330,7 @@ public class MemberController {
 		//return "redirect:myPost.me";
 		// http://localhost:7777/seeReal/myPost.me?memberEmail=ykl0918%40naver.com&boardType=1
 		// redirect인데 왜 이렇게 나옴?
-		mv.setViewName("member/myPost");
+		mv.setViewName("member/myBoard");
 		 
 		return mv;
 		
@@ -377,17 +378,17 @@ public class MemberController {
 	// 참여한 모임, 대기중
 	@RequestMapping("myMeetingStatus.me")
     public ModelAndView selectMeetingList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage
-    									, ModelAndView mv, HttpSession session, int accept, HashMap<String, Integer> map) {
+    									, ModelAndView mv, HttpSession session, int check, HashMap<String, Integer> map) {
 		
 		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
 		map.put("memberNo", memberNo);
-		map.put("accept", accept);
+		map.put("check", check);
 		
     	PageInfo pi = Pagination.getPageInfo(memberService.selectMeetingListCount(map), currentPage, 10, 5);
 		
     	mv.addObject("pi", pi)
 		  .addObject("list", memberService.selectMeetingList(pi,map))
-		  .addObject("accept", accept)
+		  .addObject("check", check)
 		  .setViewName("member/meetingStatus");
     	
     	return mv;
@@ -396,7 +397,7 @@ public class MemberController {
 	// collection 리스트 조회
 	// 매핑값 수정 : list붙이기
 	@RequestMapping("myCollection.me")
-	public ModelAndView listCollection(ModelAndView mv, HttpSession session) {
+	public ModelAndView selectCollectionList(ModelAndView mv, HttpSession session) {
 		
 		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
 		ArrayList<Collection> list = memberService.selectCollectionList(memberNo);
@@ -407,10 +408,37 @@ public class MemberController {
 		return mv;
 	}
 	
+	/*
+	// collection 리스트 조회 : 좋아요
+	@RequestMapping("myCollectionLike.me")
+	public ModelAndView selectLikeCollection(ModelAndView mv, HttpSession session) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		ArrayList<Collection> list = memberService.selectLikeCollection(memberNo);
+		
+		mv.addObject("list", list)
+		  .setViewName("member/myCollection");
+		
+		return mv;
+	}
+	*/
 	
-	
-	
-	
+	// 내 리얼평 조회
+	@RequestMapping("myComments.me")
+	public ModelAndView selectCommentsList(ModelAndView mv, HttpSession session) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		ArrayList<Comments> list = memberService.selectCommentsList(memberNo);
+		
+		for(Comments c : list){
+			System.out.println(c.getCommentEnrollDate());
+		}
+		
+		mv.addObject("list", list)
+		  .setViewName("member/myComments");
+		
+		return mv;
+	}
 	
 	
 	

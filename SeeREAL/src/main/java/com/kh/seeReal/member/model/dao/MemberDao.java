@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.meeting.model.vo.Meeting;
 import com.kh.seeReal.member.model.vo.Cert;
@@ -96,7 +97,6 @@ public class MemberDao {
 
 	public ArrayList<Meeting> selectMeetingList(SqlSessionTemplate sqlSession,PageInfo pi, HashMap map) {
 		
-		System.out.println(pi);
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
@@ -106,6 +106,11 @@ public class MemberDao {
 	// collection 리스트 조회
 	public ArrayList<Collection> selectCollectionList(SqlSessionTemplate sqlSession, int memberNo) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectCollectionList", memberNo);
+	}
+
+	// Comments 리스트 조회
+	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectCommentsList", memberNo);
 	}
 
 	

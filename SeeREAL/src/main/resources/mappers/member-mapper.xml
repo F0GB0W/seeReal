@@ -58,6 +58,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="NICK_NAME" property="nickName" />
 	</resultMap>
 	
+	<resultMap id="commentsResultSet" type="comments">
+		<result column="COMMENT_NO" property="commentNo"/>
+		<result column="COMMENT_CONTENT" property="commentContent"/>
+		<result column="COMMENTENROLLDATE" property="commentEnrollDate"/>
+		<result column="SPOILER" property="spoiler"/>
+		<result column="MOVIE_TITLE" property="movieTitle"/>
+		<result column="MOVIE_YEAR" property="movieYear"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="COMMENT_REPORT" property="commentReport"/>
+	</resultMap>
+	
 	<!-- 이메일 중복체크를 위한 select -->
 	<select id="selectEmail" parameterType="String" resultType="_int">
 		select
@@ -284,7 +295,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                MEETING_USER MU USING(MEETING_NO)
 		 WHERE 
 		 <choose>
-		 	<when test="accept == 1">
+		 	<when test="check == 1">
 		 		MEETING_ACCEPT = 'Y'
 		 	</when>
 			<otherwise>
@@ -303,10 +314,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           JOIN 
                MEETING_USER MU USING(MEETING_NO)
 		 WHERE 
-		 	<if test="accept == 1">
+		 	<if test="check == 1">
 		 		MEETING_ACCEPT = 'Y'
 		 	</if>
-			<if test="accept == 2">
+			<if test="check == 2">
 				MEETING_ACCEPT = 'N'
 			</if>
 		  
@@ -336,4 +347,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			COLLECTION_ENROLL
 	</select>
 	
+	<!-- 리얼평 조회를 위한 select -->
+	<select id="selectCommentsList" parameterType="_int" resultMap="commentsResultSet">
+		SELECT
+			  MEMBER_NO,
+		      COMMENT_NO,
+		      COMMENT_CONTENT,
+		      TO_CHAR(C.COMMENT_ENROLLDATE,'YYYY-MM-DD') as "COMMENTENROLLDATE",
+		      SPOILER,
+		      MOVIE_TITLE,
+		      MOVIE_YEAR
+		  FROM
+		      COMMENTS C
+		 WHERE 
+		      MEMBER_NO = #{memberNo}
+		  
+	</select>
 </mapper>

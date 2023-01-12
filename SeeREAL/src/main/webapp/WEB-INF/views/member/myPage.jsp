@@ -46,9 +46,10 @@
 		<div><a href="myboardList.me?boardType=2">스포일러게시판</a></div>
 		<div><a href="myCollection.me">컬렉션</a></div>
 		
+		<button onclick="postFormSubmit(5)">좋아요한 컬렉션</button>
 		<div><a href="myReply.me">댓글</a></div>
 		
-		
+		<div><a href="myComments.me">내 리얼평</a></div>
 		<div><a>내 좋아요</a></div>
 		<div><a>내 싫어요</a></div>
 		<div>
@@ -57,8 +58,8 @@
 			<button onclick="postFormSubmit(3)">대기중</button>
 		</div>
 		
-		<form action="myMeeting.me" method="post" id="postForm">
-            	<input id="myMeeting" type="hidden" name="accept" value="" />
+		<form action="" method="post" id="postForm">
+            	<input id="postValue" type="hidden" name="check" value="" />
         </form>
             
 		<div><a href="deleteForm.me">회원탈퇴</a></div>
@@ -70,14 +71,16 @@
 		    if(num == 1){ 
 		   	    $('#postForm').attr('action', 'myMeeting.me').submit();
 		    }else if(num == 2){
-		    	$('#myMeeting').val(1);
+		    	$('#"postValue"').val(1);
 		    	$('#postForm').attr('action', 'myMeetingStatus.me').submit();
 		    	
-		    }else{	
-		    	$('#myMeeting').val(2);
-		    	console.log($('#myMeeting').val(2));
+		    }else if(num == 3){	
+		    	$('#"postValue"').val(2);
 		    	$('#postForm').attr('action', 'myMeetingStatus.me').submit();
 				
+			}else if(num==5){
+				$('#"postValue"').val(3);
+		    	$('#postForm').attr('action', 'myCollectionLike.me').submit();
 			}
         }
     </script>

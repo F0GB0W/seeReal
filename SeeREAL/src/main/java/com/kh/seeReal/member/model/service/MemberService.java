@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.meeting.model.vo.Meeting;
 import com.kh.seeReal.member.model.vo.Cert;
@@ -61,6 +62,9 @@ public interface MemberService {
 
 	// collection 리스트 조회
 	public ArrayList<Collection> selectCollectionList(int memberNo);
+
+	// Comments 리스트 조회
+	public ArrayList<Comments> selectCommentsList(int memberNo);
 	
 	
 	
