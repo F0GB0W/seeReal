@@ -15,7 +15,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="NICK_NAME" property="nickName" />
 	</resultMap>
 	
+	<resultMap type="collectionReply" id="collectionReplyResultSet">
+			<result column="CO_REPLY_NO" property="coReplyNo" />
+			<result column="CO_REPLY_CONTENT" property="coReplyContent" />
+			<result column="CO_REPLY_REPORT" property="coReplyReport" />
+			<result column="CO_REPLY_DATE" property="coReplyDate" />
+			<result column="CO_REPLY_STATUS" property="coReplyStatus" />
+			<result column="MEMBER_NO" property="memberNo" />
+			<result column="COLLECTION_NO" property="collectionNo" />
+			<result column="NICK_NAME" property="nickName" />
+	</resultMap>
 	
+
 	<insert id="insertCollection" parameterType="movieCollection">
 		INSERT INTO
 			COLLECTION
@@ -104,4 +115,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY
 			MOVIE_YEAR
 	</select>
+	
+	<insert id="insertReplyCollection" parameterType="collectionReply">
+		INSERT INTO
+			COLLECTION_REPLY
+				(
+				 CO_REPLY_NO
+				,CO_REPLY_CONTENT
+				,MEMBER_NO
+				,COLLECTION_NO
+				)
+			VALUES
+				(
+				 SEQ_CLRNO.NEXTVAL
+				,#{ coReplyContent }
+				,#{ memberNo }
+				,#{ collectionNo }
+				)
+	</insert>
+	
+	<select id="selectReplyList" parameterType="_int" resultMap="collectionReplyResultSet">
+		SELECT 
+			cr.MEMBER_NO,
+			CO_REPLY_CONTENT,
+			CO_REPLY_DATE,
+			m.NICK_NAME
+		FROM
+			COLLECTION_REPLY cr
+		JOIN MEMBER m ON
+			cr.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			COLLECTION_NO = #{ collectionNo }
+			AND CO_REPLY_STATUS = 'Y'
+	</select>
+	
 </mapper>

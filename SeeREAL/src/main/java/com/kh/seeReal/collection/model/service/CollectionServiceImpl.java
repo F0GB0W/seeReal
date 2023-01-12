@@ -11,6 +11,7 @@ import com.kh.seeReal.collection.model.dao.CollectionDao;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.collection.model.vo.CollectionMovie;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 
 @Service
 public class CollectionServiceImpl implements CollectionService {
@@ -54,5 +55,17 @@ public class CollectionServiceImpl implements CollectionService {
 	@Override
 	public ArrayList<CollectionMovie> selectMovieList(int clno) {
 		return collectionDao.selectMovieList(sqlSession, clno);
+	}
+
+
+	@Override
+	public int insertReplyCollection(CollectionReply cr) {
+		return collectionDao.insertReplyCollection(sqlSession, cr);
+	}
+
+
+	@Override
+	public ArrayList<CollectionReply> selectReplyList(int collectionNo) {
+		return collectionDao.selectReplyList(sqlSession, collectionNo);
 	}
 }

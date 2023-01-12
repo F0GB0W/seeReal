@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.collection.model.vo.CollectionMovie;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 
 @Repository
 public class CollectionDao {
@@ -35,6 +36,14 @@ public class CollectionDao {
 
 	public ArrayList<CollectionMovie> selectMovieList(SqlSessionTemplate sqlSession, int clno) {
 		return (ArrayList)sqlSession.selectList("collectionMapper.selectMovieList", clno);
+	}
+
+	public int insertReplyCollection(SqlSessionTemplate sqlSession, CollectionReply cr) {
+		return sqlSession.insert("collectionMapper.insertReplyCollection", cr);
+	}
+
+	public ArrayList<CollectionReply> selectReplyList(SqlSessionTemplate sqlSession, int collectionNo) {
+		return (ArrayList)sqlSession.selectList("collectionMapper.selectReplyList", collectionNo);
 	}
 
 }
