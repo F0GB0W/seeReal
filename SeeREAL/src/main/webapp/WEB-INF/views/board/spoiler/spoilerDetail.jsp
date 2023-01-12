@@ -150,17 +150,25 @@
 		function selectSpoilerReplyList(){
 			$.ajax({
 				url:"sprList.bo",
-				data : {boardNo : ${b.boardNo}},
+				data : {
+					boardNo : ${b.boardNo},
+					replyWriter : '${br.replyWriter}',
+					loginUser : '${loginUser.memberNickname}'
+						},
 				success : function(list){
 					console.log(list);
 					
 					var value = '';
 					for(var i in list){
 						value += '<tr>'
-							   + '<th>' + list[i].replyWriter + '</th>'
-							   + '<th>' + list[i].boReplyContent + '</th>'
-							   + '<th>' + list[i].boReplyDate + '</th>'
-							   + '<tr>';
+							   + '<td>' + list[i].replyWriter + '</td>'
+							   + '<td>' + list[i].boReplyContent + '</td>'
+							   + '<td>' + list[i].boReplyDate + '</td>';
+							  if(list[i].replyWriter == list[i].loginUser){
+							  }	   
+						value += '</tr>';
+							   
+						
 					}
 					$('#replyArea tbody').html(value);
 					$('#rcount').text(list.length);
