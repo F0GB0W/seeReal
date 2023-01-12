@@ -55,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="reviewList" resultMap="movie_rating">
 		select movie_title, rating, comment_like
 		  from movie_rating 
-		  join comment_like on (member_no = comment_writer)
+		  left join comment_like on (member_no = comment_writer)
 		 where member_no = #{memberNo}
 		  order
 		     by comment_like desc

@@ -70,7 +70,7 @@
 								<div>${ mt.meetingTitle }</div>
 								<div id="movieTitle${status.index }">${ mt.movieTitle }</div>
 								<input type="hidden" value="${mt.movieYear}" id="movieYear${status.index}">	
-								<input type="hidden" value="${mt.meetingNo}" id="mtno" name="mtno">		
+								<input type="hidden" value="${mt.meetingNo}" id="mtno" name="mtno">
 							</div>
 						</c:forEach>
 					</c:when>
@@ -104,19 +104,14 @@
 		</div>
 
 		<script>
-			$(function(){
-				$('#search-area option[value=${condition}]').attr('selected', true);					
-			
-			});     
+			<%-- div클릭시 미팅 상세페이지로 이동 --%>
 			$(function(){
 				$('.outer #searchList #list .meeting').click(function(){
-
-					//console.log('눌렷당');
 					location.href = 'detail.mt?mtno=' + $(this).children('#mtno').val();
-					// console.log('mtno : ' + $(this).children('#mtno').val());
 				})
 			});
 			
+			<%-- keyword 담기 --%>
 			$(function(){
 				$.ajax({
 					url : 'movie.yj',
@@ -133,6 +128,7 @@
 			});
 			
 			
+			<%-- api에서 영화제목,년도,이미지 가져오기 --%>
 			function movie(list){
 				for(let i in list){
 					
@@ -143,8 +139,14 @@
 							year : list[i].movieYear
 						},
 						success : data => {
-							let movieData = data.items[0];
-							$('#movieTitle' + i).text(movieData.title);
+							const movieData = data.items[0];
+
+							let title = movieData.title ;
+		                    title = title.replace('<b>', '');
+							title = title.replace('</b>', '');
+								
+							$('#movieTitle' + i).text(title);
+		                    $('#movieImg' + i).attr('src', movieData.image);
 						},
 						error : () => {
 							console.log('api 요청 실패ㅠㅠ');
