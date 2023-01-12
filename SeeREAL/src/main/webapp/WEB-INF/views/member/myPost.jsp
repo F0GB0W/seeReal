@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스포 게시판</title>
+<title>스포 게시판 my Post</title>
 <style>
     table {
         border-collapse: collapse;
@@ -204,115 +203,93 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div class="outer">
-    <div class="page-title">
-          <div class="container">
-              <h3>스포 게시판</h3>
-              <br>
-            <div id="page-count">
-             <form action="spoilerList.bo" id="">
-             	<input type="hidden" name="cpage">
-		              <select  name="board-count">
-		              	<option value="5">5개</option>
-		              	<option value="10">10개</option>
-		              	<option value="25">15개</option>
-		              	<option value="20">20개</option>
-		              </select>
-              <button type="submit" style="float:right" >버튼</button>
-              </form>
-             </div>
-              	<c:if test="${not empty pi.boardLimit }">
-              <script>
-	              $(function(){
-	      			$('#page-count option[value=${pi.boardLimit}]').attr('selected', true);					
-	      		
-	      			});     
-              </script>
-              </c:if>
-              <br><br>
-              <c:if test="${not empty loginUser}">
-              	<a href="spoilerEnrollForm.bo" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
-          	  </c:if>
-          </div>
-            <br><br>
-        </div>
-    <!-- board list area -->
-      <div id="board-list">
-          <div class="container content">
-              <table class="board-table table table-hover" id="spoilerList">
-                  <thead>
-	                  <tr>
-	                      <th scope="col" class="th-num">번호</th>
-	                      <th scope="col" class="th-title">제목</th>
-	                      <th scope="col" class="th-writer">작성자</th>
-	                      <th scope="col" class="th-count">조회수</th>
-	                      <th scope="col" class="th-date">등록일</th>
-	                  </tr>
-                  </thead>
-                  <tbody>
-	                  <c:forEach items="${list }" var="b">
-		                  <tr>
-		                      <td class="bno">${b.boardNo }</td>
-		                      <td id="spoilerTitle">${b.boardTitle }</td>
-		                      <td>${b.nickName }</td>
-		                      <td>${b.count }</td>
-		                      <td>${b.enrollDate }</td>
-		                  </tr>
-		              </c:forEach>
-                  </tbody>
-              </table>
-              <script>
+	<div class="outer">
+	    <div class="page-title">
+			<div class="container">
+	        	<c:choose>
+	        		<c:when test="${boardType == 1}">
+	        			<h3>수다 게시판</h3>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<h3>스포일러 게시판</h3>
+	        		</c:otherwise>
+	        	</c:choose>  
+	             
+	            <br>
+	       </div>
+	       <br>
+	    </div>
+	    
+    	<!-- board list area -->
+      	<div id="board-list">
+        	<div class="container content">
+            	<table class="board-table table table-hover" id="spoilerList">
+                	<thead>
+	                	<tr>
+	                		<th></th>
+	                    	<th scope="col" class="th-num">번호</th>
+	                      	<th scope="col" class="th-title">제목</th>
+	                      	<th scope="col" class="th-count">조회수</th>
+	                      	<th scope="col" class="th-date">등록일</th>
+	                  	</tr>
+                  	</thead>
+                  	<tbody>
+                  		<c:choose>
+                  			<c:when test="${empty list}">
+                  				해당 게시판에 작성한 게시글이 존재하지 않습니다.
+                  			</c:when>
+                  			<c:otherwise>
+                  				<c:forEach items="${list}" var="b">
+				                	<tr>
+				                		<td><input type="checkbox" name="" id=""></td>
+				                    	<td class="bno">${b.boardNo}</td>
+				                      	<td id="spoilerTitle">${b.boardTitle}</td>
+				                      	<td>${b.count}</td>
+				                      	<td>${b.enrollDate}</td>
+				                  	</tr>
+		              			</c:forEach>
+                  			</c:otherwise>
+                  		</c:choose>
+	                	
+                  	</tbody>
+              	</table>
+              	
+              	<script>
               	
               		// 동적으로 생성된 요소
-              		
-              		$(function(){
-              			$('#spoilerList>tbody>tr').click(function(){
-	              				location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
+              	    $(function(){
+              		    $('#spoilerList>tbody>tr').click(function(){
+	              			location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
               			})	
               		});
               
-              </script>
-          </div>
-      </div>
-      <br>
-      <div id="pagingBar">
-      	<ul id="pagination">
+                </script>
+			</div>
+      	</div>
+        <br>
+        <div id="pagingBar">
+       <ul id="pagination">
       	
       		<c:choose>
       			<c:when test="${pi.currentPage eq 1 }">
-      				<li class="page-item disabled " ><a class="page-link" href="#">Previous</a></li>
+      				<li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
       			</c:when>
       			<c:otherwise>
       			<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage - 1 }">Previous</a></li>
       			</c:otherwise>
       		</c:choose>
       		
-      		<c:if test="${empty pi.boardLimit }">
-	      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
-	      			<c:choose>
-		      			<c:when test="${ empty condition }">
-		      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-		      			</c:when>
-		      			<c:otherwise>
-		      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
-		      			</c:otherwise>
-	      			</c:choose>
-	      		</c:forEach>
-	      	</c:if>
+      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
+      			<c:choose>
+	      			<c:when test="${ empty condition }">
+	      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+	      			</c:when>
+	      			<c:otherwise>
+	      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
+	      			</c:otherwise>
+      			</c:choose>
+      		</c:forEach>
       		
-		      <c:if test="${not empty pi.boardLimit }">
-		      	<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
-		      			<c:choose>
-			      			<c:when test="${ empty pi.boardLimit }">
-			      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-			      			</c:when>
-			      			<c:otherwise>
-			      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }&board-count=${pi.boardLimit}">${p}</a></li>
-			      			</c:otherwise>
-		      			</c:choose>
-		      		</c:forEach>
-		      	</c:if>
-		      	
       		<c:choose>
       			<c:when test="${pi.currentPage eq pi.maxPage }">
       				<li class="page-item disabled" ><a class="page-link" href="#">Next</a></li>
@@ -324,29 +301,6 @@
       	</ul>
       </div>
      
-      <br>
-      <c:if test="${not empty condition }">
-      <script>
-		$(function(){
-			$('#search-area option[value=${condition}]').attr('selected', true);					
-		
-		});     
-      </script>
-      </c:if>
-	      <div id="search-area">
-	      	<form id="searchForm" action="spoilerSearch.bo" method="get" align="center">
-	      		<input type="hidden" name="cpage" value="1">
-	 			<select class="cumstom-select" name="condition" id="searchSelect">
-					<option value="writer">작성자</option> 			
-					<option value="title">제목</option> 			
-					<option value="content">글 내용</option> 			
-	 			</select>   
-	    	  <div class="text">
-	    	  	<input type="text" class="form-control" style="width:fit-content" name="keyword" value="${keyword }">
-	    	  </div>
-	    	  <button type="submit" class="searchBtn btn btn-secondary">검색</button>
-      		</form>
-     	</div>
       
       
       

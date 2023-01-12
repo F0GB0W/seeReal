@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEETING_TITLE" property="meetingTitle" />
 		<result column="MEETING_PLACE" property="meetingPlace" />
 		<result column="MOVIE_TITLE" property="movieTitle" />
+		<result column="MOVIE_YEAR" property="movieYear" />
 		<result column="STATUS" property="status" />
 		<result column="MEMBER_NO" property="memberNo" />
 		<result column="MEETING_WRITER" property="meetingWriter" />
@@ -33,7 +34,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="searchMeetingList" parameterType="java.util.HashMap" resultMap="meetingResultSet">
 		select
 			   meeting_title, 
-			   movie_title
+			   movie_title,
+			   movie_year,
+			   meeting_no
+		  from
+		  	   meeting
+		 where
+		 	   status='Y'
+		   and
+		   	   meeting_title
+		  like 
+		  	   '%' || #{ keyword }|| '%'
+		 order
+		    by 
+		      meeting_no desc 
+	</select>
+
+	<select id="searchAjaxMeetingList" parameterType="string" resultMap="meetingResultSet">
+		select
+			   meeting_title, 
+			   movie_title,
+			   movie_year,
+			   meeting_no
 		  from
 		  	   meeting
 		 where

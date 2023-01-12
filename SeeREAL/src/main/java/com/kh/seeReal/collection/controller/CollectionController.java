@@ -12,12 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.seeReal.collection.model.service.CollectionService;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 
 @Controller
 public class CollectionController {
@@ -106,12 +109,30 @@ public class CollectionController {
 	}
 	
 	@RequestMapping("detail.cl")
-	public ModelAndView selectCollection(int cno, ModelAndView mv) {
+	public ModelAndView selectCollection(int clno, ModelAndView mv) {
 		
-		mv.addObject("test", cno)
+		mv.addObject("collection", collectionService.selectCollectionDetail(clno))
 		  .setViewName("collection/collectionDetail");
 		
 		return mv;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "movieList.cl", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectMovieList(int clno) {
+		return new Gson().toJson(collectionService.selectMovieList(clno));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "creply.cl")
+	public String ajaxInsertReplyCollection(CollectionReply cr) {
+		System.out.println(cr);
+		return collectionService.insertReplyCollection(cr) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "replyList.cl", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(int collectionNo) {
+		return new Gson().toJson(collectionService.selectReplyList(collectionNo));
+	}
 }

@@ -38,7 +38,9 @@
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td>${b.boardWriter }</td>
+				<td>
+					${b.nickName eq m.memberNickname}
+				</td>
 			</tr>
 			<tr>
 				<th>작성일</th>
@@ -104,7 +106,7 @@
 				</c:otherwise>
 			</c:choose>
 			<tr>
-				<td colspan="3">댓글(<span id="rcount"></span>)</td>
+				<td colspan="4">댓글(<span id="rcount"></span>)</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -150,17 +152,41 @@
 		function selectSpoilerReplyList(){
 			$.ajax({
 				url:"sprList.bo",
-				data : {boardNo : ${b.boardNo}},
+				data : {
+					boardNo : ${b.boardNo},
+					replyWriter : '${br.replyWriter}',
+					loginUser : '${loginUser.memberNickname}'
+						},
 				success : function(list){
 					console.log(list);
 					
 					var value = '';
 					for(var i in list){
-						value += '<tr>'
-							   + '<th>' + list[i].replyWriter + '</th>'
-							   + '<th>' + list[i].boReplyContent + '</th>'
-							   + '<th>' + list[i].boReplyDate + '</th>'
-							   + '<tr>';
+						if(${ not empty loginUser}){
+							  if(${b.boardWriter == loginUser.memberNo}){
+								  value += '<tr>'
+									   + '<td>' + list[i].replyWriter + '</td>'
+									   + '<td>' + list[i].boReplyContent + '</td>'
+									   + '<td>' + list[i].boReplyDate + '</td>';
+									   + '<td><a href="#">삭제</a></td></tr>';
+							  } else {
+								  
+									value += '<tr>'
+										   + '<td>' + list[i].replyWriter + '</td>'
+										   + '<td>' + list[i].boReplyContent + '</td>'
+										   + '<td>' + list[i].boReplyDate + '</td>'
+										   + '</tr>';
+										   
+							  }
+								 
+						} else {
+							value += '<tr>'
+								   + '<td>' + list[i].replyWriter + '</td>'
+								   + '<td>' + list[i].boReplyContent + '</td>'
+								   + '<td>' + list[i].boReplyDate + '</td>';
+								   + '</tr>'
+						}
+						
 					}
 					$('#replyArea tbody').html(value);
 					$('#rcount').text(list.length);

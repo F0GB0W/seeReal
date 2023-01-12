@@ -19,7 +19,7 @@
 	<div>
 		<c:forEach items="${ collection }" var="c">
 			<div>
-				<a href="detail.cl?cno=${ c.collectionNo }">
+				<a href="detail.cl?clno=${ c.collectionNo }">
 					<img src="${ c.changeName }" width="300px" height="200px">
 					<p>${ c.collectionTitle }</p>
 					<p>${ c.nickName }이가 만듦</p>

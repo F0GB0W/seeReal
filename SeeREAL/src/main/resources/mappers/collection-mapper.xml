@@ -15,7 +15,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="NICK_NAME" property="nickName" />
 	</resultMap>
 	
+	<resultMap type="collectionReply" id="collectionReplyResultSet">
+			<result column="CO_REPLY_NO" property="coReplyNo" />
+			<result column="CO_REPLY_CONTENT" property="coReplyContent" />
+			<result column="CO_REPLY_REPORT" property="coReplyReport" />
+			<result column="CO_REPLY_DATE" property="coReplyDate" />
+			<result column="CO_REPLY_STATUS" property="coReplyStatus" />
+			<result column="MEMBER_NO" property="memberNo" />
+			<result column="COLLECTION_NO" property="collectionNo" />
+			<result column="NICK_NAME" property="nickName" />
+	</resultMap>
 	
+
 	<insert id="insertCollection" parameterType="movieCollection">
 		INSERT INTO
 			COLLECTION
@@ -73,4 +84,69 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY
 			COLLECTION_ENROLL
 	</select>
+	
+	<select id="selectCollectionDetail" parameterType="_int" resultMap="collectionResultSet">
+		SELECT 
+			COLLECTION_NO,
+			c.MEMBER_NO,
+			COLLECTION_CONTENT,
+			COLLECTION_TITLE,
+			CHANGE_NAME,
+			m.NICK_NAME
+		FROM
+			COLLECTION c
+		JOIN MEMBER m ON
+			c.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			m.STATUS = 'Y'
+			AND c.STATUS = 'Y'
+			AND c.COLLECTION_NO = #{ clno }
+	</select>
+	
+	<select id="selectMovieList" parameterType="_int" resultType="collectionMovie">
+		SELECT
+			COLLECTION_NO collectionNo,
+			MOVIE_TITLE movieTitle,
+			MOVIE_YEAR movieYear
+		FROM
+			COLLECTION_MOVIE
+		WHERE
+			COLLECTION_NO = #{ clno }
+		ORDER BY
+			MOVIE_YEAR
+	</select>
+	
+	<insert id="insertReplyCollection" parameterType="collectionReply">
+		INSERT INTO
+			COLLECTION_REPLY
+				(
+				 CO_REPLY_NO
+				,CO_REPLY_CONTENT
+				,MEMBER_NO
+				,COLLECTION_NO
+				)
+			VALUES
+				(
+				 SEQ_CLRNO.NEXTVAL
+				,#{ coReplyContent }
+				,#{ memberNo }
+				,#{ collectionNo }
+				)
+	</insert>
+	
+	<select id="selectReplyList" parameterType="_int" resultMap="collectionReplyResultSet">
+		SELECT 
+			cr.MEMBER_NO,
+			CO_REPLY_CONTENT,
+			CO_REPLY_DATE,
+			m.NICK_NAME
+		FROM
+			COLLECTION_REPLY cr
+		JOIN MEMBER m ON
+			cr.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			COLLECTION_NO = #{ collectionNo }
+			AND CO_REPLY_STATUS = 'Y'
+	</select>
+	
 </mapper>

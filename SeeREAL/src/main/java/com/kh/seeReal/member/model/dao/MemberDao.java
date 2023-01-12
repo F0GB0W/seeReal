@@ -1,8 +1,14 @@
 package com.kh.seeReal.member.model.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.member.model.vo.Cert;
 import com.kh.seeReal.member.model.vo.Member;
 
@@ -56,4 +62,20 @@ public class MemberDao {
 	public int deleteMember(SqlSessionTemplate sqlSession, String memberEmail) {
 		return sqlSession.update("memberMapper.deleteMember", memberEmail);
 	}
+	
+	// 게시글 조회
+	public int selectBoardListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.selectBoardListCount",map);
+	}
+	
+	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectBoardList", map, rowBounds);
+	}
+
+	
+	
 }
