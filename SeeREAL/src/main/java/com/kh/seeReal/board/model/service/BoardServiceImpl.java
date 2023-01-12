@@ -67,15 +67,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public ArrayList<BoardReply> selectReplyList(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<BoardReply> spoilerReplyList(int boardNo) {
+		return (ArrayList)boardDao.spoilerReplyList(sqlSession, boardNo);
 	}
 
 	@Override
-	public int insertBoardReply(BoardReply br) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int spoilerReplyInsert(BoardReply br) {
+		return boardDao.spoilerReplyInsert(sqlSession, br);
 	}
 
 	@Override

@@ -15,11 +15,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.seeReal.board.model.service.BoardServiceImpl;
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 
@@ -30,11 +33,10 @@ public class BoardController {
 	private BoardServiceImpl boardService;
 	
 	@RequestMapping("spoilerList.bo")
-	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="boardLimit", defaultValue="5") int boardLimit,   ModelAndView mv) {
+	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="board-count", defaultValue="5") int boardLimit,   ModelAndView mv) {
 		
 		
-		
-		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, boardLimit);
 		
 		mv.addObject("pi", pi).addObject("list", boardService.selectBoardList(pi, boardLimit)).setViewName("board/spoiler/spoilerBoardList");
 		
@@ -107,7 +109,7 @@ public class BoardController {
 		 int spoilerSearchListCount = boardService.spoilerSearchListCount(map);
 		 PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
 		 ArrayList<Board> list = boardService.spoilerSearchList(map, pi); // 페이징 바
-		 
+		 //System.out.println(map);
 		 //System.out.println(pi);
 		 //System.out.println(list);
 		mv.addObject("list", list); // 조회 결과
@@ -170,6 +172,20 @@ public class BoardController {
 		 }
 		 
 	 }
-	 
+	 @ResponseBody
+	 @RequestMapping("sprInsert.bo")
+	 public String spoilerReplyInsert(BoardReply br) {
+		 
+		 System.out.println(br);
+		 //System.out.println(boardService.spoilerReplyInsert(br));
+		 return boardService.spoilerReplyInsert(br) > 0 ? "success" : "fail";
+	 }
+	 @ResponseBody
+	 @RequestMapping(value="sprList.bo", produces="application/json; charset=UTF-8")
+	 public String spoilerReplyList(int boardNo) {
+		 //System.out.println(boardNo);
+		 //System.out.println(boardService.spoilerReplyList(boardNo));
+		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
+	 }
 		 
 }

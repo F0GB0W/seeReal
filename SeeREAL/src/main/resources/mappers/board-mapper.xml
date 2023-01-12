@@ -189,5 +189,44 @@ update
   where
   		board_no = #{boardNo}
 </update>
+<insert id="spoilerReplyInsert" parameterType="boardReply">
+insert
+  into 
+  		board_reply
+  		(
+  		 bo_reply_no,
+  		 bo_reply_content,
+  		 reply_writer,
+  		 member_no,
+  		 board_no
+  		)
+  values
+  		(
+  		seq_rbno.nextval,
+  		#{boReplyContent},
+  		#{replyWriter},
+  		#{memberNo},
+  		#{boardNo}
+  		)
 
+
+</insert>
+<select id="spoilerReplyList" resultType="boardReply">
+	select 
+			bo_reply_no boReplyNo,
+			reply_writer replyWriter,
+			bo_reply_content boReplyContent,
+			to_char(bo_reply_date, 'YYYY-MM-DD') as "boReplyDate"
+	 from
+	 		board_reply
+	 join
+	 		member using(member_no)
+	 where
+	 		bo_reply_status = 'Y'
+	   and
+	   		board_no = #{boardNo} 
+	 order
+	 	by
+	 		bo_reply_no desc
+</select>			
 </mapper>

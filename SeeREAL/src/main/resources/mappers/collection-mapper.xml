@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="collectionMapper">
+
+	<resultMap id="collectionResultSet"	type="movieCollection">
+		<result column="COLLECTION_NO" property="collectionNo" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
+		<result column="COLLECTION_ENROLL" property="collectionEnroll" />
+		<result column="COLLECTION_TITLE" property="collectionTitle" />
+		<result column="COLLECTION_CONTENT" property="collectionContent" />
+		<result column="NICK_NAME" property="nickName" />
+	</resultMap>
+	
+	
+	<insert id="insertCollection" parameterType="movieCollection">
+		INSERT INTO
+			COLLECTION
+				(
+				 COLLECTION_NO
+				,MEMBER_NO
+				,ORIGIN_NAME
+				,COLLECTION_CONTENT
+				,CHANGE_NAME
+				,COLLECTION_TITLE
+				)
+			VALUES
+				(
+				 SEQ_CLNO.NEXTVAL
+				,#{ memberNo }
+				,#{ originName }
+				,#{ collectionContent }
+				,#{ changeName }
+				,#{ collectionTitle }
+				)
+	</insert>
+	
+	<insert id="insertMovieList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+        	INTO
+            	COLLECTION_MOVIE
+					(
+					 COLLECTION_NO
+					,MOVIE_TITLE
+					,MOVIE_YEAR
+					)
+				VALUES 
+					(
+					 SEQ_CLNO.CURRVAL
+					,#{ item.movieTitle }
+					,#{ item.movieYear }
+					)
+         </foreach>   
+	</insert>
+	
+	<select id="selectCollectionList" resultMap="collectionResultSet">
+		SELECT 
+			COLLECTION_NO,
+			COLLECTION_TITLE,
+			CHANGE_NAME,
+			m.NICK_NAME,
+			c.MEMBER_NO 
+		FROM
+			COLLECTION c
+		JOIN MEMBER m 
+			ON c.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			c.STATUS = 'Y'
+			AND m.STATUS = 'Y'
+		ORDER BY
+			COLLECTION_ENROLL
+	</select>
+	
+	<select id="selectCollectionDetail" parameterType="_int" resultMap="collectionResultSet">
+		SELECT 
+			COLLECTION_NO,
+			c.MEMBER_NO,
+			COLLECTION_CONTENT,
+			COLLECTION_TITLE,
+			CHANGE_NAME,
+			m.NICK_NAME
+		FROM
+			COLLECTION c
+		JOIN MEMBER m ON
+			c.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			m.STATUS = 'Y'
+			AND c.STATUS = 'Y'
+			AND c.COLLECTION_NO = #{ clno }
+	</select>
+	
+	<select id="selectMovieList" parameterType="_int" resultType="collectionMovie">
+		SELECT
+			COLLECTION_NO collectionNo,
+			MOVIE_TITLE movieTitle,
+			MOVIE_YEAR movieYear
+		FROM
+			COLLECTION_MOVIE
+		WHERE
+			COLLECTION_NO = #{ clno }
+		ORDER BY
+			MOVIE_YEAR
+	</select>
+</mapper>

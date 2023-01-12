@@ -20,4 +20,9 @@ public interface CommentsService {
 	
 	int commentsWrite(Comments comments);
 	
+	int thumbsUp(Comments comments);
+	int thumbsDown(Comments comments);
+	
+	ArrayList showCommentsLike(Comments comments);
+	
 }

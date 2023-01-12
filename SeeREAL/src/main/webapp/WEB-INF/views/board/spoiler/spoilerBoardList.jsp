@@ -209,15 +209,26 @@
           <div class="container">
               <h3>스포 게시판</h3>
               <br>
-             <form action="spoilerList.bo" id="page-count">
+            <div id="page-count">
+             <form action="spoilerList.bo" id="">
              	<input type="hidden" name="cpage">
-		              <select  name="boardLimit">
-		              	<option value="1">5개</option>
-		              	<option value="2">10개</option>
-		              	<option value="3">15개</option>
-		              	<option value="4">20개</option>
+		              <select  name="board-count">
+		              	<option value="5">5개</option>
+		              	<option value="10">10개</option>
+		              	<option value="25">15개</option>
+		              	<option value="20">20개</option>
 		              </select>
+              <button type="submit" style="float:right" >버튼</button>
               </form>
+             </div>
+              	<c:if test="${not empty pi.boardLimit }">
+              <script>
+	              $(function(){
+	      			$('#page-count option[value=${pi.boardLimit}]').attr('selected', true);					
+	      		
+	      			});     
+              </script>
+              </c:if>
               <br><br>
               <c:if test="${not empty loginUser}">
               	<a href="spoilerEnrollForm.bo" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
@@ -275,17 +286,31 @@
       			<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage - 1 }">Previous</a></li>
       			</c:otherwise>
       		</c:choose>
+      		<c:if test="${empty pi.boardLimit }">
+	      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
+	      			<c:choose>
+		      			<c:when test="${ empty condition }">
+		      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+		      			</c:when>
+		      			<c:otherwise>
+		      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
+		      			</c:otherwise>
+	      			</c:choose>
+	      		</c:forEach>
+	      	</c:if>
       		
-      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
-      			<c:choose>
-	      			<c:when test="${ empty condition }">
-	      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-	      			</c:when>
-	      			<c:otherwise>
-	      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
-	      			</c:otherwise>
-      			</c:choose>
-      		</c:forEach>
+		      <c:if test="${not empty pi.boardLimit }">
+		      	<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
+		      			<c:choose>
+			      			<c:when test="${ empty pi.boardLimit }">
+			      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+			      			</c:when>
+			      			<c:otherwise>
+			      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }&board-count=${pi.boardLimit}">${p}</a></li>
+			      			</c:otherwise>
+		      			</c:choose>
+		      		</c:forEach>
+		      	</c:if>
       		
       		<c:choose>
       			<c:when test="${pi.currentPage eq pi.maxPage }">
@@ -297,6 +322,7 @@
       		</c:choose>
       	</ul>
       </div>
+     
       <br>
       <c:if test="${not empty condition }">
       <script>

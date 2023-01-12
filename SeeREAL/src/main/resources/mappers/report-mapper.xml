@@ -86,8 +86,90 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  		status = 'N'
 	</select>
 
-
-
+	<update id="increaseSpoBoardReport">
+		update
+				board
+		   set
+		   		report_count = report_count + 1
+		 where
+		  		board_no = #{boardNo}
+		   and
+		   		board_type = 2
+	</update>
+		<update id="increaseFreeBoardReport">
+		update
+				board
+		   set
+		   		report_count = report_count + 1
+		 where
+		  		board_no = #{boardNo}
+		   and
+		   		board_type = 1
+	</update>
+		<update id="increaseBoReplyReport">
+		update
+				board_reply
+		   set
+		   		bo_reply_report_count = bo_reply_report_count + 1
+		 where
+		  		bo_reply_no = #{boReplyNo}
+	</update>
+		<update id="increaseMeetingReport">
+		update
+				meeting
+		   set
+		   		meeting_report = meeting_report + 1
+		 where
+		  		meeting_no = #{meetingNo}
+		  		
+	</update>
+		<update id="increaseCollectionReport">
+		update
+				collection
+		   set
+		   		collection_report = collection_report + 1
+		 where
+		  		collection_no = #{collectionNo}
+		  		
+	</update>
+		<update id="increaseCommentReport">
+		update
+				comments
+		   set
+		   		comment_report = comment_report + 1
+		 where
+		  		comment_no = #{commentNo}
+	</update>
+		<update id="increaseCollectionReplyReport">
+		update
+				collection_reply
+		   set
+		   		co_reply_report = co_reply_report + 1
+		 where
+		  		co_reply_no = #{coReplyNo}
+	</update>	
+	<insert id="insertReport" parameterType="report">
+		insert
+		  into
+		  		report
+		  		(
+					REPORT_NO,
+					REPORT_WRITER,
+					REPORT_REASON,
+					REPORT_DATE,
+					REPORT_OCCURED,
+					REPORT_TYPE
+		  		)
+		values
+				(
+				seq_rno.nextval,
+				#{reportWriter},
+				#{reportReason},
+				#{reportDate},
+				#{reportOccured},
+				#{reportType}
+				)
+	</insert>
 
 
 

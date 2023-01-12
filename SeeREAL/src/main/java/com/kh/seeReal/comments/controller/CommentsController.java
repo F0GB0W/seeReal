@@ -46,29 +46,34 @@ public class CommentsController {
 	}
 	
 	
-	@RequestMapping(value="movieDetail.co")
+	@RequestMapping(value="movieDetail.co",produces="application/json; charset=UTF-8")
 	//public String detailMovie(String movieDate,String movieTitle,String movieImg,String movieDirector,String movieSubTitle,Model model) {
-	public String detailMovie(MovieRating movieRating,String movieImg,String movieDirector,String movieSubTitle,Model model) {
+//	public String detailMovie(MovieRating movieRating,String movieImg,String movieDirector,String movieSubTitle,Model model) {
+	public String detailMovie(MovieRating movieRating,Comments comments,String movieImg,String movieDirector,String movieSubTitle,Model model) {
 		
 		//System.out.println(movieDate);
 		//System.out.println(movieTitle);
+		System.out.println("--moviedetail시작--");
+		System.out.println(movieRating);
+		System.out.println(comments);
+		System.out.println("--moviedetail시작--");
 		System.out.println(movieImg);
 		System.out.println(movieSubTitle);
-		System.out.println("movieRating상세페이지값:"+movieRating);
+		System.out.println("movieRating상세페이지값:"+comments);
 		//model.addAttribute("movieDate",movieDate);
-		model.addAttribute("movieYear",movieRating.getMovieYear());
+		model.addAttribute("movieYear",comments.getMovieYear());
 		//model.addAttribute("movieTitle",movieTitle);
-		model.addAttribute("movieTitle",movieRating.getMovieTitle());
+		model.addAttribute("movieTitle",comments.getMovieTitle());
 		model.addAttribute("movieImg",movieImg);
 		model.addAttribute("movieDirector",movieDirector);
 		model.addAttribute("movieSubTitle",movieSubTitle);
 		
-		
-		
-		
-		
+		List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
 		model.addAttribute("rating",commentsService.ratingGet(movieRating));
 		
+		
+		model.addAttribute("commentsList",commentsList);
+		//return new Gson().toJson(commentsList);
 		return "comments/movieDetail";
 		
 	}
@@ -228,6 +233,55 @@ public class CommentsController {
     	
     }
      
+    @ResponseBody
+    @RequestMapping(value="thumbsUp.co")
+    public String thumbsUp(Comments comments,Model model) {
+    	
+    	commentsService.thumbsUp(comments);
+    	
+    	return "comments/movieDetail";
+    	
+    }
     
+    @ResponseBody
+    @RequestMapping(value="thumbsDown.co")
+    public String thumbsDown(Comments comments,Model model) {
+    	
+    	commentsService.thumbsDown(comments);
+    	
+    	return "comments/movieDetail";
+    	
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="showCommentsLike.co")
+    public ArrayList showCommentsLike(String movieTitle,String movieYear,String memberNo,Model model) {
+    	//public ArrayList showCommentsLike(String movieTitle,String movieYear,String memberNo,Model model) {
+    	//public ArrayList showCommentsLike(Comments comments,Model model) {
+    	System.out.println("controller memberNo"+memberNo);
+    	Comments comments=new Comments();
+    	comments.setMovieTitle(movieTitle);
+    	comments.setMovieYear(movieYear);
+    	//if(memberNo == "") {
+    	//	comments.setMemberNo(0);
+    	//}else {
+    	//	comments.setMemberNo(Integer.parseInt(memberNo));
+    	//}
+    	
+    	//System.out.println("showCommentsLike 오긴왔니? comments:"+comments);
+    	if(memberNo == null) {
+    		comments.setMemberNo(0);
+    	} else {
+    		comments.setMemberNo(Integer.parseInt(memberNo));
+    	}
+    	return commentsService.showCommentsLike(comments);
+    	//System.out.println("comments 정보"+comments);
+    	//System.out.println(movieYear);
+    	//System.out.println(memberNo);
+    	//System.out.println("showCommentsLike 오긴왔니? comments:"+memberNo);
+    	//return "comments/movieDetail";
+    	
+    	
+    }
     
 }

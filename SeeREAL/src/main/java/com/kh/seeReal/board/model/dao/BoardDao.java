@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.common.model.vo.PageInfo;
 
 @Repository
@@ -53,6 +54,12 @@ public class BoardDao {
 	}
 	public int spoilerDelete(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.spoilerDelete", boardNo);
+	}
+	public int spoilerReplyInsert(SqlSessionTemplate sqlSession, BoardReply br) {
+		return sqlSession.insert("boardMapper.spoilerReplyInsert", br);
+	}
+	public List<BoardReply> spoilerReplyList(SqlSessionTemplate sqlSession, int boardNo){
+		return sqlSession.selectList("boardMapper.spoilerReplyList", boardNo);
 	}
 
 	

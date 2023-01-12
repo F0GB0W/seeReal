@@ -4,18 +4,12 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.common.model.vo.PageInfo;
-import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.meeting.model.vo.Meeting;
-import com.kh.seeReal.report.model.service.ReportService;
-import com.kh.seeReal.report.model.service.ReportServiceImpl;
+import com.kh.seeReal.report.model.vo.Report;
 
 @Repository
 public class ReportDao {
@@ -36,21 +30,59 @@ public class ReportDao {
 		
 		return (ArrayList)sqlSession.selectList("reportMapper.selectReportMeetingList", pi, rowBounds);
 	}
+
 	public int selectBoardReportCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("reportMapper.selectBoardReportCount");
 	}
+
 	public int selectMeetingReportCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("reportMapper.selectMeetingReportCount");
 	}
+
 	public int selectCollectionReportCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("reportMapper.selectCollectionReportCount");
 	}
-	
-	
-	
-	
+
+	public int insertReport(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.insert("reportMapper.insertReport", r);
+	}
 
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public int increaseSpoBoardReport(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("reportMapper.increaseSpoBoardReport", boardNo);
+	}
+	public int increaseFreeBoardReport(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("reportMapper.increaseFreeBoardReport", boardNo);
+	}
+	public int increaseBoReplyReport(SqlSessionTemplate sqlSession, int boReplyNo) {
+		return sqlSession.update("reportMapper.increaseBoReplyReport", boReplyNo);
+	}
+	public int increaseMeetingReport(SqlSessionTemplate sqlSession, int meetingNo) {
+		return sqlSession.update("reportMapper.increaseMeetingReport", meetingNo);
+	}
+	public int increaseCollectionReport(SqlSessionTemplate sqlSession, int collectionNo) {
+		return sqlSession.update("reportMapper.increaseCollectionReport", collectionNo);
+	}
+	public int increaseCommentReport(SqlSessionTemplate sqlSession, int commentNo) {
+		return sqlSession.update("reportMapper.increaseCommentReport", commentNo);
+	}
+	public int increaseCoReplyReport(SqlSessionTemplate sqlSession, int coReplyNo) {
+		return sqlSession.update("reportMapper.increaseCoReplyReport", coReplyNo);
+	}
+					
+	
+
+
+
 	
 	
 	
