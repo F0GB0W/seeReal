@@ -9,6 +9,15 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <title>Insert title here</title>
+<style>
+    .movieList-area {
+        display: flex;
+    }
+
+    .movieInfo {
+        margin-right: 10px;
+    }
+</style>
 </head>
 <body>
 
@@ -48,7 +57,6 @@
 
         function movieSearch(list) {
             for(let i in list) {
-                console.log(list[i]);
                 $.ajax({
                     url : 'movie.mt',
                     data : {
@@ -56,8 +64,7 @@
                         year : list[i].movieYear
                     },
                     success : data => {
-                        console.log(data.items[0]);
-                        const itemArr = data.items[0];
+                        let itemArr = data.items[0];
                         makeList(itemArr);
                     },
                     error : () => {
@@ -69,9 +76,11 @@
 
         let value = '';
         function makeList(itemArr) {
-            value += '<div>'
+            console.log(itemArr);
+            value += '<div class="movieInfo">' + '<a href="' + itemArr.link + '">'
                    + '<img src="' + itemArr.image + '">'
-                   + '</div>'
+                   + '<p>' + itemArr.title + '(' + itemArr.pubDate + ')' + '</p>'
+                   + '</a></div>'
 
             $('.movieList-area').html(value);
         }
