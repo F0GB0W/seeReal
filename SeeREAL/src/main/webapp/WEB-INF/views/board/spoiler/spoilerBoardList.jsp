@@ -280,12 +280,13 @@
       	
       		<c:choose>
       			<c:when test="${pi.currentPage eq 1 }">
-      				<li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
+      				<li class="page-item disabled " ><a class="page-link" href="#">Previous</a></li>
       			</c:when>
       			<c:otherwise>
       			<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage - 1 }">Previous</a></li>
       			</c:otherwise>
       		</c:choose>
+      		
       		<c:if test="${empty pi.boardLimit }">
 	      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
 	      			<c:choose>
@@ -311,7 +312,7 @@
 		      			</c:choose>
 		      		</c:forEach>
 		      	</c:if>
-      		
+		      	
       		<c:choose>
       			<c:when test="${pi.currentPage eq pi.maxPage }">
       				<li class="page-item disabled" ><a class="page-link" href="#">Next</a></li>

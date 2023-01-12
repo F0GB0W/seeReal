@@ -41,6 +41,12 @@
 	.commentsOne{
 		border:1px solid red;
 	}
+	.red{
+		color:red;
+	}
+	.blue{
+		color:blue;
+	}
 </style>
 </head>
 <body>
@@ -119,16 +125,16 @@
 				    
 				    <div>
 				        <div align="left">
-				           	 <p>별점</p>
+				           	 <p>★ ${c.RATING }</p>
 				        </div>
 				        <div align="right">
-				           	<i class="fa-solid fa-thumbs-up"></i><em class="like">좋아요값</em>
-					   		<i class="fa-solid fa-thumbs-down"></i><em class="dislike">싫어요 값</em>
+				           	<i class="fa-solid fa-thumbs-up"></i><em class="like">${c.COMMENT_LIKE}</em>
+					   		<i class="fa-solid fa-thumbs-down"></i><em class="dislike">${c.COMMENT_DISLIKE }</em>
 				        </div>
 				    </div>
 				    
 			    </div>
-			    <input type="text" value="${c.COMMENT_NO}">
+			    <input type="hidden" value="${c.COMMENT_NO}">
 			</c:forEach>
 			    <br>
 	    </div>   	
@@ -166,19 +172,32 @@
 		<!-- Modal end 글쓰기 버튼-->
 	<script>
 	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-up]',function(){
-		console.log($(this));
-		console.log($(this).parent());
-		console.log($(this).parent().parent());
-		console.log($(this).parent().parent().parent());
-		console.log($(this).parent().parent().parent().next());
-		console.log('달러디스확인끝')
-		console.log(this);
-		if('${loginUser}' != ''){
+		
+		           
+            if( $(this).attr('class')=='fa-solid fa-thumbs-up'  ){               
+                $(this).attr('class','fa-solid fa-thumbs-up blue')
+                $(this).next().text(Number($(this).next().text())+1);              
+                
+                if($(this).next().next().attr('class') == 'fa-solid fa-thumbs-down red'){                    
+                    $(this).next().next().next().text(Number($(this).next().next().next().text())-1);
+                }
+                $(this).next().next().attr('class','fa-solid fa-thumbs-down')
+            }else{
+                $(this).attr('class','fa-solid fa-thumbs-up')
+                $(this).next().text(Number($(this).next().text())-1);
+            }
+       		
+           
+        	var TF=$(this).attr('class')=='fa-solid fa-thumbs-up' ? 'N' : 'Y';
+            console.log(TF);
+		/*
+		//if('${loginUser}' != ''){
 			$.ajax({//좋아요 눌렀을때 기능
 				url:'thumbsUp.co',
-				data:{movieTitle:"${movieTitle}",
-					  movieYear:${movieYear},
-					  memberNo:"${loginUser.memberNo}"
+				data:{
+					  "memberNo":JSON.stringify(${loginUser.memberNo}),//json 형태로 보내기	
+					  likeTF:TF
+					  
 				},
 				success:function(){
 					console.log('좋아요 성공');
@@ -187,11 +206,25 @@
 					console.log('좋아요실패')
 				}
 			});
-		}else{
-			alert('로그인후 좋아요를 누를수 있습니다')
-		}
+		//}else{
+		//	alert('로그인후 좋아요를 누를수 있습니다')
+		//}
+		*/
 	});
 	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-down]',function(){
+		 if( $(this).attr('class')=='fa-solid fa-thumbs-down'  ){                
+             $(this).attr('class','fa-solid fa-thumbs-down red')
+             $(this).next().text(Number($(this).next().text())+1);   
+             
+             if($(this).prev().prev().attr('class')=='fa-solid fa-thumbs-up blue'){                 
+                 $(this).prev().text(Number($(this).prev().text())-1)
+             }
+             $(this).prev().prev().attr('class','fa-solid fa-thumbs-up')
+         }else{
+             $(this).attr('class','fa-solid fa-thumbs-down')
+             $(this).next().text(Number($(this).next().text())-1);
+         }
+		/*
 		if('${loginUser}' != ''){
 			$.ajax({//좋아요 눌렀을때 기능
 				url:'thumbsDown.co',
@@ -209,6 +242,7 @@
 		}else{
 			alert('로그인후 싫어요를 누를수 있습니다')
 		}
+		 */
 	});
 	
 	$(function(){
@@ -251,9 +285,23 @@
 		memberNo=1; 
 	 }
 	if('${loginUser}' )
-	
-	
-	
+	/*
+	function commentsLikeSum(){
+		
+		$.ajax({
+			url:'commentsLikeSum.co',
+			data:{movieTitle:${movieTitle},
+				  movieYear:${movieYear}
+			},
+			success:function(){
+				
+			},
+			error:function(){
+				console.log('좋아요 싫어요 총합 가져오기 실패')
+			}
+		})
+	}
+	*/
 	function showMovieRating(){
 		
 		$.ajax({
@@ -339,21 +387,28 @@
 			data:{"movieTitle":"${movieTitle}",
 			      "movieYear":${movieYear},
 			      "memberNo":JSON.stringify(${loginUser.memberNo})//json 형태로 보내기	
-			      //"memberNo":JSON.stringify("${memberNo}")	
+			      
 			},
 			success:function(list){
-				console.log('좋아요부르기 성공')
-				console.log(list);
-				console.log($('.commentsOne'))
-				console.log($('.commentsOne').children())
-				console.log($('.commentsOne').siblings('input'))
-				console.log($('.commentsOne').siblings('input')[0])
-				console.log($('.commentsOne').siblings('input').eq(0).val())
-				console.log(list.isEmpty);
 				
-				console.log(list.length)
+				
+				var arr=new Array();
+				
+				for(var i in list){
+					arr[i]=list[i].commentNo;					
+				}
+				
+				
+				
+				var length=$('.commentsOne').siblings('input').length;
+				
 				if(list.length !=0){
-					
+					for(var i=0;i<length;i++){
+						if( arr.includes(Number($('.commentsOne').siblings('input').eq(i).val())) && list[i].commentLike =='Y'){
+							$('.commentsOne').find('i').eq(2*i).attr('class','fa-solid fa-thumbs-up blue');
+						}else if(arr.includes(Number($('.commentsOne').siblings('input').eq(i).val())) && list[i].disLike =='Y')
+							$('.commentsOne').find('i').eq((2*i)+1).attr('class','fa-solid fa-thumbs-down red');
+					}					
 				}
 				
 			},

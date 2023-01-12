@@ -20,4 +20,8 @@ public class SearchDao {
 	public ArrayList<Meeting>searchMeetingList(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("searchMapper.searchMeetingList", map);
 	}
+
+	public ArrayList<Meeting> searchAjaxMeetingList(SqlSessionTemplate sqlSession, String keyword) {
+		return (ArrayList)sqlSession.selectList("searchMapper.searchAjaxMeetingList", keyword);
+	}
 }

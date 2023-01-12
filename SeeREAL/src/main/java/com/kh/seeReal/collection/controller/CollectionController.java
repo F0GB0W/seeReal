@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.kh.seeReal.collection.model.service.CollectionService;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 
 @Controller
 public class CollectionController {
@@ -122,4 +123,16 @@ public class CollectionController {
 		return new Gson().toJson(collectionService.selectMovieList(clno));
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "creply.cl")
+	public String ajaxInsertReplyCollection(CollectionReply cr) {
+		System.out.println(cr);
+		return collectionService.insertReplyCollection(cr) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "replyList.cl", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(int collectionNo) {
+		return new Gson().toJson(collectionService.selectReplyList(collectionNo));
+	}
 }

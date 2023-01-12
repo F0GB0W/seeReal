@@ -20,9 +20,11 @@ public interface CommentsService {
 	
 	int commentsWrite(Comments comments);
 	
-	int thumbsUp(Comments comments);
+	int thumbsUp(Comments comments,String likeTF);
 	int thumbsDown(Comments comments);
 	
 	ArrayList showCommentsLike(Comments comments);
+	
+	ArrayList commentsLikeSum(Comments comments);
 	
 }

@@ -235,9 +235,11 @@ public class CommentsController {
      
     @ResponseBody
     @RequestMapping(value="thumbsUp.co")
-    public String thumbsUp(Comments comments,Model model) {
-    	
-    	commentsService.thumbsUp(comments);
+    public String thumbsUp(Comments comments,String likeTF,Model model) {
+    	System.out.println("좋아요 버튼");
+    	System.out.println(comments);
+    	System.out.println(likeTF);
+    	commentsService.thumbsUp(comments,likeTF);
     	
     	return "comments/movieDetail";
     	
@@ -283,5 +285,11 @@ public class CommentsController {
     	
     	
     }
-    
+    /*
+    @ResponseBody
+    @RequestMapping(value="commentsLikeSum.co")
+    public ArrayList commentsLikeSum(Comments comments) {
+    	commentsService.commentsLikeSum(comments);
+    }
+    */
 }

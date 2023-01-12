@@ -54,9 +54,9 @@ public class CommentsServiceImpl implements CommentsService{
 	}
 
 	@Override
-	public int thumbsUp(Comments comments) {
+	public int thumbsUp(Comments comments,String likeTF) {
 		
-		return CommentsDao.thumbsUp(comments,sqlSession);
+		return CommentsDao.thumbsUp(comments,likeTF,sqlSession);
 	}
 
 	@Override
@@ -70,5 +70,13 @@ public class CommentsServiceImpl implements CommentsService{
 		
 		return CommentsDao.showCommentsLike(comments,sqlSession);
 	}
+
+	@Override
+	public ArrayList commentsLikeSum(Comments comments) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 }

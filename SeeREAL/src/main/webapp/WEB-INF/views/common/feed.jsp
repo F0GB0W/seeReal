@@ -74,43 +74,43 @@
             <h3>씨리즌이 사랑한 리얼평 TOP 5</h3>
             <table>
             	<c:choose>
-            	<c:when test="${ empty review }">
-            		😽지금 바로 리얼평을 남겨보세요😽
-            	</c:when>
-            	<c:otherwise>
-	                <tr>
-	                    <th>영화제목</th>
-	                    <th>별점</th>
-	                    <th>좋아요</th>
-	                </tr>
-	                <c:forEach items="${ review }" var="f">
+	            	<c:when test="${ empty review }">
+	            		😽지금 바로 리얼평을 남겨보세요😽
+	            	</c:when>
+	            	<c:otherwise>
 		                <tr>
-		                	<%-- td onclick="location.href=''" 도 달고싶은데 url 어떻게 연결하지? --%>
-		                    <td>${f.movieTitle}</td>
-		                    <c:choose>
-		                    	<c:when test="${f.rating == 1}">
-		                    		<td>★</td>
-		                    	</c:when>
-		                    	<c:when test="${f.rating == 2}">
-		                    		<td>★★</td>
-		                    	</c:when>
-		                    	<c:when test="${f.rating == 3}">
-		                    		<td>★★★</td>
-		                    	</c:when>
-		                    	<c:when test="${f.rating == 4}">
-		                    		<td>★★★★</td>
-		                    	</c:when>
-		                    	<c:when test="${f.rating == 5}">
-		                    		<td>★★★★★</td>
-		                    	</c:when>
-		                    	<c:otherwise>
-		                    		☆☆☆☆☆
-		                    	</c:otherwise>
-		                    </c:choose>
-		                    <td>👍${f.commentLike}</td>
+		                    <th>영화제목</th>
+		                    <th>별점</th>
+		                    <th>좋아요</th>
 		                </tr>
-					</c:forEach>
-	                </c:otherwise>
+		                <c:forEach items="${ review }" var="f">
+			                <tr>
+			                	<%-- td onclick="location.href=''" 도 달고싶은데 url 어떻게 연결하지? --%>
+			                    <td>${f.movieTitle}</td>
+			                    <c:choose>
+			                    	<c:when test="${f.rating == 1}">
+			                    		<td>★</td>
+			                    	</c:when>
+			                    	<c:when test="${f.rating == 2}">
+			                    		<td>★★</td>
+			                    	</c:when>
+			                    	<c:when test="${f.rating == 3}">
+			                    		<td>★★★</td>
+			                    	</c:when>
+			                    	<c:when test="${f.rating == 4}">
+			                    		<td>★★★★</td>
+			                    	</c:when>
+			                    	<c:when test="${f.rating == 5}">
+			                    		<td>★★★★★</td>
+			                    	</c:when>
+			                    	<c:otherwise>
+			                    		☆☆☆☆☆
+			                    	</c:otherwise>
+			                    </c:choose>
+			                    <td>👍${f.commentLike}</td> 
+			                </tr>
+						</c:forEach>
+		            </c:otherwise>
                 </c:choose>
             </table>
         </div>

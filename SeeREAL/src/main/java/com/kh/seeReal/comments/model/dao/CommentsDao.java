@@ -47,7 +47,8 @@ public class CommentsDao {
 		//HashMap<String,Object> list=(HashMap)sqlSession.selectList("comments-mapper.commentsList", comments);		
 		  return list;	  
 	}
-	public int thumbsUp(Comments comments,SqlSessionTemplate sqlSession) {
+	public int thumbsUp(Comments comments,String likeTF,SqlSessionTemplate sqlSession) {
+		
 		return sqlSession.update("comments-mapper.thumbsUp",comments);
 	}
 	public int thumbsDown(Comments comments,SqlSessionTemplate sqlSession) {
@@ -60,4 +61,9 @@ public class CommentsDao {
 		System.out.println("---showCommentsLike 가기후 ----"+list);
 		return list;
 	}
+	/*
+	public ArrayList commentsLikeSum(Comments comments,SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("comments-mapper.commentsLikeSum",comments);
+	}
+	*/
 }

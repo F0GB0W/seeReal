@@ -9,6 +9,15 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <title>Insert title here</title>
+<style>
+    .movieList-area {
+        display: flex;
+    }
+
+    .movieInfo {
+        margin-right: 10px;
+    }
+</style>
 </head>
 <body>
 
@@ -29,6 +38,34 @@
 
     </div>
 
+    <hr>
+    <table id="replyArea" class="table" align="center">
+		<thead>
+			<c:choose>
+				<c:when test="${empty loginUser }">
+					<th>
+						<textarea class="form-control" readonly id="reply-content" cols="55" rows="2" style="resize:none;";>로그인 후 이용가능합니다.</textarea>
+					</th>
+					<th style="vertical-align:middle"><button class="btn btn-secondary disabled">등록하기</button>
+				</c:when>
+				<c:otherwise>
+					<th>
+						<textarea class="form-control" id="reply-content" cols="55" rows="2" style="resize:none;"></textarea>
+					</th>
+					<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addReply();">등록하기</button>
+				</c:otherwise>
+			</c:choose>
+			<tr>
+				<td colspan="4">댓글(<span id="rcount"></span>)</td>
+			</tr>
+		</thead>
+		<tbody>
+			
+			
+		</tbody>
+	
+	</table>
+
     <script>
         $(function() {
             $.ajax({
@@ -44,11 +81,40 @@
                 }
             });
 
+            selectReplyList();
+
         });
+
+        function selectReplyList() {
+            $.ajax({
+                url : 'replyList.cl',
+                data : {
+                    collectionNo : $('#collectionNo').val()
+                },
+                success : list => {
+                    console.log(list);
+
+                    var value = '';
+
+                    for(var i in list) {
+                        value += '<tr>'
+                                + '<td>' + list[i].nickName + '</td>'
+                                + '<td>' + list[i].coReplyContent + '</td>'
+                                + '<td>' + list[i].coReplyDate + '</td>';
+                                + '</tr>'
+                    }
+
+                    $('#replyArea tbody').html(value);
+					$('#rcount').text(list.length);
+                },
+                error : () => {
+                    console.log('댓글 조회 실패~~');
+                }
+            })
+        };
 
         function movieSearch(list) {
             for(let i in list) {
-                console.log(list[i]);
                 $.ajax({
                     url : 'movie.mt',
                     data : {
@@ -56,8 +122,7 @@
                         year : list[i].movieYear
                     },
                     success : data => {
-                        console.log(data.items[0]);
-                        const itemArr = data.items[0];
+                        let itemArr = data.items[0];
                         makeList(itemArr);
                     },
                     error : () => {
@@ -69,12 +134,36 @@
 
         let value = '';
         function makeList(itemArr) {
-            value += '<div>'
+            value += '<div class="movieInfo">' + '<a href="' + itemArr.link + '">'
                    + '<img src="' + itemArr.image + '">'
-                   + '</div>'
+                   + '<p>' + itemArr.title + '(' + itemArr.pubDate + ')' + '</p>'
+                   + '</a></div>'
 
             $('.movieList-area').html(value);
         }
+
+        function addReply() {
+            $.ajax({
+                url : 'creply.cl',
+                data : {
+                    memberNo : $('#memberNo').val(),
+                    collectionNo : $('#collectionNo').val(),
+                    coReplyContent : $('#reply-content').val()
+                },
+                success : data => {
+                    if(data == 'success') {
+                        
+                        selectReplyList();
+                    
+                    }
+                },
+                error : () => {
+                    console.log('댓글 작성 실패');
+                }
+            });
+        }
+
+        
     </script>
 </body>
 </html>

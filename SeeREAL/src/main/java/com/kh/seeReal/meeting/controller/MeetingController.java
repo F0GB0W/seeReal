@@ -71,7 +71,7 @@ public class MeetingController {
         }
         
         // apiURL += "&display=100"; (한페이지에 보여줄 개수) 
-        Map<String, String> requestHeaders = new HashMap<>();
+        Map<String, String> requestHeaders = new HashMap();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         responseBody = get(apiURL,requestHeaders);
