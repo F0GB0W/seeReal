@@ -33,7 +33,7 @@ public class SearchController {
 		
 		int searchCountList = searchService.searchCountList(map);
 		ArrayList<Meeting> mtList = searchService.searchMeetingList(map); 
-		
+		System.out.println(mtList);
 		mv.addObject("mtList", mtList)
 			.setViewName("common/search");
 		
