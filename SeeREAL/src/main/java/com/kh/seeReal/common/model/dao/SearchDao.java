@@ -18,6 +18,6 @@ public class SearchDao {
 	}
 	
 	public ArrayList<Meeting>searchMeetingList(SqlSessionTemplate sqlSession, HashMap<String, String> map){
-		return (ArrayList)sqlSession.selectList("searchMapper.searchMeetingList");
+		return (ArrayList)sqlSession.selectList("searchMapper.searchMeetingList", map);
 	}
 }

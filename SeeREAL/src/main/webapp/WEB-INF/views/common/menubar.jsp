@@ -18,11 +18,6 @@
 	<div id="search-area">
 		<form action="search.yj" method="get">
 			<input type="hidden" name="currentPage" value="1">
-			<select name="condition">
-				<option value="all">전체</option>
-				<option value="movie">영화</option>
-				<option value="meeting">모임</option>
-			</select>
 			<input type="text" name="keyword" value="${ keyword }">
 			<button type="submit">검색</button>
 		</form>
