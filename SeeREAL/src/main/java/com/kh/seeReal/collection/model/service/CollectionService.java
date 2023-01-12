@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.collection.model.vo.CollectionMovie;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 
 public interface CollectionService {
 
@@ -21,5 +22,9 @@ public interface CollectionService {
 	Collection selectCollectionDetail(int cno);
 
 	ArrayList<CollectionMovie> selectMovieList(int clno);
+
+	int insertReplyCollection(CollectionReply cr);
+
+	ArrayList<CollectionReply> selectReplyList(int collectionNo);
 
 }
