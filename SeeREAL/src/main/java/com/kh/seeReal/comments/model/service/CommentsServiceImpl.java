@@ -70,5 +70,13 @@ public class CommentsServiceImpl implements CommentsService{
 		
 		return CommentsDao.showCommentsLike(comments,sqlSession);
 	}
+
+	@Override
+	public ArrayList commentsLikeSum(Comments comments) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 }

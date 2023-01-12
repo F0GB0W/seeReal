@@ -60,4 +60,9 @@ public class CommentsDao {
 		System.out.println("---showCommentsLike 가기후 ----"+list);
 		return list;
 	}
+	/*
+	public ArrayList commentsLikeSum(Comments comments,SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("comments-mapper.commentsLikeSum",comments);
+	}
+	*/
 }
