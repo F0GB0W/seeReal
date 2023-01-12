@@ -62,7 +62,7 @@
 				<c:choose>
 					<c:when test="${ not empty mtList }">
 						<c:forEach items="${ mtList }" var="mt">
-							<div id="meeting">
+							<div class="meeting">
 								<div><img src="../../../../resources/img/user.png" alt="이미지" width="150" height="250"/></div>
 								<div>${ mt.meetingTitle }</div>
 								<div>${ mt.movieTitle }</div>		
@@ -99,15 +99,17 @@
 			</div>
 		</div>
 
-      <c:if test="${not empty condition }">
-	      <script>
+		<script>
 			$(function(){
 				$('#search-area option[value=${condition}]').attr('selected', true);					
 			
 			});     
 			$(function(){
-				$('.outer>#searchList>#list>#meeting').click(function(){
-					location.href='detail.mt?mtno=' +(this).siblings('#mtno').text();
+				$('.outer #searchList #list .meeting').click(function(){
+
+					//console.log('눌렷당');
+					// location.href = 'detail.mt?mtno=' + $(this).siblings('#mtno').text();
+					console.log('mtno : ' + $(this).children('#mtno').text());
 				})
 			});
 			
@@ -115,9 +117,9 @@
 				$.ajax({
 					url : 'movie.mt',
 					data : {
-	                    title : $('#title').val(),
-	                    year : $('#year').val()
-	                    },
+						title : $('#title').val(),
+						year : $('#year').val()
+						},
 					success : data => {
 						console.log(data);
 						//console.log(data.getFoodKr.item);
@@ -131,23 +133,23 @@
 							let thumb = item.image;
 							
 							value += '<tr>'
-								   + '<td><a href="'+ item.link + '">' + item.title + '</a></td>'
-								   + '<td><img src="' + thumb + '"/></td>'
-								   + '<td>' + item.pubDate + '</td>'
-								   + '<td>' + item.director + '</td>'
-								   + '<td>' + item.actor + '</td>'
-								   + '<td>' + item.userRating + '</td>'
-	                               + '<td>' + '<button onclick="selectMovie(' 
-	                                        + "'" + item.subtitle + "', "  
-	                                        + item.pubDate + ','
-	                                        + "'" + item.title + "', "
-	                                        + "'" + item.director + "', "
-	                                        + "'" + thumb + "', "
-	                                        + "'" + item.link + "', "
-	                                        + "'" + item.director + "', "
-	                                        + "'" + item.actor + "'"
-	                                        + ');" data-dismiss="modal">선택' + '</button>' + '</td>'
-								   + '</tr>' 
+									+ '<td><a href="'+ item.link + '">' + item.title + '</a></td>'
+									+ '<td><img src="' + thumb + '"/></td>'
+									+ '<td>' + item.pubDate + '</td>'
+									+ '<td>' + item.director + '</td>'
+									+ '<td>' + item.actor + '</td>'
+									+ '<td>' + item.userRating + '</td>'
+									+ '<td>' + '<button onclick="selectMovie(' 
+											+ "'" + item.subtitle + "', "  
+											+ item.pubDate + ','
+											+ "'" + item.title + "', "
+											+ "'" + item.director + "', "
+											+ "'" + thumb + "', "
+											+ "'" + item.link + "', "
+											+ "'" + item.director + "', "
+											+ "'" + item.actor + "'"
+											+ ');" data-dismiss="modal">선택' + '</button>' + '</td>'
+									+ '</tr>' 
 						}
 						
 						
@@ -161,9 +163,8 @@
 					}
 					
 				});			
-			
-	      </script>
-      </c:if>
+			}
+		</script>
       
       <div id="search-area">
 		<form action="search.yj" method="get">

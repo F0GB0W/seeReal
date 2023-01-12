@@ -43,4 +43,16 @@ public class CollectionServiceImpl implements CollectionService {
 	public ArrayList<Collection> selectCollectionList() {
 		return collectionDao.selectCollectionList(sqlSession);
 	}
+
+
+	@Override
+	public Collection selectCollectionDetail(int cno) {
+		return collectionDao.selectCollectionDetail(sqlSession, cno);
+	}
+
+
+	@Override
+	public ArrayList<CollectionMovie> selectMovieList(int clno) {
+		return collectionDao.selectMovieList(sqlSession, clno);
+	}
 }

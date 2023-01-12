@@ -29,4 +29,12 @@ public class CollectionDao {
 		return (ArrayList)sqlSession.selectList("collectionMapper.selectCollectionList");
 	}
 
+	public Collection selectCollectionDetail(SqlSessionTemplate sqlSession, int cno) {
+		return sqlSession.selectOne("collectionMapper.selectCollectionDetail", cno);
+	}
+
+	public ArrayList<CollectionMovie> selectMovieList(SqlSessionTemplate sqlSession, int clno) {
+		return (ArrayList)sqlSession.selectList("collectionMapper.selectMovieList", clno);
+	}
+
 }
