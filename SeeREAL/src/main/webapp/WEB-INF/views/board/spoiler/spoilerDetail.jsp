@@ -163,18 +163,20 @@
 					var value = '';
 					for(var i in list){
 						if(${ not empty loginUser}){
-							  if(${b.boardWriter == loginUser.memberNo}){
+							  if(${list[i].loginUser == list[i].replyWriter}){
 								  value += '<tr>'
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
-									   + '<td>' + list[i].boReplyDate + '</td>';
-									   + '<td><a href="#">삭제</a></td></tr>';
+									   + '<td>' + list[i].boReplyDate + '</td>'
+									   + '<td><button onclick="updateReply();">수정</button>' 
+									   + '<button onclick="deleteReply();">삭제</button></td></tr>';
 							  } else {
 								  
 									value += '<tr>'
 										   + '<td>' + list[i].replyWriter + '</td>'
 										   + '<td>' + list[i].boReplyContent + '</td>'
 										   + '<td>' + list[i].boReplyDate + '</td>'
+										   + '<td>' + 234 + '</td>'
 										   + '</tr>';
 										   
 							  }
@@ -183,11 +185,13 @@
 							value += '<tr>'
 								   + '<td>' + list[i].replyWriter + '</td>'
 								   + '<td>' + list[i].boReplyContent + '</td>'
-								   + '<td>' + list[i].boReplyDate + '</td>';
-								   + '</tr>'
+								   + '<td>' + list[i].boReplyDate + '</td>'
+										   + '<td>' + 3454 + '</td>'
+								   + '</tr>';
 						}
 						
 					}
+					console.log(value);
 					$('#replyArea tbody').html(value);
 					$('#rcount').text(list.length);
 				},
