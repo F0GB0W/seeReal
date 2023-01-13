@@ -10,8 +10,6 @@
 <style>
     .outer{
         width:600px;
-/*         margin-top: 100px;
-        margin-left: 700px; */
         align: center;
     }
     .profile{
@@ -45,7 +43,6 @@
 </style>
 </head>
 <body>
-	
 	
 	<div class="outer">
 		<div class="profile">
@@ -83,7 +80,7 @@
 		                    <th>별점</th>
 		                    <th>좋아요</th>
 		                </tr>
-		                <c:forEach items="${ review }" var="f">
+		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
 			                	<%-- td onclick="location.href=''" 도 달고싶은데 url 어떻게 연결하지? --%>
 			                    <td>${f.movieTitle}</td>
@@ -91,14 +88,26 @@
 			                    	<c:when test="${f.rating == 1}">
 			                    		<td>★</td>
 			                    	</c:when>
+			                    	<c:when test="${f.rating == 1.5}">
+			                    		<td>★☆</td>
+			                    	</c:when>			                    	
 			                    	<c:when test="${f.rating == 2}">
 			                    		<td>★★</td>
+			                    	</c:when>
+			                    	<c:when test="${f.rating == 2.5}">
+			                    		<td>★★☆</td>
 			                    	</c:when>
 			                    	<c:when test="${f.rating == 3}">
 			                    		<td>★★★</td>
 			                    	</c:when>
+			                    	<c:when test="${f.rating == 3.5}">
+			                    		<td>★★★☆</td>
+			                    	</c:when>
 			                    	<c:when test="${f.rating == 4}">
 			                    		<td>★★★★</td>
+			                    	</c:when>
+			                    	<c:when test="${f.rating == 4.5}">
+			                    		<td>★★★★☆</td>
 			                    	</c:when>
 			                    	<c:when test="${f.rating == 5}">
 			                    		<td>★★★★★</td>
@@ -107,7 +116,7 @@
 			                    		☆☆☆☆☆
 			                    	</c:otherwise>
 			                    </c:choose>
-			                    <td>👍${f.commentLike}</td> 
+			                    <td>👍${status.count}</td> 
 			                </tr>
 						</c:forEach>
 		            </c:otherwise>
@@ -129,12 +138,12 @@
                 backgroundColor: 'orange',
                 data: yValues
                 }]
-        },
-        options: {
-        	legend: {
-        		display:false
+        	},
+       		 options: {
+        			legend: {
+        			display:false
+        		}
         	}
-        }
         });
 	</script>
 </body>

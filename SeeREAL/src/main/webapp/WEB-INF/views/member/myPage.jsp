@@ -41,21 +41,30 @@
 		${loginUser.memberNickname}의 마이페이지
 		<div><a href="updateForm.me">회원정보 수정</a></div>
 		<div><a href="updatePwdForm.me">비밀번호 수정</a></div>
+		<br>
 		
 		<div><a href="myboardList.me?boardType=1">수다게시판</a></div>
 		<div><a href="myboardList.me?boardType=2">스포일러게시판</a></div>
-		<div><a href="myCollection.me">컬렉션</a></div>
 		
-		<button onclick="postFormSubmit(5)">좋아요한 컬렉션</button>
+		<br>
+		<div><a href="myCollection.me">컬렉션</a></div>
+		<div><a href="myCollectionLike.me">좋아요한 컬렉션</a></div>
+		
+		<br>
 		<div><a href="myReply.me">댓글</a></div>
 		
+		<br>
 		<div><a href="myComments.me">내 리얼평</a></div>
-		<div><a>내 좋아요</a></div>
-		<div><a>내 싫어요</a></div>
 		<div>
-			<button onclick="postFormSubmit(1)">내가 만든 모임</button>
-			<button onclick="postFormSubmit(2)">참여한 모임</button>
-			<button onclick="postFormSubmit(3)">대기중</button>
+			<button onclick="postFormSubmit('Y','myLikeComments.me')">내 좋아요</button>
+			<button onclick="postFormSubmit('N','myLikeComments.me')">내 싫어요</button>
+		</div>
+	
+		<br>
+		<div><a href="myMeeting.me">내가 만든 모임</a></div>
+		<div>
+			<button onclick="postFormSubmit('Y','myMeetingStatus.me')">참여한 모임</button>
+			<button onclick="postFormSubmit('N','myMeetingStatus.me')">대기중</button>
 		</div>
 		
 		<form action="" method="post" id="postForm">
@@ -66,22 +75,10 @@
 	</div>
 	
 	<script>
-        function postFormSubmit(num){
-        
-		    if(num == 1){ 
-		   	    $('#postForm').attr('action', 'myMeeting.me').submit();
-		    }else if(num == 2){
-		    	$('#"postValue"').val(1);
-		    	$('#postForm').attr('action', 'myMeetingStatus.me').submit();
-		    	
-		    }else if(num == 3){	
-		    	$('#"postValue"').val(2);
-		    	$('#postForm').attr('action', 'myMeetingStatus.me').submit();
-				
-			}else if(num==5){
-				$('#"postValue"').val(3);
-		    	$('#postForm').attr('action', 'myCollectionLike.me').submit();
-			}
+        function postFormSubmit(check, mappingValue){
+        	
+        	$('#postValue').val(check);
+        	$('#postForm').attr('action', mappingValue).submit();
         }
     </script>
 	
