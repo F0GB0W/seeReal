@@ -68,6 +68,7 @@
         </div>
             
 		<div class="ratingSpread">
+			<input type="hidden" value="${ ratingYj }" id="ratingYj">
             <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
         </div>           
 
@@ -139,14 +140,13 @@
 			$.ajax({
 				url : 'rating.yj',
 				data: {
-					memberNo :  ${memberNo}
+					memberNo :  $('#ratingYj').val()
 				},
 				success : function(reviewRating){
-						console.log(reviewRating);
-						reviewRating(reviewRating);
+					console.log(${ratingYj});						
 				},
 				error : ()=> {
-					console.log('rating.yj 실패');
+					console.log('rating.yj 실패' + rating);
 				}
 				
 				})

@@ -78,9 +78,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="ratingYj" parameterType="_int" resultMap="movie_rating">
-		select rating
+		select member_no
 		  from movie_rating
-		 where member_no = #{memberNo}
 	</select>
 
 
