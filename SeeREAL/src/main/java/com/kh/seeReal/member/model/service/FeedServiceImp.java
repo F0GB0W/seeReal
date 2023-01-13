@@ -45,9 +45,14 @@ public class FeedServiceImp implements FeedService{
 		return feedDao.selectMember(sqlSession, memberNo);
 	}
 
+	/*
+	 * @Override public int ratingYj(int memberNo) { return
+	 * feedDao.ratingYj(sqlSession, memberNo); }
+	 */
+
 	@Override
-	public int ratingYj(int memberNo) {
-		return feedDao.ratingYj(sqlSession, memberNo);
+	public int star(int memberNo) {
+		return feedDao.star(sqlSession, memberNo);
 	}
 	
 

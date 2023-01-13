@@ -18,5 +18,7 @@ public interface FeedService {
 	
 	Member selectMember(int memberNo);
 	
-	int ratingYj(int memberNo);
+	//int ratingYj(int memberNo);
+	
+	int star(int memberNo);
 }
