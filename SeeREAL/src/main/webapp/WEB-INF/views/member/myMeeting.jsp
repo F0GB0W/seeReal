@@ -191,8 +191,18 @@
 <section class="notice">
     <div class="page-title">
         <div class="container">
-			<h3>내가 만든 모임</h3>
-			<br>
+			
+			<c:choose>
+	        	<c:when test="${check eq 'N'}">
+	        		<h3>대기중</h3>
+	        	</c:when>
+	        	<c:when test="${check eq 'Y'}">
+	        		<h3>참여</h3>
+	        	</c:when>
+	        	<c:otherwise>
+	        		<h3>내가 만든 모임</h3>
+	        	</c:otherwise>
+        	</c:choose>
 			
 		</div>
         <br><br>

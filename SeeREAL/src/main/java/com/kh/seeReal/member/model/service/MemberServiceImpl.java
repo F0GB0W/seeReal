@@ -80,8 +80,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public ArrayList<Board> selectBoardList(HashMap<String, String> map, PageInfo pi) {
-		return memberDao.selectBoardList(sqlSession,map,pi);
+	public ArrayList<Board> selectBoardList(PageInfo pi, HashMap<String, String> map) {
+		return memberDao.selectBoardList(sqlSession,pi, map);
 	}
 
 	@Override

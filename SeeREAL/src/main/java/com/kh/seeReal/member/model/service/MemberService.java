@@ -46,7 +46,7 @@ public interface MemberService {
 	// 게시글 리스트 조회
 	public int selectBoardListCount(HashMap<String, String> map);
 
-	public ArrayList<Board> selectBoardList(HashMap<String, String> map, PageInfo pi);
+	public ArrayList<Board> selectBoardList(PageInfo pi, HashMap<String, String> map);
 
 	// 댓글 리스트 조회
 	public int selectReplyListCount(String memberEmail);
