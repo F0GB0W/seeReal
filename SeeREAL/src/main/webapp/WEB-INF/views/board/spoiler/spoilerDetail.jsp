@@ -168,8 +168,8 @@
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
-									   + '<td><button onclick="updateReply();">수정</button>' 
-									   + '<button onclick="deleteReply();">삭제</button></td></tr>';
+									   + '<td id="updateReply"><button onclick="updateReply();">수정</button></td>' 
+									   + '<td id="deleteReply"><button onclick="deleteReply();">삭제</button></td></tr>';
 							  } else {
 								  
 									value += '<tr>'
@@ -191,15 +191,26 @@
 						}
 						
 					}
-					console.log(value);
+					//console.log(value);
 					$('#replyArea tbody').html(value);
 					$('#rcount').text(list.length);
+				
 				},
 				error : function(){
 					console.log('댓글 조회 실패')
 				}
 			})
-		}
+		};
+		
+		/*$(function(){
+			selectSpoilerReplyList();
+			
+			setInterval(selectSpoilerReplyList, 1000);
+		}); 
+		*/		
+		
+			
+		
 	
 	</script>
 

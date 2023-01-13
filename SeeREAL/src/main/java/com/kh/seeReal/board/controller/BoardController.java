@@ -185,5 +185,11 @@ public class BoardController {
 		 //System.out.println(boardService.spoilerReplyList(boardNo));
 		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
 	 }
+	 @ResponseBody
+	 @RequestMapping("updateReply.bo")
+	 public String updateReply(int boReplyNo) {
+		 
+		 return "main";
+	 }
 		 
 }
