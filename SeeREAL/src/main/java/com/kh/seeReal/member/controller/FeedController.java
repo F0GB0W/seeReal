@@ -33,8 +33,8 @@ public class FeedController {
 	@RequestMapping(value="rating.yj", produces="application/json; charset=UTF-8")
 	public String ratingYj(int memberNo) {
 		return new Gson().toJson(feedService.ratingYj(memberNo));
-		System.out.println(memberNo);
 	}
 
+	
 
 }
