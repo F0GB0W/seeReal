@@ -56,8 +56,6 @@ public class BoardController {
 			 b.setOriginName(upfile.getOriginalFilename());
 			 b.setChangeName("/resources/uploadFiles/" + saveFile(upfile, session));
 		 }
-		   
-		 
 		 
 		 if(boardService.insertSpoiler(b) > 0) {
 			 return "redirect:/spoilerList.bo";
@@ -96,7 +94,7 @@ public class BoardController {
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
-		 // System.out.println(boardService.spoilerIncreaseCount(bno));
+		  System.out.println(mv);
 		 return mv;
 	 }
 	
@@ -186,6 +184,12 @@ public class BoardController {
 		 //System.out.println(boardNo);
 		 //System.out.println(boardService.spoilerReplyList(boardNo));
 		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
+	 }
+	 @ResponseBody
+	 @RequestMapping("updateReply.bo")
+	 public String updateReply(int boReplyNo) {
+		 
+		 return "main";
 	 }
 		 
 }

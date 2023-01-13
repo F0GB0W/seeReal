@@ -100,8 +100,8 @@
                         value += '<tr>'
                                 + '<td>' + list[i].nickName + '</td>'
                                 + '<td>' + list[i].coReplyContent + '</td>'
-                                + '<td>' + list[i].coReplyDate + '</td>';
-                                + '</tr>'
+                                + '<td>' + list[i].coReplyDate + '</td>'
+                                + '</tr>';
                     }
 
                     $('#replyArea tbody').html(value);
@@ -134,10 +134,19 @@
 
         let value = '';
         function makeList(itemArr) {
-            value += '<div class="movieInfo">' + '<a href="' + itemArr.link + '">'
+            value += '<div class="movieInfo">' 
+                   + '<form action="movieDetail.co" method="post">'
+                   + '<button type="submit">'
                    + '<img src="' + itemArr.image + '">'
                    + '<p>' + itemArr.title + '(' + itemArr.pubDate + ')' + '</p>'
-                   + '</a></div>'
+                   + '<input type="hidden" name="movieTitle" value="' + itemArr.title + '">'
+                   + '<input type="hidden" name="movieYear" value="' + itemArr.pubDate + '">'
+                   + '<input type="hidden" name="movieDirector" value="' + itemArr.director + '">'
+                   + '<input type="hidden" name="movieImg" value="' + itemArr.image + '">'
+                   + '<input type="hidden" name="movieSubTitle" value="' + itemArr.subtitle + '">'
+                   + '</button>'
+                   + '</form>'
+                   + '</div>'
 
             $('.movieList-area').html(value);
         }
@@ -152,9 +161,8 @@
                 },
                 success : data => {
                     if(data == 'success') {
-                        
                         selectReplyList();
-                    
+                        $('#reply-content').val('');
                     }
                 },
                 error : () => {

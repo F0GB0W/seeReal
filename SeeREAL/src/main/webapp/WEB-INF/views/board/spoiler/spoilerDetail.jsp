@@ -39,7 +39,7 @@
 			<tr>
 				<th>작성자</th>
 				<td>
-					${b.nickName eq m.memberNickname}
+					${b.nickName}
 				</td>
 			</tr>
 			<tr>
@@ -105,6 +105,7 @@
 					<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addReply();">등록하기</button>
 				</c:otherwise>
 			</c:choose>
+			
 			<tr>
 				<td colspan="4">댓글(<span id="rcount"></span>)</td>
 			</tr>
@@ -158,23 +159,25 @@
 					loginUser : '${loginUser.memberNickname}'
 						},
 				success : function(list){
-					console.log(list);
+					//console.log(list);
 					
 					var value = '';
 					for(var i in list){
 						if(${ not empty loginUser}){
-							  if(${b.boardWriter == loginUser.memberNo}){
+							  if(${list[i].loginUser == list[i].replyWriter}){
 								  value += '<tr>'
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
-									   + '<td>' + list[i].boReplyDate + '</td>';
-									   + '<td><a href="#">삭제</a></td></tr>';
+									   + '<td>' + list[i].boReplyDate + '</td>'
+									   + '<td id="updateReply"><button onclick="updateReply();">수정</button></td>' 
+									   + '<td><button onclick="deleteReply();">삭제</button></td></tr>';
 							  } else {
 								  
 									value += '<tr>'
 										   + '<td>' + list[i].replyWriter + '</td>'
 										   + '<td>' + list[i].boReplyContent + '</td>'
 										   + '<td>' + list[i].boReplyDate + '</td>'
+										   + '<td>' + 234 + '</td>'
 										   + '</tr>';
 										   
 							  }
@@ -183,19 +186,37 @@
 							value += '<tr>'
 								   + '<td>' + list[i].replyWriter + '</td>'
 								   + '<td>' + list[i].boReplyContent + '</td>'
-								   + '<td>' + list[i].boReplyDate + '</td>';
-								   + '</tr>'
+								   + '<td>' + list[i].boReplyDate + '</td>'
+										   + '<td>' + 3454 + '</td>'
+								   + '</tr>';
 						}
 						
 					}
+					//console.log(value);
 					$('#replyArea tbody').html(value);
 					$('#rcount').text(list.length);
+				
 				},
 				error : function(){
 					console.log('댓글 조회 실패')
 				}
 			})
-		}
+		};
+		/*
+		$(function(){
+			selectSpoilerReplyList();
+			
+			setInterval(selectSpoilerReplyList, 1000);
+		}); 
+		*/
+		function updateReply(){
+			window.event.target;
+			console.log(window.event.target.submit());
+		};
+			
+		
+			
+		
 	
 	</script>
 

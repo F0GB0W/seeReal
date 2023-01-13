@@ -14,7 +14,7 @@ public class Board {
 	private String originName; //ORIGIN_NAME
 	private String changeName; //CHANGE_NAME
 	private int reportCount; //REPORT_COUNT
-	private String status; //STATUS
+	private String status; //STATUS	
 	private String boardType; //BOARD_TYPE
 	private int boardWriter;
 	private String nickName;

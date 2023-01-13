@@ -84,18 +84,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select
 				board_no,
 				board_title,
-				board_writer,
+				nick_name,
 				to_char(enroll_date, 'YYYY-MM-DD') as "ENROLL_DATE",
 				origin_name,
 				change_name,
 				board_content
 				
 		 from
-		 		board
+		 		board b
+		  join
+		  		member on(member_no = board_writer)
 		 where
 		 		board_no = #{boardNo}
 		   and
-		   		status = 'Y'
+		   		b.status = 'Y'
 		   and
 		   		board_type = 2
 				
