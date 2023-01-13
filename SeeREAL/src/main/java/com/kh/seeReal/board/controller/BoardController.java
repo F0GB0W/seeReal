@@ -94,7 +94,7 @@ public class BoardController {
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
-		  System.out.println(mv);
+		  // System.out.println(mv);
 		 return mv;
 	 }
 	
@@ -186,7 +186,7 @@ public class BoardController {
 		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
 	 }
 	 @ResponseBody
-	 @RequestMapping("updateReply.bo")
+	 @RequestMapping("updateReply.br")
 	 public String updateReply(int boReplyNo) {
 		 
 		 return "main";

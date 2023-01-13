@@ -102,7 +102,7 @@
 					<th>
 						<textarea class="form-control" id="reply-content" cols="55" rows="2" style="resize:none;"></textarea>
 					</th>
-					<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addReply();">등록하기</button>
+					<th style="vertical-align:middle"><button class="btn btn-secondary" id="btn3"onclick="addReply();">등록하기</button>
 				</c:otherwise>
 			</c:choose>
 			
@@ -169,8 +169,8 @@
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
-									   + '<td id="updateReply"><button onclick="updateReply();">수정</button></td>' 
-									   + '<td><button onclick="deleteReply();">삭제</button></td></tr>';
+									   + '<td><button class="updatebtn" onclick="javascript:updateReply('+ list[i].boReplyNo +');">수정</button></td>' 
+									   + '<td><button onclick="javascript:deleteReply('+ list[i].boReplyNo +');">삭제</button></td></tr>';
 							  } else {
 								  
 									value += '<tr>'
@@ -210,11 +210,22 @@
 		}); 
 		*/
 		function updateReply(){
-			window.event.target;
-			console.log(window.event.target.submit());
-		};
 			
+			/*
+			$(this).attr('href', 'updateReply.br').submit();
+			console.log($(this).attr('href', 'updateReply.br').submit());
+			*/
+			
+			$('#btn3').html('수정하기');
+			
+		};
 		
+		$(document).on('click', '.updatebtn', function(){
+			$('#btn3').html('수정하기');
+			$('#reply-content').html();
+			
+		});
+			
 			
 		
 	
