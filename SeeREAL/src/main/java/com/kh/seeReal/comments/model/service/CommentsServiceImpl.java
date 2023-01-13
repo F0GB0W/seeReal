@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.seeReal.comments.model.dao.CommentsDao;
 import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 
 @Service
@@ -54,15 +55,15 @@ public class CommentsServiceImpl implements CommentsService{
 	}
 
 	@Override
-	public int thumbsUp(Comments comments,String likeTF) {
+	public int thumbsUp(CommentsLike commentsLike) {
 		
-		return CommentsDao.thumbsUp(comments,likeTF,sqlSession);
+		return CommentsDao.thumbsUp(commentsLike,sqlSession);
 	}
 
 	@Override
-	public int thumbsDown(Comments comments) {
+	public int thumbsDown(CommentsLike commentsLike) {
 		
-		return CommentsDao.thumbsDown(comments,sqlSession);
+		return CommentsDao.thumbsDown(commentsLike,sqlSession);
 	}
 
 	@Override
@@ -75,6 +76,36 @@ public class CommentsServiceImpl implements CommentsService{
 	public ArrayList commentsLikeSum(Comments comments) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int thumbsUpCreate(CommentsLike commentsLike) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int thumbsDownCreate(CommentsLike commentsLike) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Comments getMyComments(Comments comments) {
+		
+		return CommentsDao.getMyComments(comments,sqlSession);
+	}
+
+	@Override
+	public int reviseMyComments(Comments comments) {
+		
+		return CommentsDao.reviseMyComments(comments,sqlSession);
+	}
+
+	@Override
+	public int deleteMyComments(Comments comments) {
+		
+		return CommentsDao.deleteMyComments(comments,sqlSession);
 	}
 
 	

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 
 public interface CommentsService {
@@ -20,11 +21,18 @@ public interface CommentsService {
 	
 	int commentsWrite(Comments comments);
 	
-	int thumbsUp(Comments comments,String likeTF);
-	int thumbsDown(Comments comments);
+	int thumbsUp(CommentsLike commentsLike);
+	int thumbsDown(CommentsLike commentsLike);
+	int thumbsUpCreate(CommentsLike commentsLike);
+	int thumbsDownCreate(CommentsLike commentsLike);
 	
 	ArrayList showCommentsLike(Comments comments);
 	
 	ArrayList commentsLikeSum(Comments comments);
 	
+	Comments getMyComments(Comments comments);
+	
+	int reviseMyComments(Comments comments);
+	
+	int deleteMyComments(Comments comments);
 }

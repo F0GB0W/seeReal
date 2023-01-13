@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.member.model.vo.Member;
 
@@ -47,12 +48,18 @@ public class CommentsDao {
 		//HashMap<String,Object> list=(HashMap)sqlSession.selectList("comments-mapper.commentsList", comments);		
 		  return list;	  
 	}
-	public int thumbsUp(Comments comments,String likeTF,SqlSessionTemplate sqlSession) {
+	public int thumbsUp(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
 		
-		return sqlSession.update("comments-mapper.thumbsUp",comments);
+		return sqlSession.update("comments-mapper.thumbsUp",commentsLike);
 	}
-	public int thumbsDown(Comments comments,SqlSessionTemplate sqlSession) {
-		return sqlSession.update("comments-mapper.thumbsDown",comments);
+	public int thumbsDown(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.thumbsDown",commentsLike);
+	}
+	public int thumbsUpCreate(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.thumbsUpCreate",commentsLike);
+	}
+	public int thumbsDownCreate(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.thumbsDownCreate",commentsLike);
 	}
 	public ArrayList showCommentsLike(Comments comments,SqlSessionTemplate sqlSession) {
 		System.out.println("---showCommentsLike 가기전 ----"+comments);
@@ -61,9 +68,20 @@ public class CommentsDao {
 		System.out.println("---showCommentsLike 가기후 ----"+list);
 		return list;
 	}
+	public Comments getMyComments(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.getMyComments",comments);
+	}
 	/*
 	public ArrayList commentsLikeSum(Comments comments,SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("comments-mapper.commentsLikeSum",comments);
 	}
 	*/
+	public int reviseMyComments(Comments comments,SqlSessionTemplate sqlSession) {
+		System.out.println("글수정============");
+		System.out.println(comments);
+		return sqlSession.update("comments-mapper.reviseMyComments",comments);
+	}
+	public int deleteMyComments(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.deleteMyComments", comments);
+	}
 }

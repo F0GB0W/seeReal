@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="comment_report" property="commentReport" />
 		<result column="movie_title" property="movieTitle" />
 		<result column="movie_year" property="movieYear" />
+		<result column="member_photo" property="memberPhoto"/>
 		<result column="status"     property="status" />
 		<result column="member_no"  property="memberNo" />
 	</resultMap>
@@ -62,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="ratingList" resultMap="movie_rating">
-		select rating, member_no
+		select rating
 		  from movie_rating
 		 where member_no = #{memberNo}
 		 order
@@ -71,16 +72,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="selectMember" parameterType="_int" resultMap="member">
-		select nick_name
+		select nick_name, member_photo
 		  from member
 		 where member_no = #{memberNo}
 	</select>
 
-<!-- 	<select id="selectMemberPhoto" resultMap="member">
-		select member_photo
-		  from member
-		  where member_no = #{memberNo}
-	</select> -->
+	<select id="ratingYj" parameterType="_int" resultMap="movie_rating">
+		select member_no
+		  from movie_rating
+	</select>
 
 
 
