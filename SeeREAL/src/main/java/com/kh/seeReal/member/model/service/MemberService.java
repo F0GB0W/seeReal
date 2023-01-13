@@ -3,6 +3,9 @@ package com.kh.seeReal.member.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
+import org.mybatis.spring.SqlSessionTemplate;
+
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.comments.model.vo.Comments;
@@ -64,8 +67,14 @@ public interface MemberService {
 	public ArrayList<Collection> selectCollectionList(int memberNo);
 
 	// Comments 리스트 조회
-	public ArrayList<Comments> selectCommentsList(int memberNo);
+	public int selectCommentsListCount(int memberNo);
 	
+	public ArrayList<Comments> selectCommentsList(PageInfo pi, int memberNo);
+	
+	// 좋아요 리스트 조회
+	public int selectLikeCommentsCount(HashMap map);
+	
+	public ArrayList<Comments> selectLikeComment(PageInfo pi,  HashMap map);
 	
 	
 }

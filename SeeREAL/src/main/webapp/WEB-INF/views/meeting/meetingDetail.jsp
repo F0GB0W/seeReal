@@ -9,6 +9,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- 부트스트랩에서 제공하고 있는 스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Alertify Framework -->
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 </head>
     <input type="hidden" id="title" value="${ meet.movieTitle }" >
     <input type="hidden" id="year" value="${ meet.movieYear }" >
@@ -34,7 +47,14 @@
 
     <p id="movieDirector"></p>
     <p id="movieActor"></p>
-    <a id="movieLink">영화정보 상세보기(네이버)</a>
+    <form action="movieDetail.co" type="post">
+        <input type="hidden" name="movieTitle" value="" id="inputTitle">
+        <input type="hidden" name="movieYear" value="" id="inputYear">
+        <input type="hidden" name="movieImg" value="" id="inputImg">
+        <input type="hidden" name="movieDirector" value="" id="inputDirector">
+        <input type="hidden" name="movieSubTitle" value="" id="inputSubTitle">
+        <button type="submit">영화 평가로 이동</button>
+    </form>
 
     <hr>
 
@@ -50,6 +70,41 @@
     <hr>
 
     <h1>함께하는 사람들</h1> <p id="meetingMembercount"></p>
+    
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        참여자 목록
+    </button>
+    
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+        
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">참여자</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+            
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table class="table" id="enrollMember">
+                        <thead>
+                            <tr>
+                                <th>참여자</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+            
+        
+            </div>
+        </div>
+    </div>
 
     <c:choose>
         <c:when test="${ not empty loginUser }">
@@ -82,7 +137,6 @@
                     year : $('#year').val()
                     },
 				success : data => {
-					console.log(data);
                     const item = data.items[0];
 
                     let title = item.title  // b태그 지워주기
@@ -94,6 +148,12 @@
                     $('#movieDirector').text('감독 : ' + item.director.slice(0, - 1));  // 끝에 | 잘라줌
                     $('#movieActor').text('출연진 : ' + item.actor.slice(0, - 1));   
                     $('#movieLink').attr('href', item.link).attr('target', '_blank');
+
+                    $('#inputTitle').val(item.title);
+                    $('#inputYear').val(item.pubDate);
+                    $('#inputImg').val(item.image);
+                    $('#inputDirector').val(item.director);
+                    $('#inputSubTitle').val(item.subtitle);
 				},
 				error : () => {
 					console.log('요건조금...');
@@ -116,10 +176,14 @@
                     
                     let memberCount = 0;
                     let value = '';
+                    let tableValue = '';
                     for(let i in itemArr) {
                         if(itemArr[i].meetingAccept == 'Y') {   // 글작성자 포함 count
                             memberCount++;
+                            tableValue += '<tr>'
+                                        + '<td>' + itemArr[i].nickName + '</td>';
                         }
+                        $('#enrollMember tbody').html(tableValue);
 
                         if(itemArr[i].memberNo != ${ meet.memberNo }) { // 글작성자는 나오면 안 됨!!
                             value += '<tr>'
