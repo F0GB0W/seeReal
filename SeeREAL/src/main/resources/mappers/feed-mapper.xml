@@ -77,11 +77,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 where member_no = #{memberNo}
 	</select>
 
-<!-- 	<select id="selectMemberPhoto" resultMap="member">
-		select member_photo
-		  from member
-		  where member_no = #{memberNo}
-	</select> -->
+	<select id="ratingYj" parameterType="_int" resultMap="movie_rating">
+		select rating
+		  from movie_rating
+		 where member_no = #{memberNo}
+	</select>
 
 
 

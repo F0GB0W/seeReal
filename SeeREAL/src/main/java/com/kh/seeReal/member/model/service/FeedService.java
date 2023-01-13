@@ -18,5 +18,5 @@ public interface FeedService {
 	
 	Member selectMember(int memberNo);
 	
-//	int selectMemberPhoto(int memberNo);
+	int ratingYj(int memberNo);
 }
