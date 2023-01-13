@@ -44,7 +44,6 @@
 </head>
 <body>
 	
-	
 	<div class="outer">
 		<div class="profile">
 			<%--  <img src="${ selectMember.selectMemberPhoto }"> --%>
@@ -81,7 +80,7 @@
 		                    <th>별점</th>
 		                    <th>좋아요</th>
 		                </tr>
-		                <c:forEach items="${ review }" var="f">
+		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
 			                	<%-- td onclick="location.href=''" 도 달고싶은데 url 어떻게 연결하지? --%>
 			                    <td>${f.movieTitle}</td>
@@ -117,7 +116,7 @@
 			                    		☆☆☆☆☆
 			                    	</c:otherwise>
 			                    </c:choose>
-			                    <td>👍${f.commentLike}</td> 
+			                    <td>👍${status.count}</td> 
 			                </tr>
 						</c:forEach>
 		            </c:otherwise>
