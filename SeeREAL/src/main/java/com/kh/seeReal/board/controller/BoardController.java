@@ -94,7 +94,7 @@ public class BoardController {
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
-		 // System.out.println(boardService.spoilerIncreaseCount(bno));
+		  System.out.println(mv);
 		 return mv;
 	 }
 	

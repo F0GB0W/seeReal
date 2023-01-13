@@ -39,7 +39,7 @@
 			<tr>
 				<th>작성자</th>
 				<td>
-					${b.nickName eq m.memberNickname}
+					${b.nickName}
 				</td>
 			</tr>
 			<tr>
@@ -159,7 +159,7 @@
 					loginUser : '${loginUser.memberNickname}'
 						},
 				success : function(list){
-					console.log(list);
+					//console.log(list);
 					
 					var value = '';
 					for(var i in list){
@@ -169,7 +169,7 @@
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
-									   + '<td><button onclick="updateReply();">수정</button></td>' 
+									   + '<td id="updateReply"><button onclick="updateReply();">수정</button></td>' 
 									   + '<td><button onclick="deleteReply();">삭제</button></td></tr>';
 							  } else {
 								  
@@ -202,12 +202,17 @@
 				}
 			})
 		};
-		
+		/*
 		$(function(){
 			selectSpoilerReplyList();
 			
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
+		*/
+		function updateReply(){
+			window.event.target;
+			console.log(window.event.target.submit());
+		};
 			
 		
 			
