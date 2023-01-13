@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>see:REAL</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <style>
     .outer{
         width:600px;
@@ -132,9 +133,35 @@
 	</div>
 	
 	<script>
+	
+	//ajax 요청을 해서 success(result) == rating [1.5, 2,4..]
+		function rating(){
+			$.ajax({
+				url : 'rating.yj',
+				data: {
+					memberNo :  ${memberNo}
+				},
+				success : function(reviewRating){
+						console.log(reviewRating);
+						reviewRating(reviewRating);
+				},
+				error : ()=> {
+					console.log('rating.yj 실패');
+				}
+				
+				})
+			}
+	
+		function reviewRating(){
+			for(var i = 0; i < ${ratingList}.length; i++){
+				// ratingList에 rating을 []에 오름차순으로 반복해서 넣기
+				let ratingArray = rating[i];
+			}
+		}	
+	
 	// chart.js
         var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
-        var yValues = ${ratingList};
+        var yValues = rating();
 
         var myChart = new Chart("myChart", {
             type: "bar",
@@ -152,11 +179,16 @@
         	}
         });
         
-		$(function(){
+/* 		$(function(){
+			
+/* 				
+ * location.href = 'detail.mt?mtno=' + $(this).children('#realNo').val(); 
+ * 원래 이렇게 쿼리스트링으로 해당 리뷰 보게 하려고 했는데.. 아직 디테일뷰는 없고... 만약 post 방식으로 넘기면.. 어떻게 가죠?
+			
 			$('.comments table #title').click(function(){
-				location.href = 'detail.mt?mtno=' + $(this).children('#realNo').val();
 			})
 		});
+ */
 	</script>
 </body>
 </html>

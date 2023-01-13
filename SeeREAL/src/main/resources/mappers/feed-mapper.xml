@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="ratingList" resultMap="movie_rating">
-		select rating, member_no
+		select rating
 		  from movie_rating
 		 where member_no = #{memberNo}
 		 order
