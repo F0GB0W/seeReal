@@ -40,6 +40,7 @@
 		<input type="hidden" id="movieDirector" name="movieDirector">
 		<input type="hidden" id="movieSubTitle" name="movieSubTitle">
 		
+		
 	</form>
 	<input type="text" id="test1">
 	
@@ -102,7 +103,13 @@
 				console.log('--3--')
 				console.log($(this).children().eq(6).val())
 				console.log($(this).children().eq(6))
-				
+				console.log('==========클릭시 정보뜨기===========')
+				console.log($('#movieYear').val());
+		console.log($('#movieTitle').val());
+		console.log($('#movieImg').val());
+		console.log($('#movieDirector').val());
+		console.log($('#movieSubTitle').val());
+				console.log('==========클릭시 정보뜨기===========')
 				$('#form1').submit();
 			})
 		}

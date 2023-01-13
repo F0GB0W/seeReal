@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="ratingGet" resultType="_double" parameterType="MovieRating">
 		SELECT
-		      ROUND(SUM(RATING)/COUNT(*),1)
+		      NVL(ROUND(SUM(RATING)/COUNT(*),1),0)
 		  FROM
 		      MOVIE_RATING
 		 WHERE

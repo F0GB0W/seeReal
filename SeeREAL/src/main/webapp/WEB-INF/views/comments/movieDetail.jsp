@@ -134,7 +134,7 @@
 				    </div>
 				    
 			    </div>
-			    <input type="text" value="${c.COMMENT_NO}">
+			    <input type="hidden" value="${c.COMMENT_NO}" class="commentsNo">
 			</c:forEach>
 			    <br>
 	    </div>   	
@@ -186,15 +186,20 @@
                 $(this).attr('class','fa-solid fa-thumbs-up')
                 $(this).next().text(Number($(this).next().text())-1);
             }
-       
-        
-		/*
-		if('${loginUser}' != ''){
+       		
+           	console.log('-- 부모 실험 --')
+           	console.log($(this).parents('.commentsOne'))
+           	console.log($(this).parents('.commentsOne').next().val())
+           	console.log('-- 부모 실험 --')
+        	var TF=$(this).attr('class')=='fa-solid fa-thumbs-up' ? 'N' : 'Y';
+            console.log(TF);
+		
+		//if('${loginUser}' != ''){
 			$.ajax({//좋아요 눌렀을때 기능
 				url:'thumbsUp.co',
-				data:{movieTitle:"${movieTitle}",
-					  movieYear:${movieYear},
-					  memberNo:"${loginUser.memberNo}",
+				data:{commentLike:"$(this).parents('.commentsOne').next().val()"
+					  "memberNo":JSON.stringify(${loginUser.memberNo}),//json 형태로 보내기	
+					  likeTF:TF
 					  
 				},
 				success:function(){
@@ -204,10 +209,10 @@
 					console.log('좋아요실패')
 				}
 			});
-		}else{
-			alert('로그인후 좋아요를 누를수 있습니다')
-		}
-		*/
+		//}else{
+		//	alert('로그인후 좋아요를 누를수 있습니다')
+		//}
+		
 	});
 	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-down]',function(){
 		 if( $(this).attr('class')=='fa-solid fa-thumbs-down'  ){                
@@ -224,7 +229,7 @@
          }
 		/*
 		if('${loginUser}' != ''){
-			$.ajax({//좋아요 눌렀을때 기능
+			$.ajax({//싫어요 눌렀을때 기능
 				url:'thumbsDown.co',
 				data:{movieTitle:"${movieTitle}",
 					  movieYear:${movieYear},

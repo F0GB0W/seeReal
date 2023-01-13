@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.kh.seeReal.comments.model.service.CommentsService;
 import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.MovieInfo;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 
 
@@ -49,29 +50,39 @@ public class CommentsController {
 	@RequestMapping(value="movieDetail.co",produces="application/json; charset=UTF-8")
 	//public String detailMovie(String movieDate,String movieTitle,String movieImg,String movieDirector,String movieSubTitle,Model model) {
 //	public String detailMovie(MovieRating movieRating,String movieImg,String movieDirector,String movieSubTitle,Model model) {
-	public String detailMovie(MovieRating movieRating,Comments comments,String movieImg,String movieDirector,String movieSubTitle,Model model) {
+	//public String detailMovie(MovieRating movieRating,Comments comments,String movieImg,String movieDirector,String movieSubTitle,Model model) {
+		public String detailMovie(MovieInfo movieInfo,Comments comments,MovieRating movieRating,Model model) {
 		
 		//System.out.println(movieDate);
 		//System.out.println(movieTitle);
-		System.out.println("--moviedetail시작--");
-		System.out.println(movieRating);
-		System.out.println(comments);
-		System.out.println("--moviedetail시작--");
-		System.out.println(movieImg);
-		System.out.println(movieSubTitle);
-		System.out.println("movieRating상세페이지값:"+comments);
+		//System.out.println("--moviedetail시작--");
+		//System.out.println(movieRating);
+		//System.out.println(comments);
+		///System.out.println(movieImg);
+		//System.out.println(movieSubTitle);
+		//System.out.println(movieDirector);
+		//System.out.println("--moviedetail시작--");
+		//System.out.println("movieRating상세페이지값:"+comments);
 		//model.addAttribute("movieDate",movieDate);
-		model.addAttribute("movieYear",comments.getMovieYear());
-		//model.addAttribute("movieTitle",movieTitle);
-		model.addAttribute("movieTitle",comments.getMovieTitle());
-		model.addAttribute("movieImg",movieImg);
-		model.addAttribute("movieDirector",movieDirector);
-		model.addAttribute("movieSubTitle",movieSubTitle);
 		
+		//model.addAttribute("movieYear",comments.getMovieYear());
+		model.addAttribute("movieYear",movieInfo.getMovieYear());
+		//model.addAttribute("movieTitle",movieTitle);
+		//model.addAttribute("movieTitle",comments.getMovieTitle());
+		model.addAttribute("movieTitle",movieInfo.getMovieTitle());
+		//model.addAttribute("movieImg",movieImg);
+		model.addAttribute("movieImg",movieInfo.getMovieImg());
+		//model.addAttribute("movieDirector",movieDirector);
+		model.addAttribute("movieDirector",movieInfo.getMovieDirector());
+		//model.addAttribute("movieSubTitle",movieSubTitle);
+		model.addAttribute("movieSubTitle",movieInfo.getMovieSubTitle());
+		
+		
+		System.out.println(comments);
 		List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
 		model.addAttribute("rating",commentsService.ratingGet(movieRating));
 		
-		
+		System.out.println(movieRating);
 		model.addAttribute("commentsList",commentsList);
 		//return new Gson().toJson(commentsList);
 		return "comments/movieDetail";
@@ -235,9 +246,11 @@ public class CommentsController {
      
     @ResponseBody
     @RequestMapping(value="thumbsUp.co")
-    public String thumbsUp(Comments comments,Model model) {
-    	
-    	commentsService.thumbsUp(comments);
+    public String thumbsUp(Comments comments,String likeTF,Model model) {
+    	System.out.println("좋아요 버튼");
+    	System.out.println(comments);
+    	System.out.println(likeTF);
+    	commentsService.thumbsUp(comments,likeTF);
     	
     	return "comments/movieDetail";
     	

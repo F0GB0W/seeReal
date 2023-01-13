@@ -32,6 +32,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEMBER_EMAIL" property="memberEmail"/>
 	</resultMap>
 	
+	<resultMap id="meetingResultSet" type="meeting">
+		<result column="MEETING_NO" property="meetingNo" />
+		<result column="MEETING_TITLE" property="meetingTitle" />
+		<result column="MEETING_EXP" property="meetingExp" />
+		<result column="MEETING_PLACE" property="meetingPlace" />
+		<result column="MEETING_PLACE_DETAIL" property="meetingPlaceDetail" />
+		<result column="MOVIE_TITLE" property="movieTitle" />
+		<result column="MOVIE_YEAR" property="movieYear" />
+		<result column="STATUS" property="status" />
+		<result column="MEETING_ENROLL" property="meetingEnrollDate" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="MEETING_REPORT" property="meetingReport" />
+		<result column="MEETING_WRITER" property="meetingWriter" />
+	</resultMap>
+	
+	<resultMap id="collectionResultSet"	type="movieCollection">
+		<result column="COLLECTION_NO" property="collectionNo" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
+		<result column="COLLECTION_ENROLL" property="collectionEnroll" />
+		<result column="COLLECTION_TITLE" property="collectionTitle" />
+		<result column="COLLECTION_CONTENT" property="collectionContent" />
+		<result column="NICK_NAME" property="nickName" />
+	</resultMap>
+	
+	<resultMap id="commentsResultSet" type="comments">
+		<result column="COMMENT_NO" property="commentNo"/>
+		<result column="COMMENT_CONTENT" property="commentContent"/>
+		<result column="COMMENTENROLLDATE" property="commentEnrollDate"/>
+		<result column="SPOILER" property="spoiler"/>
+		<result column="MOVIE_TITLE" property="movieTitle"/>
+		<result column="MOVIE_YEAR" property="movieYear"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="COMMENT_REPORT" property="commentReport"/>
+	</resultMap>
+	
 	<!-- 이메일 중복체크를 위한 select -->
 	<select id="selectEmail" parameterType="String" resultType="_int">
 		select
@@ -197,7 +234,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  	    MEMBER_EMAIL = #{memberEmail}
 	</select>
 	
-	<select id="selectBoardList" resultMap="boardResultSet" parameterType="java.util.HashMap">
+	<select id="selectBoardList" parameterType="java.util.HashMap" resultMap="boardResultSet">
 		select
 				board_no,
 				board_title,
@@ -222,5 +259,108 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   order
 			  by
 			   	board_no desc	
+	</select>
+	
+	<!-- 참여 모임 리스트 조회를 위한 select -->
+	<!-- 내가 만든 모임  : 화면에서 완료 띄워주기-->
+	<select id="selectMyMeetingListCount" parameterType="int" resultType="_int">
+		SELECT
+			   COUNT(*)
+		  FROM 
+			   MEETING
+		 WHERE
+               MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="selectMyMeetingList" parameterType="int" resultMap="meetingResultSet">
+		SELECT
+			   *
+		  FROM
+			   MEETING
+		 WHERE	
+		       MEMBER_NO = #{memberNo}
+		 ORDER
+		    BY 
+		       MEETING_NO DESC   
+	</select>
+		      
+	
+	<!-- 대기, 참여한 모임-->
+	<select id="selectMeetingListCount" parameterType="java.util.HashMap" resultType="_int">
+		SELECT
+			   COUNT(*)
+		  FROM
+			   MEETING M
+          JOIN 
+               MEETING_USER MU USING(MEETING_NO)
+		 WHERE 
+		 <choose>
+		 	<when test="check == 1">
+		 		MEETING_ACCEPT = 'Y'
+		 	</when>
+			<otherwise>
+				MEETING_ACCEPT = 'N'
+			</otherwise>
+		 </choose>    
+           AND 
+               MU.MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="selectMeetingList" parameterType="java.util.HashMap" resultMap="meetingResultSet">
+		SELECT
+			   *
+		  FROM
+			   MEETING
+          JOIN 
+               MEETING_USER MU USING(MEETING_NO)
+		 WHERE 
+		 	<if test="check == 1">
+		 		MEETING_ACCEPT = 'Y'
+		 	</if>
+			<if test="check == 2">
+				MEETING_ACCEPT = 'N'
+			</if>
+		  
+		 AND 
+               MU.MEMBER_NO = #{memberNo}
+         ORDER
+		    BY 
+		       MEETING_NO DESC     
+	</select>
+	
+	<!-- 컬렉션 리스트 조회를 위한 select -->
+	<select id="selectCollectionList" resultMap="collectionResultSet" parameterType="_int">
+		SELECT 
+			COLLECTION_NO,
+			COLLECTION_TITLE,
+			CHANGE_NAME,
+			m.NICK_NAME,
+			c.MEMBER_NO 
+		FROM
+			COLLECTION c
+		JOIN 
+            MEMBER m ON c.MEMBER_NO = m.MEMBER_NO
+		WHERE
+			c.STATUS = 'Y'
+			AND c.MEMBER_NO = #{memberNo}
+		ORDER BY
+			COLLECTION_ENROLL
+	</select>
+	
+	<!-- 리얼평 조회를 위한 select -->
+	<select id="selectCommentsList" parameterType="_int" resultMap="commentsResultSet">
+		SELECT
+			  MEMBER_NO,
+		      COMMENT_NO,
+		      COMMENT_CONTENT,
+		      TO_CHAR(C.COMMENT_ENROLLDATE,'YYYY-MM-DD') as "COMMENTENROLLDATE",
+		      SPOILER,
+		      MOVIE_TITLE,
+		      MOVIE_YEAR
+		  FROM
+		      COMMENTS C
+		 WHERE 
+		      MEMBER_NO = #{memberNo}
+		  
 	</select>
 </mapper>

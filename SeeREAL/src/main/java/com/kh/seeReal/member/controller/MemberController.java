@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.member.model.service.MemberService;
@@ -303,7 +305,7 @@ public class MemberController {
 	// 게시글
 	@RequestMapping("myPost.me")
 	public String myPost() {
-		return "member/myPost";
+		return "member/myBoard";
 	}
 	
 	// 게시글 리스트
@@ -320,25 +322,123 @@ public class MemberController {
 		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
 		ArrayList<Board> list = memberService.selectBoardList(map, pi); // 페이징 바
 	
-		mv.addObject("list", list); // 조회 결과
-		mv.addObject("pi", pi); // 페이징 바
+		session.setAttribute("list", list);// 조회 결과
+		session.setAttribute("pi", pi);// 페이징 바
+		//mv.addObject("list", list); 
+		//mv.addObject("pi", pi); 
 		
-		mv.setViewName("member/myPost");
+		//return "redirect:myPost.me";
+		// http://localhost:7777/seeReal/myPost.me?memberEmail=ykl0918%40naver.com&boardType=1
+		// redirect인데 왜 이렇게 나옴?
+		mv.setViewName("member/myBoard");
+		 
+		return mv;
+		
+		// 실패할 경우 화면 지정★★★★★★★★★★★★★★
+	}
+	
+	/*
+	// 댓글 조회 : 이메일 > 화면에 어떻게 보여줄지 확인 후 작성
+	@RequestMapping("myReply.me")
+	public ModelAndView selectReplyList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
+			                      HttpSession session, ModelAndView mv) {
+		
+		String memberEmail = (((Member)session.getAttribute("loginUser")).getMemberEmail());
+		
+		int spoilerSearchListCount = memberService.selectReplyListCount(memberEmail);
+		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
+		ArrayList<Board> list = memberService.selectReplyList(memberEmail, pi); // 페이징 바
+	
+		mv.addObject("list", list); 
+		mv.addObject("pi", pi); 
+		
+		mv.setViewName("member/myReply");
 		 
 		return mv;
 	}
+	*/
 	
 	
+	// 리얼모임 조회 : 참여 목록, 참여대기중 목록 
+	// 이메일, 참여중인지 아닌지 확인할 수 있는 값 필요(전체 조회해서 화면에서 나눠서 뿌려주기) 
+	@RequestMapping("myMeeting.me")
+    public ModelAndView selectMyMeetingList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage
+    									, ModelAndView mv, HttpSession session) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+    	PageInfo pi = Pagination.getPageInfo(memberService.selectMyMeetingListCount(memberNo), currentPage, 10, 5);
+		
+    	mv.addObject("pi", pi)
+		  .addObject("list", memberService.selectMyMeetingList(pi,memberNo))
+		  .setViewName("member/myMeeting");
+    	
+    	return mv;
+    }
 	
+	// 참여한 모임, 대기중
+	@RequestMapping("myMeetingStatus.me")
+    public ModelAndView selectMeetingList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage
+    									, ModelAndView mv, HttpSession session, int check, HashMap<String, Integer> map) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		map.put("memberNo", memberNo);
+		map.put("check", check);
+		
+    	PageInfo pi = Pagination.getPageInfo(memberService.selectMeetingListCount(map), currentPage, 10, 5);
+		
+    	mv.addObject("pi", pi)
+		  .addObject("list", memberService.selectMeetingList(pi,map))
+		  .addObject("check", check)
+		  .setViewName("member/meetingStatus");
+    	
+    	return mv;
+    }
 	
+	// collection 리스트 조회
+	// 매핑값 수정 : list붙이기
+	@RequestMapping("myCollection.me")
+	public ModelAndView selectCollectionList(ModelAndView mv, HttpSession session) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		ArrayList<Collection> list = memberService.selectCollectionList(memberNo);
+		
+		mv.addObject("list", list)
+		  .setViewName("member/myCollection");
+		
+		return mv;
+	}
 	
+	/*
+	// collection 리스트 조회 : 좋아요
+	@RequestMapping("myCollectionLike.me")
+	public ModelAndView selectLikeCollection(ModelAndView mv, HttpSession session) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		ArrayList<Collection> list = memberService.selectLikeCollection(memberNo);
+		
+		mv.addObject("list", list)
+		  .setViewName("member/myCollection");
+		
+		return mv;
+	}
+	*/
 	
-	
-	
-	
-	
-	
-	
+	// 내 리얼평 조회
+	@RequestMapping("myComments.me")
+	public ModelAndView selectCommentsList(ModelAndView mv, HttpSession session) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		ArrayList<Comments> list = memberService.selectCommentsList(memberNo);
+		
+		for(Comments c : list){
+			System.out.println(c.getCommentEnrollDate());
+		}
+		
+		mv.addObject("list", list)
+		  .setViewName("member/myComments");
+		
+		return mv;
+	}
 	
 	
 	
