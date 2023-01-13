@@ -120,12 +120,29 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Collection> selectCollectionList(int memberNo) {
 		return memberDao.selectCollectionList(sqlSession, memberNo);
 	}
+	
+	@Override
+	public int selectCommentsListCount(int memberNo) {
+		return memberDao.selectCommentsListCount(sqlSession, memberNo);
+	}
 
 	@Override
-	public ArrayList<Comments> selectCommentsList(int memberNo) {
-		
-		return memberDao.selectCommentsList(sqlSession, memberNo);
+	public ArrayList<Comments> selectCommentsList(PageInfo pi,int memberNo) {
+		return memberDao.selectCommentsList(sqlSession, pi, memberNo);
 	}
+
+	@Override
+	public int selectLikeCommentsCount(HashMap map) {
+		return memberDao.selectLikeCommentsCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Comments> selectLikeComment(PageInfo pi, HashMap map) {
+		return memberDao.selectLikeComment(sqlSession,pi, map);
+	}
+
+
+	
 
 
 }

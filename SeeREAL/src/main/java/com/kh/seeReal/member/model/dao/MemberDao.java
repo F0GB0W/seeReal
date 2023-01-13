@@ -74,7 +74,6 @@ public class MemberDao {
 	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectBoardList", map, rowBounds);
 	}
@@ -98,7 +97,6 @@ public class MemberDao {
 	public ArrayList<Meeting> selectMeetingList(SqlSessionTemplate sqlSession,PageInfo pi, HashMap map) {
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMeetingList", map, rowBounds);
 	}
@@ -108,11 +106,29 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectCollectionList", memberNo);
 	}
 
-	// Comments 리스트 조회
-	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, int memberNo) {
-		return (ArrayList)sqlSession.selectList("memberMapper.selectCommentsList", memberNo);
+	// Comments 리스트 조회 
+	public int selectCommentsListCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("memberMapper.selectCommentListCount", memberNo);
+	}
+	
+	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, PageInfo pi, int memberNo) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectCommentsList", memberNo, rowBounds);
 	}
 
+	// 좋아요한 Comments 리스트 조회 
+	public int selectLikeCommentsCount(SqlSessionTemplate sqlSession,HashMap map) {
+		return sqlSession.selectOne("memberMapper.selectLikeCommentsCount", map);
+	}
+	
+	public ArrayList<Comments> selectLikeComment(SqlSessionTemplate sqlSession, PageInfo pi, HashMap map) {
+
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectLikeComments", map, rowBounds);
+	}
 	
 
 	// 댓글 조회

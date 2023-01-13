@@ -215,7 +215,7 @@
 					<c:choose>
 						<c:when test="${ empty list }">
 							<tr>
-								<p>개최한 모임이 없습니다.</p>
+								<p>모임이 없습니다.</p>
 							</tr>
 						</c:when>
 						<c:otherwise>

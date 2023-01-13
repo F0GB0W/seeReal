@@ -295,7 +295,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                MEETING_USER MU USING(MEETING_NO)
 		 WHERE 
 		 <choose>
-		 	<when test="check == 1">
+		 	<when test='check == "Y"'>
 		 		MEETING_ACCEPT = 'Y'
 		 	</when>
 			<otherwise>
@@ -314,10 +314,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           JOIN 
                MEETING_USER MU USING(MEETING_NO)
 		 WHERE 
-		 	<if test="check == 1">
+		 	<if test='check == "Y"'>
 		 		MEETING_ACCEPT = 'Y'
 		 	</if>
-			<if test="check == 2">
+			<if test='check == "N"'>
 				MEETING_ACCEPT = 'N'
 			</if>
 		  
@@ -348,6 +348,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 리얼평 조회를 위한 select -->
+	<select id="selectCommentListCount" resultType="_int" parameterType="_int" >
+		SELECT
+			  COUNT(*)
+		  FROM
+		      COMMENTS C
+		 WHERE 
+		      MEMBER_NO = #{memberNo}
+	</select>
+	
 	<select id="selectCommentsList" parameterType="_int" resultMap="commentsResultSet">
 		SELECT
 			  MEMBER_NO,
@@ -361,6 +370,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		      COMMENTS C
 		 WHERE 
 		      MEMBER_NO = #{memberNo}
-		  
+	</select>
+	
+	<!-- 좋아요한 리얼평 리스트를 위한 select -->
+	<select id="selectLikeCommentsCount" parameterType="java.util.HashMap" resultType="_int">
+		SELECT
+			  COUNT(*)
+		  FROM
+		      COMMENTS C
+		 JOIN 
+		      COMMENT_LIKE CL USING(COMMENT_NO)
+	    WHERE 
+			  COMMENT_WRITER = #{memberNo}
+		  AND 
+		  <if test='check == "Y"'>
+		      COMMENT_LIKE = 'Y'
+	      AND 
+	          COMMENT_DISLIKE = 'N'
+	      </if>    
+	      <if test='check == "N"'>
+	      	COMMENT_LIKE = 'N'
+	      AND 
+	          COMMENT_DISLIKE = 'Y'
+	      </if>
+	</select>
+	
+	<select id="selectLikeComments" parameterType="java.util.HashMap" resultMap="commentsResultSet" >
+		SELECT
+			C.COMMENT_CONTENT,
+			C.MEMBER_NO,
+			C.MOVIE_TITLE,
+			C.MOVIE_YEAR,
+			C.STATUS,
+			CL.COMMENT_WRITER,
+			CL.COMMENT_LIKE,
+			CL.COMMENT_DISLIKE
+			FROM COMMENTS C
+			JOIN COMMENT_LIKE CL USING(COMMENT_NO)
+			WHERE 
+			  COMMENT_WRITER = #{memberNo}
+		  AND 
+		  <if test='check == "Y"'>
+		      COMMENT_LIKE = 'Y'
+	      AND 
+	          COMMENT_DISLIKE = 'N'
+	      </if>    
+	      <if test='check == "N"'>
+	      	COMMENT_LIKE = 'N'
+	      AND 
+	          COMMENT_DISLIKE = 'Y'
+	      </if>     
 	</select>
 </mapper>

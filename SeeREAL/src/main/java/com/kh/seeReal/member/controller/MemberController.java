@@ -378,7 +378,7 @@ public class MemberController {
 	// 참여한 모임, 대기중
 	@RequestMapping("myMeetingStatus.me")
     public ModelAndView selectMeetingList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage
-    									, ModelAndView mv, HttpSession session, int check, HashMap<String, Integer> map) {
+    									, ModelAndView mv, HttpSession session, String check, HashMap map) {
 		
 		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
 		map.put("memberNo", memberNo);
@@ -425,14 +425,14 @@ public class MemberController {
 	
 	// 내 리얼평 조회
 	@RequestMapping("myComments.me")
-	public ModelAndView selectCommentsList(ModelAndView mv, HttpSession session) {
+	public ModelAndView selectCommentsList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+			                               ModelAndView mv, HttpSession session) {
 		
 		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
-		ArrayList<Comments> list = memberService.selectCommentsList(memberNo);
 		
-		for(Comments c : list){
-			System.out.println(c.getCommentEnrollDate());
-		}
+    	PageInfo pi = Pagination.getPageInfo(memberService.selectCommentsListCount(memberNo), currentPage, 10, 5);
+    	
+		ArrayList<Comments> list = memberService.selectCommentsList(pi, memberNo);
 		
 		mv.addObject("list", list)
 		  .setViewName("member/myComments");
@@ -440,7 +440,26 @@ public class MemberController {
 		return mv;
 	}
 	
+	// 좋아요 리얼평 리스트 조회
+	@RequestMapping("myLikeComments.me")
+	public ModelAndView selectLikeComment(@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+			                               ModelAndView mv, HttpSession session, String check, HashMap map) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		map.put("memberNo", memberNo);
+		map.put("check", check);
+    	
+    	PageInfo pi = Pagination.getPageInfo(memberService.selectLikeCommentsCount(map), currentPage, 10, 5);
+ 
+		ArrayList<Comments> list = memberService.selectLikeComment(pi, map);
+		
+		mv.addObject("list", list)
+		  .setViewName("member/myComments");
+		
+		return mv;
+	}
 	
+	// 싫어요 리얼평 리스트 조회
 	
 	
 	
