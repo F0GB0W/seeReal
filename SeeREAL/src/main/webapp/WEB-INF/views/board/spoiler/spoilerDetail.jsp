@@ -105,6 +105,7 @@
 					<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addReply();">등록하기</button>
 				</c:otherwise>
 			</c:choose>
+			
 			<tr>
 				<td colspan="4">댓글(<span id="rcount"></span>)</td>
 			</tr>
@@ -168,8 +169,8 @@
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
-									   + '<td id="updateReply"><button onclick="updateReply();">수정</button></td>' 
-									   + '<td id="deleteReply"><button onclick="deleteReply();">삭제</button></td></tr>';
+									   + '<td><button onclick="updateReply();">수정</button></td>' 
+									   + '<td><button onclick="deleteReply();">삭제</button></td></tr>';
 							  } else {
 								  
 									value += '<tr>'
@@ -202,12 +203,12 @@
 			})
 		};
 		
-		/*$(function(){
+		$(function(){
 			selectSpoilerReplyList();
 			
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
-		*/		
+			
 		
 			
 		
