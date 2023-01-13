@@ -135,6 +135,7 @@
 				    
 			    </div>
 			    <input type="hidden" value="${c.COMMENT_NO}" class="commentsNo">
+			    <input type="hidden" value="N" class="ifLikeExist">
 			</c:forEach>
 			    <br>
 	    </div>   	
@@ -174,6 +175,7 @@
 	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-up]',function(){
 		
 		           
+		if('${loginUser}' != ''){
             if( $(this).attr('class')=='fa-solid fa-thumbs-up'  ){               
                 $(this).attr('class','fa-solid fa-thumbs-up blue')
                 $(this).next().text(Number($(this).next().text())+1);              
@@ -194,12 +196,12 @@
         	var TF=$(this).attr('class')=='fa-solid fa-thumbs-up' ? 'N' : 'Y';
             console.log(TF);
 		
-		//if('${loginUser}' != ''){
 			$.ajax({//좋아요 눌렀을때 기능
 				url:'thumbsUp.co',
-				data:{commentLike:"$(this).parents('.commentsOne').next().val()"
-					  "memberNo":JSON.stringify(${loginUser.memberNo}),//json 형태로 보내기	
-					  likeTF:TF
+				data:{"commentNo":$(this).parents('.commentsOne').next().val(),
+					  "commentWriter":JSON.stringify(${loginUser.memberNo}),//json 형태로 보내기	
+					  "commentLike": $(this).attr('class')=='fa-solid fa-thumbs-up' ? 'N' : 'Y',
+					  "ifLikeExist": $(this).parents('.commentsOne').next().next().val()
 					  
 				},
 				success:function(){
@@ -209,12 +211,13 @@
 					console.log('좋아요실패')
 				}
 			});
-		//}else{
-		//	alert('로그인후 좋아요를 누를수 있습니다')
-		//}
+		}else{
+			alert('로그인후 좋아요를 누를수 있습니다')
+		}
 		
 	});
 	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-down]',function(){
+		if('${loginUser}' != ''){
 		 if( $(this).attr('class')=='fa-solid fa-thumbs-down'  ){                
              $(this).attr('class','fa-solid fa-thumbs-down red')
              $(this).next().text(Number($(this).next().text())+1);   
@@ -227,25 +230,25 @@
              $(this).attr('class','fa-solid fa-thumbs-down')
              $(this).next().text(Number($(this).next().text())-1);
          }
-		/*
-		if('${loginUser}' != ''){
+		
 			$.ajax({//싫어요 눌렀을때 기능
 				url:'thumbsDown.co',
-				data:{movieTitle:"${movieTitle}",
-					  movieYear:${movieYear},
-					  memberNo:"${loginUser.memberNo}"
+				data:{"commentNo":$(this).parents('.commentsOne').next().val(),
+					  "commentWriter":JSON.stringify(${loginUser.memberNo}),//json 형태로 보내기	
+					  "disLike": $(this).attr('class')=='fa-solid fa-thumbs-down' ? 'N' : 'Y',
+					  "ifLikeExist": $(this).parents('.commentsOne').next().next().val()
 				},
 				success:function(){
-					console.log('좋아요 성공');
+					console.log('싫어요 성공');
 				},
 				error:function(){
-					console.log('좋아요실패')
+					console.log('싫어요실패')
 				}
 			});
 		}else{
 			alert('로그인후 싫어요를 누를수 있습니다')
 		}
-		 */
+		 
 	});
 	
 	$(function(){
@@ -407,13 +410,26 @@
 				
 				if(list.length !=0){
 					for(var i=0;i<length;i++){
-						if( arr.includes(Number($('.commentsOne').siblings('input').eq(i).val())) && list[i].commentLike =='Y'){
+						if( arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val()))){
+							$('.commentsOne').siblings('.ifLikeExist').eq(i).val('Y')
+						}
+						if( arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val())) && list[i].commentLike =='Y'){
 							$('.commentsOne').find('i').eq(2*i).attr('class','fa-solid fa-thumbs-up blue');
-						}else if(arr.includes(Number($('.commentsOne').siblings('input').eq(i).val())) && list[i].disLike =='Y')
+							
+							//ifLikeExist
+						}else if(arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val())) && list[i].disLike =='Y')
 							$('.commentsOne').find('i').eq((2*i)+1).attr('class','fa-solid fa-thumbs-down red');
 					}					
+				}else{//없으면 좋아요 누른적이없음
+					//n넣기?
 				}
-				
+				//console.log('############################작업중')
+				//console.log($('.commentsOne').siblings('.ifLikeExist'))  // ############################작업중
+				//console.log($('.commentsOne').siblings('.ifLikeExist').eq(0))  // ############################작업중
+				//console.log($('.commentsOne').siblings('.ifLikeExist').eq(0).val())  // ############################작업중
+				//console.log($('.commentsOne').siblings('.ifLikeExist').eq(1))  // ############################작업중
+				//console.log($('.commentsOne').siblings('.ifLikeExist').eq(1).val())  // ############################작업중
+				//console.log('############################작업중')
 			},
 			error:function(){
 				console.log('좋아요부르기실패');

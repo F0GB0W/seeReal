@@ -205,19 +205,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  	  DUAL; 
 		    
 	</insert>
-	<update id="thumbsUp" parameterType="Comments">
+	<update id="thumbsUp" parameterType="CommentsLike">
 		UPDATE
 		      COMMENT_LIKE
 		  SET
-		      COMMENT_LIKE = 'Y',
+		      COMMENT_LIKE = #{commentLike},
 		      COMMENT_DISLIKE = 'N'
 		WHERE
 		 	 COMMENT_NO=#{commentNo}
-		  
+		 AND
+		     COMMENT_WRITER=#{commentWriter} 
 		     
 		  	  
 	</update>
+	<update id="thumbsDown" parameterType="CommentsLike">
+		UPDATE
+		      COMMENT_LIKE
+		  SET
+		      COMMENT_LIKE = 'N',
+		      COMMENT_DISLIKE = #{disLike}
+		WHERE
+		 	 COMMENT_NO=#{commentNo}
+		  AND
+		     COMMENT_WRITER=#{commentWriter}
 	
+	</update>
+	<insert id="thumbsUpCreate" parameterType="CommentsLike">
+		INSERT
+		  INTO
+		      COMMENT_LIKE
+		      (
+		      COMMENT_WRITER,
+		      COMMENT_LIKE,
+		      COMMENT_DISLIKE,
+		      COMMENT_NO
+		      )
+		VALUES
+			  (
+			  #{commentWriter},
+			  'Y',
+			  'N',
+			  #{commentNo}
+			  )     
+	</insert>
+	<insert id="thumbsDownCreate" parameterType="CommentsLike">
+		INSERT
+		  INTO
+		      COMMENT_LIKE
+		      (
+		      COMMENT_WRITER,
+		      COMMENT_LIKE,
+		      COMMENT_DISLIKE,
+		      COMMENT_NO
+		      )
+		VALUES
+			  (
+			  #{commentWriter},
+			  'N',
+			  'Y',
+			  #{commentNo}
+			  )     
+	</insert>
 	
 	<select id="showCommentsLike" parameterType="Comments" resultMap="commentsLike">
 		SELECT 
