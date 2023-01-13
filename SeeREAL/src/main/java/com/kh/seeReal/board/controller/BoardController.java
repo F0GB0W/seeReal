@@ -56,8 +56,6 @@ public class BoardController {
 			 b.setOriginName(upfile.getOriginalFilename());
 			 b.setChangeName("/resources/uploadFiles/" + saveFile(upfile, session));
 		 }
-		   
-		 
 		 
 		 if(boardService.insertSpoiler(b) > 0) {
 			 return "redirect:/spoilerList.bo";
