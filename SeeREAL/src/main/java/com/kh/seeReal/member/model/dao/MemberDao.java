@@ -71,7 +71,7 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectBoardListCount",map);
 	}
 	
-	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi){
+	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map ){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());

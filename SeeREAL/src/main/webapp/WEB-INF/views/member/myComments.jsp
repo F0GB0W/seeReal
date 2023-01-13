@@ -206,14 +206,22 @@
 	<div class="outer">
 	    <div class="page-title">
 			<div class="container">
-	        	<h3>내 리얼평</h3>
+	        	<c:choose>
+		        	<c:when test="${check eq 'N'}">
+		        		<h3>싫어요</h3>
+		        	</c:when>
+		        	<c:when test="${check eq 'Y'}">
+		        		<h3>좋아요</h3>
+		        	</c:when>
+		        	<c:otherwise>
+		        		<h3>내 리얼평</h3>
+		        	</c:otherwise>
+	        	</c:choose>
 	            <br>
 	       </div>
 	       <br>
 	    </div>
-	    <script>
-	    console.log(${b.commentEnrollDate});
-	    </script>
+	   
     	<!-- board list area -->
       	<div id="board-list">
         	<div class="container content">

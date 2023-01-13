@@ -43,8 +43,10 @@
 		<div><a href="updatePwdForm.me">비밀번호 수정</a></div>
 		<br>
 		
-		<div><a href="myboardList.me?boardType=1">수다게시판</a></div>
-		<div><a href="myboardList.me?boardType=2">스포일러게시판</a></div>
+		<div>
+			<button onclick="postFormSubmit('1','myboardList.me')">수다게시판</button>
+			<button onclick="postFormSubmit('2','myboardList.me')">스포일러게시판</button>
+		</div>
 		
 		<br>
 		<div><a href="myCollection.me">컬렉션</a></div>

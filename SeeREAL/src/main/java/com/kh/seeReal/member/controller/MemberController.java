@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,7 +131,8 @@ public class MemberController {
 	
 	// 로그인
 	@RequestMapping(value="login.me")
-	public String login(Member m, HttpSession session, Model model) {  // 다 사용할 수 있도록 담아야함 : include 
+	public String login(Member m, HttpSession session, Model model, String saveId, HttpServletResponse response) {  // 다 사용할 수 있도록 담아야함 : include 
+		
 		
 		// 아이디, 비밀번호 확인
 		Member loginUser = memberService.loginMember(m);
@@ -139,12 +142,38 @@ public class MemberController {
 			// 암호화된 비밀번호랑 동일한지 확인
 			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
 			session.setAttribute("loginUser", loginUser);
-	
+			/*
+			if(saveId.equals("Y")) { // 아이디 저장 
+				
+				Cookie check = new Cookie("saveId", m.getMemberEmail());
+				check.setMaxAge(60 * 60 * 24 * 28);
+				check.setPath("/");
+				response.addCookie(check); // 여기까지 옴
+				
+			}else if(saveId.equals("N")) {  // 해제 Y-> N : N(쿠키 삭제)
+				
+				Cookie check = new Cookie("saveId", m.getMemberEmail());
+				System.out.println("2 check : " + check);
+				check.setMaxAge(0);
+				response.addCookie(check);	
+			}
+			*/
+			
 		}else {
 			model.addAttribute("alertMsg", "로그인 실패");
 		}
-		return "redirect:/";
+		return "redirect:/"; 
 	}
+	
+	// 로그인 아이디 저장 : 쿠키 사용
+	/*
+	 * 
+	   N-> N : U
+	유지 Y-> Y : U
+	해제 Y-> N : N(쿠키 삭제) 
+	체크 N-> Y : Y(쿠키 생성)
+	 */
+	
 	
 	// 로그아웃
 	@RequestMapping("logout.me")
@@ -311,26 +340,32 @@ public class MemberController {
 	// 게시글 리스트
 	@RequestMapping("myboardList.me")
 	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
-			                            @RequestParam(value="boardType", defaultValue="1") String boardType,
-			                            HttpSession session, ModelAndView mv, HashMap<String, String> map) { // 쿼리스트링으로 넘겨도 잘 넘어
+			                            @RequestParam(value="check", defaultValue="1") String check,
+			                            HttpSession session, ModelAndView mv, HashMap map) { // 쿼리스트링으로 넘겨도 잘 넘어
 		
-		String memberEmail = (((Member)session.getAttribute("loginUser")).getMemberEmail());
-		map.put("memberEmail", memberEmail);
-		map.put("boardType", boardType);
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		map.put("memberNo", memberNo);
+		map.put("boardType", check);
 		
 		int spoilerSearchListCount = memberService.selectBoardListCount(map);
+		System.out.println("boardType : " + check);
+		System.out.println(spoilerSearchListCount);
+		
 		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
-		ArrayList<Board> list = memberService.selectBoardList(map, pi); // 페이징 바
+		ArrayList<Board> list = memberService.selectBoardList(pi, map); // 페이징 바
 	
-		session.setAttribute("list", list);// 조회 결과
-		session.setAttribute("pi", pi);// 페이징 바
+		//session.setAttribute("list", list);// 조회 결과
+		//session.setAttribute("pi", pi);// 페이징 바
 		//mv.addObject("list", list); 
 		//mv.addObject("pi", pi); 
 		
 		//return "redirect:myPost.me";
 		// http://localhost:7777/seeReal/myPost.me?memberEmail=ykl0918%40naver.com&boardType=1
-		// redirect인데 왜 이렇게 나옴?
-		mv.setViewName("member/myBoard");
+		// redirect인데 왜 이렇게 나옴? 
+		mv.addObject("check", check)
+		  .addObject("pi", pi)
+		  .addObject("list", list)
+		  .setViewName("member/myBoard");
 		 
 		return mv;
 		
@@ -454,6 +489,7 @@ public class MemberController {
 		ArrayList<Comments> list = memberService.selectLikeComment(pi, map);
 		
 		mv.addObject("list", list)
+		  .addObject("check", check)
 		  .setViewName("member/myComments");
 		
 		return mv;
