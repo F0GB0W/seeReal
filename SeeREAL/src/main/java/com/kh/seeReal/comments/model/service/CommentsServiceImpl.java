@@ -54,9 +54,9 @@ public class CommentsServiceImpl implements CommentsService{
 	}
 
 	@Override
-	public int thumbsUp(Comments comments) {
+	public int thumbsUp(Comments comments,String likeTF) {
 		
-		return CommentsDao.thumbsUp(comments,sqlSession);
+		return CommentsDao.thumbsUp(comments,likeTF,sqlSession);
 	}
 
 	@Override
