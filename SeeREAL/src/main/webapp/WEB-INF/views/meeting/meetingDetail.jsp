@@ -88,7 +88,7 @@
             
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <table class="table">
+                    <table class="table" id="enrollMember">
                         <thead>
                             <tr>
                                 <th>참여자</th>
@@ -139,8 +139,6 @@
 				success : data => {
                     const item = data.items[0];
 
-                    console.log(item);
-
                     let title = item.title  // b태그 지워주기
                     title = title.replace('<b>', '');
                     title = title.replace('</b>', '');
@@ -178,10 +176,14 @@
                     
                     let memberCount = 0;
                     let value = '';
+                    let tableValue = '';
                     for(let i in itemArr) {
                         if(itemArr[i].meetingAccept == 'Y') {   // 글작성자 포함 count
                             memberCount++;
+                            tableValue += '<tr>'
+                                        + '<td>' + itemArr[i].nickName + '</td>';
                         }
+                        $('#enrollMember tbody').html(tableValue);
 
                         if(itemArr[i].memberNo != ${ meet.memberNo }) { // 글작성자는 나오면 안 됨!!
                             value += '<tr>'
