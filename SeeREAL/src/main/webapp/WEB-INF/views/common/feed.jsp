@@ -38,6 +38,9 @@
         height: 20%;
         /* margin-left: 50px; */
     }
+    .profile>img{
+    	margin-top : 10px;
+    }
 
 
 </style>
@@ -46,7 +49,7 @@
 	
 	<div class="outer">
 		<div class="profile">
-			<%--  <img src="${ selectMember.selectMemberPhoto }"> --%>
+			<img src="${ selectMember.memberPhoto }" height="60px" width="60px" >
 			<h3>${ selectMember.memberNickname }님의 리얼피드</h3>
 		</div>
 		
@@ -82,9 +85,12 @@
 		                </tr>
 		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
-			                	<%-- td onclick="location.href=''" 도 달고싶은데 url 어떻게 연결하지? --%>
-			                    <td>${f.movieTitle}</td>
+			                	<input type="hidden" id="realNo" value="" />
+			                    <td id=title>${f.movieTitle}</td>
 			                    <c:choose>
+			                    	<c:when test="${f.rating == 0.5}">
+			                    		<td>☆</td>
+			                    	</c:when>
 			                    	<c:when test="${f.rating == 1}">
 			                    		<td>★</td>
 			                    	</c:when>
@@ -127,7 +133,7 @@
 	
 	<script>
 	// chart.js
-        var xValues = ["★","","★★","","★★★","","★★★★","","★★★★★"];
+        var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
         var yValues = ${ratingList};
 
         var myChart = new Chart("myChart", {
@@ -145,6 +151,12 @@
         		}
         	}
         });
+        
+		$(function(){
+			$('.comments table #title').click(function(){
+				location.href = 'detail.mt?mtno=' + $(this).children('#realNo').val();
+			})
+		});
 	</script>
 </body>
 </html>
