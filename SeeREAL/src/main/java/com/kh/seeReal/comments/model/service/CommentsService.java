@@ -30,4 +30,9 @@ public interface CommentsService {
 	
 	ArrayList commentsLikeSum(Comments comments);
 	
+	Comments getMyComments(Comments comments);
+	
+	int reviseMyComments(Comments comments);
+	
+	int deleteMyComments(Comments comments);
 }

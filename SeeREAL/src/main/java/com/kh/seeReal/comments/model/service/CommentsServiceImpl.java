@@ -90,6 +90,24 @@ public class CommentsServiceImpl implements CommentsService{
 		return 0;
 	}
 
+	@Override
+	public Comments getMyComments(Comments comments) {
+		
+		return CommentsDao.getMyComments(comments,sqlSession);
+	}
+
+	@Override
+	public int reviseMyComments(Comments comments) {
+		
+		return CommentsDao.reviseMyComments(comments,sqlSession);
+	}
+
+	@Override
+	public int deleteMyComments(Comments comments) {
+		
+		return CommentsDao.deleteMyComments(comments,sqlSession);
+	}
+
 	
 	
 }

@@ -68,9 +68,20 @@ public class CommentsDao {
 		System.out.println("---showCommentsLike 가기후 ----"+list);
 		return list;
 	}
+	public Comments getMyComments(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.getMyComments",comments);
+	}
 	/*
 	public ArrayList commentsLikeSum(Comments comments,SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("comments-mapper.commentsLikeSum",comments);
 	}
 	*/
+	public int reviseMyComments(Comments comments,SqlSessionTemplate sqlSession) {
+		System.out.println("글수정============");
+		System.out.println(comments);
+		return sqlSession.update("comments-mapper.reviseMyComments",comments);
+	}
+	public int deleteMyComments(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("comments-mapper.deleteMyComments", comments);
+	}
 }

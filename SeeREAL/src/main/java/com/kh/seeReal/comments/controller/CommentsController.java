@@ -307,6 +307,17 @@ public class CommentsController {
     	
     	
     }
+    @ResponseBody
+    @RequestMapping(value="getMyComments.co",produces="application/json; charset=UTF-8")
+    public String getMyComments(Comments comments) {
+    	
+    	Comments list=commentsService.getMyComments(comments);
+    	System.out.println("=====한줄평가오기 수정중=====");
+    	System.out.println(list);
+    	return new Gson().toJson(list);
+    	
+    	
+    }
     /*
     @ResponseBody
     @RequestMapping(value="commentsLikeSum.co")
@@ -314,4 +325,18 @@ public class CommentsController {
     	commentsService.commentsLikeSum(comments);
     }
     */
+    
+    @RequestMapping(value="reviseMyComments.co")
+    public String reviseMyComments(Comments comments) {
+    	
+    	int result=commentsService.reviseMyComments(comments);
+    	
+    	return "comments/movieDetail";
+    }
+    @RequestMapping(value="deleteMyComments.co")
+    public String deleteMyComments(Comments comments) {
+    	commentsService.deleteMyComments(comments);
+    	
+    	return "comments/movieDetail";
+    }
 }

@@ -288,4 +288,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 	
+	<select id="getMyComments" parameterType="Comments" resultMap="commentsListView">
+		SELECT
+		      COMMENT_CONTENT,
+			  SPOILER
+		  FROM
+		      COMMENTS
+		 WHERE 
+		      STATUS = 'Y'
+	       AND
+	          MOVIE_TITLE = #{movieTitle}
+	       AND
+			  MOVIE_YEAR = #{movieYear}
+	       AND
+			  MEMBER_NO = #{memberNo}
+	       
+	</select>
+	<update id="reviseMyComments" parameterType="Comments">
+		UPDATE
+			  COMMENTS
+		   SET
+		      COMMENT_CONTENT =#{commentContent},
+		      COMMENT_ENROLLDATE = SYSDATE,
+		      SPOILER = #{spoiler}
+		 WHERE
+		      MOVIE_TITLE = #{movieTitle}
+		   AND
+		      MOVIE_YEAR = #{movieYear}
+		   AND
+		      MEMBER_NO = #{memberNo}
+	</update>
+	<update id="deleteMyComments" parameterType="Comments">
+		UPDATE 
+		      COMMENTS
+		   SET
+		      STATUS = 'N'
+		  WHERE
+		      MOVIE_TITLE = #{movieTitle}
+		   AND
+		      MOVIE_YEAR = #{movieYear}
+		   AND
+		      MEMBER_NO = #{memberNo} 
+	</update>
 </mapper>
