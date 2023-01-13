@@ -222,7 +222,7 @@
 		
 		$(document).on('click', '.updatebtn', function(){
 			$('#btn3').html('수정하기');
-			$('#reply-content').html();
+			$('#reply-content').val(${br.boReplyNo});
 			
 		});
 			
