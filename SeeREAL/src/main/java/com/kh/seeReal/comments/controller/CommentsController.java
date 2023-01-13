@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.kh.seeReal.comments.model.service.CommentsService;
 import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieInfo;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 
@@ -246,11 +247,15 @@ public class CommentsController {
      
     @ResponseBody
     @RequestMapping(value="thumbsUp.co")
-    public String thumbsUp(Comments comments,String likeTF,Model model) {
+    public String thumbsUp(CommentsLike commentsLike,String ifLikeExist,Model model) {
     	System.out.println("좋아요 버튼");
-    	System.out.println(comments);
-    	System.out.println(likeTF);
-    	commentsService.thumbsUp(comments,likeTF);
+    	System.out.println(commentsLike);
+    	if(ifLikeExist == "N") {
+    		commentsService.thumbsUpCreate(commentsLike); 		
+    	}else {
+    		commentsService.thumbsUp(commentsLike);
+    	}
+    		
     	
     	return "comments/movieDetail";
     	
@@ -258,9 +263,15 @@ public class CommentsController {
     
     @ResponseBody
     @RequestMapping(value="thumbsDown.co")
-    public String thumbsDown(Comments comments,Model model) {
+    public String thumbsDown(CommentsLike commentsLike,String ifLikeExist,Model model) {
     	
-    	commentsService.thumbsDown(comments);
+    	if(ifLikeExist == "N") {
+    		commentsService.thumbsDownCreate(commentsLike); 		
+    	}else {
+    		commentsService.thumbsDown(commentsLike);
+    	}
+    	
+    	
     	
     	return "comments/movieDetail";
     	
@@ -296,6 +307,17 @@ public class CommentsController {
     	
     	
     }
+    @ResponseBody
+    @RequestMapping(value="getMyComments.co",produces="application/json; charset=UTF-8")
+    public String getMyComments(Comments comments) {
+    	
+    	Comments list=commentsService.getMyComments(comments);
+    	System.out.println("=====한줄평가오기 수정중=====");
+    	System.out.println(list);
+    	return new Gson().toJson(list);
+    	
+    	
+    }
     /*
     @ResponseBody
     @RequestMapping(value="commentsLikeSum.co")
@@ -303,4 +325,18 @@ public class CommentsController {
     	commentsService.commentsLikeSum(comments);
     }
     */
+    
+    @RequestMapping(value="reviseMyComments.co")
+    public String reviseMyComments(Comments comments) {
+    	
+    	int result=commentsService.reviseMyComments(comments);
+    	
+    	return "comments/movieDetail";
+    }
+    @RequestMapping(value="deleteMyComments.co")
+    public String deleteMyComments(Comments comments) {
+    	commentsService.deleteMyComments(comments);
+    	
+    	return "comments/movieDetail";
+    }
 }
