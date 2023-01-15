@@ -8,20 +8,20 @@
 	 <!-- 1.단계 DB연결을 위한 도구 설 -->
 	 <bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
 	 	<!-- 어떤 DB에 접속할 건지 정보 작성 -->
-	 	
+	 		<!-- 
 	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 	 	<property name="url" value="jdbc:oracle:thin:@192.168.31.9:1521:xe" />
 	 	<property name="username" value="REAL" />
 	 	<property name="password" value="REAL" /> 
-	 	
+	 	-->
 	 	<!-- 집에서 할때는 위에 네줄을 주석하고 요 아래 경로를 사용해 주세요~ -->
 	
-		<!-- 
+	
 	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 	 	<property name="username" value="REAL" />
 	 	<property name="password" value="REAL" /> 
-	 	-->
+	 	
 	 	 
 	 	
 	 </bean>
