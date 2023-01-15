@@ -192,7 +192,7 @@
     <div class="page-title">
         <div class="container">
         <c:choose>
-        	<c:when test="${accept == 2}">
+        	<c:when test="${check eq 'N'}">
         		<h3>대기중</h3>
         	</c:when>
         	<c:otherwise>
