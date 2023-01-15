@@ -86,10 +86,10 @@
 				$('#postForm').attr('action', 'spoilerUpdateForm.bo').submit();
 			}else{//삭제하기
 				if(!confirm("글을 삭제하시겠습니까?")){
-				}else{
-				$('#postForm').attr('action', 'spoilerDelete.bo').submit();
-				alert("삭제되었습니다.")
-				}
+					}else{
+						$('#postForm').attr('action', 'spoilerDelete.bo').submit();
+						alert("삭제되었습니다.")
+					}
 			}
 		}
 	</script>
@@ -106,9 +106,10 @@
 					<th>
 						<textarea class="form-control" id="reply-content" cols="55" rows="2" style="resize:none;"></textarea>
 					</th>
-					<th style="vertical-align:middle"><button class="btn btn-secondary" id="btn3"onclick="addReply();">등록하기</button>
+					<th style="vertical-align:middle"><button class="btn btn-secondary" id="btn3" onclick="addReply();">등록하기</button></th>
 				</c:otherwise>
 			</c:choose>
+			
 			
 			<tr>
 				<td colspan="4">댓글(<span id="rcount"></span>)</td>
@@ -180,6 +181,7 @@
 							  } else {
 								  
 									value += '<tr>'
+										   + '<td>' + '<input type="hidden" id="sprupdate" name="boReplyNo"'> + '</td>'
 										   + '<td>' + list[i].replyWriter + '</td>'
 										   + '<td>' + list[i].boReplyContent + '</td>'
 										   + '<td>' + list[i].boReplyDate + '</td>'
@@ -216,12 +218,10 @@
 		}); 
 		*/
 		function updateReply(){
-			
-			
-			
 			$('#btn3').html('수정하기');
 			
 		};
+		
 		
 		$(document).on('click', '.updatebtn', function(){
 			$('#btn3').html('수정하기');
@@ -229,23 +229,31 @@
 			var reply = $(this).parent().parent().find("td").eq(1).text();
 			$('#reply-content').val(reply);
 			
+			confirmUpdateReply();
 		});
+		
+			function confirmUpdateReply(){
+				$('#btn3').parent().parent().submit();		
+				
+			
+			
+			}
+			
+		
+			
+			 
+		
 		
 		/*
 	     $(document).on('click', '.updatebtn', function(){
-	           var 댓글번호 = 히든감춰둔곳에 접근 ; 
 	           $.ajax({
-	                 url : 매핑값,
+	                 url : "updateReply.br",
 	                data : {
-	                        댓글번호 : 댓글번호,
-	                         수정한 글 : 수정한글
+	             replyNo : ${br.boReplyNo},
+	             boardNo : ${br.boardNo}
 	                 },
 
-
-
 	           })
-
-
 
 	      });
 			*/

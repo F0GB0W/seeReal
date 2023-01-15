@@ -189,7 +189,13 @@ public class BoardController {
 	 }
 	 @ResponseBody
 	 @RequestMapping("updateReply.br")
-	 public String updateReply(int boReplyNo) {
+	 public String updateReply(BoardReply br) {
+
+		 if (boardService.updateBoardReply(br) > 0) {
+			 
+		 };
+		 
+		 
 		 
 		 return "main";
 	 }
