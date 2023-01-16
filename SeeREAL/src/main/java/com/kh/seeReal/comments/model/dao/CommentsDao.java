@@ -5,16 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
+import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.member.model.vo.Member;
 
 @Repository
 public class CommentsDao {
+	
+	public int checkMyCommentExit(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.checkMyCommentExit",comments);
+	}
 	
 	public double ratingGet(MovieRating movieRating,SqlSessionTemplate sqlSession) {
 		
@@ -84,4 +90,21 @@ public class CommentsDao {
 	public int deleteMyComments(Comments comments,SqlSessionTemplate sqlSession) {
 		return sqlSession.update("comments-mapper.deleteMyComments", comments);
 	}
+	public int selectCommentsCount(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.selectCommentsCount", comments);
+	}
+	public List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi,SqlSessionTemplate sqlSession){
+		
+		int offset= (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds=new RowBounds(offset,pi.getBoardLimit());
+		
+		System.out.println("마지막");
+		System.out.println(comments);
+		
+		List<Map<String, Object>> list = (ArrayList)sqlSession.selectList("comments-mapper.selectCommentsListAll", comments,rowBounds);
+		
+		return list;
+	}
+	
 }
