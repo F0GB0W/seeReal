@@ -213,7 +213,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 게시판별 게시글 조회를 위한 select -->
-	<select id="selectBoardListCount" resultType="_int" parameterType="java.util.HashMap" >
+	<select id="selectBoardListCount" parameterType="java.util.HashMap" resultType="_int" >
 		select
 				count(*)
 		 from
@@ -229,9 +229,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 	<if test='boardType == "2"'>
 		 		and board_type = 2
 		 	</if>				
-
 		  and 
-		  	    MEMBER_EMAIL = #{memberEmail}
+		  	    MEMBER_NO = #{memberNo}
 	</select>
 	
 	<select id="selectBoardList" parameterType="java.util.HashMap" resultMap="boardResultSet">
@@ -255,7 +254,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		and board_type = 2
 		 	</if>		
 		     and 
-		        MEMBER_EMAIL = #{memberEmail}			
+		        MEMBER_NO = #{memberNo}			
 		   order
 			  by
 			   	board_no desc	
@@ -347,6 +346,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			COLLECTION_ENROLL
 	</select>
 	
+	<!-- 좋아요한 컬렉션 리스트 조회를 위한 select -->
+	<select id="selectLikeCollection" resultMap="collectionResultSet" parameterType="_int">
+		SELECT 
+			COLLECTION_NO,
+			COLLECTION_TITLE,
+			CHANGE_NAME,
+			m.NICK_NAME,
+			c.MEMBER_NO 
+		FROM
+			COLLECTION c
+		JOIN 
+            MEMBER m ON c.MEMBER_NO = m.MEMBER_NO
+        JOIN 
+            COLLECTION_LIKE USING(COLLECTION_NO)
+		WHERE
+			c.STATUS = 'Y'
+			AND c.MEMBER_NO = #{memberNo}
+			AND COLLECTION_LIKE = 1
+		ORDER BY
+			COLLECTION_ENROLL
+	</select>
+	
 	<!-- 리얼평 조회를 위한 select -->
 	<select id="selectCommentListCount" resultType="_int" parameterType="_int" >
 		SELECT
@@ -402,6 +423,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			C.MOVIE_TITLE,
 			C.MOVIE_YEAR,
 			C.STATUS,
+			TO_CHAR(C.COMMENT_ENROLLDATE,'YYYY-MM-DD') as "COMMENTENROLLDATE",
 			CL.COMMENT_WRITER,
 			CL.COMMENT_LIKE,
 			CL.COMMENT_DISLIKE

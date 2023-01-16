@@ -61,6 +61,12 @@ public class BoardDao {
 	public List<BoardReply> spoilerReplyList(SqlSessionTemplate sqlSession, int boardNo){
 		return sqlSession.selectList("boardMapper.spoilerReplyList", boardNo);
 	}
+	public int updateBoardReply(SqlSessionTemplate sqlSession, BoardReply br) {
+		return sqlSession.update("boardMapper.updateBoardReply", br);
+	}
+	public int deleteBoardReply(SqlSessionTemplate sqlSession, BoardReply br) {
+		return sqlSession.update("boardMapper.deleteBoardReply", br);
+	}
 
 	
 	

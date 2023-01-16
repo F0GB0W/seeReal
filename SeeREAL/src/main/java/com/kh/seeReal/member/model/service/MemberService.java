@@ -46,7 +46,7 @@ public interface MemberService {
 	// 게시글 리스트 조회
 	public int selectBoardListCount(HashMap<String, String> map);
 
-	public ArrayList<Board> selectBoardList(HashMap<String, String> map, PageInfo pi);
+	public ArrayList<Board> selectBoardList(PageInfo pi, HashMap<String, String> map);
 
 	// 댓글 리스트 조회
 	public int selectReplyListCount(String memberEmail);
@@ -65,7 +65,9 @@ public interface MemberService {
 
 	// collection 리스트 조회
 	public ArrayList<Collection> selectCollectionList(int memberNo);
-
+	// 좋아요한 collection 리스트 조회
+	public ArrayList<Collection> selectLikeCollection(int memberNo);
+	
 	// Comments 리스트 조회
 	public int selectCommentsListCount(int memberNo);
 	
@@ -75,6 +77,9 @@ public interface MemberService {
 	public int selectLikeCommentsCount(HashMap map);
 	
 	public ArrayList<Comments> selectLikeComment(PageInfo pi,  HashMap map);
+
+	
+
 	
 	
 }

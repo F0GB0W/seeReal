@@ -26,7 +26,6 @@
 </style>
 </head>
 <body>
-
 	
 	<div id="myPage">
 		<c:choose>
@@ -43,8 +42,10 @@
 		<div><a href="updatePwdForm.me">비밀번호 수정</a></div>
 		<br>
 		
-		<div><a href="myboardList.me?boardType=1">수다게시판</a></div>
-		<div><a href="myboardList.me?boardType=2">스포일러게시판</a></div>
+		<div>
+			<button onclick="postFormSubmit('1','myboardList.me')">수다게시판</button>
+			<button onclick="postFormSubmit('2','myboardList.me')">스포일러게시판</button>
+		</div>
 		
 		<br>
 		<div><a href="myCollection.me">컬렉션</a></div>
@@ -56,8 +57,8 @@
 		<br>
 		<div><a href="myComments.me">내 리얼평</a></div>
 		<div>
-			<button onclick="postFormSubmit('Y','myLikeComments.me')">내 좋아요</button>
-			<button onclick="postFormSubmit('N','myLikeComments.me')">내 싫어요</button>
+			<button onclick="postFormSubmit('Y','myLikeComments.me')">좋아요한 리얼평</button>
+			<button onclick="postFormSubmit('N','myLikeComments.me')">싫어요한 리얼평</button>
 		</div>
 	
 		<br>
@@ -70,7 +71,9 @@
 		<form action="" method="post" id="postForm">
             	<input id="postValue" type="hidden" name="check" value="" />
         </form>
-            
+        
+        <div><a href="feed.me?memberNo=${loginUser.memberNo}">내 피드</a></div> 
+        
 		<div><a href="deleteForm.me">회원탈퇴</a></div>
 	</div>
 	

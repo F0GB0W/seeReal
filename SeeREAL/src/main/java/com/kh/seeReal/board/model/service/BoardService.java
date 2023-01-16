@@ -33,9 +33,9 @@ public interface BoardService {
 	// 댓글 작성(insert)
 	int spoilerReplyInsert(BoardReply br);
 	// 댓글 수정(update)
-	int updateBoardReply(int boardNo);
+	int updateBoardReply(BoardReply br);
 	// 댓글 삭제(update)
-	int deleteBoardReply(int boardNo);
+	int deleteBoardReply(BoardReply br);
 	// 게시판 신고 누적 제재(update) 
 	int sanctionsBoard();
 	

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스포 게시판 my Post</title>
+<title>리얼평</title>
 <style>
     table {
         border-collapse: collapse;
@@ -206,14 +206,22 @@
 	<div class="outer">
 	    <div class="page-title">
 			<div class="container">
-	        	<h3>내 리얼평</h3>
+	        	<c:choose>
+		        	<c:when test="${check eq 'N'}">
+		        		<h3>싫어요</h3>
+		        	</c:when>
+		        	<c:when test="${check eq 'Y'}">
+		        		<h3>좋아요</h3>
+		        	</c:when>
+		        	<c:otherwise>
+		        		<h3>내 리얼평</h3>
+		        	</c:otherwise>
+	        	</c:choose>
 	            <br>
 	       </div>
 	       <br>
 	    </div>
-	    <script>
-	    console.log(${b.commentEnrollDate});
-	    </script>
+	   
     	<!-- board list area -->
       	<div id="board-list">
         	<div class="container content">
@@ -236,7 +244,7 @@
                   			<c:otherwise>
                   				<c:forEach items="${list}" var="b">
 				                	<tr>
-				                    	<td class="bno">${b.commentNo}</td>
+				                    	<td class="comno">${b.commentNo}</td>
 				                    	<td>${b.movieYear}</td>
 				                      	<td id="spoilerTitle">${b.movieTitle}</td>
 				                      	<td>${b.commentContent}</td>
@@ -254,7 +262,7 @@
               		// 동적으로 생성된 요소
               	    $(function(){
               		    $('#spoilerList>tbody>tr').click(function(){
-	              			//location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
+	              			location.href = 'movieDetail.co?comno=' + $(this).children('.comno').text();
               			})	
               		});
               

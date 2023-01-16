@@ -67,7 +67,7 @@
 			</tr>		
 		</table>
 		<br>
-		<c:if test="${loginUser.memberNo eq b.boardWriter }">
+		<c:if test="${loginUser.memberNickname eq b.nickName }">
 			<div align="center">
 				<a class="btn btn-secondary" onclick="postFormSubmit(1);">수정하기</a>
 				<a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
@@ -85,7 +85,11 @@
 			if(num == 1){ // 수정하기
 				$('#postForm').attr('action', 'spoilerUpdateForm.bo').submit();
 			}else{//삭제하기
-				$('#postForm').attr('action', 'spoilerDelete.bo').submit();
+				if(!confirm("글을 삭제하시겠습니까?")){
+					}else{
+						$('#postForm').attr('action', 'spoilerDelete.bo').submit();
+						alert("삭제되었습니다.")
+					}
 			}
 		}
 	</script>
@@ -102,9 +106,11 @@
 					<th>
 						<textarea class="form-control" id="reply-content" cols="55" rows="2" style="resize:none;"></textarea>
 					</th>
-					<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addReply();">등록하기</button>
+					<th style="vertical-align:middle"><button class="btn btn-secondary" id="btn3" onclick="addReply();">등록하기</button></th>
 				</c:otherwise>
 			</c:choose>
+			
+			
 			
 			<tr>
 				<td colspan="4">댓글(<span id="rcount"></span>)</td>
@@ -155,47 +161,32 @@
 				url:"sprList.bo",
 				data : {
 					boardNo : ${b.boardNo},
-					replyWriter : '${br.replyWriter}',
-					loginUser : '${loginUser.memberNickname}'
+					//replyWriter : '${br.replyWriter}',
+					//loginUser : '${loginUser.memberNickname}'
 						},
 				success : function(list){
 					//console.log(list);
 					
 					var value = '';
+					//for(var i=0; i< list.length; i++){
 					for(var i in list){
-						if(${ not empty loginUser}){
-							  if(${list[i].loginUser == list[i].replyWriter}){
+						if(${not empty loginUser}){
 								  value += '<tr>'
+									   + '<td class="replyContent">' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].replyWriter + '</td>'
-									   + '<td>' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
-									   + '<td id="updateReply"><button onclick="updateReply();">수정</button></td>' 
-									   + '<td><button onclick="deleteReply();">삭제</button></td></tr>';
-							  } else {
-								  
-									value += '<tr>'
-										   + '<td>' + list[i].replyWriter + '</td>'
-										   + '<td>' + list[i].boReplyContent + '</td>'
-										   + '<td>' + list[i].boReplyDate + '</td>'
-										   + '<td>' + 234 + '</td>'
-										   + '</tr>';
-										   
-							  }
-								 
-						} else {
-							value += '<tr>'
-								   + '<td>' + list[i].replyWriter + '</td>'
-								   + '<td>' + list[i].boReplyContent + '</td>'
-								   + '<td>' + list[i].boReplyDate + '</td>'
-										   + '<td>' + 3454 + '</td>'
-								   + '</tr>';
-						}
-						
+									   + '<input type="hidden" id="hiddenUpdate" value="'  + list[i].boReplyNo + '"name="hiddenReplyNo">'
+									   + '<input type="hidden" id="hiddendelete" value="' + list[i].memberNo + '"name="memberNo">'
+						if("${loginUser.memberNickname}" == list[i].replyWriter){
+								value += '<td><button class="updatebtn" onclick="updateReply(this);">수정</button></td>' 
+									   + '<td><button id="deleteReply" onclick="deleteReply(this);">삭제</button></td>'
+									   + '</tr>';
+							  		} 
 					}
 					//console.log(value);
 					$('#replyArea tbody').html(value);
 					$('#rcount').text(list.length);
-				
+					}
 				},
 				error : function(){
 					console.log('댓글 조회 실패')
@@ -209,16 +200,108 @@
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
 		*/
-		function updateReply(){
-			window.event.target;
-			console.log(window.event.target.submit());
+		function updateReply(e){
+			
+			let value = '<td class="ChangeReplyContent"><textarea id="hiddenContent" style="resize:none;" type="text" name="boReplyContent" value="'
+					  + $(e).parent().parent().find("td").eq(1).text()
+					  + '"></textarea></td>';
+			$(e).parent().parent().find("td").eq(1).html(value);
+			$(e).removeAttr('onclick');
+			$(e).html('저장').attr('onclick', 'saveReply(this)');
+					  
+					  
+			/*		  
+			$(e).parent().sibilings('.replyContent').html(value);
+			$(e).removeAttr('onclick');
+			$(e).html('댓글 수정').attr('onclick', 'saveReply(this)');
+			*/
+		}
+		
+		function saveReply(e){
+			// var boReplyNo = $(e).siblings('input[name=hiddenReplyNo]').val();
+			// var boReplyContent = $(e).children('input[name=boReplyContent]').val();
+			
+			$.ajax({
+				
+				url : "updateReply.br",
+				data : {
+					boardNo : ${b.boardNo},
+					boReplyNo : $('#hiddenUpdate').val(),
+					boReplyContent :$('#hiddenContent').val(),
+					memberNo : ${loginUser.memberNo}
+				},
+				success : function(data){
+					console.log(data);
+					if(data == "success"){
+						alert('댓글 수정 완료!');
+						location.reload();
+					}
+				},
+				error : function(){
+					console.log('댓글 수정 실패');
+				}
+			});
+		}
+		
+		function deleteReply(){
+			if(confirm("댓글을 삭제 하시겠습니까?")){
+				
+				$.ajax({
+					url : "deleteReply.br",
+					data : {
+						boardNo : ${b.boardNo},
+						boReplyNo : $('#hiddenUpdate').val(),
+						memberNo : ${loginUser.memberNo}
+					
+					},
+					success : function(data){
+						
+						console.log(data);
+						if(data == 'success'){
+							alert('댓글 삭제 성공');
+							selectSpoilerReplyList();
+						}
+					},
+					error : function(){
+						alert('삭제 실패');
+					}
+				
+				})
+			}
+			
+			
+		}
+			
+			
+		/*
+			$('#btn3').html('수정하기');
+			
+		
+		
+		$(document).on('click', '.updatebtn', function(){
+			$('#btn3').html('수정하기');
+			// console.log($(this));	
+			var reply = $(e).parent().parent().find("td").eq(1).text();
+			$('#reply-content').val(reply);
+		
+			})	
 		};
 			
+	
+				
+			*/	
+		
+		
+		
 		
 			
+	</script>
+			 
+		
+		
+		
 		
 	
-	</script>
 
 
 

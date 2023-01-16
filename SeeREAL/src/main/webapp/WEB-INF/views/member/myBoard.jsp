@@ -207,7 +207,7 @@
 	    <div class="page-title">
 			<div class="container">
 	        	<c:choose>
-	        		<c:when test="${boardType == 1}">
+	        		<c:when test="${check eq '1'}">
 	        			<h3>수다 게시판</h3>
 	        		</c:when>
 	        		<c:otherwise>

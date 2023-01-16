@@ -71,7 +71,7 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectBoardListCount",map);
 	}
 	
-	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi){
+	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map ){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
@@ -106,6 +106,11 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectCollectionList", memberNo);
 	}
 
+	// 좋아요한 collection 리스트 조회
+	public ArrayList<Collection> selectLikeCollection(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectLikeCollection", memberNo);
+	}
+
 	// Comments 리스트 조회 
 	public int selectCommentsListCount(SqlSessionTemplate sqlSession, int memberNo) {
 		return sqlSession.selectOne("memberMapper.selectCommentListCount", memberNo);
@@ -129,7 +134,7 @@ public class MemberDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectLikeComments", map, rowBounds);
 	}
-	
+
 
 	// 댓글 조회
 	

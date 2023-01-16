@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,8 +130,16 @@ public class MemberController {
 	}
 	
 	// 로그인
+	// 로그인 아이디 저장 : 쿠키 사용
+		/* 
+		   N-> N : U
+		유지 Y-> Y : U
+		해제 Y-> N : N(쿠키 삭제) 
+		체크 N-> Y : Y(쿠키 생성)
+		 */
 	@RequestMapping(value="login.me")
-	public String login(Member m, HttpSession session, Model model) {  // 다 사용할 수 있도록 담아야함 : include 
+	public String login(Member m, HttpSession session, Model model, String saveId, HttpServletResponse response) {  // 다 사용할 수 있도록 담아야함 : include 
+		
 		
 		// 아이디, 비밀번호 확인
 		Member loginUser = memberService.loginMember(m);
@@ -139,13 +149,103 @@ public class MemberController {
 			// 암호화된 비밀번호랑 동일한지 확인
 			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
 			session.setAttribute("loginUser", loginUser);
-	
+			
+			if(saveId.equals("Y")) { // 아이디 저장 
+				
+				Cookie check = new Cookie("saveId", m.getMemberEmail());
+				check.setMaxAge(60 * 60 * 24 * 28);
+				check.setPath("/");
+				response.addCookie(check); // 여기까지 옴
+				
+			}else if(saveId.equals("N")) {  // 해제 Y-> N : N(쿠키 삭제)
+				
+				Cookie check = new Cookie("saveId", m.getMemberEmail());
+				System.out.println("2 check : " + check);
+				check.setMaxAge(0);
+				response.addCookie(check);	
+			}		
+			
 		}else {
 			model.addAttribute("alertMsg", "로그인 실패");
 		}
-		return "redirect:/";
+		return "redirect:/"; 
 	}
 	
+	
+	
+	// 비밀번호 찾기
+	@RequestMapping("searchPwd.me")
+	public String searchPwd(HttpServletRequest request, Member m) { 
+		// 정규식 만족하는 임시비밀번호 생성해서 메일 보내고, member 테이블 update
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+		String ip = request.getRemoteAddr();
+		String code = createPwd();
+		
+		Cert cert = Cert.builder().who(ip).secret(code).build();
+		String email = m.getMemberEmail();
+		
+		message.setSubject("see:Real");
+		message.setText("임시비밀번호 : " + code );
+		message.setTo(email);	 // 아이디로 사용중인 이메일로만 인증가능
+		// m.getMemberEmail() : javax.mail.internet.AddressException: Illegal address in string ``''발생
+		sender.send(message); // 이메일이 제대로 갔는지 어떻게 확인하지?
+		
+		// code 암호화
+		m.setMemberPwd(bcryptPasswordEncoder.encode(code));
+		memberService.updatePwd(m);
+		
+		return "redirect:/"; // 메인페이지로 이동
+	}
+	
+	// 랜덤 인증번호 생성하는 메소드
+	// 문자 + 숫자 + 특수문자 중 2가지, 6개 이상
+	// 평문 : 이메일 보내고, update할 때는 암호화하기
+	public String createPwd() {
+		
+		String length = createCode(); // 6자리 난수
+		
+		String pwd = "";
+		int finish = 0;
+		
+		for(int i = 0; i < 6; i++) {
+			
+			int check = Character.getNumericValue(length.charAt(i)); // Character.getNumericValue(): char형을 int로(1글자씩)
+			String sc = "!@#$%^&*?_~";
+			String c = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+			
+			int rndNum;   
+			
+			switch((check % 3)) { // 6자리 난수 중 하나의 숫자마다 변경
+				case 0 : 
+					
+					rndNum = (int) (Math.random()* 100)+1; // 메소드로 따로 빼서 가능
+					pwd += String.valueOf(rndNum);
+					finish ++;
+					break;
+					
+				case 1 :
+					rndNum = (int) (Math.random()* 51); // 0 ~ 51
+					pwd += c.charAt(rndNum);
+					finish ++;
+					break;
+				
+				case 2 : 
+					rndNum = (int) (Math.random()* 11);
+					pwd += sc.charAt(rndNum);
+					finish ++;
+					break;
+			}
+				
+		}
+		
+		if(finish > 1) { // 2가지 조건 충족
+			return pwd;
+		}else {
+			return createPwd();
+		}	
+	}
+		
 	// 로그아웃
 	@RequestMapping("logout.me")
 	public String logout(HttpSession session) {
@@ -289,7 +389,6 @@ public class MemberController {
 		}else {
 			return "redirect:deleteForm.me"; // 원래 화면 으로 다시 재요청
 		}
-		
 	}
 	
 	
@@ -311,26 +410,32 @@ public class MemberController {
 	// 게시글 리스트
 	@RequestMapping("myboardList.me")
 	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
-			                            @RequestParam(value="boardType", defaultValue="1") String boardType,
-			                            HttpSession session, ModelAndView mv, HashMap<String, String> map) { // 쿼리스트링으로 넘겨도 잘 넘어
+			                            @RequestParam(value="check", defaultValue="1") String check,
+			                            HttpSession session, ModelAndView mv, HashMap map) { // 쿼리스트링으로 넘겨도 잘 넘어
 		
-		String memberEmail = (((Member)session.getAttribute("loginUser")).getMemberEmail());
-		map.put("memberEmail", memberEmail);
-		map.put("boardType", boardType);
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		map.put("memberNo", memberNo);
+		map.put("boardType", check);
 		
 		int spoilerSearchListCount = memberService.selectBoardListCount(map);
+		System.out.println("boardType : " + check);
+		System.out.println(spoilerSearchListCount);
+		
 		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
-		ArrayList<Board> list = memberService.selectBoardList(map, pi); // 페이징 바
+		ArrayList<Board> list = memberService.selectBoardList(pi, map); // 페이징 바
 	
-		session.setAttribute("list", list);// 조회 결과
-		session.setAttribute("pi", pi);// 페이징 바
+		//session.setAttribute("list", list);// 조회 결과
+		//session.setAttribute("pi", pi);// 페이징 바
 		//mv.addObject("list", list); 
 		//mv.addObject("pi", pi); 
 		
 		//return "redirect:myPost.me";
 		// http://localhost:7777/seeReal/myPost.me?memberEmail=ykl0918%40naver.com&boardType=1
-		// redirect인데 왜 이렇게 나옴?
-		mv.setViewName("member/myBoard");
+		// redirect인데 왜 이렇게 나옴? 
+		mv.addObject("check", check)
+		  .addObject("pi", pi)
+		  .addObject("list", list)
+		  .setViewName("member/myBoard");
 		 
 		return mv;
 		
@@ -338,16 +443,16 @@ public class MemberController {
 	}
 	
 	/*
-	// 댓글 조회 : 이메일 > 화면에 어떻게 보여줄지 확인 후 작성
+	// 댓글 리스트 조회 :
 	@RequestMapping("myReply.me")
 	public ModelAndView selectReplyList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
 			                      HttpSession session, ModelAndView mv) {
 		
-		String memberEmail = (((Member)session.getAttribute("loginUser")).getMemberEmail());
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
 		
-		int spoilerSearchListCount = memberService.selectReplyListCount(memberEmail);
+		int spoilerSearchListCount = memberService.selectReplyListCount(memberNo);
 		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
-		ArrayList<Board> list = memberService.selectReplyList(memberEmail, pi); // 페이징 바
+		ArrayList<Board> list = memberService.selectReplyList(memberNo, pi); // 페이징 바
 	
 		mv.addObject("list", list); 
 		mv.addObject("pi", pi); 
@@ -389,7 +494,7 @@ public class MemberController {
     	mv.addObject("pi", pi)
 		  .addObject("list", memberService.selectMeetingList(pi,map))
 		  .addObject("check", check)
-		  .setViewName("member/meetingStatus");
+		  .setViewName("member/myMeeting");
     	
     	return mv;
     }
@@ -408,20 +513,21 @@ public class MemberController {
 		return mv;
 	}
 	
-	/*
+	
 	// collection 리스트 조회 : 좋아요
 	@RequestMapping("myCollectionLike.me")
-	public ModelAndView selectLikeCollection(ModelAndView mv, HttpSession session) {
+	public ModelAndView selectLikeCollection(ModelAndView mv, HttpSession session, String check) {
 		
 		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		
 		ArrayList<Collection> list = memberService.selectLikeCollection(memberNo);
 		
-		mv.addObject("list", list)
+		mv.addObject("list", list).addObject("check", 1)
 		  .setViewName("member/myCollection");
 		
 		return mv;
 	}
-	*/
+	
 	
 	// 내 리얼평 조회
 	@RequestMapping("myComments.me")
@@ -440,7 +546,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	// 좋아요 리얼평 리스트 조회
+	// 좋아요, 싫어요  리얼평 리스트 조회
 	@RequestMapping("myLikeComments.me")
 	public ModelAndView selectLikeComment(@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
 			                               ModelAndView mv, HttpSession session, String check, HashMap map) {
@@ -454,12 +560,12 @@ public class MemberController {
 		ArrayList<Comments> list = memberService.selectLikeComment(pi, map);
 		
 		mv.addObject("list", list)
+		  .addObject("check", check)
 		  .setViewName("member/myComments");
 		
 		return mv;
 	}
-	
-	// 싫어요 리얼평 리스트 조회
+
 	
 	
 	

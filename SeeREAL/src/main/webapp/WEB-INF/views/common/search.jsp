@@ -16,15 +16,19 @@
         text-align: center;
       }
 	
-	#meetingList {
-		border: 1px solid black;
-	}
-	
-	#title{
+	.title{
 		width: 150px;
 		height: 50px;
 		margin-top : 10px;
-		background-color: gray;
+		background-color:  #ff52a0;
+		padding: 6px;
+	}
+	.outer{
+		align: center;
+	}
+
+	#movieList,#searchList {
+		margin-left: 30%;
 	}
 	#searchList>#list{
 		margin-top : 10px;
@@ -33,8 +37,7 @@
 	}
 	#searchList>#list>div{
 		width: 300px;
-		height: 200px;
-		border : 1px solid black;
+		height: 250px;
 	}
 	#movieList>#list{
 		margin-top : 10px;
@@ -46,6 +49,16 @@
 		height: 200px;
 		border : 1px solid black;
 	}
+	#searchList>#list>.meeting{
+		padding : 17px;
+	}
+	#search-area{
+		float: right;
+	}
+	#movieList>td>a{
+		text-decoration: none;
+		color: black;
+	}
 </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -55,20 +68,29 @@
   
 </head>
 <body>
+	<jsp:include page="menubar.jsp" />
 	<input type="hidden" id="listCount" value="${ count }">
 	<input type="hidden" id="keyword" value="${ keyword }">
 	<div class="outer">
-		
+		      
+<%--       <div id="search-area">
+		<form action="search.yj" method="get">
+			<input type="hidden" name="currentPage" value="1">
+			<input type="text" name="keyword" value="${ keyword }">
+			<button type="submit" onclick="movie();">검색</button>
+		</form>
+      </div> --%>
+      
 		<div id="searchList">
-			<div id="title">리얼모임</div>
+			<div class="title">리얼모임</div>
 			<div id="list">
 				<c:choose>
 					<c:when test="${ not empty mtList }">
 						<c:forEach items="${ mtList }" var="mt" varStatus="status">
-							<div class="meeting">
+							<div class="meeting" style="cursor:pointer;">
 								<div><img id="movieImg${status.index}" /></div>
-								<div>${ mt.meetingTitle }</div>
 								<div id="movieTitle${status.index }">${ mt.movieTitle }</div>
+								<div>${ mt.meetingTitle }</div>
 								<input type="hidden" value="${mt.movieYear}" id="movieYear${status.index}">	
 								<input type="hidden" value="${mt.meetingNo}" id="mtno" name="mtno">
 							</div>
@@ -81,34 +103,38 @@
 			</div>
 		</div>
 		<div id="movieList">
-			<div id="title">영화</div>
-			<div id="list">
-				<div>
+			<div class="title">영화</div>
+			<c:choose>
+				<c:when test="${ data.items eq null }">
+					 <table id="result1" border="1" align="center" >
+	                    <thead>
+	                        <tr>
+	                            <th>영화제목(링크)</th>
+	                            <th>이미지</th>
+	                            <th>개봉일</th>
+	                            <th>감독</th>
+	                            <th>출연배우</th>
+	                            <th>평점</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                    </tbody>
+	                  </table>
+	            </c:when>   
+				<c:otherwise>
 						검색한 결과가 없어요🤷‍♀️
-				</div>
-<%-- 				<c:choose>
-					<c:when test="${ not empty mvList }">
-						<c:forEach items="${ mvList }" var="mv">
-							<div id="moive">
-								<div><img src="../../../../resources/img/user.png" alt="이미지" width="150" height="250"/></div>
-								<div>영화제목</div>
-								<div>개봉일</div>		
-							</div>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						검색한 결과가 없어요🤷‍♀️
-					</c:otherwise>
-				</c:choose> --%>
+				</c:otherwise>
+			</c:choose> 
 			</div>
 		</div>
-
+		<jsp:include page="footer.jsp" />
 		<script>
 			<%-- div클릭시 미팅 상세페이지로 이동 --%>
 			$(function(){
 				$('.outer #searchList #list .meeting').click(function(){
 					location.href = 'detail.mt?mtno=' + $(this).children('#mtno').val();
 				})
+				searchMovie();
 			});
 			
 			<%-- keyword 담기 --%>
@@ -120,6 +146,7 @@
 					},
 					success : list => {
 						movie(list);
+						console.log(list);
 					},
 					error : () => {
 						console.log('실패ㅠㅠㅠㅠ');
@@ -155,16 +182,45 @@
 					})
 				}
 			}
+			
+			function searchMovie(){
+				$.ajax({
+					url: 'movie.mt',
+					data : {
+						title :  $('#keyword').val()
+					},
+					success : data => {
+						const itemArr = data.items;
+						
+						let value = '';
+						for(let i in itemArr){
+							let item = itemArr[i];
+							console.log(item);
+							let thumb = item.image;
+
+	                        item.subtitle = item.subtitle.replace(/\&apos;/gi, '');   // 따옴표 있으면 안됨...
+	                        item.subtitle = item.subtitle.replace(/\&quot;/gi, '');   // 혹시 몰라 쌍따옴표도..
+
+	                        item.title = item.title.replace(/\&apos;/gi, '');
+	                        item.title = item.title.replace(/\&quot;/gi, '');
+							
+							value += '<tr>'
+								   + '<td><a href="'+ item.link + '">' + item.title + '</a></td>'
+								   + '<td><img src="' + thumb + '"/></td>'
+								   + '<td>' + item.pubDate + '</td>'
+								   + '<td>' + item.director + '</td>'
+								   + '<td>' + item.actor + '</td>'
+								   + '<td>' + item.userRating + '</td>'
+								   + '</tr>' 
+						}
+						$('#result1 tbody').html(value);
+					}
+				
+				
+				})
+			}
+
 		</script>
-      
-      <div id="search-area">
-		<form action="search.yj" method="get">
-			<input type="hidden" name="currentPage" value="1">
-			<input type="text" name="keyword" value="${ keyword }">
-			<button type="submit">검색</button>
-		</form>
-      </div>
-      
-     </div>
+
 </body>
 </html>

@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="comment_report" property="commentReport" />
 		<result column="movie_title" property="movieTitle" />
 		<result column="movie_year" property="movieYear" />
+		<result column="member_photo" property="memberPhoto"/>
 		<result column="status"     property="status" />
 		<result column="member_no"  property="memberNo" />
 	</resultMap>
@@ -32,6 +33,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="nick_name" property="memberNickname" />
 		<result column="member_photo"       property="memberPhoto" /> 
 		<result column="member_photo"    property="memberPhoto" />
+	</resultMap>
+	
+	<resultMap id="star" type="com.kh.seeReal.member.model.vo.Star">
+		<result column="starHalf" property="starHalf"/>
+		<result column="star1" property="star1"/>
+		<result column="star1Half" property="star1Half"/>
+		<result column="star2" property="star2"/>
+		<result column="star2Half" property="star2Half"/>
+		<result column="star3" property="star3"/>
+		<result column="star3Half" property="star3Half"/>
+		<result column="star4" property="star4"/>
+		<result column="star4Half" property="star4Half"/>
+		<result column="star5" property="star5"/>
 	</resultMap>
 	
 	
@@ -62,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="ratingList" resultMap="movie_rating">
-		select rating, member_no
+		select rating
 		  from movie_rating
 		 where member_no = #{memberNo}
 		 order
@@ -71,17 +85,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="selectMember" parameterType="_int" resultMap="member">
-		select nick_name
+		select nick_name, member_photo
 		  from member
 		 where member_no = #{memberNo}
 	</select>
 
-<!-- 	<select id="selectMemberPhoto" resultMap="member">
-		select member_photo
-		  from member
-		  where member_no = #{memberNo}
-	</select> -->
+	<select id="ratingYj" parameterType="_int" resultMap="movie_rating">
+		select member_no
+		  from movie_rating
+	</select>
 
+	<select id="star" parameterType="_int" resultMap="star">
+		select rating,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=0.5) starHalf,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=1) star1,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=1.5) star1Half,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=2) star2,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=2.5) star2Half,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=3) star3,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=3.5) star3Half,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=4) star4,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=4.5) star4Half,
+		      (select count(*)
+		      	 from movie_rating
+		        where rating=5) star5
+		  from movie_rating
+		 where member_no = #{memberNo}
+		   and rownum = 1
+		  	  
+	</select>
 
 
 </mapper>

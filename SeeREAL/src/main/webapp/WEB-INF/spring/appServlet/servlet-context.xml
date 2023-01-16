@@ -35,6 +35,19 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/myPage.me"/>
+			<mapping path="/updateForm.me"/>
+			<mapping path="/updatePwdForm.me"/>
+			<mapping path="/myCollection.me"/>
+			<mapping path="/myCollectionLike.me"/>
+			<mapping path="/myboardList.me"/>
+			<mapping path="/myReply.me"/>
+			<mapping path="/myComments.me"/>
+			
+			<mapping path="/myLikeComments.me"/>
+			<mapping path="/myMeeting.me"/>
+			<mapping path="/myMeetingStatus.me"/>
+			
+			<mapping path="/deleteForm.me"/>
 			<mapping path="/enrollForm.bo"/>			
 			<beans:bean class="com.kh.seeReal.common.interceptor.LoginInterceptor" id="loginInterceptor"></beans:bean>
 		</interceptor>

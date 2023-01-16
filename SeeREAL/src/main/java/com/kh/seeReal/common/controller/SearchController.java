@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.seeReal.comments.model.vo.MovieInfo;
 import com.kh.seeReal.common.model.service.SearchServiceImp;
 import com.kh.seeReal.meeting.model.vo.Meeting;
 
@@ -22,7 +23,7 @@ public class SearchController {
 	private SearchServiceImp searchService;
 
 	@RequestMapping("search.yj")
-	public ModelAndView searchList(ModelAndView mv, @RequestParam(value="condition", defaultValue="meeting")String condition
+	public ModelAndView searchList(MovieInfo movieInfo, ModelAndView mv, @RequestParam(value="condition", defaultValue="meeting")String condition
 												  , @RequestParam(value="keyword", defaultValue="") String keyword
 												  , Model m) {
 		
@@ -33,12 +34,10 @@ public class SearchController {
 		
 		int searchCountList = searchService.searchCountList(map);
 		ArrayList<Meeting> mtList = searchService.searchMeetingList(map); 
-		System.out.println(mtList);
 		mv.addObject("mtList", mtList)
 		  .addObject("count", searchCountList)
 		  .addObject("keyword", keyword)
 		  .setViewName("common/search");
-		
 		return mv;
 	}
 	

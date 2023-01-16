@@ -80,8 +80,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public ArrayList<Board> selectBoardList(HashMap<String, String> map, PageInfo pi) {
-		return memberDao.selectBoardList(sqlSession,map,pi);
+	public ArrayList<Board> selectBoardList(PageInfo pi, HashMap<String, String> map) {
+		return memberDao.selectBoardList(sqlSession,pi, map);
 	}
 
 	@Override
@@ -120,6 +120,11 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Collection> selectCollectionList(int memberNo) {
 		return memberDao.selectCollectionList(sqlSession, memberNo);
 	}
+
+	@Override
+	public ArrayList<Collection> selectLikeCollection(int memberNo) {
+		return memberDao.selectLikeCollection(sqlSession, memberNo);
+	}
 	
 	@Override
 	public int selectCommentsListCount(int memberNo) {
@@ -141,6 +146,8 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.selectLikeComment(sqlSession,pi, map);
 	}
 
+
+	
 
 	
 

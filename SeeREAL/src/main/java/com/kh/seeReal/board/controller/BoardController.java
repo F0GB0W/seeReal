@@ -33,7 +33,8 @@ public class BoardController {
 	private BoardServiceImpl boardService;
 	
 	@RequestMapping("spoilerList.bo")
-	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="board-count", defaultValue="5") int boardLimit,   ModelAndView mv) {
+	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="board-count", defaultValue="5") int boardLimit, 
+										ModelAndView mv) {
 		
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, boardLimit);
@@ -94,7 +95,7 @@ public class BoardController {
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
-		  System.out.println(mv);
+		  // System.out.println(mv);
 		 return mv;
 	 }
 	
@@ -183,13 +184,22 @@ public class BoardController {
 	 public String spoilerReplyList(int boardNo) {
 		 //System.out.println(boardNo);
 		 //System.out.println(boardService.spoilerReplyList(boardNo));
+		// System.out.println(boardNo);
 		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
 	 }
+	 
 	 @ResponseBody
-	 @RequestMapping("updateReply.bo")
-	 public String updateReply(int boReplyNo) {
+	 @RequestMapping("updateReply.br")
+	 public String updateReply(BoardReply br) {
+		 //System.out.println(br);
+		 //System.out.println(boardService.updateBoardReply(br) > 0);
+		 return boardService.updateBoardReply(br) > 0 ? "success" : "fail";
+	 }
+	 @ResponseBody
+	 @RequestMapping("deleteReply.br")
+	 public String deleteReply(BoardReply br) {
 		 
-		 return "main";
+		 return boardService.deleteBoardReply(br) > 0 ? "success" : "fail";
 	 }
 		 
 }
