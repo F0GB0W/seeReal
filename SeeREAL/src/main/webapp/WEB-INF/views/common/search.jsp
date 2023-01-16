@@ -69,7 +69,7 @@
 		<form action="search.yj" method="get">
 			<input type="hidden" name="currentPage" value="1">
 			<input type="text" name="keyword" value="${ keyword }">
-			<button type="submit">검색</button>
+			<button type="submit" onclick="movie();">검색</button>
 		</form>
       </div>
 		<div id="searchList">
@@ -95,12 +95,27 @@
 		</div>
 		<div id="movieList">
 			<div class="title">영화</div>
+			 <table id="result1" border="1" align="center">
+                    <thead>
+                        <tr>
+                            <th>영화제목(링크)</th>
+                            <th>이미지</th>
+                            <th>개봉일</th>
+                            <th>감독</th>
+                            <th>출연배우</th>
+                            <th>평점</th>
+                            <th>선택</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
 			<div id="list">
  				<c:choose>
 					<c:when test="${ not empty mvList }">
 						<c:forEach items="${ mvList }" var="mv" varStatus="mvStatus">
 							<div id="moive">
-								<div><img id="movieImg${mvStatus.index }"/></div>
+								<div><img id="movieImg${mvStatus.index }" src=""/></div>
 								<div id="movieTitle${status.index }">${ mv.movieTitle }</div>
 								<div>${mv.movieYear }</div>		
 							</div>
@@ -119,6 +134,7 @@
 				$('.outer #searchList #list .meeting').click(function(){
 					location.href = 'detail.mt?mtno=' + $(this).children('#mtno').val();
 				})
+				searchMovie();
 			});
 			
 			<%-- keyword 담기 --%>
@@ -130,6 +146,7 @@
 					},
 					success : list => {
 						movie(list);
+						console.log(list);
 					},
 					error : () => {
 						console.log('실패ㅠㅠㅠㅠ');
@@ -165,6 +182,54 @@
 					})
 				}
 			}
+			
+			function searchMovie(){
+				$.ajax({
+					url: 'movie.mt',
+					data : {
+						title :  $('#keyword').val()
+					},
+					success : data => {
+						const itemArr = data.items;
+						
+						let value = '';
+						for(let i in itemArr){
+							let item = itemArr[i];
+							console.log(item);
+							let thumb = item.image;
+
+	                        item.subtitle = item.subtitle.replace(/\&apos;/gi, '');   // 따옴표 있으면 안됨...
+	                        item.subtitle = item.subtitle.replace(/\&quot;/gi, '');   // 혹시 몰라 쌍따옴표도..
+
+	                        item.title = item.title.replace(/\&apos;/gi, '');
+	                        item.title = item.title.replace(/\&quot;/gi, '');
+							
+							value += '<tr>'
+								   + '<td><a href="'+ item.link + '">' + item.title + '</a></td>'
+								   + '<td><img src="' + thumb + '"/></td>'
+								   + '<td>' + item.pubDate + '</td>'
+								   + '<td>' + item.director + '</td>'
+								   + '<td>' + item.actor + '</td>'
+								   + '<td>' + item.userRating + '</td>'
+	                               + '<td>' + '<button onclick="selectMovie(' 
+	                                        + "'" + item.subtitle + "', "  
+	                                        + item.pubDate + ','
+	                                        + "'" + item.title + "', "
+	                                        + "'" + item.director + "', "
+	                                        + "'" + thumb + "', "
+	                                        + "'" + item.link + "', "
+	                                        + "'" + item.director + "', "
+	                                        + "'" + item.actor + "'"
+	                                        + ');" data-dismiss="modal">선택' + '</button>' + '</td>'
+								   + '</tr>' 
+						}
+						$('#result1 tbody').html(value);
+					}
+				
+				
+				})
+			}
+
 		</script>
 
       
