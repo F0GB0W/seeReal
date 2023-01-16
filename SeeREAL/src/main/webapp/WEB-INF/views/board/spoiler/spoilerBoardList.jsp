@@ -192,8 +192,8 @@
       }
       ul{list-style-type:none;}
       #pagingBar {}
-      #pagination{ margin-left: 870px; display:flex; float:center;}
-      #searchForm{margin-left: 840px; display:flex;}
+      #pagination{ margin-left: 620px; display:flex; float:center;}
+      #searchForm{margin-left: 620px; display:flex;}
       #searchSelect{margin-top:7px;}
       #page-count{float:right;}
       
