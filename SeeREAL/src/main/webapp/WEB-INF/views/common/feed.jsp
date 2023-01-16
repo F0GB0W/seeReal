@@ -87,7 +87,7 @@
 		                </tr>
 		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
-			                	<input type="hidden" id="realNo" value="" />
+			                	<!-- <input type="hidden" id="realNo" value="" /> -->
 			                    <td id=title>${f.movieTitle}</td>
 			                    <c:choose>
 			                    	<c:when test="${f.rating == 0.5}">
@@ -168,16 +168,16 @@
         var myChart = new Chart("myChart", {
             type: "bar",
             data: {
-                labels: xValues,
-                datasets: [{
-                backgroundColor: 'orange',
-                data: yValues
-                }]
+              labels: xValues,
+              datasets: [{
+	                backgroundColor: 'orange',
+	                data: yValues
+              }]
         	},
-       		 options: {
-        			legend: {
-        			display:false
-        		}
+      		options: {
+       			legend: {
+       			display:false
+       		}
         	}
         });
         

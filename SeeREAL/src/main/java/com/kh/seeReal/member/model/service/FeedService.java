@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.member.model.vo.Member;
+import com.kh.seeReal.member.model.vo.Star;
 
 public interface FeedService {
 	
@@ -20,5 +21,5 @@ public interface FeedService {
 	
 	//int ratingYj(int memberNo);
 	
-	int star(int memberNo);
+	Star star(int memberNo);
 }

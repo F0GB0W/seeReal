@@ -17,7 +17,6 @@ public class FeedController {
 	
 	@RequestMapping("feed.me")
 	public ModelAndView feed(ModelAndView mv, int memberNo) {
-		
 		mv.addObject("count", feedService.selectCommentsCount(memberNo))
 		  .addObject("comments", feedService.commentsCount(memberNo))
 		  .addObject("review", feedService.reviewList(memberNo))
@@ -26,7 +25,6 @@ public class FeedController {
 		  .addObject("star", feedService.star(memberNo))
 		  .addObject("memberNo", memberNo)
 		  .setViewName("common/feed");
-
 		return mv;
 	}
 	

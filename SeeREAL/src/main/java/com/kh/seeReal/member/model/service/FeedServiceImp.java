@@ -10,6 +10,7 @@ import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.member.model.dao.FeedDao;
 import com.kh.seeReal.member.model.vo.Member;
+import com.kh.seeReal.member.model.vo.Star;
 
 @Service
 public class FeedServiceImp implements FeedService{
@@ -51,7 +52,7 @@ public class FeedServiceImp implements FeedService{
 	 */
 
 	@Override
-	public int star(int memberNo) {
+	public Star star(int memberNo) {
 		return feedDao.star(sqlSession, memberNo);
 	}
 	

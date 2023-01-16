@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	<typeAliases>
 		<typeAlias type="com.kh.seeReal.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.seeReal.member.model.vo.Star" alias="star"/>
 		<typeAlias type="com.kh.seeReal.board.model.vo.Board" alias="board"/>
 		<typeAlias type="com.kh.seeReal.board.model.vo.BoardReply" alias="boardReply"/>
 		<typeAlias type="com.kh.seeReal.meeting.model.vo.Meeting" alias="meeting"/>
