@@ -168,44 +168,25 @@
 					//console.log(list);
 					
 					var value = '';
-					for(var i=0; i< list.length; i++){
-					//for(var i in list){
+					//for(var i=0; i< list.length; i++){
+					for(var i in list){
 						if(${not empty loginUser}){
-							  if("${loginUser.memberNickname}" == list[i].replyWriter){
 								  value += '<tr>'
 									   + '<td>' + list[i].replyWriter + '</td>'
-									   + '<td>' + list[i].boReplyContent + '</td>'
+									   + '<td class="replyContent">' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
-									   + '<input type="hidden" id="hiddenUpdate"'  + list[i].boReplyNo + 'name="boReplyNo">'
-									   + '<input type="hidden" id="hiddendelete"' + list[i].memberNo + 'name="memberNo">'
-									   + '<td><button class="updatebtn" onclick="updateReply(this);">수정</button></td>' 
+									   + '<input type="hidden" id="hiddenUpdate" value="'  + list[i].boReplyNo + '"name="hiddenReplyNo">'
+									   + '<input type="hidden" id="hiddendelete" value="' + list[i].memberNo + '"name="memberNo">'
+							 if("${loginUser.memberNickname}" == list[i].replyWriter){
+								value += '<td><button class="updatebtn" onclick="updateReply(this);">수정</button></td>' 
 									   + '<td><button id="deleteReply" onclick="deleteReply(this);">삭제</button></td>'
 									   + '</tr>';
-							  } else {
-								  
-									value += '<tr>'
-										   + '<td>' + list[i].replyWriter + '</td>'
-										   + '<td>' + list[i].boReplyContent + '</td>'
-										   + '<td>' + list[i].boReplyDate + '</td>'
-										   + '<td>' + 234 + '</td>'
-										   + '</tr>';
-										   
-							  }
-								 
-						} else {
-							value += '<tr>'
-								   + '<td>' + list[i].replyWriter + '</td>'
-								   + '<td>' + list[i].boReplyContent + '</td>'
-								   + '<td>' + list[i].boReplyDate + '</td>'
-										   + '<td>' + 3454 + '</td>'
-								   + '</tr>';
-						}
-						
+							  		} 
 					}
 					//console.log(value);
 					$('#replyArea tbody').html(value);
 					$('#rcount').text(list.length);
-				
+					}
 				},
 				error : function(){
 					console.log('댓글 조회 실패')
@@ -224,24 +205,30 @@
 			let value = '<td class="ChangeReplyContent"><textarea id="hiddenContent" style="resize:none;" type="text" name="boReplyContent" value="'
 					  + $(e).parent().parent().find("td").eq(1).text()
 					  + '"></textarea></td>';
-					  
 			$(e).parent().parent().find("td").eq(1).html(value);
 			$(e).removeAttr('onclick');
+			$(e).html('저장').attr('onclick', 'saveReply(this)');
+					  
+					  
+			/*		  
+			$(e).parent().sibilings('.replyContent').html(value);
+			$(e).removeAttr('onclick');
 			$(e).html('댓글 수정').attr('onclick', 'saveReply(this)');
+			*/
 		}
 		
 		function saveReply(e){
-			let boReplyNo = $(e).children().find('input[name=boReplyNo]').val();
-			let boReplyContent = $(e).children('input[name=boReplyContent]').val();
+			// var boReplyNo = $(e).siblings('input[name=hiddenReplyNo]').val();
+			// var boReplyContent = $(e).children('input[name=boReplyContent]').val();
 			
 			$.ajax({
 				
 				url : "updateReply.br",
 				data : {
 					boardNo : ${b.boardNo},
-					boReplyNo : ${br.boReplyNo},
+					boReplyNo : $('#hiddenUpdate').val(),
 					boReplyContent :$('#hiddenContent').val(),
-					memberNo : $('#loginUser').val()
+					memberNo : ${loginUser.memberNo}
 				},
 				success : function(data){
 					console.log(data);
