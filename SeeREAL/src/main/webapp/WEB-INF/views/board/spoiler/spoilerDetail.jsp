@@ -111,6 +111,7 @@
 			</c:choose>
 			
 			
+			
 			<tr>
 				<td colspan="4">댓글(<span id="rcount"></span>)</td>
 			</tr>
@@ -172,16 +173,16 @@
 						if(${not empty loginUser}){
 							  if("${loginUser.memberNickname}" == list[i].replyWriter){
 								  value += '<tr>'
+									   + '<td>' + '<input type="hidden" id="sprupdate" name="boReplyNo"'> + '</td>'
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
 									   + '<td><button class="updatebtn" onclick="javascript:updateReply('+ list[i].boReplyNo +');">수정</button></td>' 
-									   + '<td><button onclick="javascript:deleteReply('+ list[i].boReplyNo +');">삭제</button></td>'
+									   + '<td><button id="deleteReply" onclick="javascript:deleteReply('+ list[i].boReplyNo +');">삭제</button></td>'
 									   + '</tr>';
 							  } else {
 								  
 									value += '<tr>'
-										   + '<td>' + '<input type="hidden" id="sprupdate" name="boReplyNo"'> + '</td>'
 										   + '<td>' + list[i].replyWriter + '</td>'
 										   + '<td>' + list[i].boReplyContent + '</td>'
 										   + '<td>' + list[i].boReplyDate + '</td>'
@@ -220,7 +221,6 @@
 		function updateReply(){
 			$('#btn3').html('수정하기');
 			
-		};
 		
 		
 		$(document).on('click', '.updatebtn', function(){
@@ -228,39 +228,35 @@
 			console.log($(this));	
 			var reply = $(this).parent().parent().find("td").eq(1).text();
 			$('#reply-content').val(reply);
-			
-			confirmUpdateReply();
-		});
 		
-			function confirmUpdateReply(){
-				$('#btn3').parent().parent().submit();		
+			})	
+		};
+			
+	
 				
+		function deleteReply(){
 			
-			
-			}
-			
+			$.ajax({
+				url : 'deleteReply.br',
+				data : {
+									
+				
+				}
+			})
+		}
+				
+		
+		
+		
 		
 			
+	</script>
 			 
 		
 		
-		/*
-	     $(document).on('click', '.updatebtn', function(){
-	           $.ajax({
-	                 url : "updateReply.br",
-	                data : {
-	             replyNo : ${br.boReplyNo},
-	             boardNo : ${br.boardNo}
-	                 },
-
-	           })
-
-	      });
-			*/
-			
+		
 		
 	
-	</script>
 
 
 
