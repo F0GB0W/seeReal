@@ -369,8 +369,11 @@ public class CommentsController {
     	
     }
     
-    @RequestMapping(value="getMyComment.co")
-    public String getMyComment(Comments comments) {
-    	commentsService.getMyComment(comments);
+    @ResponseBody
+    @RequestMapping(value="myComment.co",produces="application/json; charset=UTF-8")
+    public HashMap<String,Object> myComment(Comments comments) {
+    	HashMap<String, Object> myComment=commentsService.myComment(comments);
+    	
+    	return myComment;
     }
 }

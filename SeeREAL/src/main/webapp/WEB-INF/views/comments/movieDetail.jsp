@@ -368,10 +368,10 @@
 		
 	};
 	*/
-	function getMyComment(){
+	function MyComment(){
 		
 		$.ajax({
-			url:'getMyComment.co',
+			url:'myComment.co',
 			data:{
 				"movieTitle":"${movieTitle}",
 				"movieYear":${movieYear},

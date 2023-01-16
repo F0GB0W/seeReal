@@ -126,9 +126,9 @@ public class CommentsServiceImpl implements CommentsService{
 		// TODO Auto-generated method stub
 		return CommentsDao.selectCommentsListAll(comments,pi,sqlSession);
 	}
-
+	
 	@Override
-	public Map<String, Object> getMyComment(Comments comments) {
+	public HashMap<String, Object> myComment(Comments comments) {
 		return CommentsDao.getMyComment(comments,sqlSession);
 		
 	}
