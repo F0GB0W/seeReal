@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>see:REAL</title>
+<link rel="icon" href="resources/img/temporarily.png">
 </head>
 <body>
 	<jsp:include page="WEB-INF/views/common/menubar.jsp"/>

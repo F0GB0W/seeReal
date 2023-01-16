@@ -10,28 +10,43 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <%--file:///C:/seeReal-workspace/seeReal/SeeREAL/src/main/webapp/resources/img/temporarily.png --%>
 <style>
+
+	@font-face {
+	    font-family: 'IBMPlexSansKR-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
     .outer{
-        width:600px;
+    	font-family: 'IBMPlexSansKR-Regular';
+        width:600px; 
         align: center;
     }
     .profile{
         height: 150px;
-        background-color: orange;
+        background-color: #ff52a0;
         text-align: center;
         margin: auto;
+    	padding: 8px;
     }
 
     .ratingCount{
+    	margin-top: 10px;
         height: 100px;
         background-color: lightgray;
         text-align: center;
+    	padding: 10px;
     }
 
     .comments{
         height: 250px;
         background-color: lightgray;
         text-align: center;
+    	padding: 8px;
+		margin-top: 10px;
     }
 
     .comments>table{
@@ -39,7 +54,8 @@
         text-align: center;
         width: 500px;
         height: 20%;
-        /* margin-left: 50px; */
+        margin-left: 50px;
+        
     }
     .profile>img{
     	margin-top : 10px;
@@ -47,12 +63,11 @@
 	.profile>h4{
 		margin-top: 10px;
 	}
-	.ratingCount>h4{
+	.ratingSpread{
 		margin-top: 10px;
 	}
-	.comments{
-		margin-top: 10px;
-	}
+
+
 </style>
 </head>
 <body>
@@ -93,7 +108,9 @@
             <table>
             	<c:choose>
 	            	<c:when test="${ empty review }">
-	            		😽지금 바로 리얼평을 남겨보세요😽
+	            		<tr>
+	            			<td>😽지금 바로 리얼평을 남겨보세요😽</td>
+	            		</tr>
 	            	</c:when>
 	            	<c:otherwise>
 		                <tr>
@@ -104,7 +121,7 @@
 		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
 			                	<!-- <input type="hidden" id="realNo" value="" /> -->
-			                    <td id=title>${f.movieTitle}</td>
+			                    <td id=title onclick="location.href='movieDetail.co'" style="cursor:pointer;">${f.movieTitle}</td>
 			                    <c:choose>
 			                    	<c:when test="${f.rating == 0.5}">
 			                    		<td>☆</td>
@@ -150,31 +167,7 @@
 	</div>
 	
 	<script>
-	
-/* 	//ajax 요청을 해서 success(result) == rating [1.5, 2,4..]
-		function rating(){
-			$.ajax({
-				url : 'rating.yj',
-				data: {
-					memberNo :  $('#ratingYj').val()
-				},
-				success : function(reviewRating){
-					console.log(${ratingYj});						
-				},
-				error : ()=> {
-					console.log('rating.yj 실패' + rating);
-				}
-				
-				})
-			}
-	
-		function reviewRating(){
-			for(var i = 0; i < ${ratingList}.length; i++){
-				// ratingList에 rating을 []에 오름차순으로 반복해서 넣기
-				let ratingArray = rating[i];
-			}
-		}	 */
-	
+
 	// chart.js
         var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
         var yValues = [${star.starHalf},${star.star1},${star.star1Half},${star.star2},${star.star2Half},
@@ -186,7 +179,7 @@
             data: {
               labels: xValues,
               datasets: [{
-	                backgroundColor: 'orange',
+	                backgroundColor: '#ff91c3',
 	                data: yValues
               }]
         	},
@@ -196,17 +189,7 @@
        		}
         	}
         });
-        
-/* 		$(function(){
-			
-/* 				
- * location.href = 'detail.mt?mtno=' + $(this).children('#realNo').val(); 
- * 원래 이렇게 쿼리스트링으로 해당 리뷰 보게 하려고 했는데.. 아직 디테일뷰는 없고... 만약 post 방식으로 넘기면.. 어떻게 가죠?
-			
-			$('.comments table #title').click(function(){
-			})
-		});
- */
+
 	</script>
 </body>
 </html>

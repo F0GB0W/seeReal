@@ -24,7 +24,7 @@
 		width: 150px;
 		height: 50px;
 		margin-top : 10px;
-		background-color: gray;
+		background-color:  #ff52a0;
 		padding: 6px;
 	}
 	#searchList>#list{
@@ -78,7 +78,7 @@
 				<c:choose>
 					<c:when test="${ not empty mtList }">
 						<c:forEach items="${ mtList }" var="mt" varStatus="status">
-							<div class="meeting">
+							<div class="meeting" style="cursor:pointer;">
 								<div><img id="movieImg${status.index}" /></div>
 								<div id="movieTitle${status.index }">${ mt.movieTitle }</div>
 								<div>${ mt.meetingTitle }</div>
@@ -95,36 +95,27 @@
 		</div>
 		<div id="movieList">
 			<div class="title">영화</div>
-			 <table id="result1" border="1" align="center">
-                    <thead>
-                        <tr>
-                            <th>영화제목(링크)</th>
-                            <th>이미지</th>
-                            <th>개봉일</th>
-                            <th>감독</th>
-                            <th>출연배우</th>
-                            <th>평점</th>
-                            <th>선택</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-			<div id="list">
- 				<c:choose>
-					<c:when test="${ not empty mvList }">
-						<c:forEach items="${ mvList }" var="mv" varStatus="mvStatus">
-							<div id="moive">
-								<div><img id="movieImg${mvStatus.index }" src=""/></div>
-								<div id="movieTitle${status.index }">${ mv.movieTitle }</div>
-								<div>${mv.movieYear }</div>		
-							</div>
-						</c:forEach>
-				</c:when>
+			<c:choose>
+				<c:when test="${ data.items eq null }">
+					 <table id="result1" border="1" align="center" >
+	                    <thead>
+	                        <tr>
+	                            <th>영화제목(링크)</th>
+	                            <th>이미지</th>
+	                            <th>개봉일</th>
+	                            <th>감독</th>
+	                            <th>출연배우</th>
+	                            <th>평점</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                    </tbody>
+	                  </table>
+	            </c:when>   
 				<c:otherwise>
 						검색한 결과가 없어요🤷‍♀️
-					</c:otherwise>
-				</c:choose> 
+				</c:otherwise>
+			</c:choose> 
 			</div>
 		</div>
 
@@ -211,16 +202,6 @@
 								   + '<td>' + item.director + '</td>'
 								   + '<td>' + item.actor + '</td>'
 								   + '<td>' + item.userRating + '</td>'
-	                               + '<td>' + '<button onclick="selectMovie(' 
-	                                        + "'" + item.subtitle + "', "  
-	                                        + item.pubDate + ','
-	                                        + "'" + item.title + "', "
-	                                        + "'" + item.director + "', "
-	                                        + "'" + thumb + "', "
-	                                        + "'" + item.link + "', "
-	                                        + "'" + item.director + "', "
-	                                        + "'" + item.actor + "'"
-	                                        + ');" data-dismiss="modal">선택' + '</button>' + '</td>'
 								   + '</tr>' 
 						}
 						$('#result1 tbody').html(value);
@@ -232,7 +213,5 @@
 
 		</script>
 
-      
-     </div>
 </body>
 </html>

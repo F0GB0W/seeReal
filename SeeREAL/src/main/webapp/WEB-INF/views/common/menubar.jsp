@@ -5,11 +5,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>see:REAL</title>
+<link rel="icon" href="resources/img/temporarily.png">
 <!-- jQuery 라이브러리 -->
+<style>
+	@font-face {
+	    font-family: 'IBMPlexSansKR-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
 	
+	.outer{
+    	font-family: 'IBMPlexSansKR-Regular';
+        align: center;
+    }
+</style>	
 </head>
 <body>
+	<div class="outer">
+	
 	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
 	<div><a type="button" onclick="spoboard();" style="color:#007bff;">스포 게시판</a></div>
 	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
@@ -23,7 +38,7 @@
 		</form>
 	</div>
 	<div></div>
-
+	</div>
 	<c:choose>
 		<c:when test="${empty loginUser}">
 			<div><a data-toggle="modal" data-target="#log-in">로그인</a></div>
