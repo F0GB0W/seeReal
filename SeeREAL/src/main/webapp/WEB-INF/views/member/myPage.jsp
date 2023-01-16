@@ -26,7 +26,6 @@
 </style>
 </head>
 <body>
-
 	
 	<div id="myPage">
 		<c:choose>
@@ -72,7 +71,9 @@
 		<form action="" method="post" id="postForm">
             	<input id="postValue" type="hidden" name="check" value="" />
         </form>
-            
+        
+        <div><a href="feed.me?memberNo=${loginUser.memberNo}">내 피드</a></div> 
+        
 		<div><a href="deleteForm.me">회원탈퇴</a></div>
 	</div>
 	

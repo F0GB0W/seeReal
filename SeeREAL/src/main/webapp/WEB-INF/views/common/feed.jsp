@@ -51,6 +51,7 @@
 	<div class="outer">
 		<div class="profile">
 			<img src="${ selectMember.memberPhoto }" height="60px" width="60px" >
+			<img src="resources/img/user.png" height="60px" width="60px" >
 			<h3>${ selectMember.memberNickname }님의 리얼피드</h3>
 		</div>
 		
