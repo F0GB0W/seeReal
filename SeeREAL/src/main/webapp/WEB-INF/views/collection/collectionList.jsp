@@ -5,7 +5,62 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>나는 컬랙션 리스트</title>
+<title>컬랙션 리스트</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+.item-area {
+	display: inline-flex;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-width: 992px;
+	font-family: "Helvetica";
+}
+
+body h1{
+	text-align: center;
+	margin-top: 60px;
+	margin-bottom: 60px;
+	font-size: 24px;
+	font-style: bold;
+	color: #545454;
+}
+
+.collection-area {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+	width: 740px;
+	text-align: center;
+}
+
+.collection-area img{
+	width: 225px;
+	height: 225px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.collection-area a{
+	text-decoration: none;
+	color: black;
+	float: left;
+	font-size: 16px;
+}
+
+.clearfix{
+	clear: both;
+}
+
+</style>
+
 </head>
 <body>
 	<c:choose>
@@ -14,18 +69,16 @@
 		</c:when>
 	</c:choose>
 	
-	<h1>컬랙션 리스트</h1>
+	<h1>영화 컬렉션</h1>
 
-	<div>
+	<div class="collection-area">
 		<c:forEach items="${ collection }" var="c">
-			<div>
-				<a href="detail.cl?clno=${ c.collectionNo }">
-					<img src="${ c.changeName }" width="300px" height="200px">
-					<p>${ c.collectionTitle }</p>
-					<p>${ c.nickName }이가 만듦</p>
-				</a>
-			</div>
+			<a href="detail.cl?clno=${ c.collectionNo }">
+				<img src="${ c.changeName }">
+				<p class="collection-title">${ c.collectionTitle }</p>
+				<p>Made by ${ c.nickName }</p>
+			</a>
 		</c:forEach>
-	</div>
+    </div>
 </body>
 </html>

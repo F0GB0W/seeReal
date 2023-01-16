@@ -44,5 +44,5 @@ public interface CommentsService {
 	
 	List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi);
 	
-	Map<String, Object> getMyComment(Comments comment);
+	HashMap<String, Object> myComment(Comments comment);
 }
