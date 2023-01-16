@@ -187,17 +187,15 @@ public class BoardController {
 		// System.out.println(boardNo);
 		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
 	 }
+	 
 	 @ResponseBody
 	 @RequestMapping("updateReply.br")
 	 public String updateReply(BoardReply br) {
-
-		 if (boardService.updateBoardReply(br) > 0) {
-			 
-		 };
 		 
+		 System.out.println(br);
+		 System.out.println(boardService.updateBoardReply(br) > 0);
 		 
-		 
-		 return "main";
+		 return boardService.updateBoardReply(br) > 0 ? "success" : "fail";
 	 }
 		 
 }
