@@ -239,7 +239,6 @@ public class CommentsController {
     	System.out.println(comments);
     	System.out.println("--커멘트쓰기");
     	int result=commentsService.commentsWrite(comments);
-    	
     	return "comments/movieDetail";
     	
     	
