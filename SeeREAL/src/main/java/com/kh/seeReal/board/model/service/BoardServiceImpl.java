@@ -82,9 +82,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int deleteBoardReply(int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteBoardReply(BoardReply br) {
+		return boardDao.deleteBoardReply(sqlSession, br);
 	}
 	
 	@Override

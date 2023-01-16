@@ -5,11 +5,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>see:REAL</title>
+<link rel="icon" href="resources/img/temporarily.png">
 <!-- jQuery 라이브러리 -->
+<style>
+	@font-face {
+	    font-family: 'IBMPlexSansKR-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
 	
+	.outer{
+    	font-family: 'IBMPlexSansKR-Regular';
+        align: center;
+    }
+</style>	
 </head>
 <body>
+	<div class="outer">
 
 	<c:if test="${not empty alertMsg}">
 		<script>
@@ -32,7 +46,7 @@
 		</form>
 	</div>
 	<div></div>
-
+	</div>
 	<c:choose>
 		<c:when test="${empty loginUser}">
 			<div><a data-toggle="modal" data-target="#log-in">로그인</a></div>
