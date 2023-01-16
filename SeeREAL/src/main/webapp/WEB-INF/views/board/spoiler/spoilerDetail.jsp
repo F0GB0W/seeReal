@@ -173,12 +173,13 @@
 						if(${not empty loginUser}){
 							  if("${loginUser.memberNickname}" == list[i].replyWriter){
 								  value += '<tr>'
-									   + '<td>' + '<input type="hidden" id="sprupdate" name="boReplyNo"'> + '</td>'
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
-									   + '<td><button class="updatebtn" onclick="javascript:updateReply('+ list[i].boReplyNo +');">수정</button></td>' 
-									   + '<td><button id="deleteReply" onclick="javascript:deleteReply('+ list[i].boReplyNo +');">삭제</button></td>'
+									   + '<input type="hidden" id="hiddenUpdate"'  + list[i].boReplyNo + 'name="boReplyNo">'
+									   + '<input type="hidden" id="hiddendelete"' + list[i].memberNo + 'name="memberNo">'
+									   + '<td><button class="updatebtn" onclick="updateReply(this);">수정</button></td>' 
+									   + '<td><button id="deleteReply" onclick="deleteReply(this);">삭제</button></td>'
 									   + '</tr>';
 							  } else {
 								  
@@ -218,15 +219,52 @@
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
 		*/
-		function updateReply(){
+		function updateReply(e){
+			
+			let value = '<td class="ChangeReplyContent"><textarea id="hiddenContent" style="resize:none;" type="text" name="boReplyContent" value="'
+					  + $(e).parent().parent().find("td").eq(1).text()
+					  + '"></textarea></td>';
+					  
+			$(e).parent().parent().find("td").eq(1).html(value);
+			$(e).removeAttr('onclick');
+			$(e).html('댓글 수정').attr('onclick', 'saveReply(this)');
+		}
+		
+		function saveReply(e){
+			let boReplyNo = $(e).children().find('input[name=boReplyNo]').val();
+			let boReplyContent = $(e).children('input[name=boReplyContent]').val();
+			
+			$.ajax({
+				
+				url : "updateReply.br",
+				data : {
+					boardNo : ${b.boardNo},
+					boReplyNo : ${br.boReplyNo},
+					boReplyContent :$('#hiddenContent').val(),
+					memberNo : $('#loginUser').val()
+				},
+				success : function(data){
+					console.log(data);
+					if(data == "success"){
+						alert('댓글 수정 완료!');
+						location.reload();
+					}
+				},
+				error : function(){
+					console.log('댓글 수정 실패');
+				}
+			});
+		}
+		
+		/*
 			$('#btn3').html('수정하기');
 			
 		
 		
 		$(document).on('click', '.updatebtn', function(){
 			$('#btn3').html('수정하기');
-			console.log($(this));	
-			var reply = $(this).parent().parent().find("td").eq(1).text();
+			// console.log($(this));	
+			var reply = $(e).parent().parent().find("td").eq(1).text();
 			$('#reply-content').val(reply);
 		
 			})	
@@ -239,12 +277,12 @@
 			$.ajax({
 				url : 'deleteReply.br',
 				data : {
-									
+					boardNo : 				
 				
 				}
 			})
 		}
-				
+			*/	
 		
 		
 		

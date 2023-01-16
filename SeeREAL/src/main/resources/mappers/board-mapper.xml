@@ -233,12 +233,14 @@ insert
 </select>
 <update id="updateBoardReply" parameterType="boardReply">
 	update
-			boardReply
+			board_reply
 	   set
 	   		bo_reply_content = #{boReplyContent}
 	 where
 	 		board_no = #{boardNo}
 	   and
 	   		bo_reply_no = #{boReplyNo}
+	   and
+	   		member_no = #{memberNo}	
 </update>			
 </mapper>

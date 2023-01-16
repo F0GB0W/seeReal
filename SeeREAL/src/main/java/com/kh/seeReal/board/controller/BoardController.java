@@ -189,15 +189,9 @@ public class BoardController {
 	 }
 	 @ResponseBody
 	 @RequestMapping("updateReply.br")
-	 public String updateReply(BoardReply br) {
-
-		 if (boardService.updateBoardReply(br) > 0) {
-			 
-		 };
-		 
-		 
-		 
-		 return "main";
+	 public String updateReply(BoardReply br, @RequestParam(value="boReplyNo") int boReplyNo) {
+		 System.out.println(br);
+		 return boardService.updateBoardReply(br) > 0 ? "success" : "fail";
 	 }
 		 
 }
