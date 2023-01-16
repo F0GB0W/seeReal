@@ -141,4 +141,10 @@ public class CollectionController {
 	public String ajaxUpdateReplyCollection(CollectionReply cr) {
 		return collectionService.updateReplyCollection(cr) > 0 ? "success" : "fail";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "deleteReply.cl")
+	public String ajaxDeleteReply(CollectionReply cr) {
+		return collectionService.deleteReply(cr) > 0 ? "success" : "fail";
+	}
 }

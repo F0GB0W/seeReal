@@ -29,4 +29,6 @@ public interface CollectionService {
 
 	int updateReplyCollection(CollectionReply cr);
 
+	int deleteReply(CollectionReply cr);
+
 }
