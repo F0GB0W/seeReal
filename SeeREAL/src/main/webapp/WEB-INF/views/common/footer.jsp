@@ -42,8 +42,8 @@
 			<a>🐱Junghwan</a> 
 			<a href="https://github.com/YEJINK072">🐱YeJin</a> 
 			<a>🐱DongJoon</a> 
-			<a>🐱JooEun</a> 
-			<a>🐱YuGyeong</a> 
+			<a href="https://github.com/F0GB0W">🐱JooEun</a> 
+			<a href="https://github.com/ykl09180918">🐱YuGyeong</a> 
 			<a>🐱ChungWon </a> 
 		</p>
 	</div>

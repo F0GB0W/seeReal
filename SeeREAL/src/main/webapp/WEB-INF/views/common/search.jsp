@@ -55,7 +55,7 @@
 	#search-area{
 		float: right;
 	}
-	#movieList>td>a{
+	#movieList>#result1>tbody>td>a{
 		text-decoration: none;
 		color: black;
 	}
