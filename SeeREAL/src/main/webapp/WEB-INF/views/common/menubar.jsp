@@ -10,6 +10,15 @@
 	
 </head>
 <body>
+
+	<c:if test="${not empty alertMsg}">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
+
+	
 	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
 	<div><a type="button" onclick="spoboard();" style="color:#007bff;">스포 게시판</a></div>
 	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
