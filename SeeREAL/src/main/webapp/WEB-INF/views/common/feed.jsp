@@ -8,28 +8,38 @@
 <title>see:REAL</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <style>
+
     .outer{
-        width:600px;
+    	margin-left: 30%;
+        width:600px; 
         align: center;
     }
     .profile{
         height: 150px;
-        background-color: orange;
+        background-color: #ff52a0;
         text-align: center;
         margin: auto;
+    	padding: 8px;
     }
 
     .ratingCount{
+    	margin-top: 10px;
         height: 100px;
         background-color: lightgray;
         text-align: center;
+    	padding: 10px;
     }
 
     .comments{
         height: 250px;
         background-color: lightgray;
         text-align: center;
+    	padding: 8px;
+		margin-top: 10px;
     }
 
     .comments>table{
@@ -37,26 +47,40 @@
         text-align: center;
         width: 500px;
         height: 20%;
-        /* margin-left: 50px; */
+        margin-left: 50px;
+        
     }
     .profile>img{
     	margin-top : 10px;
     }
+	.profile>h4{
+		margin-top: 10px;
+	}
+	.ratingSpread{
+		margin-top: 10px;
+	}
 
 
 </style>
 </head>
 <body>
-	
+	<jsp:include page="menubar.jsp" />
 	<div class="outer">
 		<div class="profile">
-			<img src="${ selectMember.memberPhoto }" height="60px" width="60px" >
-			<h3>${ selectMember.memberNickname }님의 리얼피드</h3>
+						<c:choose>
+				<c:when test="${ not empty selectMember.memberPhoto }">
+					<img src="${ selectMember.memberPhoto }" height="60px" width="60px" class="rounded-circle">
+				</c:when>
+				<c:otherwise>
+					<img src="resources/img/user.png" height="60px" width="60px" >			
+				</c:otherwise>
+			</c:choose>
+			<h4>${ selectMember.memberNickname }님의 리얼피드</h4>
 		</div>
 		
 		<div class="ratingCount">
 		<!-- comments가 있으면 count 가져오고, 없으면 없다고 보여주기 -->
-			<h3>평가수</h3>
+			<h4>평가수</h4>
 			<c:choose>
 				<c:when test="${ not empty comments }">
 					${ count }
@@ -73,11 +97,13 @@
         </div>           
 
 		<div class="comments">
-            <h3>씨리즌이 사랑한 리얼평 TOP 5</h3>
+            <h4>씨리즌이 사랑한 리얼평 TOP 5</h4>
             <table>
             	<c:choose>
 	            	<c:when test="${ empty review }">
-	            		😽지금 바로 리얼평을 남겨보세요😽
+	            		<tr>
+	            			<td>😽지금 바로 리얼평을 남겨보세요😽</td>
+	            		</tr>
 	            	</c:when>
 	            	<c:otherwise>
 		                <tr>
@@ -88,7 +114,7 @@
 		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
 			                	<!-- <input type="hidden" id="realNo" value="" /> -->
-			                    <td id=title>${f.movieTitle}</td>
+			                    <td id=title onclick="location.href='movieDetail.co'" style="cursor:pointer;">${f.movieTitle}</td>
 			                    <c:choose>
 			                    	<c:when test="${f.rating == 0.5}">
 			                    		<td>☆</td>
@@ -132,33 +158,10 @@
             </table>
         </div>
 	</div>
+    <jsp:include page="footer.jsp" />
 	
 	<script>
-	
-/* 	//ajax 요청을 해서 success(result) == rating [1.5, 2,4..]
-		function rating(){
-			$.ajax({
-				url : 'rating.yj',
-				data: {
-					memberNo :  $('#ratingYj').val()
-				},
-				success : function(reviewRating){
-					console.log(${ratingYj});						
-				},
-				error : ()=> {
-					console.log('rating.yj 실패' + rating);
-				}
-				
-				})
-			}
-	
-		function reviewRating(){
-			for(var i = 0; i < ${ratingList}.length; i++){
-				// ratingList에 rating을 []에 오름차순으로 반복해서 넣기
-				let ratingArray = rating[i];
-			}
-		}	 */
-	
+
 	// chart.js
         var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
         var yValues = [${star.starHalf},${star.star1},${star.star1Half},${star.star2},${star.star2Half},
@@ -170,7 +173,7 @@
             data: {
               labels: xValues,
               datasets: [{
-	                backgroundColor: 'orange',
+	                backgroundColor: '#ff91c3',
 	                data: yValues
               }]
         	},
@@ -180,17 +183,7 @@
        		}
         	}
         });
-        
-/* 		$(function(){
-			
-/* 				
- * location.href = 'detail.mt?mtno=' + $(this).children('#realNo').val(); 
- * 원래 이렇게 쿼리스트링으로 해당 리뷰 보게 하려고 했는데.. 아직 디테일뷰는 없고... 만약 post 방식으로 넘기면.. 어떻게 가죠?
-			
-			$('.comments table #title').click(function(){
-			})
-		});
- */
+
 	</script>
 </body>
 </html>

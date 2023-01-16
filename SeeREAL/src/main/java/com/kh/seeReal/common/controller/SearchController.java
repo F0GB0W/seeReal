@@ -37,11 +37,7 @@ public class SearchController {
 		mv.addObject("mtList", mtList)
 		  .addObject("count", searchCountList)
 		  .addObject("keyword", keyword)
-		  .addObject("movieYear", movieInfo.getMovieYear())
-		  .addObject("movieTitle", movieInfo.getMovieTitle())
-		  .addObject("movieImg", movieInfo.getMovieImg())
 		  .setViewName("common/search");
-		System.out.println(movieInfo);
 		return mv;
 	}
 	
