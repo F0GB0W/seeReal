@@ -21,7 +21,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 				<h4 class="modal-title">
-					<span style="color: #ff52a0;">see:Real</span> 회원가입 
+					<span style="color: #ff52a0;">see:Real</span> 비밀번호 찾기 
 				</h4>
 				<button type="button" class="close" data-dismiss="modal">×</button>
 	
@@ -32,8 +32,13 @@
 					<form action="searchPwd.me" method="post" style="margin-bottom: 0;" id="aa">
 						<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
 							<tr>
+								<td>
+									<img src="resources/img/temporarily.png" style="width:150px; height:140px; margin-top:30px; margin-left:167px; margin-bottom:45px;">
+								</td>							
+							</tr>
+							<tr>
 								<td style="text-align: left">
-									<p><strong>이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
+									<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
 								</td>
 						    </tr>
 							<tr>

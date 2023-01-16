@@ -206,8 +206,15 @@
 	<div class="outer">
 	    <div class="page-title">
 			<div class="container">
-	        	
-		    	<h3>Collection</h3>
+	        	<c:choose>
+	        		<c:when test="${empty check}">
+	        			<h3>Collection</h3>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<h3>좋아요한 Collection</h3>
+	        		</c:otherwise>
+	        	</c:choose>
+		    	
 	      
 	            <br>
 	        </div>
@@ -243,16 +250,7 @@
                   	</tbody>
               	</table>
               	
-              	<script>
               	
-              		// 동적으로 생성된 요소
-              	    $(function(){
-              		    $('#spoilerList>tbody>tr').click(function(){
-	              			location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
-              			})	
-              		});
-              
-                </script>
 			</div>
       	</div>
         <br>

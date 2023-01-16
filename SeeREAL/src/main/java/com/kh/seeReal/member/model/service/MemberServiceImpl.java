@@ -120,6 +120,11 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Collection> selectCollectionList(int memberNo) {
 		return memberDao.selectCollectionList(sqlSession, memberNo);
 	}
+
+	@Override
+	public ArrayList<Collection> selectLikeCollection(int memberNo) {
+		return memberDao.selectLikeCollection(sqlSession, memberNo);
+	}
 	
 	@Override
 	public int selectCommentsListCount(int memberNo) {
@@ -140,6 +145,7 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Comments> selectLikeComment(PageInfo pi, HashMap map) {
 		return memberDao.selectLikeComment(sqlSession,pi, map);
 	}
+
 
 	
 

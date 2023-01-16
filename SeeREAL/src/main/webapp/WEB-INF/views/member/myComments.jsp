@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스포 게시판 my Post</title>
+<title>리얼평</title>
 <style>
     table {
         border-collapse: collapse;
@@ -244,7 +244,7 @@
                   			<c:otherwise>
                   				<c:forEach items="${list}" var="b">
 				                	<tr>
-				                    	<td class="bno">${b.commentNo}</td>
+				                    	<td class="comno">${b.commentNo}</td>
 				                    	<td>${b.movieYear}</td>
 				                      	<td id="spoilerTitle">${b.movieTitle}</td>
 				                      	<td>${b.commentContent}</td>
@@ -262,7 +262,7 @@
               		// 동적으로 생성된 요소
               	    $(function(){
               		    $('#spoilerList>tbody>tr').click(function(){
-	              			//location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
+	              			location.href = 'movieDetail.co?comno=' + $(this).children('.comno').text();
               			})	
               		});
               

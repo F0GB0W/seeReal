@@ -58,8 +58,8 @@
 		<br>
 		<div><a href="myComments.me">내 리얼평</a></div>
 		<div>
-			<button onclick="postFormSubmit('Y','myLikeComments.me')">내 좋아요</button>
-			<button onclick="postFormSubmit('N','myLikeComments.me')">내 싫어요</button>
+			<button onclick="postFormSubmit('Y','myLikeComments.me')">좋아요한 리얼평</button>
+			<button onclick="postFormSubmit('N','myLikeComments.me')">싫어요한 리얼평</button>
 		</div>
 	
 		<br>
