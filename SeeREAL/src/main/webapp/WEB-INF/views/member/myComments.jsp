@@ -225,7 +225,7 @@
     	<!-- board list area -->
       	<div id="board-list">
         	<div class="container content">
-            	<table class="board-table table table-hover" id="spoilerList">
+            	<table class="board-table table table-hover" id="commentsList">
                 	<thead>
 	                	<tr>
 	                		
@@ -245,16 +245,16 @@
                   				<c:forEach items="${list}" var="b">
 				                	<tr>
 				                    	<td class="comno">${b.commentNo}</td>
-				                    	<td id="movieYear1">${b.movieYear}</td>
-				                      	<td id="spoilerTitle">${b.movieTitle}</td>
+				                    	<td class="movieYear">${b.movieYear}</td>
+				                      	<td class="movieTitle">${b.movieTitle}</td>
 				                      	<td>${b.commentContent}</td>
 				                      	<td>${b.commentEnrollDate}</td>
-										<form action="movieDetail.co" method="post" id="form1">
-											<input type="hidden" id="movieYear" name="movieYear" value="${b.movieYear}">
-											<input type="hidden" id="movieTitle" name="movieTitle" value="${b.movieTitle}">
-											<input type="hidden" id="movieImg" name="movieImg">
-											<input type="hidden" id="movieDirector" name="movieDirector">
-											<input type="hidden" id="movieSubTitle" name="movieSubTitle">
+										<form action="movieDetail.co" method="post" class="form1">
+											<input type="hidden" class="movieYear" name="movieYear" value="${b.movieYear}">
+											<input type="hidden" class="movieTitle" name="movieTitle" value="${b.movieTitle}">
+											<input type="hidden" class="movieImg" name="movieImg">
+											<input type="hidden" class="movieDirector" name="movieDirector">
+											<input type="hidden" class="movieSubTitle" name="movieSubTitle">
 										</form>
 				                  	</tr>
 		              			</c:forEach>
@@ -270,23 +270,32 @@
               		// 동적으로 생성된 요소
               	    $(function(){
               	    	
-              		    $('#spoilerList>tbody>tr').click(function(){
-              		    	
-	              			//location.href = 'movieDetail.co';
+              		    $('#commentsList>tbody>tr').click(function(){
+              		    	//console.log($(this).children('.movieTitle')[1]);
+              		    	var title = $(this);
+              		    	var movieTitle = $(title.children('.movieTitle')[1]).val();
+              		    	var movieYear = $(title.children('.movieYear')[1]).val();
+              		    	console.log(title.children('form'));
+              		    	var form = title.children('form');
 	              			$.ajax({
-	              				
-	            				url : 'movie.do',
-	            				data : {title : $('#spoilerTitle').text()
-	            					//,year : $('#movieYear').text()
+	            				url : 'comments.me',
+	            				data : {title : movieTitle
+	            					,year : movieYear
 	            				},
 	            				success : function(movie){
-	            					var m = movie.items[0];
-	            					//alert(movie.image);
-	            					//const item = data.items;
-	            					console.log(m);
-	            					$('#movieImg').val(m.image);
-	            					$('#movieDirector').val(m.director);
-	            					$('#movieSubTitle').val(m.subtitle);
+	            					console.log(movie);
+	            					var itemArr = movie.items;
+	            					let value = '';
+	            					//console.log(itemArr);
+	            					//console.log(itemArr[0].image);
+	            					//console.log(form[0][2]);
+	            					$(form[0][2]).val(itemArr[0].image);
+	            					$(form[0][3]).val(itemArr[0].director);
+	            					$(form[0][4]).val(itemArr[0].subtitle);
+	            					
+	            					//$('#movieImg').val(m.image);
+	            					//$('#movieDirector').val(m.director);
+	            					//$('#movieSubTitle').val(m.subtitle);
 	            					
 	            					//location.href = "movieDetail.co"; // 쿼리 스트링 객체를 value에 담아 보낼 경우, 데이터 어떻게 뽑지?
 	            					/*
@@ -309,7 +318,7 @@
 	    	            				}
 	    	            				
 	    	            			});*/
-	            					$('#form1').submit();
+	    	            			$(form).submit();
 	            				},
 	            				error : function() {
 	            					console.log('요건조금2...');

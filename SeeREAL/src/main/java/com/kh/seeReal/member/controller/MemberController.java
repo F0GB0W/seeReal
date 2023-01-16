@@ -588,14 +588,14 @@ public class MemberController {
 
 	// 리얼평 상세 조회
 	@ResponseBody
-	@RequestMapping(value = "likeMovie.do", produces="application/json; charset=UTF-8")
+	@RequestMapping(value = "comments.me", produces="application/json; charset=UTF-8")
 	public String searchMovie(String title, String year) throws IOException {
 		//String[] mvList = box();
 		
 		String clientId = "Uw8Fe7ZNBoyhy9E3Qn2R"; //애플리케이션 클라이언트 아이디 필수작성
 	    String clientSecret = "XoR_59jjvJ"; //애플리케이션 클라이언트 시크릿 필수작성
-	    
-	    year = URLEncoder.encode(year, "UTF-8");
+	    System.out.println(year);
+	    //year = URLEncoder.encode(year, "UTF-8");
 	    
 	    String responseBody = "";
 	    /*
@@ -611,7 +611,7 @@ public class MemberController {
 	    */
 	    
 	    String apiURL = "https://openapi.naver.com/v1/search/movie.json?query=" + URLEncoder.encode(title, "UTF-8");
-	    apiURL += "yearfrom=" + year + "yearto=" + year;
+	    apiURL += "&yearfrom=" + Integer.parseInt(year) + "&yearto=" + Integer.parseInt(year);
 	    // apiURL += "&display=100"; (한페이지에 보여줄 개수) 
 	    Map<String, String> requestHeaders = new HashMap<>();
 	    requestHeaders.put("X-Naver-Client-Id", clientId);
@@ -619,6 +619,8 @@ public class MemberController {
 	    responseBody = get(apiURL,requestHeaders);
 	    System.out.println(responseBody);
 	    //System.out.println(jarr);
+	    
+	    System.out.println(apiURL);
 	    return responseBody;
 	}
 	
