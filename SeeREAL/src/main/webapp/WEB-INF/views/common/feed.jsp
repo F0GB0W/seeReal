@@ -8,6 +8,8 @@
 <title>see:REAL</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
     .outer{
         width:600px;
@@ -42,21 +44,35 @@
     .profile>img{
     	margin-top : 10px;
     }
-
-
+	.profile>h4{
+		margin-top: 10px;
+	}
+	.ratingCount>h4{
+		margin-top: 10px;
+	}
+	.comments{
+		margin-top: 10px;
+	}
 </style>
 </head>
 <body>
 	
 	<div class="outer">
 		<div class="profile">
-			<img src="${ selectMember.memberPhoto }" height="60px" width="60px" >
-			<h3>${ selectMember.memberNickname }님의 리얼피드</h3>
+			<c:choose>
+				<c:when test="${ not empty selectMember.memberPhoto }">
+					<img src="${ selectMember.memberPhoto }" height="60px" width="60px" class="rounded-circle">
+				</c:when>
+				<c:otherwise>
+					<img src="resources/img/user.png" height="60px" width="60px" >			
+				</c:otherwise>
+			</c:choose>
+			<h4>${ selectMember.memberNickname }님의 리얼피드</h4>
 		</div>
 		
 		<div class="ratingCount">
 		<!-- comments가 있으면 count 가져오고, 없으면 없다고 보여주기 -->
-			<h3>평가수</h3>
+			<h4>평가수</h4>
 			<c:choose>
 				<c:when test="${ not empty comments }">
 					${ count }
@@ -73,7 +89,7 @@
         </div>           
 
 		<div class="comments">
-            <h3>씨리즌이 사랑한 리얼평 TOP 5</h3>
+            <h4>씨리즌이 사랑한 리얼평 TOP 5</h4>
             <table>
             	<c:choose>
 	            	<c:when test="${ empty review }">
