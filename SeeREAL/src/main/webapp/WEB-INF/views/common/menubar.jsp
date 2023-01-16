@@ -20,6 +20,36 @@
     	font-family: 'IBMPlexSansKR-Regular';
         align: center;
     }
+    body {
+	  margin: 0px;
+	}
+	nav {
+	  margin-top: 40px;
+	  padding: 24px;
+	  text-align: center;
+	  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+	}
+    #nav-3 {
+ 	 background: #ff52a0;
+	 display :flex;
+	}
+	.link-3 {
+  transition: 0.4s;
+  color: #ffffff;
+  font-size: 20px;
+  text-decoration: none;
+  padding: 0 10px;
+  margin: 0 10px;
+	}
+	.link-3:hover {
+  background-color: #ffffff;
+  color: #EEA200;
+  padding: 24px 10px;
+	}
+	#spoBoard{
+		margin-top :0px;
+	}
+    
 </style>	
 </head>
 <body>
@@ -31,48 +61,50 @@
 		</script>
 		<c:remove var="alertMsg" scope="session" />
 	</c:if>
+	
+	
+	
 
-	
-	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
-	<div><a type="button" onclick="spoboard();" style="color:#007bff;">스포 게시판</a></div>
-	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
-	<div><a href="meetingList.mt">모임</a></div>
-	<div><a href="list.cl">(임시)컬렉션리스트</a></div>
-	<div id="search-area">
-		<form action="search.yj" method="get">
-			<input type="hidden" name="currentPage" value="1">
-			<input type="text" name="keyword" value="${ keyword }">
-			<button type="submit">검색</button>
-		</form>
-	</div>
-	<div></div>
-	</div>
-	<c:choose>
-		<c:when test="${empty loginUser}">
-			<div><a data-toggle="modal" data-target="#log-in">로그인</a></div>
-			<jsp:include page="../member/login.jsp" />
-			<div><a data-toggle="modal" data-target="#sign-up">회원가입</a></div>
-			<jsp:include page="../member/enrollForm.jsp" />
-			<div><a data-toggle="modal" data-target="#searchPwd"></a></div>
-			<jsp:include page="../member/searchPwd.jsp" />
-		</c:when>
-		<c:when test="${loginUser.status == 'Y'}">
-			<div><a href="myPage.me">마이페이지</a></div>
-			<p>${loginUser.memberNickname}님 환영합니다.</p>
-			<div><a href="logout.me">로그아웃</a></div>
-			<input type="hidden" value="${loginUser.memberEmail}"/>
-		</c:when>
-		<c:when test="${loginUser.status == 'A'}">
-			<div><a href="관리자마이페이지로!">마이페이지</a></div>
-			<p>관리자님 환영합니다.</p>
-			<div><a href="logout.me">로그아웃</a></div>
-			<input type="hidden" value="${loginUser.memberEmail}"/>
-		</c:when>
-		
-	</c:choose>
-	
-	<hr>
-	<div>
+	<nav id="nav-3">
+		<div><a href=""><img src="resources/img/temporarily.png"  style="width:50px; height:50px;"></a></div>
+		<div><a class="link-3" id="spoBoard" onclick="spoboard();">스포 게시판</a></div>
+		<div><a class="link-3" href="movieSelect.co">(임시)영화고르는창</a></div>
+		<div><a class="link-3" href="meetingList.mt">모임</a></div>
+		<div><a class="link-3" href="list.cl">(임시)컬렉션리스트</a></div>
+		<div id="search-area">
+			<form action="search.yj" method="get">
+				<input type="hidden" name="currentPage" value="1">
+				<input type="text" name="keyword" value="${ keyword }">
+				<button type="submit">검색</button>
+			</form>
+		</div>
+		<div></div>
+		</div>
+		<c:choose>
+			<c:when test="${empty loginUser}">
+				<div><a a class="link-3" data-toggle="modal" data-target="#log-in">로그인</a></div>
+				<jsp:include page="../member/login.jsp" />
+				<div><a data-toggle="modal" data-target="#sign-up">회원가입</a></div>
+				<jsp:include page="../member/enrollForm.jsp" />
+				<div><a data-toggle="modal" data-target="#searchPwd"></a></div>
+				<jsp:include page="../member/searchPwd.jsp" />
+			</c:when>
+			<c:when test="${loginUser.status == 'Y'}">
+				<div><a href="myPage.me">마이페이지</a></div>
+					<p>${loginUser.memberNickname}님 환영합니다.</p>
+				<div><a href="logout.me">로그아웃</a></div>
+				<input type="hidden" value="${loginUser.memberEmail}"/>
+			</c:when>
+			<c:when test="${loginUser.status == 'A'}">
+				<div><a href="관리자마이페이지로!">마이페이지</a></div>
+				<p>관리자님 환영합니다.</p>
+				<div><a href="logout.me">로그아웃</a></div>
+				<input type="hidden" value="${loginUser.memberEmail}"/>
+			</c:when>
+		</c:choose>
+		</div>
+		<hr>
+	</nav>
 		<style>
 			.red {
 				color: red;
