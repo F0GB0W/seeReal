@@ -65,7 +65,9 @@ public interface MemberService {
 
 	// collection 리스트 조회
 	public ArrayList<Collection> selectCollectionList(int memberNo);
-
+	// 좋아요한 collection 리스트 조회
+	public ArrayList<Collection> selectLikeCollection(int memberNo);
+	
 	// Comments 리스트 조회
 	public int selectCommentsListCount(int memberNo);
 	
@@ -75,6 +77,8 @@ public interface MemberService {
 	public int selectLikeCommentsCount(HashMap map);
 	
 	public ArrayList<Comments> selectLikeComment(PageInfo pi,  HashMap map);
+
+	
 
 	
 	

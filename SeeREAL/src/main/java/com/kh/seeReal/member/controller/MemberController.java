@@ -389,7 +389,6 @@ public class MemberController {
 		}else {
 			return "redirect:deleteForm.me"; // 원래 화면 으로 다시 재요청
 		}
-		
 	}
 	
 	
@@ -444,16 +443,16 @@ public class MemberController {
 	}
 	
 	/*
-	// 댓글 조회 : 이메일 > 화면에 어떻게 보여줄지 확인 후 작성
+	// 댓글 리스트 조회 :
 	@RequestMapping("myReply.me")
 	public ModelAndView selectReplyList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
 			                      HttpSession session, ModelAndView mv) {
 		
-		String memberEmail = (((Member)session.getAttribute("loginUser")).getMemberEmail());
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
 		
-		int spoilerSearchListCount = memberService.selectReplyListCount(memberEmail);
+		int spoilerSearchListCount = memberService.selectReplyListCount(memberNo);
 		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
-		ArrayList<Board> list = memberService.selectReplyList(memberEmail, pi); // 페이징 바
+		ArrayList<Board> list = memberService.selectReplyList(memberNo, pi); // 페이징 바
 	
 		mv.addObject("list", list); 
 		mv.addObject("pi", pi); 
@@ -495,7 +494,7 @@ public class MemberController {
     	mv.addObject("pi", pi)
 		  .addObject("list", memberService.selectMeetingList(pi,map))
 		  .addObject("check", check)
-		  .setViewName("member/meetingStatus");
+		  .setViewName("member/myMeeting");
     	
     	return mv;
     }
@@ -514,20 +513,21 @@ public class MemberController {
 		return mv;
 	}
 	
-	/*
+	
 	// collection 리스트 조회 : 좋아요
 	@RequestMapping("myCollectionLike.me")
-	public ModelAndView selectLikeCollection(ModelAndView mv, HttpSession session) {
+	public ModelAndView selectLikeCollection(ModelAndView mv, HttpSession session, String check) {
 		
 		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		
 		ArrayList<Collection> list = memberService.selectLikeCollection(memberNo);
 		
-		mv.addObject("list", list)
+		mv.addObject("list", list).addObject("check", 1)
 		  .setViewName("member/myCollection");
 		
 		return mv;
 	}
-	*/
+	
 	
 	// 내 리얼평 조회
 	@RequestMapping("myComments.me")
@@ -546,7 +546,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	// 좋아요 리얼평 리스트 조회
+	// 좋아요, 싫어요  리얼평 리스트 조회
 	@RequestMapping("myLikeComments.me")
 	public ModelAndView selectLikeComment(@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
 			                               ModelAndView mv, HttpSession session, String check, HashMap map) {
@@ -565,8 +565,7 @@ public class MemberController {
 		
 		return mv;
 	}
-	
-	// 싫어요 리얼평 리스트 조회
+
 	
 	
 	

@@ -30,7 +30,7 @@
 			<jsp:include page="../member/login.jsp" />
 			<div><a data-toggle="modal" data-target="#sign-up">회원가입</a></div>
 			<jsp:include page="../member/enrollForm.jsp" />
-			<div><a data-toggle="modal" data-target="#searchPwd">비밀번호찾기</a></div>
+			<div><a data-toggle="modal" data-target="#searchPwd"></a></div>
 			<jsp:include page="../member/searchPwd.jsp" />
 		</c:when>
 		<c:when test="${loginUser.status == 'Y'}">

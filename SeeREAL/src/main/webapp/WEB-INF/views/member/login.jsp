@@ -60,17 +60,15 @@
 							</tr>
 							
 							<tr style="display:flex;">
-								<td style="text-align: left; border:1px solid red;">
+								<td style="text-align: left;">
 									<input type="checkbox" id="check2" 
-									name="check2" class="form-control tooltipstered" 
-									aria-required="true" 
-									style="ime-mode: inactive; margin-bottom: 25px; height: 20px; border: 1px solid #d9d9de" value="N"> <label for="check2">아이디저장</label>
+									name="check2" aria-required="true" 
+									style="ime-mode: inactive; margin-bottom: 20px; height: 20px; border: 1px solid #d9d9de" value="N"> <label for="check2">아이디저장</label>
 									<input type="hidden" id="before" name="saveId" value="N"> 
 								</td>
-								<td style="text-align: left; border:1px solid red;">
-
-									<a onclick="$('#close').click(); $('.modal-backdrop.show').css('opacity', 0)" class="btn form-control tooltipstered" data-toggle="modal"
-									href="#searchPwd" >
+								<td>
+									<a onclick="$('#close').click(); $('.modal-backdrop.show').css('opacity', 0)" class="btn form-control" data-toggle="modal"
+									href="#searchPwd" style="margin-bottom:20px;">
 									비밀번호 찾기</a>
 								
 								</td>
