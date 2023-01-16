@@ -97,8 +97,6 @@
                     collectionNo : $('#collectionNo').val()
                 },
                 success : list => {
-                    console.log(list);
-
                     var value = '';
 
                     for(var i in list) {
@@ -111,9 +109,8 @@
                         
                         if($('#loginUser').val() == list[i].memberNo) {
                             value += '<td><button onclick="updateReply(this)">수정</button><td>'
-                                   + '<td><button>삭제</button><td>';
+                                   + '<td><button onclick="removeReply(this)">삭제</button><td>';
                         }
-
 
                         value += '</tr>';
                     }
@@ -128,7 +125,6 @@
         };
 
         function updateReply(e) {
-            // console.log($(e).parent().siblings('.replyConent').text());
             let value = '<td class="ChangeReplyContent"><input type="text" name="hiddenReplyContent" value="'
                       + $(e).parent().siblings('.replyConent').text()
                       + '"></td>';
@@ -153,22 +149,36 @@
                 success : data => {
                     if(data == "success") {
                         alert('댓글 수정 완료!');
-                        location.reload();
+                        selectReplyList(); 
                     }
                 },
                 error : () => {
                     console.log('댓글 수정 실패~~');
                 }
+            });
+        }
 
-            })
-
-
-            // let value = '<td class="replyContent">'
-            //           + $(e).parent().siblings('input').val()
-            //           + '</td>';
-            // $(e).parent().siblings('.replyConent').html(value);
-            // $(e).html('<button onclick="updateReply(this)">수정</button>');
-
+        function removeReply(e) {
+            if(confirm('댓글을 삭제하시겠습니까?')) {
+                let coReplyNo = $(e).parent().siblings('input[name=hiddenReplyNo]').val();
+                
+                $.ajax({
+                    url : 'deleteReply.cl',
+                    data : {
+                        coReplyNo : coReplyNo,
+                        memberNo : $('#loginUser').val()
+                    },
+                    success : data => {
+                        if(data == "success") {
+                            alert('댓글 삭제 완료!');
+                            selectReplyList(); 
+                        }
+                    }, 
+                    error : () => {
+                        console.log('댓글 삭제 실패~~');
+                    }
+                });
+            }
         }
 
         function movieSearch(list) {
