@@ -46,4 +46,8 @@ public class CollectionDao {
 		return (ArrayList)sqlSession.selectList("collectionMapper.selectReplyList", collectionNo);
 	}
 
+	public int updateReplyCollection(SqlSessionTemplate sqlSession, CollectionReply cr) {
+		return sqlSession.update("collectionMapper.updateReplyCollection", cr);
+	}
+
 }

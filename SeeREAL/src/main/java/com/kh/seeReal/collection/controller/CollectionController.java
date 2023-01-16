@@ -135,4 +135,10 @@ public class CollectionController {
 	public String ajaxSelectReplyList(int collectionNo) {
 		return new Gson().toJson(collectionService.selectReplyList(collectionNo));
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "updateReply.cl")
+	public String ajaxUpdateReplyCollection(CollectionReply cr) {
+		return collectionService.updateReplyCollection(cr) > 0 ? "success" : "fail";
+	}
 }

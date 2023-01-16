@@ -27,4 +27,6 @@ public interface CollectionService {
 
 	ArrayList<CollectionReply> selectReplyList(int collectionNo);
 
+	int updateReplyCollection(CollectionReply cr);
+
 }
