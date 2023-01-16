@@ -129,7 +129,8 @@ public class MemberDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectLikeComments", map, rowBounds);
 	}
-	
+
+
 
 	// 댓글 조회
 	
