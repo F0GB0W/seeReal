@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	<typeAliases>
 		<typeAlias type="com.kh.seeReal.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.seeReal.member.model.vo.Star" alias="star"/>
 		<typeAlias type="com.kh.seeReal.board.model.vo.Board" alias="board"/>
 		<typeAlias type="com.kh.seeReal.board.model.vo.BoardReply" alias="boardReply"/>
 		<typeAlias type="com.kh.seeReal.meeting.model.vo.Meeting" alias="meeting"/>
@@ -22,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.seeReal.collection.model.vo.CollectionMovie" alias="collectionMovie"/>
 		<typeAlias type="com.kh.seeReal.comments.model.vo.CommentsLike" alias="commentsLike"/>
 		<typeAlias type="com.kh.seeReal.collection.model.vo.CollectionReply" alias="collectionReply"/>
+		<typeAlias type="com.kh.seeReal.collection.model.vo.CollectionLike" alias="collectionLike"/>
 		
 	</typeAliases>
 	<!-- ***주의 : 미리 등록을 해두려면 해당 클래스가 존재하고 있는 상태여야함 -->

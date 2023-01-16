@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
+<script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <title>Insert title here</title>
 <style>
@@ -16,6 +16,10 @@
 
     .movieInfo {
         margin-right: 10px;
+    }
+
+    .red {
+        color : red;
     }
 </style>
 </head>
@@ -35,6 +39,12 @@
         <h3>${ collection.collectionContent }</h3>
         <a href="feed.me?memberNo=${ collection.memberNo }">${ collection.nickName }</a><br>
         <img src="${ collection.changeName }" width="400px" height="300px">
+    </div>
+
+    <div class="like-area">
+        <button onclick="like()" id="like-button">좋아용</button>
+        <i class="fa-solid fa-heart" id="heart"></i>
+        <p id="like-count"></p>
     </div>
 
     <hr>
@@ -87,6 +97,8 @@
             });
 
             selectReplyList();
+            likeCount();
+            checkMyLike();
 
         });
 
@@ -97,8 +109,6 @@
                     collectionNo : $('#collectionNo').val()
                 },
                 success : list => {
-                    console.log(list);
-
                     var value = '';
 
                     for(var i in list) {
@@ -111,9 +121,8 @@
                         
                         if($('#loginUser').val() == list[i].memberNo) {
                             value += '<td><button onclick="updateReply(this)">수정</button><td>'
-                                   + '<td><button>삭제</button><td>';
+                                   + '<td><button onclick="removeReply(this)">삭제</button><td>';
                         }
-
 
                         value += '</tr>';
                     }
@@ -128,7 +137,6 @@
         };
 
         function updateReply(e) {
-            // console.log($(e).parent().siblings('.replyConent').text());
             let value = '<td class="ChangeReplyContent"><input type="text" name="hiddenReplyContent" value="'
                       + $(e).parent().siblings('.replyConent').text()
                       + '"></td>';
@@ -153,22 +161,36 @@
                 success : data => {
                     if(data == "success") {
                         alert('댓글 수정 완료!');
-                        location.reload();
+                        selectReplyList(); 
                     }
                 },
                 error : () => {
                     console.log('댓글 수정 실패~~');
                 }
+            });
+        }
 
-            })
-
-
-            // let value = '<td class="replyContent">'
-            //           + $(e).parent().siblings('input').val()
-            //           + '</td>';
-            // $(e).parent().siblings('.replyConent').html(value);
-            // $(e).html('<button onclick="updateReply(this)">수정</button>');
-
+        function removeReply(e) {
+            if(confirm('댓글을 삭제하시겠습니까?')) {
+                let coReplyNo = $(e).parent().siblings('input[name=hiddenReplyNo]').val();
+                
+                $.ajax({
+                    url : 'deleteReply.cl',
+                    data : {
+                        coReplyNo : coReplyNo,
+                        memberNo : $('#loginUser').val()
+                    },
+                    success : data => {
+                        if(data == "success") {
+                            alert('댓글 삭제 완료!');
+                            selectReplyList(); 
+                        }
+                    }, 
+                    error : () => {
+                        console.log('댓글 삭제 실패~~');
+                    }
+                });
+            }
         }
 
         function movieSearch(list) {
@@ -229,7 +251,57 @@
             });
         }
 
-        
+        function like() {
+            if(${ empty loginUser}) {
+                alert('로그인 후 이용해주세용~~');
+            } else {
+                checkMyLike();
+                likeClick();
+            }
+        }
+
+        function checkMyLike() {
+            $.ajax({
+                url : 'checkMyLike.cl',
+                data : {
+                    collectionNo : $('#collectionNo').val(),
+                    memberNo : $('#loginUser').val()
+                }, 
+                success : (data) => {
+                    if(data > 0) {
+                        $('#heart').addClass('red');
+                    } else {
+                        $('#heart').removeClass('red');
+                    }
+                }
+            });
+        }
+
+        function likeCount() {
+            $.ajax({
+                url : 'likeCount.cl',
+                data : {
+                    collectionNo : $('#collectionNo').val()
+                },
+                success : (data) => {
+                    $('#like-count').text(data + '개');
+                }
+            });
+        }
+
+        function likeClick() {
+            $.ajax({
+                url : 'likeClick.cl',
+                data : {
+                    collectionNo : $('#collectionNo').val(),
+                    memberNo : $('#loginUser').val()
+                },
+                success : (data) => {
+                    checkMyLike();
+                    likeCount();
+                }
+            });
+        }
     </script>
 </body>
 </html>

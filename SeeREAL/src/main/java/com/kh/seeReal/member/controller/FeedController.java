@@ -17,23 +17,24 @@ public class FeedController {
 	
 	@RequestMapping("feed.me")
 	public ModelAndView feed(ModelAndView mv, int memberNo) {
-		
 		mv.addObject("count", feedService.selectCommentsCount(memberNo))
 		  .addObject("comments", feedService.commentsCount(memberNo))
 		  .addObject("review", feedService.reviewList(memberNo))
 		  .addObject("ratingList", feedService.ratingList(memberNo))
 		  .addObject("selectMember", feedService.selectMember(memberNo))
+		  .addObject("star", feedService.star(memberNo))
 		  .addObject("memberNo", memberNo)
 		  .setViewName("common/feed");
-
 		return mv;
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="rating.yj", produces="application/json; charset=UTF-8")
-	public String ratingYj(int memberNo) {
-		return new Gson().toJson(feedService.ratingYj(memberNo));
-	}
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="rating.yj",
+	 * produces="application/json; charset=UTF-8") public String ratingYj(int
+	 * memberNo) { return new Gson().toJson(feedService.ratingYj(memberNo)); }
+	 */
 
 	
 

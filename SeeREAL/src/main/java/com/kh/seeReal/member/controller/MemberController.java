@@ -130,6 +130,13 @@ public class MemberController {
 	}
 	
 	// 로그인
+	// 로그인 아이디 저장 : 쿠키 사용
+		/* 
+		   N-> N : U
+		유지 Y-> Y : U
+		해제 Y-> N : N(쿠키 삭제) 
+		체크 N-> Y : Y(쿠키 생성)
+		 */
 	@RequestMapping(value="login.me")
 	public String login(Member m, HttpSession session, Model model, String saveId, HttpServletResponse response) {  // 다 사용할 수 있도록 담아야함 : include 
 		
@@ -156,8 +163,7 @@ public class MemberController {
 				System.out.println("2 check : " + check);
 				check.setMaxAge(0);
 				response.addCookie(check);	
-			}
-			
+			}		
 			
 		}else {
 			model.addAttribute("alertMsg", "로그인 실패");
@@ -165,16 +171,81 @@ public class MemberController {
 		return "redirect:/"; 
 	}
 	
-	// 로그인 아이디 저장 : 쿠키 사용
-	/*
-	 * 
-	   N-> N : U
-	유지 Y-> Y : U
-	해제 Y-> N : N(쿠키 삭제) 
-	체크 N-> Y : Y(쿠키 생성)
-	 */
 	
 	
+	// 비밀번호 찾기
+	@RequestMapping("searchPwd.me")
+	public String searchPwd(HttpServletRequest request, Member m) { 
+		// 정규식 만족하는 임시비밀번호 생성해서 메일 보내고, member 테이블 update
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+		String ip = request.getRemoteAddr();
+		String code = createPwd();
+		
+		Cert cert = Cert.builder().who(ip).secret(code).build();
+		String email = m.getMemberEmail();
+		
+		message.setSubject("see:Real");
+		message.setText("임시비밀번호 : " + code );
+		message.setTo(email);	 // 아이디로 사용중인 이메일로만 인증가능
+		// m.getMemberEmail() : javax.mail.internet.AddressException: Illegal address in string ``''발생
+		sender.send(message); // 이메일이 제대로 갔는지 어떻게 확인하지?
+		
+		// code 암호화
+		m.setMemberPwd(bcryptPasswordEncoder.encode(code));
+		memberService.updatePwd(m);
+		
+		return "redirect:/"; // 메인페이지로 이동
+	}
+	
+	// 랜덤 인증번호 생성하는 메소드
+	// 문자 + 숫자 + 특수문자 중 2가지, 6개 이상
+	// 평문 : 이메일 보내고, update할 때는 암호화하기
+	public String createPwd() {
+		
+		String length = createCode(); // 6자리 난수
+		
+		String pwd = "";
+		int finish = 0;
+		
+		for(int i = 0; i < 6; i++) {
+			
+			int check = Character.getNumericValue(length.charAt(i)); // Character.getNumericValue(): char형을 int로(1글자씩)
+			String sc = "!@#$%^&*?_~";
+			String c = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+			
+			int rndNum;   
+			
+			switch((check % 3)) { // 6자리 난수 중 하나의 숫자마다 변경
+				case 0 : 
+					
+					rndNum = (int) (Math.random()* 100)+1; // 메소드로 따로 빼서 가능
+					pwd += String.valueOf(rndNum);
+					finish ++;
+					break;
+					
+				case 1 :
+					rndNum = (int) (Math.random()* 51); // 0 ~ 51
+					pwd += c.charAt(rndNum);
+					finish ++;
+					break;
+				
+				case 2 : 
+					rndNum = (int) (Math.random()* 11);
+					pwd += sc.charAt(rndNum);
+					finish ++;
+					break;
+			}
+				
+		}
+		
+		if(finish > 1) { // 2가지 조건 충족
+			return pwd;
+		}else {
+			return createPwd();
+		}	
+	}
+		
 	// 로그아웃
 	@RequestMapping("logout.me")
 	public String logout(HttpSession session) {

@@ -160,4 +160,70 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND MEMBER_NO = #{ memberNo }
 	</update>
 	
+	<update id="deleteReply">
+		UPDATE
+			COLLECTION_REPLY
+		SET
+			CO_REPLY_STATUS = 'N'
+		WHERE
+			CO_REPLY_NO = #{ coReplyNo }
+			AND MEMBER_NO = #{ memberNo }
+	</update>
+	
+	<select id="likeCount" parameterType="_int" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM
+			COLLECTION_LIKE
+		WHERE
+			COLLECTION_NO = #{ collectionNo }
+			AND COLLECTION_LIKE = 1
+	</select>
+	
+	<select id="chekcMyLike" parameterType="collectionLike" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM
+			COLLECTION_LIKE
+		WHERE
+			COLLECTION_NO = #{ collectionNo }
+			AND MEMBER_NO = #{ memberNo }
+			AND COLLECTION_LIKE = 1
+	</select>
+	
+	<select id="likeAlready" parameterType="collectionLike" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM
+			COLLECTION_LIKE
+		WHERE
+			COLLECTION_NO = #{ collectionNo }
+			AND MEMBER_NO = #{ memberNo }
+	</select>
+	
+	<update id="updateLike" parameterType="collectionLike">
+		UPDATE
+			COLLECTION_LIKE
+		SET
+			COLLECTION_LIKE = #{ collectionLike }
+		WHERE
+			COLLECTION_NO = #{ collectionNo }
+			AND MEMBER_NO = #{ memberNo }
+	</update>
+	
+	<insert id="insetLike" parameterType="collectionLike">
+		INSERT INTO
+			COLLECTION_LIKE
+			(
+			 COLLECTION_LIKE
+			,COLLECTION_NO
+			,MEMBER_NO
+			)
+			VALUES
+			(
+			 1
+			,#{ collectionNo }
+			,#{ memberNo }
+			)
+	</insert>
 </mapper>

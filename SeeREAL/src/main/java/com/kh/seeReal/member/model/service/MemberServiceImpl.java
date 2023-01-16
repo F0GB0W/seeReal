@@ -141,6 +141,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.selectLikeComment(sqlSession,pi, map);
 	}
 
+	
 
 	
 

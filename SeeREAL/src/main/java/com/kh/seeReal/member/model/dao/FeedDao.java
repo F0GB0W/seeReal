@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.member.model.vo.Member;
+import com.kh.seeReal.member.model.vo.Star;
 
 @Repository
 public class FeedDao {
@@ -32,7 +33,12 @@ public class FeedDao {
 		return (Member)sqlSession.selectOne("feedMapper.selectMember", memberNo);
 	}
 	
-	public int ratingYj(SqlSessionTemplate sqlSession, int memberNo) {
-		return sqlSession.selectOne("feedMapper.ratingYj", memberNo);
+	/*
+	 * public int ratingYj(SqlSessionTemplate sqlSession, int memberNo) { return
+	 * sqlSession.selectOne("feedMapper.ratingYj", memberNo); }
+	 */
+	
+	public Star star(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("feedMapper.star", memberNo);
 	}
 }

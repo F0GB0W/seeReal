@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.seeReal.collection.model.dao.CollectionDao;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionLike;
 import com.kh.seeReal.collection.model.vo.CollectionMovie;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
 import com.kh.seeReal.collection.model.vo.CollectionReply;
@@ -73,5 +74,41 @@ public class CollectionServiceImpl implements CollectionService {
 	@Override
 	public int updateReplyCollection(CollectionReply cr) {
 		return collectionDao.updateReplyCollection(sqlSession, cr);
+	}
+
+
+	@Override
+	public int deleteReply(CollectionReply cr) {
+		return collectionDao.deleteReply(sqlSession, cr);
+	}
+
+
+	@Override
+	public int likeCount(int collectionNo) {
+		return collectionDao.likeCount(sqlSession, collectionNo);
+	}
+
+
+	@Override
+	public int checkMyLike(CollectionLike clike) {
+		return collectionDao.chekcMyLike(sqlSession, clike);
+	}
+
+
+	@Override
+	public int likeAlready(CollectionLike clike) {
+		return collectionDao.likeAlready(sqlSession, clike);
+	}
+
+
+	@Override
+	public int updateLike(CollectionLike clike) {
+		return collectionDao.updateLike(sqlSession, clike);
+	}
+
+
+	@Override
+	public int insertLike(CollectionLike clike) {
+		return collectionDao.insetLike(sqlSession, clike);
 	}
 }

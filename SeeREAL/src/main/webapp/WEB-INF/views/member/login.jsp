@@ -21,7 +21,7 @@
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<h4 class="modal-title"><span style="color: #ff52a0;">see:Real</span> 로그인</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" id="close">&times;</button>
 				</div>
 	
 				<!-- Modal body -->
@@ -59,14 +59,20 @@
 								</td>
 							</tr>
 							
-							<tr>
-								<td>
-									<input type="checkbox" id="check2"
+							<tr style="display:flex;">
+								<td style="text-align: left; border:1px solid red;">
+									<input type="checkbox" id="check2" 
 									name="check2" class="form-control tooltipstered" 
 									aria-required="true" 
-									style="ime-mode: inactive; margin-bottom: 25px; height: 20px; border: 1px solid #d9d9de" value="N"> 
-									<p>아이디 저장</p>
+									style="ime-mode: inactive; margin-bottom: 25px; height: 20px; border: 1px solid #d9d9de" value="N"> <label for="check2">아이디저장</label>
 									<input type="hidden" id="before" name="saveId" value="N"> 
+								</td>
+								<td style="text-align: left; border:1px solid red;">
+
+									<a onclick="$('#close').click(); $('.modal-backdrop.show').css('opacity', 0)" class="btn form-control tooltipstered" data-toggle="modal"
+									href="#searchPwd" >
+									비밀번호 찾기</a>
+								
 								</td>
 							</tr>
 							
@@ -104,6 +110,9 @@
 			</div>
 		</div>
 	</div>
+	
+				
+
 	<script>
 	
 		$('#check2').on('click',function(){

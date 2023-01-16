@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.seeReal.collection.model.service.CollectionService;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionLike;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
 import com.kh.seeReal.collection.model.vo.CollectionReply;
 
@@ -140,5 +141,43 @@ public class CollectionController {
 	@RequestMapping(value = "updateReply.cl")
 	public String ajaxUpdateReplyCollection(CollectionReply cr) {
 		return collectionService.updateReplyCollection(cr) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "deleteReply.cl")
+	public String ajaxDeleteReply(CollectionReply cr) {
+		return collectionService.deleteReply(cr) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "likeCount.cl")
+	public int ajaxLikeCount(int collectionNo) {
+		return collectionService.likeCount(collectionNo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "checkMyLike.cl")
+	public int ajaxCheckMyLike(CollectionLike clike) {
+		return collectionService.checkMyLike(clike);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "likeClick.cl")
+	public String ajaxLikeClick(CollectionLike clike) {
+		
+		if(collectionService.likeAlready(clike) > 0) {	// 이미 한 번 좋아요를 눌렀던 적이 있으면
+			
+			if(ajaxCheckMyLike(clike) > 0) {	// 이미 좋아요중
+				clike.setCollectionLike(0);     // 좋아요 중이면 취소 
+				return collectionService.updateLike(clike) > 0 ? "success" : "fail";
+			} else {		// 좋아요 했다가 취소중 
+				clike.setCollectionLike(1);     // 좋아요다시 누름  
+				return collectionService.updateLike(clike) > 0 ? "success" : "fail";
+			}
+			
+		} else {
+			return collectionService.insertLike(clike) > 0 ? "success" : "fail";
+		}
+		
 	}
 }

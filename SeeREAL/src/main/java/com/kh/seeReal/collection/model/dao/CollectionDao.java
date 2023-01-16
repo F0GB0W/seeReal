@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionLike;
 import com.kh.seeReal.collection.model.vo.CollectionMovie;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
 import com.kh.seeReal.collection.model.vo.CollectionReply;
@@ -48,6 +49,30 @@ public class CollectionDao {
 
 	public int updateReplyCollection(SqlSessionTemplate sqlSession, CollectionReply cr) {
 		return sqlSession.update("collectionMapper.updateReplyCollection", cr);
+	}
+
+	public int deleteReply(SqlSessionTemplate sqlSession, CollectionReply cr) {
+		return sqlSession.update("collectionMapper.deleteReply", cr);
+	}
+
+	public int likeCount(SqlSessionTemplate sqlSession, int collectionNo) {
+		return sqlSession.selectOne("collectionMapper.likeCount", collectionNo);
+	}
+
+	public int chekcMyLike(SqlSessionTemplate sqlSession, CollectionLike clike) {
+		return sqlSession.selectOne("collectionMapper.chekcMyLike", clike);
+	}
+
+	public int likeAlready(SqlSessionTemplate sqlSession, CollectionLike clike) {
+		return sqlSession.selectOne("collectionMapper.likeAlready", clike);
+	}
+
+	public int updateLike(SqlSessionTemplate sqlSession, CollectionLike clike) {
+		return sqlSession.update("collectionMapper.updateLike", clike);
+	}
+
+	public int insetLike(SqlSessionTemplate sqlSession, CollectionLike clike) {
+		return sqlSession.insert("collectionMapper.insetLike", clike);
 	}
 
 }

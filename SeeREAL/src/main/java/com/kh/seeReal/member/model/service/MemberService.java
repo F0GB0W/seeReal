@@ -75,6 +75,7 @@ public interface MemberService {
 	public int selectLikeCommentsCount(HashMap map);
 	
 	public ArrayList<Comments> selectLikeComment(PageInfo pi,  HashMap map);
+
 	
 	
 }
