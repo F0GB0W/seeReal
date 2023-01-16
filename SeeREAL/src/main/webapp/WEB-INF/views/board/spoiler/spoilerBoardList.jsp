@@ -215,7 +215,7 @@
 		              <select  name="board-count">
 		              	<option value="5">5개</option>
 		              	<option value="10">10개</option>
-		              	<option value="25">15개</option>
+		              	<option value="15">15개</option>
 		              	<option value="20">20개</option>
 		              </select>
               <button type="submit" style="float:right" >버튼</button>

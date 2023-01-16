@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
-	<div><a href="spoilerList.bo">스포 게시판</a></div>
+	<div><a type="button" onclick="spoboard();" style="color:#007bff;">스포 게시판</a></div>
 	<div><a href="movieSelect.co">(임시)영화고르는창</a></div>
 	<div><a href="meetingList.mt">모임</a></div>
 	<div><a href="list.cl">(임시)컬렉션리스트</a></div>
@@ -71,6 +71,19 @@
 		<i class="fa-solid fa-heart red fa-5x"></i>
 
 	</div>
+	
+	<script>
+		function spoboard(){
+			if(!confirm("스포 게시판입니다. 들어가시겠습니까?")){
+				
+			}else{
+				location.href="spoilerList.bo";
+				
+			}
+				
+		}
+	
+	</script>
 	
 </body>
 </html>

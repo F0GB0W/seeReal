@@ -33,7 +33,8 @@ public class BoardController {
 	private BoardServiceImpl boardService;
 	
 	@RequestMapping("spoilerList.bo")
-	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="board-count", defaultValue="5") int boardLimit,   ModelAndView mv) {
+	public ModelAndView selectBoardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="board-count", defaultValue="5") int boardLimit, 
+										ModelAndView mv) {
 		
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectBoardListCount(), currentPage, 10, boardLimit);
@@ -183,11 +184,18 @@ public class BoardController {
 	 public String spoilerReplyList(int boardNo) {
 		 //System.out.println(boardNo);
 		 //System.out.println(boardService.spoilerReplyList(boardNo));
+		// System.out.println(boardNo);
 		 return new Gson().toJson(boardService.spoilerReplyList(boardNo));
 	 }
 	 @ResponseBody
 	 @RequestMapping("updateReply.br")
-	 public String updateReply(int boReplyNo) {
+	 public String updateReply(BoardReply br) {
+
+		 if (boardService.updateBoardReply(br) > 0) {
+			 
+		 };
+		 
+		 
 		 
 		 return "main";
 	 }

@@ -142,7 +142,7 @@ public class MemberController {
 			// 암호화된 비밀번호랑 동일한지 확인
 			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
 			session.setAttribute("loginUser", loginUser);
-			/*
+			
 			if(saveId.equals("Y")) { // 아이디 저장 
 				
 				Cookie check = new Cookie("saveId", m.getMemberEmail());
@@ -157,7 +157,7 @@ public class MemberController {
 				check.setMaxAge(0);
 				response.addCookie(check);	
 			}
-			*/
+			
 			
 		}else {
 			model.addAttribute("alertMsg", "로그인 실패");

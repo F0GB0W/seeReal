@@ -39,7 +39,7 @@
 								<td>
 									<input type="text" name="memberEmail" id="signInId"
 												class="form-control tooltipstered" maxlength="40"
-												required="required" aria-required="true" value="${cookie.check.value}"
+												required="required" aria-required="true" value="${cookie.saveId.value}"
 												style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
 												placeholder="이메일 형식으로 작성">
 								</td>
@@ -71,7 +71,7 @@
 							</tr>
 							
 							<c:choose>
-								<c:when test="${ not empty cookie.test }">
+								<c:when test="${ not empty cookie.saveId }">
 									<script>
 										$(function(){
 											$('#check2').prop("checked",true);

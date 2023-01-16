@@ -67,7 +67,7 @@
 			</tr>		
 		</table>
 		<br>
-		<c:if test="${loginUser.memberNo eq b.boardWriter }">
+		<c:if test="${loginUser.memberNickname eq b.nickName }">
 			<div align="center">
 				<a class="btn btn-secondary" onclick="postFormSubmit(1);">수정하기</a>
 				<a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
@@ -85,7 +85,11 @@
 			if(num == 1){ // 수정하기
 				$('#postForm').attr('action', 'spoilerUpdateForm.bo').submit();
 			}else{//삭제하기
-				$('#postForm').attr('action', 'spoilerDelete.bo').submit();
+				if(!confirm("글을 삭제하시겠습니까?")){
+					}else{
+						$('#postForm').attr('action', 'spoilerDelete.bo').submit();
+						alert("삭제되었습니다.")
+					}
 			}
 		}
 	</script>
@@ -102,9 +106,10 @@
 					<th>
 						<textarea class="form-control" id="reply-content" cols="55" rows="2" style="resize:none;"></textarea>
 					</th>
-					<th style="vertical-align:middle"><button class="btn btn-secondary" id="btn3"onclick="addReply();">등록하기</button>
+					<th style="vertical-align:middle"><button class="btn btn-secondary" id="btn3" onclick="addReply();">등록하기</button></th>
 				</c:otherwise>
 			</c:choose>
+			
 			
 			<tr>
 				<td colspan="4">댓글(<span id="rcount"></span>)</td>
@@ -155,25 +160,28 @@
 				url:"sprList.bo",
 				data : {
 					boardNo : ${b.boardNo},
-					replyWriter : '${br.replyWriter}',
-					loginUser : '${loginUser.memberNickname}'
+					//replyWriter : '${br.replyWriter}',
+					//loginUser : '${loginUser.memberNickname}'
 						},
 				success : function(list){
 					//console.log(list);
 					
 					var value = '';
-					for(var i in list){
-						if(${ not empty loginUser}){
-							  if(${list[i].loginUser == list[i].replyWriter}){
+					for(var i=0; i< list.length; i++){
+					//for(var i in list){
+						if(${not empty loginUser}){
+							  if("${loginUser.memberNickname}" == list[i].replyWriter){
 								  value += '<tr>'
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
 									   + '<td><button class="updatebtn" onclick="javascript:updateReply('+ list[i].boReplyNo +');">수정</button></td>' 
-									   + '<td><button onclick="javascript:deleteReply('+ list[i].boReplyNo +');">삭제</button></td></tr>';
+									   + '<td><button onclick="javascript:deleteReply('+ list[i].boReplyNo +');">삭제</button></td>'
+									   + '</tr>';
 							  } else {
 								  
 									value += '<tr>'
+										   + '<td>' + '<input type="hidden" id="sprupdate" name="boReplyNo"'> + '</td>'
 										   + '<td>' + list[i].replyWriter + '</td>'
 										   + '<td>' + list[i].boReplyContent + '</td>'
 										   + '<td>' + list[i].boReplyDate + '</td>'
@@ -210,22 +218,45 @@
 		}); 
 		*/
 		function updateReply(){
-			
-			/*
-			$(this).attr('href', 'updateReply.br').submit();
-			console.log($(this).attr('href', 'updateReply.br').submit());
-			*/
-			
 			$('#btn3').html('수정하기');
 			
 		};
 		
+		
 		$(document).on('click', '.updatebtn', function(){
 			$('#btn3').html('수정하기');
-			$('#reply-content').html();
+			console.log($(this));	
+			var reply = $(this).parent().parent().find("td").eq(1).text();
+			$('#reply-content').val(reply);
 			
+			confirmUpdateReply();
 		});
+		
+			function confirmUpdateReply(){
+				$('#btn3').parent().parent().submit();		
+				
 			
+			
+			}
+			
+		
+			
+			 
+		
+		
+		/*
+	     $(document).on('click', '.updatebtn', function(){
+	           $.ajax({
+	                 url : "updateReply.br",
+	                data : {
+	             replyNo : ${br.boReplyNo},
+	             boardNo : ${br.boardNo}
+	                 },
+
+	           })
+
+	      });
+			*/
 			
 		
 	
