@@ -198,7 +198,7 @@
       
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -245,10 +245,17 @@
                   				<c:forEach items="${list}" var="b">
 				                	<tr>
 				                    	<td class="comno">${b.commentNo}</td>
-				                    	<td>${b.movieYear}</td>
+				                    	<td id="movieYear1">${b.movieYear}</td>
 				                      	<td id="spoilerTitle">${b.movieTitle}</td>
 				                      	<td>${b.commentContent}</td>
 				                      	<td>${b.commentEnrollDate}</td>
+										<form action="movieDetail.co" method="post" id="form1">
+											<input type="hidden" id="movieYear" name="movieYear" value="${b.movieYear}">
+											<input type="hidden" id="movieTitle" name="movieTitle" value="${b.movieTitle}">
+											<input type="hidden" id="movieImg" name="movieImg">
+											<input type="hidden" id="movieDirector" name="movieDirector">
+											<input type="hidden" id="movieSubTitle" name="movieSubTitle">
+										</form>
 				                  	</tr>
 		              			</c:forEach>
                   			</c:otherwise>
@@ -256,16 +263,63 @@
 	                	
                   	</tbody>
               	</table>
+ 
               	
               	<script>
               	
               		// 동적으로 생성된 요소
               	    $(function(){
+              	    	
               		    $('#spoilerList>tbody>tr').click(function(){
-	              			location.href = 'movieDetail.co?comno=' + $(this).children('.comno').text();
-              			})	
+              		    	
+	              			//location.href = 'movieDetail.co';
+	              			$.ajax({
+	              				
+	            				url : 'movie.do',
+	            				data : {title : $('#spoilerTitle').text()
+	            					//,year : $('#movieYear').text()
+	            				},
+	            				success : function(movie){
+	            					var m = movie.items[0];
+	            					//alert(movie.image);
+	            					//const item = data.items;
+	            					console.log(m);
+	            					$('#movieImg').val(m.image);
+	            					$('#movieDirector').val(m.director);
+	            					$('#movieSubTitle').val(m.subtitle);
+	            					
+	            					//location.href = "movieDetail.co"; // 쿼리 스트링 객체를 value에 담아 보낼 경우, 데이터 어떻게 뽑지?
+	            					/*
+	            					$.ajax({
+	            						
+	    	            				url : 'movieDetail.co',
+	    	            				data : {title : $('#spoilerTitle').val(),
+	    	            					    year : $('#movieYear').val(),
+	    	            					    movieImg : $('#movieImg').val(),
+	    	            					    movieDirector : $('#movieDirector').val(),
+	    	            					    movieSubTitle : $('#movieSubTitle').val()
+	    	            						//movie : movie	
+	    	            				},
+	    	            				success : data => {
+	    	            					
+	    	            					
+	    	            				},
+	    	            				error : () => {
+	    	            					console.log('요건조금...');
+	    	            				}
+	    	            				
+	    	            			});*/
+	            					$('#form1').submit();
+	            				},
+	            				error : function() {
+	            					console.log('요건조금2...');
+	            				}
+	            				
+	            			});	
+              			});
               		});
-              
+              	
+              	
                 </script>
 			</div>
       	</div>

@@ -419,6 +419,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectLikeComments" parameterType="java.util.HashMap" resultMap="commentsResultSet" >
 		SELECT
 			C.COMMENT_CONTENT,
+			C.COMMENT_NO,
 			C.MEMBER_NO,
 			C.MOVIE_TITLE,
 			C.MOVIE_YEAR,
@@ -428,7 +429,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			CL.COMMENT_LIKE,
 			CL.COMMENT_DISLIKE
 			FROM COMMENTS C
-			JOIN COMMENT_LIKE CL USING(COMMENT_NO)
+			JOIN COMMENT_LIKE CL ON(C.COMMENT_NO = CL.COMMENT_NO)
 			WHERE 
 			  COMMENT_WRITER = #{memberNo}
 		  AND 

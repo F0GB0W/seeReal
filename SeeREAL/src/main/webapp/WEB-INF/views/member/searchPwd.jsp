@@ -38,7 +38,7 @@
 							</tr>
 							<tr>
 								<td style="text-align: left">
-									<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk"></span></p>
+									<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
 								</td>
 						    </tr>
 							<tr>
@@ -104,7 +104,7 @@
 								
 								min = 5
 								sec = 00;
-							
+								showRemaining();
 								var timer = setInterval(showRemaining, 1000);
 							
 								var code = prompt('인증번호를 입력하세요');
@@ -155,26 +155,22 @@
 		
 		function showRemaining(){
 			
+			$('#timeChk').text(min + ' : ' + sec);
 			
 			if(sec == 0){
 				min = min - 1;
 				sec = 59;
 			}else if(min == 0 && sec == 0){
-				
-				Date time = new Date().now(); // 현재 시간 
-				
+		
 				$.ajax({
-					url: 'deleteCert.me', 
-					data : {
-						
-					}, 
+					url: 'timeout.me', 
 					success : function(result2){ 
+						clearInterval(timer);
 						
 						if(result2 === '1'){ 
-							
 							alert("입력시간을 초과하였습니다.");
 						}else{
-							alert(" 실패");
+							alert("실패");
 						}
 					},
 					error : function(){
@@ -182,17 +178,12 @@
 					}	
 				});	
 			
+			}else{
+				sec = sec - 1;	
 			}
-			sec = sec - 1;
 			
+			console.log(min + ' : ' + sec);
 			
-			if(currentSecond === 0){
-			  console.log('땡!');
-			  clearInterval(timer);
-			  
-			}
-			console.log(currentSecond + '초 남았습니다');
-			$('#timeChk').text(timer);
 		};
 	</script>
 </body>
