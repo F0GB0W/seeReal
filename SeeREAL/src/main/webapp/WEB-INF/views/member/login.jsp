@@ -67,7 +67,7 @@
 									<input type="hidden" id="before" name="saveId" value="N"> 
 								</td>
 								<td>
-									<a onclick="$('#close').click(); $('.modal-backdrop.show').css('opacity', 0)" class="btn form-control" data-toggle="modal"
+									<a class="btn form-control" data-toggle="modal"
 									href="#searchPwd" style="margin-bottom:20px;">
 									비밀번호 찾기</a>
 								
