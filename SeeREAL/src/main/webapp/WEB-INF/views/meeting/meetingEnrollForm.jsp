@@ -23,49 +23,162 @@
 <!-- Semantic UI theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
    
+
 <style>
-	a{
-		text-decoration : none;
-		color : black;
-	}
-	
+a{
+    text-decoration : none;
+    color : black;
+}
+
+body {
+    margin: 0;
+    font-family: "Helvetica";
+}
+
+body h1{
+	text-align: center;
+	margin-top: 60px;
+	margin-bottom: 60px;
+	font-size: 24px;
+	font-style: bold;
+	color: #545454;
+}
+
+.form-area {
+    margin: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* .form-area > form > * {
+    margin-top: 50px;
+} */
+
+input[name="meetingTitle"] {
+    width: 300px;
+    text-align: center;
+    font-size: 25px;
+}
+
+button, .pinkButton {
+    background-color: #ff52a0;
+    margin-top: 0; 
+    height: 40px; 
+    color: white; 
+    border: 0px solid #f78f24; 
+    opacity: 0.8;
+    border-radius: 10px;
+}
+
+.selectMovieButton-area > input {
+    height: 40px;
+}
+
+.movieInfo-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movieImg-area {
+    padding-right: 10px;
+}
+
+.movieInfo > a:hover {
+    color : #ff52a0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.map-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selectMovie-area-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.selectMovie-area-modal > * {
+    margin-right: 5px;
+}
+
+.selectMovie-area-modal > button {
+    height: 30px;
+    width: 50px;
+}
 </style>
 </head>
 <body>
 
-    <form action="insert.mt" method="post" >
-        <input type="text" placeholder="모임 제목을 작성해 주세요" name="meetingTitle" required> <br>
-        <!-- Button to Open the Modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            영화를 골라 보아요
-        </button><br>
+    <div class="form-area">
+        <form action="insert.mt" method="post" align="center">
+            <input type="text" placeholder="모임 제목을 작성해 주세요" maxlength="20" name="meetingTitle" required> <br>
 
-        <input placeholder="같이 볼 영화" id="movieTitle" readonly required>
-        <input type="hidden" name="movieTitle" id="movieSubtitle" readonly>
-        <input placeholder="개봉연도" name="movieYear" id="movieYear" readonly required> <br>
-        <img id="movieThumb"> <br>
-        <a id="movieLink">영화정보 상세보기(네이버)</a> <br>
-        <div id="movieDirector">감독 : </div>
-        <div id="movieActor">출연진 : </div>
-        <hr>
+            <hr>
 
-        <input type="button" onclick="serachAddress()" value="주소 검색"><br>
-        <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-        <input type="text" id="meetingAddress" placeholder="주소" name="meetingPlace" readonly required><br>
-        <input type="text" name="meetingPlaceDetail" placeholder="상세주소"><br>
+            <div class="selectMovie-area">
+                <h3>함께 볼 영화</h3>
+                <br>
 
-        <hr>
+                <div class="selectMovieButton-area">
+                    <input placeholder="영화제목" id="movieTitle" readonly required data-toggle="modal" data-target="#myModal">
+                    <input type="hidden" name="movieTitle" id="movieSubtitle" >
+        
+                    <input placeholder="개봉연도" name="movieYear" id="movieYear" readonly required data-toggle="modal" data-target="#myModal"> 
+                    
+                    <button type="button" data-toggle="modal" data-target="#myModal">
+                        영화를 골라 보아요
+                    </button>
+                </div>
 
-        <textarea name="meetingExp" placeholder="모임 설명" style="resize: none;" required></textarea>
+                <br><br>
 
-        <input type="hidden" value="${ loginUser.memberNo }" name="memberNo">
-        <button type="submit" class="btn btn-primary">만들기~</button>
-    </form>
-    
-    
+                <div class="movieInfo-area">
+                    <div class="movieImg-area">
+                        <img id="movieThumb">
+                    </div>
+                    <div class="movieInfo">
+                        <div id="movieDirector">감독 : </div>
+                        <div id="movieActor">출연진 : </div><br>
+                        <a id="movieLink">영화정보 상세보기(네이버)</a>
+                    </div>
+                </div> 
+              
+                <hr>
+
+                <div class="address-area">
+                    <h3>함께 할 장소</h3>
+                    <br>
+
+                    <input class="pinkButton" type="button" onclick="serachAddress()" value="주소 검색"><br>
+                    <div class="map-area">
+                        <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+                    </div>
+
+                    <br>
+
+                    <input type="text" id="meetingAddress" style="margin-bottom: 10px;" placeholder="주소" name="meetingPlace" readonly required><br>
+                    <input type="text" name="meetingPlaceDetail" placeholder="상세주소" maxlength="30"><br>
+                </div>
+            </div>
+
+            <hr>
+            <textarea cols="50" rows="10" name="meetingExp" placeholder="모임 설명" style="resize: none;" required></textarea>
+
+            <input type="hidden" value="${ loginUser.memberNo }" name="memberNo"><br>
+            <button type="submit">만들기</button>
+            
+        </form>
+    </div>
+
     <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-xl">
         <div class="modal-content">
     
             <!-- Modal Header -->
@@ -76,12 +189,14 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-            
-                <input placeholder="영화제목을 입력하세요~" id="title" />
-                <input type="number" placeholder="영화 연도를 입력하세요~" id="year"/>
-                <button class="btn btn-primary" onclick="movie();">검색~</button>
                 
-                    <table id="result1" border="1" align="center">
+                <div class="selectMovie-area-modal">
+                    <input placeholder="영화제목을 입력하세요~" id="title" />
+                    <input type="number" placeholder="영화 연도를 입력하세요~" id="year"/>
+                    <button onclick="movie();">검색</button>
+                </div>
+                
+                <table id="result1" align="center" class="table table-hover">
                     <thead>
                         <tr>
                             <th>영화제목(링크)</th>
@@ -137,7 +252,7 @@
 							   + '<td>' + item.director + '</td>'
 							   + '<td>' + item.actor + '</td>'
 							   + '<td>' + item.userRating + '</td>'
-                               + '<td>' + '<button onclick="selectMovie(' 
+                               + '<td>' + '<button style="width: 50px;" onclick="selectMovie(' 
                                         + "'" + item.subtitle + "', "  
                                         + item.pubDate + ','
                                         + "'" + item.title + "', "
@@ -152,8 +267,6 @@
 					
 					
 					$('#result1 tbody').html(value);
-					// console.log(value);
-					// $('#title').val(title);
 					
 				},
 				error : () => {
@@ -162,9 +275,14 @@
 				
 			});			
 		}
+ 
+        $(function() {
+            $('.movieInfo-area').hide();
+        });
 
         function selectMovie(subtitle, pubDate, title, director, thumb, link, director, actor) {
-            
+            $('.movieInfo-area').show();
+
             title = title.replace('<b>', '');
             title = title.replace('</b>', '');
             director = director.slice(0, director.length - 1);
@@ -172,6 +290,12 @@
 
             $('#movieTitle').val(title);
             $('#movieSubtitle').val(subtitle);
+
+            // 원제가 없을 경우 한국어 제목으로 설정
+            if($('#movieSubtitle').val() == '') {
+                $('#movieSubtitle').val(title);
+            }
+            
             $('#movieYear').val(pubDate);
             
             $('#movieThumb').attr('src', thumb);
@@ -180,6 +304,7 @@
 
             $('#movieDirector').html('감독 : ' + director);
             $('#movieActor').html('출연진 : ' + actor);
+
         }
 	</script>
 	

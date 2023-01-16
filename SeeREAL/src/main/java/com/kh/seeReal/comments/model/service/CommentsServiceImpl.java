@@ -13,6 +13,7 @@ import com.kh.seeReal.comments.model.dao.CommentsDao;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
+import com.kh.seeReal.common.model.vo.PageInfo;
 
 @Service
 public class CommentsServiceImpl implements CommentsService{
@@ -24,6 +25,12 @@ public class CommentsServiceImpl implements CommentsService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;//기존의 mybatis의 sqlSession 대체
 
+	@Override
+	public int checkMyCommentExit(Comments comments) {
+		
+		return CommentsDao.checkMyCommentExit(comments,sqlSession);
+	}
+	
 	@Override
 	public double ratingGet(MovieRating movieRating) {
 		
@@ -107,6 +114,26 @@ public class CommentsServiceImpl implements CommentsService{
 		
 		return CommentsDao.deleteMyComments(comments,sqlSession);
 	}
+
+	@Override
+	public int selectCommentsCount(Comments comments) {
+		
+		return CommentsDao.selectCommentsCount(comments,sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi) {
+		// TODO Auto-generated method stub
+		return CommentsDao.selectCommentsListAll(comments,pi,sqlSession);
+	}
+	
+	@Override
+	public HashMap<String, Object> myComment(Comments comments) {
+		return CommentsDao.getMyComment(comments,sqlSession);
+		
+	}
+
+	
 
 	
 	

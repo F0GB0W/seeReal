@@ -11,17 +11,10 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <%--file:///C:/seeReal-workspace/seeReal/SeeREAL/src/main/webapp/resources/img/temporarily.png --%>
 <style>
 
-	@font-face {
-	    font-family: 'IBMPlexSansKR-Regular';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
-	    font-weight: normal;
-	    font-style: normal;
-	}
     .outer{
-    	font-family: 'IBMPlexSansKR-Regular';
+    	margin-left: 30%;
         width:600px; 
         align: center;
     }
@@ -71,7 +64,7 @@
 </style>
 </head>
 <body>
-	
+	<jsp:include page="menubar.jsp" />
 	<div class="outer">
 		<div class="profile">
 						<c:choose>
@@ -165,6 +158,7 @@
             </table>
         </div>
 	</div>
+    <jsp:include page="footer.jsp" />
 	
 	<script>
 

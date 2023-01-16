@@ -8,8 +8,12 @@ import java.util.Map;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
+import com.kh.seeReal.common.model.vo.PageInfo;
 
 public interface CommentsService {
+	
+	int checkMyCommentExit(Comments comments);
+	
 	double ratingGet(MovieRating movieRating);
 	
 	//int ratingCheck(String movie,int rating);
@@ -35,4 +39,10 @@ public interface CommentsService {
 	int reviseMyComments(Comments comments);
 	
 	int deleteMyComments(Comments comments);
+	
+	int selectCommentsCount(Comments comments);
+	
+	List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi);
+	
+	HashMap<String, Object> myComment(Comments comment);
 }
