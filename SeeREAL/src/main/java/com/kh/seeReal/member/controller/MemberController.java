@@ -130,6 +130,13 @@ public class MemberController {
 	}
 	
 	// 로그인
+	// 로그인 아이디 저장 : 쿠키 사용
+		/* 
+		   N-> N : U
+		유지 Y-> Y : U
+		해제 Y-> N : N(쿠키 삭제) 
+		체크 N-> Y : Y(쿠키 생성)
+		 */
 	@RequestMapping(value="login.me")
 	public String login(Member m, HttpSession session, Model model, String saveId, HttpServletResponse response) {  // 다 사용할 수 있도록 담아야함 : include 
 		
@@ -156,8 +163,7 @@ public class MemberController {
 				System.out.println("2 check : " + check);
 				check.setMaxAge(0);
 				response.addCookie(check);	
-			}
-			
+			}		
 			
 		}else {
 			model.addAttribute("alertMsg", "로그인 실패");
@@ -165,17 +171,9 @@ public class MemberController {
 		return "redirect:/"; 
 	}
 	
-	// 로그인 아이디 저장 : 쿠키 사용
-	/*
-	 * 
-	   N-> N : U
-	유지 Y-> Y : U
-	해제 Y-> N : N(쿠키 삭제) 
-	체크 N-> Y : Y(쿠키 생성)
-	 */
+	
 	
 	// 비밀번호 찾기
-	// 인증메일 보내고, 
 	@RequestMapping("searchPwd.me")
 	public String searchPwd(HttpServletRequest request, Member m) { 
 		// 정규식 만족하는 임시비밀번호 생성해서 메일 보내고, member 테이블 update
@@ -189,7 +187,7 @@ public class MemberController {
 		
 		message.setSubject("see:Real");
 		message.setText("임시비밀번호 : " + code );
-		message.setTo(email);	 // 아이디로 사용중인 이메일로만 인증가능한 게 맞나?
+		message.setTo(email);	 // 아이디로 사용중인 이메일로만 인증가능
 		// m.getMemberEmail() : javax.mail.internet.AddressException: Illegal address in string ``''발생
 		sender.send(message); // 이메일이 제대로 갔는지 어떻게 확인하지?
 		
@@ -203,7 +201,6 @@ public class MemberController {
 	// 랜덤 인증번호 생성하는 메소드
 	// 문자 + 숫자 + 특수문자 중 2가지, 6개 이상
 	// 평문 : 이메일 보내고, update할 때는 암호화하기
-	
 	public String createPwd() {
 		
 		String length = createCode(); // 6자리 난수
@@ -220,26 +217,24 @@ public class MemberController {
 			int rndNum;   
 			
 			switch((check % 3)) { // 6자리 난수 중 하나의 숫자마다 변경
-				case 0 : {
+				case 0 : 
 					
-					rndNum = (int) (Math.random()* 100)+1; // 밖으로 뺴서 나누기로 범위 줄일지 고민해보기
+					rndNum = (int) (Math.random()* 100)+1; // 메소드로 따로 빼서 가능
 					pwd += String.valueOf(rndNum);
 					finish ++;
 					break;
-				}
 					
-				case 1 :{
+				case 1 :
 					rndNum = (int) (Math.random()* 51); // 0 ~ 51
 					pwd += c.charAt(rndNum);
 					finish ++;
 					break;
-				}
-				case 2 : {
+				
+				case 2 : 
 					rndNum = (int) (Math.random()* 11);
 					pwd += sc.charAt(rndNum);
 					finish ++;
 					break;
-				}
 			}
 				
 		}
