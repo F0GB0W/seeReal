@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
+<script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <title>Insert title here</title>
 <style>
@@ -16,6 +16,10 @@
 
     .movieInfo {
         margin-right: 10px;
+    }
+
+    .red {
+        color : red;
     }
 </style>
 </head>
@@ -35,6 +39,12 @@
         <h3>${ collection.collectionContent }</h3>
         <a href="feed.me?memberNo=${ collection.memberNo }">${ collection.nickName }</a><br>
         <img src="${ collection.changeName }" width="400px" height="300px">
+    </div>
+
+    <div class="like-area">
+        <button onclick="like()" id="like-button">좋아용</button>
+        <i class="fa-solid fa-heart" id="heart"></i>
+        <p id="like-count"></p>
     </div>
 
     <hr>
@@ -87,6 +97,8 @@
             });
 
             selectReplyList();
+            likeCount();
+            checkMyLike();
 
         });
 
@@ -239,7 +251,57 @@
             });
         }
 
-        
+        function like() {
+            if(${ empty loginUser}) {
+                alert('로그인 후 이용해주세용~~');
+            } else {
+                checkMyLike();
+                likeClick();
+            }
+        }
+
+        function checkMyLike() {
+            $.ajax({
+                url : 'checkMyLike.cl',
+                data : {
+                    collectionNo : $('#collectionNo').val(),
+                    memberNo : $('#loginUser').val()
+                }, 
+                success : (data) => {
+                    if(data > 0) {
+                        $('#heart').addClass('red');
+                    } else {
+                        $('#heart').removeClass('red');
+                    }
+                }
+            });
+        }
+
+        function likeCount() {
+            $.ajax({
+                url : 'likeCount.cl',
+                data : {
+                    collectionNo : $('#collectionNo').val()
+                },
+                success : (data) => {
+                    $('#like-count').text(data + '개');
+                }
+            });
+        }
+
+        function likeClick() {
+            $.ajax({
+                url : 'likeClick.cl',
+                data : {
+                    collectionNo : $('#collectionNo').val(),
+                    memberNo : $('#loginUser').val()
+                },
+                success : (data) => {
+                    checkMyLike();
+                    likeCount();
+                }
+            });
+        }
     </script>
 </body>
 </html>

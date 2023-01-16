@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.gson.JsonElement;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionLike;
 import com.kh.seeReal.collection.model.vo.CollectionMovie;
 import com.kh.seeReal.collection.model.vo.CollectionMovieList;
 import com.kh.seeReal.collection.model.vo.CollectionReply;
@@ -30,5 +31,15 @@ public interface CollectionService {
 	int updateReplyCollection(CollectionReply cr);
 
 	int deleteReply(CollectionReply cr);
+
+	int likeCount(int collectionNo);
+
+	int checkMyLike(CollectionLike clike);
+
+	int likeAlready(CollectionLike clike);
+
+	int updateLike(CollectionLike clike);
+
+	int insertLike(CollectionLike clike);
 
 }
