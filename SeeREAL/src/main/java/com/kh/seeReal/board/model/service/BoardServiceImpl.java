@@ -77,9 +77,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int updateBoardReply(int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateBoardReply(BoardReply br) {
+		return boardDao.updateBoardReply(sqlSession, br);
 	}
 
 	@Override

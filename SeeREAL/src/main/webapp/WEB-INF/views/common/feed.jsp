@@ -68,7 +68,7 @@
         </div>
             
 		<div class="ratingSpread">
-			<input type="hidden" value="${ ratingYj }" id="ratingYj">
+			<%-- <input type="hidden" value="${ ratingYj }" id="ratingYj"> --%>
             <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
         </div>           
 
@@ -87,7 +87,7 @@
 		                </tr>
 		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
-			                	<input type="hidden" id="realNo" value="" />
+			                	<!-- <input type="hidden" id="realNo" value="" /> -->
 			                    <td id=title>${f.movieTitle}</td>
 			                    <c:choose>
 			                    	<c:when test="${f.rating == 0.5}">
@@ -135,7 +135,7 @@
 	
 	<script>
 	
-	//ajax 요청을 해서 success(result) == rating [1.5, 2,4..]
+/* 	//ajax 요청을 해서 success(result) == rating [1.5, 2,4..]
 		function rating(){
 			$.ajax({
 				url : 'rating.yj',
@@ -157,25 +157,27 @@
 				// ratingList에 rating을 []에 오름차순으로 반복해서 넣기
 				let ratingArray = rating[i];
 			}
-		}	
+		}	 */
 	
 	// chart.js
         var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
-        var yValues = rating();
+        var yValues = [${star.starHalf},${star.star1},${star.star1Half},${star.star2},${star.star2Half},
+        				${star.star3},${star.star3Half},${star.star4},${star.star4Half},${star.star5}
+        				];
 
         var myChart = new Chart("myChart", {
             type: "bar",
             data: {
-                labels: xValues,
-                datasets: [{
-                backgroundColor: 'orange',
-                data: yValues
-                }]
+              labels: xValues,
+              datasets: [{
+	                backgroundColor: 'orange',
+	                data: yValues
+              }]
         	},
-       		 options: {
-        			legend: {
-        			display:false
-        		}
+      		options: {
+       			legend: {
+       			display:false
+       		}
         	}
         });
         

@@ -20,11 +20,12 @@
 		border: 1px solid black;
 	}
 	
-	#title{
+	.title{
 		width: 150px;
 		height: 50px;
 		margin-top : 10px;
 		background-color: gray;
+		padding: 6px;
 	}
 	#searchList>#list{
 		margin-top : 10px;
@@ -33,8 +34,7 @@
 	}
 	#searchList>#list>div{
 		width: 300px;
-		height: 200px;
-		border : 1px solid black;
+		height: 250px;
 	}
 	#movieList>#list{
 		margin-top : 10px;
@@ -45,6 +45,12 @@
 		width: 300px;
 		height: 200px;
 		border : 1px solid black;
+	}
+	#searchList>#list>.meeting{
+		padding : 17px;
+	}
+	#search-area{
+		float: right;
 	}
 </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -58,17 +64,24 @@
 	<input type="hidden" id="listCount" value="${ count }">
 	<input type="hidden" id="keyword" value="${ keyword }">
 	<div class="outer">
-		
+		      
+      <div id="search-area">
+		<form action="search.yj" method="get">
+			<input type="hidden" name="currentPage" value="1">
+			<input type="text" name="keyword" value="${ keyword }">
+			<button type="submit">검색</button>
+		</form>
+      </div>
 		<div id="searchList">
-			<div id="title">리얼모임</div>
+			<div class="title">리얼모임</div>
 			<div id="list">
 				<c:choose>
 					<c:when test="${ not empty mtList }">
 						<c:forEach items="${ mtList }" var="mt" varStatus="status">
 							<div class="meeting">
 								<div><img id="movieImg${status.index}" /></div>
-								<div>${ mt.meetingTitle }</div>
 								<div id="movieTitle${status.index }">${ mt.movieTitle }</div>
+								<div>${ mt.meetingTitle }</div>
 								<input type="hidden" value="${mt.movieYear}" id="movieYear${status.index}">	
 								<input type="hidden" value="${mt.meetingNo}" id="mtno" name="mtno">
 							</div>
@@ -81,25 +94,22 @@
 			</div>
 		</div>
 		<div id="movieList">
-			<div id="title">영화</div>
+			<div class="title">영화</div>
 			<div id="list">
-				<div>
-						검색한 결과가 없어요🤷‍♀️
-				</div>
-<%-- 				<c:choose>
+ 				<c:choose>
 					<c:when test="${ not empty mvList }">
-						<c:forEach items="${ mvList }" var="mv">
+						<c:forEach items="${ mvList }" var="mv" varStatus="mvStatus">
 							<div id="moive">
-								<div><img src="../../../../resources/img/user.png" alt="이미지" width="150" height="250"/></div>
-								<div>영화제목</div>
-								<div>개봉일</div>		
+								<div><img id="movieImg${mvStatus.index }"/></div>
+								<div id="movieTitle${status.index }">${ mv.movieTitle }</div>
+								<div>${mv.movieYear }</div>		
 							</div>
 						</c:forEach>
-					</c:when>
-					<c:otherwise>
+				</c:when>
+				<c:otherwise>
 						검색한 결과가 없어요🤷‍♀️
 					</c:otherwise>
-				</c:choose> --%>
+				</c:choose> 
 			</div>
 		</div>
 
@@ -156,14 +166,7 @@
 				}
 			}
 		</script>
-      
-      <div id="search-area">
-		<form action="search.yj" method="get">
-			<input type="hidden" name="currentPage" value="1">
-			<input type="text" name="keyword" value="${ keyword }">
-			<button type="submit">검색</button>
-		</form>
-      </div>
+
       
      </div>
 </body>

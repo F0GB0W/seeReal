@@ -24,6 +24,11 @@
     <input type="hidden" id="memberNo" value="${ collection.memberNo }">
     <input type="hidden" id="collectionNo" value="${ collection.collectionNo }">
     
+    <c:choose>
+        <c:when test="${ not empty loginUser }">
+            <input type="hidden" value="${ loginUser.memberNo }" id="loginUser">
+        </c:when>
+    </c:choose>
 
     <div>
         <h1>${ collection.collectionTitle }</h1>
@@ -92,16 +97,22 @@
                     collectionNo : $('#collectionNo').val()
                 },
                 success : list => {
-                    console.log(list);
-
                     var value = '';
 
                     for(var i in list) {
                         value += '<tr>'
                                 + '<td>' + list[i].nickName + '</td>'
-                                + '<td>' + list[i].coReplyContent + '</td>'
+                                + '<td class="replyConent">' + list[i].coReplyContent + '</td>'
                                 + '<td>' + list[i].coReplyDate + '</td>'
-                                + '</tr>';
+                                + '<input type="hidden" value="' + list[i].coReplyNo + '" name="hiddenReplyNo">'
+                                + '<input type="hidden" value="' + list[i].memberNo + '" name="hiddenMemberNo">';
+                        
+                        if($('#loginUser').val() == list[i].memberNo) {
+                            value += '<td><button onclick="updateReply(this)">수정</button><td>'
+                                   + '<td><button onclick="removeReply(this)">삭제</button><td>';
+                        }
+
+                        value += '</tr>';
                     }
 
                     $('#replyArea tbody').html(value);
@@ -112,6 +123,63 @@
                 }
             })
         };
+
+        function updateReply(e) {
+            let value = '<td class="ChangeReplyContent"><input type="text" name="hiddenReplyContent" value="'
+                      + $(e).parent().siblings('.replyConent').text()
+                      + '"></td>';
+                      
+            $(e).parent().siblings('.replyConent').html(value);
+            $(e).removeAttr('onclick');
+            $(e).html('저장').attr('onclick', 'saveReply(this)');
+
+        }
+
+        function saveReply(e) {
+            let coReplyNo = $(e).parent().siblings('input[name=hiddenReplyNo]').val();
+            let coReplyContent = $(e).parent().siblings().children().children('input[name=hiddenReplyContent]').val();
+            
+            $.ajax({
+                url : 'updateReply.cl',
+                data : {
+                    coReplyNo : coReplyNo,
+                    coReplyContent : coReplyContent,
+                    memberNo : $('#loginUser').val()
+                },
+                success : data => {
+                    if(data == "success") {
+                        alert('댓글 수정 완료!');
+                        selectReplyList(); 
+                    }
+                },
+                error : () => {
+                    console.log('댓글 수정 실패~~');
+                }
+            });
+        }
+
+        function removeReply(e) {
+            if(confirm('댓글을 삭제하시겠습니까?')) {
+                let coReplyNo = $(e).parent().siblings('input[name=hiddenReplyNo]').val();
+                
+                $.ajax({
+                    url : 'deleteReply.cl',
+                    data : {
+                        coReplyNo : coReplyNo,
+                        memberNo : $('#loginUser').val()
+                    },
+                    success : data => {
+                        if(data == "success") {
+                            alert('댓글 삭제 완료!');
+                            selectReplyList(); 
+                        }
+                    }, 
+                    error : () => {
+                        console.log('댓글 삭제 실패~~');
+                    }
+                });
+            }
+        }
 
         function movieSearch(list) {
             for(let i in list) {

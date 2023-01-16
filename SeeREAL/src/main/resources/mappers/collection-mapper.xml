@@ -137,6 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectReplyList" parameterType="_int" resultMap="collectionReplyResultSet">
 		SELECT 
 			cr.MEMBER_NO,
+			CO_REPLY_NO,
 			CO_REPLY_CONTENT,
 			CO_REPLY_DATE,
 			m.NICK_NAME
@@ -148,5 +149,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			COLLECTION_NO = #{ collectionNo }
 			AND CO_REPLY_STATUS = 'Y'
 	</select>
+	
+	<update id="updateReplyCollection" parameterType="collectionReply">
+		UPDATE
+			COLLECTION_REPLY
+		SET
+			CO_REPLY_CONTENT = #{ coReplyContent }
+		WHERE
+			CO_REPLY_NO = #{ coReplyNo }
+			AND MEMBER_NO = #{ memberNo }
+	</update>
+	
+	<update id="deleteReply">
+		UPDATE
+			COLLECTION_REPLY
+		SET
+			CO_REPLY_STATUS = 'N'
+		WHERE
+			CO_REPLY_NO = #{ coReplyNo }
+			AND MEMBER_NO = #{ memberNo }
+	</update>
 	
 </mapper>

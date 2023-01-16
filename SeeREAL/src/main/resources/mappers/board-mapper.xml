@@ -230,5 +230,15 @@ insert
 	 order
 	 	by
 	 		bo_reply_no desc
-</select>			
+</select>
+<update id="updateBoardReply" parameterType="boardReply">
+	update
+			boardReply
+	   set
+	   		bo_reply_content = #{boReplyContent}
+	 where
+	 		board_no = #{boardNo}
+	   and
+	   		bo_reply_no = #{boReplyNo}
+</update>			
 </mapper>

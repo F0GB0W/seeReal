@@ -68,4 +68,16 @@ public class CollectionServiceImpl implements CollectionService {
 	public ArrayList<CollectionReply> selectReplyList(int collectionNo) {
 		return collectionDao.selectReplyList(sqlSession, collectionNo);
 	}
+
+
+	@Override
+	public int updateReplyCollection(CollectionReply cr) {
+		return collectionDao.updateReplyCollection(sqlSession, cr);
+	}
+
+
+	@Override
+	public int deleteReply(CollectionReply cr) {
+		return collectionDao.deleteReply(sqlSession, cr);
+	}
 }
