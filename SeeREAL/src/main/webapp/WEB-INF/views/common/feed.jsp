@@ -74,6 +74,7 @@
 	
 	<div class="outer">
 		<div class="profile">
+<<<<<<< HEAD
 			<c:choose>
 				<c:when test="${ not empty selectMember.memberPhoto }">
 					<img src="${ selectMember.memberPhoto }" height="60px" width="60px" class="rounded-circle">
@@ -83,6 +84,11 @@
 				</c:otherwise>
 			</c:choose>
 			<h4>${ selectMember.memberNickname }님의 리얼피드</h4>
+=======
+			<img src="${ selectMember.memberPhoto }" height="60px" width="60px" >
+			<img src="resources/img/user.png" height="60px" width="60px" >
+			<h3>${ selectMember.memberNickname }님의 리얼피드</h3>
+>>>>>>> 520c30ffa23cecf722ac2d0ae7321147409c936f
 		</div>
 		
 		<div class="ratingCount">

@@ -23,7 +23,18 @@
 </style>	
 </head>
 <body>
+<<<<<<< HEAD
 	<div class="outer">
+=======
+
+	<c:if test="${not empty alertMsg}">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
+
+>>>>>>> 520c30ffa23cecf722ac2d0ae7321147409c936f
 	
 	<div><a href=""><img src="resources/img/temporarily.png" style="width:50px; height:50px;"></a></div>
 	<div><a type="button" onclick="spoboard();" style="color:#007bff;">스포 게시판</a></div>
