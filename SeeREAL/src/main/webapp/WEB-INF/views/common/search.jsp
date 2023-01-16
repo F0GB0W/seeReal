@@ -16,16 +16,19 @@
         text-align: center;
       }
 	
-	#meetingList {
-		border: 1px solid black;
-	}
-	
 	.title{
 		width: 150px;
 		height: 50px;
 		margin-top : 10px;
 		background-color:  #ff52a0;
 		padding: 6px;
+	}
+	.outer{
+		align: center;
+	}
+
+	#movieList,#searchList {
+		margin-left: 30%;
 	}
 	#searchList>#list{
 		margin-top : 10px;
@@ -52,6 +55,10 @@
 	#search-area{
 		float: right;
 	}
+	#movieList>td>a{
+		text-decoration: none;
+		color: black;
+	}
 </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -61,17 +68,19 @@
   
 </head>
 <body>
+	<jsp:include page="menubar.jsp" />
 	<input type="hidden" id="listCount" value="${ count }">
 	<input type="hidden" id="keyword" value="${ keyword }">
 	<div class="outer">
 		      
-      <div id="search-area">
+<%--       <div id="search-area">
 		<form action="search.yj" method="get">
 			<input type="hidden" name="currentPage" value="1">
 			<input type="text" name="keyword" value="${ keyword }">
 			<button type="submit" onclick="movie();">검색</button>
 		</form>
-      </div>
+      </div> --%>
+      
 		<div id="searchList">
 			<div class="title">리얼모임</div>
 			<div id="list">
@@ -118,7 +127,7 @@
 			</c:choose> 
 			</div>
 		</div>
-
+		<jsp:include page="footer.jsp" />
 		<script>
 			<%-- div클릭시 미팅 상세페이지로 이동 --%>
 			$(function(){
