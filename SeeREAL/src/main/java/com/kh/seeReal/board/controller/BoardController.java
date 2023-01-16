@@ -191,11 +191,15 @@ public class BoardController {
 	 @ResponseBody
 	 @RequestMapping("updateReply.br")
 	 public String updateReply(BoardReply br) {
-		 
-		 System.out.println(br);
-		 System.out.println(boardService.updateBoardReply(br) > 0);
-		 
+		 //System.out.println(br);
+		 //System.out.println(boardService.updateBoardReply(br) > 0);
 		 return boardService.updateBoardReply(br) > 0 ? "success" : "fail";
+	 }
+	 @ResponseBody
+	 @RequestMapping("deleteReply.br")
+	 public String deleteReply(BoardReply br) {
+		 
+		 return boardService.deleteBoardReply(br) > 0 ? "success" : "fail";
 	 }
 		 
 }

@@ -172,12 +172,12 @@
 					for(var i in list){
 						if(${not empty loginUser}){
 								  value += '<tr>'
-									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td class="replyContent">' + list[i].boReplyContent + '</td>'
+									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
 									   + '<input type="hidden" id="hiddenUpdate" value="'  + list[i].boReplyNo + '"name="hiddenReplyNo">'
 									   + '<input type="hidden" id="hiddendelete" value="' + list[i].memberNo + '"name="memberNo">'
-							 if("${loginUser.memberNickname}" == list[i].replyWriter){
+						if("${loginUser.memberNickname}" == list[i].replyWriter){
 								value += '<td><button class="updatebtn" onclick="updateReply(this);">수정</button></td>' 
 									   + '<td><button id="deleteReply" onclick="deleteReply(this);">삭제</button></td>'
 									   + '</tr>';
@@ -243,6 +243,36 @@
 			});
 		}
 		
+		function deleteReply(){
+			if(confirm("댓글을 삭제 하시겠습니까?")){
+				
+				$.ajax({
+					url : "deleteReply.br",
+					data : {
+						boardNo : ${b.boardNo},
+						boReplyNo : $('#hiddenUpdate').val(),
+						memberNo : ${loginUser.memberNo}
+					
+					},
+					success : function(data){
+						
+						console.log(data);
+						if(data == 'success'){
+							alert('댓글 삭제 성공');
+							selectSpoilerReplyList();
+						}
+					},
+					error : function(){
+						alert('삭제 실패');
+					}
+				
+				})
+			}
+			
+			
+		}
+			
+			
 		/*
 			$('#btn3').html('수정하기');
 			
@@ -259,16 +289,6 @@
 			
 	
 				
-		function deleteReply(){
-			
-			$.ajax({
-				url : 'deleteReply.br',
-				data : {
-					boardNo : 				
-				
-				}
-			})
-		}
 			*/	
 		
 		
