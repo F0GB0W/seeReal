@@ -39,7 +39,7 @@
   font-size: 20px;
   text-decoration: none;
   padding: 0 10px;
-  margin: 0 37px;
+  margin: 0 30px;
 	}
 	.link-3:hover {
   background-color: #ffffff;
@@ -71,9 +71,9 @@
 	<nav id="nav-3">
 		<div><a href=""><img src="resources/img/temporarily.png"  style="width:50px; height:50px;"></a></div>
 		<div><a class="link-3" id="spoBoard" onclick="spoboard();">스포 게시판</a></div>
-		<div><a class="link-3" href="movieSelect.co">(임시)영화고르는창</a></div>
+		<div><a class="link-3" href="movieSelect.co">영화고르는창</a></div>
 		<div><a class="link-3" href="meetingList.mt">모임</a></div>
-		<div><a class="link-3" href="list.cl">(임시)컬렉션리스트</a></div>
+		<div><a class="link-3" href="list.cl">컬렉션리스트</a></div>
 		
 		
 		<div id="search-area">
