@@ -193,13 +193,13 @@
 				}
 			})
 		};
-		/*
+		
 		$(function(){
 			selectSpoilerReplyList();
 			
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
-		*/
+		
 		function updateReply(e){
 			
 			let value = '<td class="ChangeReplyContent"><textarea id="hiddenContent" style="resize:none;" type="text" name="boReplyContent" value="'
