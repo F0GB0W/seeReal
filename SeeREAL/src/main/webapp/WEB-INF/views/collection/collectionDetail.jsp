@@ -260,7 +260,7 @@
             $.ajax({
                 url : 'creply.cl',
                 data : {
-                    memberNo : $('#memberNo').val(),
+                    memberNo : $('#loginUser').val(),
                     collectionNo : $('#collectionNo').val(),
                     coReplyContent : $('#reply-content').val()
                 },
