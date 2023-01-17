@@ -226,4 +226,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			,#{ memberNo }
 			)
 	</insert>
+	
+	<update id="deleteCollection" parameterType="movieCollection">
+		UPDATE
+			COLLECTION
+		SET
+			STATUS = 'N'
+		WHERE
+			COLLECTION_NO = #{ collectionNo }
+			AND MEMBER_NO = #{ memberNo }	
+	</update>
 </mapper>
