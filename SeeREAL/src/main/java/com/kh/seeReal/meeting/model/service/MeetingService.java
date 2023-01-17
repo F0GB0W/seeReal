@@ -27,4 +27,8 @@ public interface MeetingService {
 	int checkJoinMeeting(MeetingUser mu);
 
 	int updateMeetingUser(MeetingUser mu);
+
+	int updateMeetion(Meeting meet);
+
+	int deleteMeeting(Meeting meet);
 }
