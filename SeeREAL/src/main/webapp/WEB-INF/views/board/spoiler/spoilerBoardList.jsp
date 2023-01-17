@@ -7,16 +7,13 @@
 <meta charset="UTF-8">
 <title>스포 게시판</title>
 <style>
-	body{
-		margin : 0px;
-	}
     table {
         border-collapse: collapse;
         border-spacing: 0;
       }
       div.outer {
-        padding: 0px 0;
-        width:"80%";
+        padding: 80px 0;
+        width:"80%"
       }
       
       .page-title {
@@ -208,7 +205,6 @@
 </head>
 <body>
 <div class="outer">
-<jsp:include page="../../common/menubar.jsp"/>
     <div class="page-title">
           <div class="container">
               <h3>스포 게시판</h3>

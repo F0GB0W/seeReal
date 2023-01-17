@@ -55,7 +55,7 @@
 	#search-area{
 		float: right;
 	}
-	#movieList>td>a{
+	#movieList>#result1>tbody>td>a{
 		text-decoration: none;
 		color: black;
 	}
@@ -72,14 +72,6 @@
 	<input type="hidden" id="listCount" value="${ count }">
 	<input type="hidden" id="keyword" value="${ keyword }">
 	<div class="outer">
-		      
-<%--       <div id="search-area">
-		<form action="search.yj" method="get">
-			<input type="hidden" name="currentPage" value="1">
-			<input type="text" name="keyword" value="${ keyword }">
-			<button type="submit" onclick="movie();">검색</button>
-		</form>
-      </div> --%>
       
 		<div id="searchList">
 			<div class="title">리얼모임</div>
@@ -104,9 +96,9 @@
 		</div>
 		<div id="movieList">
 			<div class="title">영화</div>
-			<c:choose>
-				<c:when test="${ data.items eq null }">
-					 <table id="result1" border="1" align="center" >
+<%-- 			<c:choose>
+				<c:when test="${ data.items eq null }"> --%>
+<!-- 					 <table id="result1" border="1" align="center" >
 	                    <thead>
 	                        <tr>
 	                            <th>영화제목(링크)</th>
@@ -119,19 +111,22 @@
 	                    </thead>
 	                    <tbody>
 	                    </tbody>
-	                  </table>
-	            </c:when>   
+	                  </table> -->
+                    <div class="movieList-area">
+
+					</div>
+<%-- 	            </c:when>   
 				<c:otherwise>
 						검색한 결과가 없어요🤷‍♀️
 				</c:otherwise>
-			</c:choose> 
+			</c:choose>  --%>
 			</div>
 		</div>
 		<jsp:include page="footer.jsp" />
 		<script>
 			<%-- div클릭시 미팅 상세페이지로 이동 --%>
 			$(function(){
-				$('.outer #searchList #list .meeting').click(function(){
+				$('.outer1 #searchList #list .meeting').click(function(){
 					location.href = 'detail.mt?mtno=' + $(this).children('#mtno').val();
 				})
 				searchMovie();
@@ -183,7 +178,7 @@
 				}
 			}
 			
-			function searchMovie(){
+/* 			function searchMovie(){
 				$.ajax({
 					url: 'movie.mt',
 					data : {
@@ -218,7 +213,26 @@
 				
 				
 				})
-			}
+			} */
+
+	        let value = '';
+	        function makeList(itemArr) {
+	            value += '<div class="movieInfo">' 
+	                   + '<form action="movieDetail.co" method="post">'
+	                   + '<button type="submit">'
+	                   + '<img src="' + itemArr.image + '">'
+	                   + '<p>' + itemArr.title + '(' + itemArr.pubDate + ')' + '</p>'
+	                   + '<input type="hidden" name="movieTitle" value="' + itemArr.title + '">'
+	                   + '<input type="hidden" name="movieYear" value="' + itemArr.pubDate + '">'
+	                   + '<input type="hidden" name="movieDirector" value="' + itemArr.director + '">'
+	                   + '<input type="hidden" name="movieImg" value="' + itemArr.image + '">'
+	                   + '<input type="hidden" name="movieSubTitle" value="' + itemArr.subtitle + '">'
+	                   + '</button>'
+	                   + '</form>'
+	                   + '</div>'
+
+	            $('.movieList-area').html(value);
+	        }
 
 		</script>
 

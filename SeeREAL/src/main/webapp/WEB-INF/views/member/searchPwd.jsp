@@ -38,8 +38,10 @@
 							</tr>
 							<tr>
 								<td style="text-align: left">
+
 									<p><strong id="title">아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
 									<input type="hidden" name="id">
+
 								</td>
 						    </tr>
 							<tr>
@@ -67,8 +69,6 @@
 	
 	
 	<script>
-		var min, sec;
-		
 		$(function() {
 			//자바스크립트 정규 표현식
 			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);	
@@ -99,6 +99,7 @@
 						data : {email :$('#email').val()},
 						success : function(result){ 
 							if(result === '1'){ // 이메일 인증
+
 								
 								min = 5
 								sec = 00;
@@ -108,7 +109,7 @@
 								//var code = prompt('인증번호를 입력하세요');
 								$('#title').text('인증번호를 입력하세요');
 								$('#email').val('');// 인증번호 입력칸 새로 만들기
-							
+
 								
 								if(code != null){ // 확인
 									if(code == ''){
@@ -187,6 +188,7 @@
 			console.log('남은시간 ' + min + ' : ' + sec);
 			
 		};
+
 	</script>
 </body>
 </html>

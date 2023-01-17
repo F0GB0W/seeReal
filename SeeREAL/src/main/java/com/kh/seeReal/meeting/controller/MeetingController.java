@@ -224,4 +224,12 @@ public class MeetingController {
     	
     	return meetingService.updateMeetingUser(mu) > 0 ? "success" : "fail";
     }
+    
+    @RequestMapping("update.mt")
+    public ModelAndView updateSelectMeeting(ModelAndView mv, int mtno) {
+    	mv.addObject("meet", meetingService.selectMeetingDetail(mtno))
+    	  .setViewName("meeting/meetingUpdateForm");
+    	
+    	return mv;
+    }
 }

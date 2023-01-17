@@ -260,6 +260,7 @@
 						console.log(data);
 						if(data == 'success'){
 							alert('댓글 삭제 성공');
+							location.reload(); 
 							selectSpoilerReplyList();
 						}
 					},
