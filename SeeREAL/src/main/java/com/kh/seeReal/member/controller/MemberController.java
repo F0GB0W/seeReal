@@ -197,7 +197,7 @@ public class MemberController {
 	// 비밀번호 찾기
 	@RequestMapping("searchPwd.me")
 	public String searchPwd(HttpServletRequest request, Member m) { 
-		// 정규식 만족하는 임시비밀번호 생성해서 메일 보내고, member 테이블 update
+		// 정규표현식 만족하는 임시비밀번호 생성해서 메일 보내고, member 테이블 update
 		
 		SimpleMailMessage message = new SimpleMailMessage();
 		String ip = request.getRemoteAddr();

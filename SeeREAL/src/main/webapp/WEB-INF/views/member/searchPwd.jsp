@@ -33,7 +33,9 @@
 						<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
 							<tr>
 								<td>
-									<img src="resources/img/temporarily.png" style="width:150px; height:140px; margin-top:30px; margin-left:120px; margin-bottom:45px;">
+								
+									<img src="resources/img/logo.png"  style="width:150px; height:150px; margin-bottom:30px;">
+									
 								</td>							
 							</tr>
 							<tr>
