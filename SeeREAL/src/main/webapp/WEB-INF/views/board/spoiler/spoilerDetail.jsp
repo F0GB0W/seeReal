@@ -194,19 +194,19 @@
 				}
 			})
 		};
-		
+		/*
 		$(function(){
 			selectSpoilerReplyList();
 			
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
-		
+		*/
 		function updateReply(e){
 			
 			let value = '<td class="ChangeReplyContent"><textarea id="hiddenContent" style="resize:none;" type="text" name="boReplyContent" value="'
-					  + $(e).parent().parent().find("td").eq(1).text()
+					  + $(e).parent().parent().find("td").eq(0).text()
 					  + '"></textarea></td>';
-			$(e).parent().parent().find("td").eq(1).html(value);
+			$(e).parent().parent().find("td").eq(0).html(value);
 			$(e).removeAttr('onclick');
 			$(e).html('저장').attr('onclick', 'saveReply(this)');
 					  
