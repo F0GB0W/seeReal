@@ -110,16 +110,16 @@ public class MemberController {
 		return result;
 	}
 	
-	/*
+	
 	// 남은 시간 없을 경우
 	@ResponseBody
 	@RequestMapping(value="timeout.me",produces="text/html; UTF-8")
-	public String timeout(String code,HttpServletRequest request) {
-		Cert cert = Cert.builder().who(request.getRemoteAddr()).secret(code).build();
-		String result = memberService.timeout(cert));
+	public String timeout(HttpServletRequest request) {
+		//String email = (String)request.getRemoteAddr();
+		String result = memberService.timeout((String)request.getRemoteAddr());
 		return result;
 	}
-	*/
+	
 
 	// 닉네임 중복체크
 	@ResponseBody

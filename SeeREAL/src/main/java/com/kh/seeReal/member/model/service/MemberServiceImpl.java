@@ -50,6 +50,11 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+	public String timeout(String email) {
+		return memberDao.timeout(sqlSession, email);
+	}
+
+	@Override
 	public int insertMember(Member m) {	
 		return memberDao.insertMember(sqlSession,m);
 	}
@@ -146,6 +151,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.selectLikeComment(sqlSession,pi, map);
 	}
 
+	
 
 	
 

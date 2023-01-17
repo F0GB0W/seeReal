@@ -135,6 +135,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	           nick_name = #{nickname}
 	</select>
 	
+	<!-- 시간 지난 인증코드 삭제를 위한 delete -->
+	<select id ="selectNickname" parameterType="String" resultType="_int">
+		delete 
+		  from 
+		       cert
+		 where 
+		       who = #{who}
+		   and 
+		       secret = #{secret}
+	</select>
+	
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="member">
 		insert 

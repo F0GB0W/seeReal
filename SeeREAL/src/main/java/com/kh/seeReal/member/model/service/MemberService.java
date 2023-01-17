@@ -28,6 +28,9 @@ public interface MemberService {
 	// 닉네임 중복체크용 조회
 	public int selectNickname(String nickName);
 	
+	// 시간 지난 인증코드 삭제
+	public String timeout(String email);
+	
 	// 회원가입
 	public int insertMember(Member m);
 	
@@ -79,7 +82,8 @@ public interface MemberService {
 	public ArrayList<Comments> selectLikeComment(PageInfo pi,  HashMap map);
 
 	
-
+	
+	
 	
 	
 }

@@ -39,7 +39,7 @@
 							<tr>
 								<td style="text-align: left">
 									<p><strong id="title">아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
-									<input type="hidden" name="userEmail">
+									<input type="hidden" name="id">
 								</td>
 						    </tr>
 							<tr>

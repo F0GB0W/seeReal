@@ -40,6 +40,12 @@ public class MemberDao {
 	public int selectNickname(SqlSessionTemplate sqlSession, String nickname) {
 		return sqlSession.selectOne("memberMapper.selectNickname", nickname);
 	}
+	/*
+	// 시간 지난 인증코드 삭제
+	public String timeout(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.delete("memberMapper.timeout", email);
+	}*/
+
 	// 회원가입 
 	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.insertMember", m);
@@ -134,7 +140,6 @@ public class MemberDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectLikeComments", map, rowBounds);
 	}
-
 
 	// 댓글 조회
 	
