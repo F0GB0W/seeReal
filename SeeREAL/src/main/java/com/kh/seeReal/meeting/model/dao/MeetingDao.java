@@ -59,4 +59,8 @@ public class MeetingDao {
 		return sqlSession.update("meetingMapper.updateMeetingUser", mu);
 	}
 
+	public int updateMeeting(SqlSessionTemplate sqlSession, Meeting meet) {
+		return sqlSession.update("meetingMapper.updateMeeting", meet);
+	}
+
 }

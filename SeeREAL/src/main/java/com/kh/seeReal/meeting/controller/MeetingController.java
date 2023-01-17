@@ -232,4 +232,14 @@ public class MeetingController {
     	
     	return mv;
     }
+    
+    @RequestMapping("updateForm.mt")
+    public ModelAndView updateMeeting(ModelAndView mv, Meeting meet) {
+    	
+    	System.out.println(meet);
+    	meetingService.updateMeetion(meet);
+    	
+    	mv.setViewName("redirect:detail.mt?mtno=" + meet.getMeetingNo());
+    	return mv;
+    }
 }

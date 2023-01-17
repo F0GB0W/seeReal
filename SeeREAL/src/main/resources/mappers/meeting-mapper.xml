@@ -187,4 +187,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			MEETING_NO = #{ meetingNo }
 			AND MEMBER_NO = #{ memberNo }
 	</update>
+	
+	<update id="updateMeeting" parameterType="meeting">
+		UPDATE
+			MEETING
+		SET
+			 MEETING_TITLE = #{ meetingTitle }
+			,MEETING_EXP = #{ meetingExp }
+			,MEETING_PLACE = #{ meetingPlace }
+			,MEETING_PLACE_DETAIL = #{ meetingPlaceDetail }
+			,MOVIE_TITLE = #{ movieTitle }
+			,MOVIE_YEAR = #{ movieYear }
+		WHERE
+			MEETING_NO = #{ meetingNo }
+			AND MEMBER_NO = #{ memberNo }
+			AND STATUS = 'Y'
+	</update>
 </mapper>

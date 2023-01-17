@@ -116,7 +116,7 @@ button, .pinkButton {
 <body>
 
     <div class="form-area">
-        <form action="update.mt" method="post" align="center">
+        <form action="updateForm.mt" method="post" align="center">
             <input type="text" value="${ meet.meetingTitle }" maxlength="20" name="meetingTitle" required> <br>
 
             <hr>
@@ -163,15 +163,17 @@ button, .pinkButton {
                     <br>
 
                     <input value="${ meet.meetingPlace }" type="text" id="meetingAddress" style="margin-bottom: 10px;" placeholder="주소" name="meetingPlace" readonly required><br>
-                    <input value="${ meetingPlaceDetail }" type="text" name="meetingPlaceDetail" placeholder="상세주소" maxlength="30"><br>
+                    <input value="${ meet.meetingPlaceDetail }" type="text" name="meetingPlaceDetail" placeholder="상세주소" maxlength="30"><br>
                 </div>
             </div>
 
             <hr>
-            <textarea cols="50" rows="10" name="meetingExp" placeholder="모임 설명" style="resize: none;" required></textarea>
+            <textarea cols="50" rows="10" name="meetingExp" style="resize: none;" required>${ meet.meetingExp }</textarea>
 
             <input type="hidden" value="${ loginUser.memberNo }" name="memberNo"><br>
-            <button type="submit">만들기</button>
+            <input type="hidden" value="${ meet.meetingNo }" name="meetingNo"><br>
+
+            <button type="submit">수정하기</button>
             
         </form>
     </div>
@@ -292,6 +294,7 @@ button, .pinkButton {
 
                 }
             });
+
         })
 
         function selectMovie(subtitle, pubDate, title, director, thumb, link, director, actor) {
@@ -370,8 +373,8 @@ button, .pinkButton {
                 }
             }).open();
         }
+        
     </script>
-	
 
 </body>
 </html>
