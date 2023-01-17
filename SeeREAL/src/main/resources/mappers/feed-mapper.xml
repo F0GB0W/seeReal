@@ -26,6 +26,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="rating"    property="rating" />	
 		<result column="movie_title"    property="movieTitle" />	
 		<result column="movie_year"    property="movieYear" />	
+		<result column="comment_no"    property="commentNo" />	
+		<result column="count"    property="count" />	
 	</resultMap>
 	
 	<resultMap id="member" type="com.kh.seeReal.member.model.vo.Member">
@@ -67,12 +69,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="reviewList" resultMap="movie_rating">
-		select movie_title, rating, comment_like
-		  from movie_rating 
-		  left join comment_like on (member_no = comment_writer)
-		 where member_no = #{memberNo}
-		  order
-		     by comment_like desc
+		SELECT
+			ROWNUM,
+			T.*
+		FROM
+			(
+			SELECT
+				DISTINCT 
+			c.*
+			,
+				(
+				SELECT
+					count(comment_like)
+				FROM
+					comment_like
+				WHERE
+					comment_no = #{commentNo}
+					AND comment_like = 'Y'
+			) AS count
+			FROM
+				COMMENTS c
+			JOIN COMMENT_LIKE cl ON
+				c.COMMENT_NO = cl.COMMENT_NO
+			WHERE
+				c.COMMENT_NO = #{commentNo}
+				AND c.MEMBER_NO = #{memberNo}
+			ORDER BY count ASC) T
 	</select>
 	
 	<select id="ratingList" resultMap="movie_rating">
@@ -130,8 +152,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  from movie_rating
 		 where member_no = #{memberNo}
 		   and rownum = 1
-		  	  
 	</select>
-
+	
+	<select id="commentCount" resultMap="comments">
+		select comment_no
+		  from comments
+		 where member_no = #{memberNo};
+	</select>
 
 </mapper>

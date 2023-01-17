@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
+import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.member.model.service.FeedService;
 
 @Controller
@@ -16,7 +16,7 @@ public class FeedController {
 	private FeedService feedService;
 	
 	@RequestMapping("feed.me")
-	public ModelAndView feed(ModelAndView mv, int memberNo) {
+	public ModelAndView feed(ModelAndView mv, int memberNo, int commentNo) {
 		mv.addObject("count", feedService.selectCommentsCount(memberNo))
 		  .addObject("comments", feedService.commentsCount(memberNo))
 		  .addObject("review", feedService.reviewList(memberNo))
@@ -25,17 +25,20 @@ public class FeedController {
 		  .addObject("star", feedService.star(memberNo))
 		  .addObject("memberNo", memberNo)
 		  .setViewName("common/feed");
+		
+		System.out.println(feedService.reviewList(memberNo));
 		return mv;
 	}
-	
-	/*
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value="rating.yj",
-	 * produces="application/json; charset=UTF-8") public String ratingYj(int
-	 * memberNo) { return new Gson().toJson(feedService.ratingYj(memberNo)); }
-	 */
 
+	@ResponseBody
+	@RequestMapping("commentCount.me")
+	public String commentCount(int memberNo, int commentNo) {
+		MovieRating mv = new MovieRating();
+		mv.setMemberNo(memberNo);
+		mv.setCommentNo(commentNo);
+		
+		return feedService.commentCount(mv);
+	}
 	
 
 }
