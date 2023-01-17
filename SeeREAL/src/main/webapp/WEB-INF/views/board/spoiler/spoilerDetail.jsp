@@ -29,6 +29,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+	<jsp:include page="../../common/menubar.jsp"/>
 	<div id="spList">
 		<a class="btn btn-secondary" style="float:right;" href="spoilerList.bo">목록으로</a>
 		<table id="detailView" align="center" class="table">
@@ -193,19 +194,19 @@
 				}
 			})
 		};
-		
+		/*
 		$(function(){
 			selectSpoilerReplyList();
 			
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
-		
+		*/
 		function updateReply(e){
 			
 			let value = '<td class="ChangeReplyContent"><textarea id="hiddenContent" style="resize:none;" type="text" name="boReplyContent" value="'
-					  + $(e).parent().parent().find("td").eq(1).text()
+					  + $(e).parent().parent().find("td").eq(0).text()
 					  + '"></textarea></td>';
-			$(e).parent().parent().find("td").eq(1).html(value);
+			$(e).parent().parent().find("td").eq(0).html(value);
 			$(e).removeAttr('onclick');
 			$(e).html('저장').attr('onclick', 'saveReply(this)');
 					  
@@ -296,7 +297,7 @@
 		
 			
 	</script>
-			 
+<jsp:include page="../../common/footer.jsp"/>		 
 		
 		
 		

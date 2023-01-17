@@ -85,6 +85,11 @@ public class CommentsController {
 		
 		System.out.println(movieRating);
 		model.addAttribute("commentsList",commentsList);
+		System.out.println("상세페이지 가기전 데이터 정리=================");
+		System.out.println(movieInfo);
+		System.out.println(commentsList);
+		System.out.println("상세페이지 가기전 데이터 정리=================");
+		System.out.println("상세페이지간다 이거 표시"+commentsList);
 		//return new Gson().toJson(commentsList);
 		return "comments/movieDetail";
 		

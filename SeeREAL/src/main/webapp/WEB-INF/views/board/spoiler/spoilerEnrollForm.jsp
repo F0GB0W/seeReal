@@ -9,8 +9,9 @@
 
 </head>
 <body>
+  <jsp:include page="../../common/menubar.jsp"/>
 
-	<p>글쓰기 게시판</p>
+	<p>글쓰기</p>
   
 <div id="wrap">
   <div id="resultWrap"></div>
@@ -59,6 +60,7 @@
     </form>
   </fieldset>
 </div>
+<jsp:include page="../../common/footer.jsp"/>
 
 </body>
 </html>
