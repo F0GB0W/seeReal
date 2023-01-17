@@ -111,4 +111,10 @@ public class CollectionServiceImpl implements CollectionService {
 	public int insertLike(CollectionLike clike) {
 		return collectionDao.insetLike(sqlSession, clike);
 	}
+
+
+	@Override
+	public int deleteCollection(Collection cl) {
+		return collectionDao.deleteCollection(sqlSession, cl);
+	}
 }

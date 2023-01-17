@@ -57,7 +57,7 @@
     <table id="replyArea" class="table" align="center">
 		<thead>
 			<c:choose>
-				<c:when test="${empty loginUser }">
+				<c:when test="${ empty loginUser }">
 					<th>
 						<textarea class="form-control" readonly id="reply-content" cols="55" rows="2" style="resize:none;";>로그인 후 이용가능합니다.</textarea>
 					</th>
@@ -80,6 +80,25 @@
 		</tbody>
 	
 	</table>
+
+    <c:choose>
+        <c:when test="${ not empty loginUser }">
+            <c:if test="${ loginUser.memberNo eq collection.memberNo }">
+                <a class="btn btn-danger" onclick="postFormSubmit();">삭제하기</a>
+            </c:if>
+        </c:when>
+    </c:choose>
+    
+    <form action="" method="post" id="postForm"> 
+        <input type="hidden" name="collectionNo" value="${ collection.collectionNo }" />
+        <input type="hidden" name="memberNo" value="${ loginUser.memberNo }" />
+    </form>
+    
+    <script>
+        function postFormSubmit(num) {
+            $('#postForm').attr('action', 'delete.cl').submit();
+        }
+    </script>
 
     <script>
         $(function() {
