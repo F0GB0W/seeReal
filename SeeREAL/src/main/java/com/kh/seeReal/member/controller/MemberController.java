@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.MovieInfo;
@@ -115,9 +116,8 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="timeout.me",produces="text/html; UTF-8")
 	public String timeout(HttpServletRequest request) {
-		//String email = (String)request.getRemoteAddr();
-		String result = memberService.timeout((String)request.getRemoteAddr());
-		return result;
+		//String email = request.getRemoteAddr();
+		return memberService.timeout(request.getRemoteAddr());
 	}
 	
 
@@ -125,7 +125,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="selectNickname.me", produces= "text/html; UTF-8")
 	public String selectNickname(String nickname) {
-		return String.valueOf(memberService.selectNickname(nickname));
+		return memberService.selectNickname(nickname);
 	}
 	
 	
@@ -454,17 +454,18 @@ public class MemberController {
 		// 실패할 경우 화면 지정★★★★★★★★★★★★★★
 	}
 	
-	/*
+	
 	// 댓글 리스트 조회 :
 	@RequestMapping("myReply.me")
 	public ModelAndView selectReplyList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
 			                      HttpSession session, ModelAndView mv) {
 		
 		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+		//if() {} : 실패하지 않으면
 		
-		int spoilerSearchListCount = memberService.selectReplyListCount(memberNo);
-		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
-		ArrayList<Board> list = memberService.selectReplyList(memberNo, pi); // 페이징 바
+		int count = memberService.selectReplyListCount(memberNo);
+		PageInfo pi = Pagination.getPageInfo(count, currentPage, 10, 5);
+		ArrayList<BoardReply> list = memberService.selectReplyList(memberNo, pi); // 페이징 바
 	
 		mv.addObject("list", list); 
 		mv.addObject("pi", pi); 
@@ -473,7 +474,7 @@ public class MemberController {
 		 
 		return mv;
 	}
-	*/
+	
 	
 	
 	// 리얼모임 조회 : 참여 목록, 참여대기중 목록 

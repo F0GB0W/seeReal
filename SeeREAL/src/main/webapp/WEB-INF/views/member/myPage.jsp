@@ -52,7 +52,9 @@
 		<div><a href="myCollectionLike.me">좋아요한 컬렉션</a></div>
 		
 		<br>
-		<div><a href="myReply.me">댓글</a></div>
+		<div>
+			<a href="myReply.me">댓글</a>
+		</div>
 		
 		<br>
 		<div><a href="myComments.me">내 리얼평</a></div>

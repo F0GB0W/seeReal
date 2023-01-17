@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.common.model.vo.PageInfo;
@@ -37,14 +38,14 @@ public class MemberDao {
 	}
 	
 	// 닉네임 중복체크
-	public int selectNickname(SqlSessionTemplate sqlSession, String nickname) {
+	public String selectNickname(SqlSessionTemplate sqlSession, String nickname) {
 		return sqlSession.selectOne("memberMapper.selectNickname", nickname);
 	}
-	/*
+	
 	// 시간 지난 인증코드 삭제
-	public String timeout(SqlSessionTemplate sqlSession, String email) {
-		return sqlSession.delete("memberMapper.timeout", email);
-	}*/
+	public int timeout(SqlSessionTemplate sqlSession, String ip) {
+		return sqlSession.delete("memberMapper.timeout", ip);
+	}
 
 	// 회원가입 
 	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
@@ -58,7 +59,6 @@ public class MemberDao {
 
 	// 비밀번호 수정
 	public int updatePwd(SqlSessionTemplate sqlSession, Member m) {
-		
 		return sqlSession.update("memberMapper.updatePwd", m);
 	}
 	
@@ -141,13 +141,16 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectLikeComments", map, rowBounds);
 	}
 
-	public String timeout(SqlSessionTemplate sqlSession, String email) {
-		// TODO Auto-generated method stub
-		return null;
+	// 게시판 리스트 댓글 조회
+	public int selectReplyListCount(SqlSessionTemplate sqlSession,int memberNo) {
+		return sqlSession.selectOne("memberMapper.selectReplyListCount", memberNo);
 	}
-
-	// 댓글 조회
 	
+	public ArrayList<BoardReply> selectReplyList(SqlSessionTemplate sqlSession,int memberNo,PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectReplyList", memberNo,rowBounds);
+	}
 	
 	
 }
