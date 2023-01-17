@@ -39,6 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.MovieInfo;
 import com.kh.seeReal.comments.model.vo.MovieRating;
@@ -475,6 +476,24 @@ public class MemberController {
 		return mv;
 	}
 	
+	// 컬렉션 댓글 리스트 조회
+	@RequestMapping("myCollectionReply.me")
+	public ModelAndView selectCollectionReplyList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
+			                      HttpSession session, ModelAndView mv) {
+		
+		int memberNo = (((Member)session.getAttribute("loginUser")).getMemberNo());
+	
+		int count = memberService.selectCollectionReplyListCount(memberNo);
+		PageInfo pi = Pagination.getPageInfo(count, currentPage, 10, 5);
+		ArrayList<CollectionReply> list = memberService.selectCollectionReplyList(memberNo, pi); // 페이징 바
+	
+		mv.addObject("list", list); 
+		mv.addObject("pi", pi); 
+		
+		mv.setViewName("member/myCollectionReply");
+		 
+		return mv;
+	}
 	
 	
 	// 리얼모임 조회 : 참여 목록, 참여대기중 목록 

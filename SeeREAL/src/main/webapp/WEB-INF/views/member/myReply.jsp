@@ -218,7 +218,6 @@
             	<table class="board-table table table-hover" id="spoilerList">
                 	<thead>
 	                	<tr>
-	                		<th></th>
 	                    	<th scope="col" class="th-num">번호</th>
 	                      	<th scope="col" class="th-count">내용</th>
 	                      	<th scope="col" class="th-date">등록일</th> 	
@@ -233,7 +232,7 @@
                   				<c:forEach items="${list}" var="b">
 				                	<tr>
 				                		<td><input type="checkbox" name="" id=""></td>
-				                    	<td class="bno">${b.boReplyNo}</td>
+				                    	<td class="bno"><input type="hidden" name="${b.boardNo}">${b.boReplyNo}</td>
 				                      	<td id="spoilerTitle">${b.boReplyContent}</td>
 				                      	<td>${b.boReplyDate}</td>
 				                      	<td>${b.boardNo}</td>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.meeting.model.vo.Meeting;
@@ -150,6 +151,17 @@ public class MemberDao {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectReplyList", memberNo,rowBounds);
+	}
+
+	// 컬렉션 댓글 리스트 조회
+	public int selectCollectionReplyListCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("memberMapper.selectCollectionReplyListCount", memberNo);
+	}
+
+	public ArrayList<CollectionReply> selectCollectionReplyList(SqlSessionTemplate sqlSession, int memberNo,PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectCollectionReplyList", memberNo,rowBounds);
 	}
 	
 	

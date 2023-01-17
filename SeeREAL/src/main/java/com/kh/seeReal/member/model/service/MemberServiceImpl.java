@@ -12,6 +12,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.meeting.model.vo.Meeting;
@@ -148,6 +149,16 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public ArrayList<Comments> selectLikeComment(PageInfo pi, HashMap map) {
 		return memberDao.selectLikeComment(sqlSession,pi, map);
+	}
+
+	@Override
+	public int selectCollectionReplyListCount(int memberNo) {
+		return memberDao.selectCollectionReplyListCount(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<CollectionReply> selectCollectionReplyList(int memberNo, PageInfo pi) {
+		return memberDao.selectCollectionReplyList(sqlSession,memberNo, pi);
 	}
 
 	

@@ -54,6 +54,7 @@
 		<br>
 		<div>
 			<a href="myReply.me">댓글</a>
+			<a href="myCollectionReply.me">컬렉션 댓글</a>
 		</div>
 		
 		<br>
