@@ -32,6 +32,7 @@
     #nav-3 {
  	 background: #ff52a0;
 	 display :flex;
+	 margin-top : 10px;
 	}
 	.link-3 {
   transition: 0.4s;
@@ -44,15 +45,15 @@
 	.link-3:hover {
   background-color: #ffffff;
   color: #EEA200;
-  padding: 24px 10px;
+  padding: 45px 10px;
 	}
 	#spoBoard{
 		margin-top :0px;
 	}
-	dic{
-		display : flex;
+	div{
+		margin-top:20px;
 	}
-    
+	
 </style>	
 </head>
 <body>
@@ -69,10 +70,10 @@
 	
 
 	<nav id="nav-3">
-		<div><a href=""><img src="resources/img/KakaoTalk_20230117_090848032.png"  style="width:50px; height:50px;"></a></div>
+		<div><a href=""><img id="srLogo" src="resources/img/KakaoTalk_20230117_090848032.png"  style="width:50px; height:50px;"></a></div>
 		<div><a class="link-3" id="spoBoard" onclick="spoboard();">스포 게시판</a></div>
 		<div><a class="link-3" href="movieSelect.co">영화고르는창</a></div>
-		<div><a class="link-3" href="meetingList.mt">모임</a></div>
+		<div><a class="link-3" href="meetingList.mt">리얼 모임</a></div>
 		<div><a class="link-3" href="list.cl">컬렉션리스트</a></div>
 		
 		
