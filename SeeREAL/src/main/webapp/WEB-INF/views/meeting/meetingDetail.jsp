@@ -125,7 +125,8 @@
     </c:choose>
     
     <form action="" method="post" id="postForm"> 
-        <input type="hidden" name="mtno" value="${ meet.meetingNo }" />
+        <input type="hidden" name="meetingNo" value="${ meet.meetingNo }" />
+        <input type="hidden" name="memberNo" value="${ loginUser.memberNo }" />
     </form>
     
     <script>

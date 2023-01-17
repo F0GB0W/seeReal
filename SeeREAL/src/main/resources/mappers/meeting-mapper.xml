@@ -203,4 +203,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND MEMBER_NO = #{ memberNo }
 			AND STATUS = 'Y'
 	</update>
+	
+	<update id="deleteMeeting" parameterType="_int">
+		UPDATE
+			MEETING
+		SET
+			STATUS = 'N'
+		WHERE
+			MEETING_NO = #{ meetingNo }
+			AND MEMBER_NO = #{ memberNo }
+	</update>
 </mapper>

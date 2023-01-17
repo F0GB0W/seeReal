@@ -226,8 +226,8 @@ public class MeetingController {
     }
     
     @RequestMapping("update.mt")
-    public ModelAndView updateSelectMeeting(ModelAndView mv, int mtno) {
-    	mv.addObject("meet", meetingService.selectMeetingDetail(mtno))
+    public ModelAndView updateSelectMeeting(ModelAndView mv, int meetingNo) {
+    	mv.addObject("meet", meetingService.selectMeetingDetail(meetingNo))
     	  .setViewName("meeting/meetingUpdateForm");
     	
     	return mv;
@@ -236,10 +236,16 @@ public class MeetingController {
     @RequestMapping("updateForm.mt")
     public ModelAndView updateMeeting(ModelAndView mv, Meeting meet) {
     	
-    	System.out.println(meet);
     	meetingService.updateMeetion(meet);
     	
     	mv.setViewName("redirect:detail.mt?mtno=" + meet.getMeetingNo());
     	return mv;
+    }
+    
+    @RequestMapping("delete.mt")
+    public String deleteMeeting(Meeting meet) {
+    	System.out.println(meet);
+    	meetingService.deleteMeeting(meet);
+    	return "redirect:meetingList.mt";
     }
 }

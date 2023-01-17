@@ -75,4 +75,9 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingDao.updateMeeting(sqlSession, meet);
 	}
 
+	@Override
+	public int deleteMeeting(Meeting meet) {
+		return meetingDao.deleteMeeting(sqlSession, meet);
+	}
+
 }
