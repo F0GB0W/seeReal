@@ -117,15 +117,33 @@
 	                </tr>
 	            </table>
 	        </c:if>
+            <c:if test="${ loginUser.memberNo eq meet.memberNo }">
+                <a class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</a>
+                <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+            </c:if>
         </c:when>
     </c:choose>
     
+    <form action="" method="post" id="postForm"> 
+        <input type="hidden" name="mtno" value="${ meet.meetingNo }" />
+    </form>
     
+    <script>
+        function postFormSubmit(num) {
+            if(num == 1) { // 수정하기
+                $('#postForm').attr('action', 'update.mt').submit();
+            } else {    // 삭제하기
+                $('#postForm').attr('action', 'delete.mt').submit();
+            }
+        }
+
+    </script>
 
 
     <table id="meetingUserTable" class="table">
     </table>
 
+    
 
 
     <script>
