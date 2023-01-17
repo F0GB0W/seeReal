@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>my Reply</title>
+<title>my Collection Reply</title>
 <style>
     table {
         border-collapse: collapse;
@@ -206,7 +206,7 @@
 	<div class="outer">
 	    <div class="page-title">
 			<div class="container">
-	        	<h3>내 댓글</h3> 
+	        	<h3>내 컬렉션 댓글</h3> 
 	            <br>
 	       </div>
 	       <br>
@@ -229,13 +229,13 @@
                   				해당 게시판에 작성한 게시글이 존재하지 않습니다.
                   			</c:when>
                   			<c:otherwise>
-                  				<c:forEach items="${list}" var="b">
+                  				<c:forEach items="${list}" var="r">
 				                	<tr>
-				                		<td><input type="checkbox" name="" id=""></td>
-				                    	<td class="bno"><input type="hidden" name="${b.boardNo}">${b.boReplyNo}</td>
-				                      	<td id="spoilerTitle">${b.boReplyContent}</td>
-				                      	<td>${b.boReplyDate}</td>
-				                      	<td>${b.boardNo}</td>
+				                    	<td class="bno">${r.collectionNo}</td>
+				                      	<td><input type="hidden" name="${r.boardNo}">${r.coReplyNo}</td>
+				                      	<td id="spoilerTitle">${r.boReplyContent}</td>
+				                      	<td>${r.coReplyDate}</td>
+				                      	<td>${r.collectionNo}</td>
 				                  	</tr>
 		              			</c:forEach>
                   			</c:otherwise>
@@ -249,7 +249,7 @@
               		// 동적으로 생성된 요소
               	    $(function(){
               		    $('#spoilerList>tbody>tr').click(function(){
-	              			location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
+	              			location.href = 'Detail.cl?clno=' + $(this).children('.bno').text();
               			})	
               		});
               

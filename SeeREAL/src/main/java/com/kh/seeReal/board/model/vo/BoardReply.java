@@ -15,5 +15,5 @@ public class BoardReply {
 	private int memberNo; //MEMBER_NO
 	private int boardNo; //BOARD_NO
 	private String replyWriter;
-
+	private String boardType;
 }

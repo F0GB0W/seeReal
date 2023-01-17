@@ -39,12 +39,12 @@
 							<tr>
 								<td style="text-align: left">
 
-									<p><strong id="title">아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
+									<p><strong id="title">아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="mailChk"></span></p>
 									<input type="hidden" name="id">
 
 								</td>
 						    </tr>
-							<tr>
+							<tr id="emailValue">
 								<td><input type="email" name="memberEmail" id="email"
 									    		class="form-control tooltipstered" 
 									    		required="required" aria-required="true"
@@ -69,83 +69,109 @@
 	
 	
 	<script>
+		
+		var timer;
+		
 		$(function() {
 			//자바스크립트 정규 표현식
 			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);	
+			var $email = $('#email');
 			let emailCheck = false;
 			
-			// 이메일 인증 버튼 
-			$('#searchPwd-btn').on('click',function(){
+			$email.on('keyup', function(){
 				
-				//자바스크립트 정규 표현식
-				const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/); 
-
-				const emailInput = $('#email').val();
+				const mailInput = $('#email');
 				
 				//조건식으로 만든 논리적인코드(빈 문자열이면)
-				if(emailInput == ''){
-					$('#emailChk').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
+				if(mailInput.val() == ''){
+					$('#mailChk').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
 					
-				}else if(!getMail.test(emailInput)) { 
+				}else if(!getMail.test(mailInput.val())) { 
 					// 정규표현식을 만족하지 않으면
-					$('#emailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
+					$('#mailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
 					
 				}else{
 					
-					$.ajax({ // // 임시 비밀번호를 이메일로 보내는 요청
-						
-						url:'sendEmail.me',
-						method:'post',
-						data : {email :$('#email').val()},
-						success : function(result){ 
-							if(result === '1'){ // 이메일 인증
-
-								
-								min = 5
-								sec = 00;
-								showRemaining();
-								var timer = setInterval(showRemaining, 1000);
+					$.ajax({ // 있는 아이디인지 확인
+						url:'selectEmail.me',
+						data : {email : mailInput.val() },
+						success : function(result){
 							
-								//var code = prompt('인증번호를 입력하세요');
-								$('#title').text('인증번호를 입력하세요');
-								$('#email').val('');// 인증번호 입력칸 새로 만들기
-
+							if(result === '1'){  // == : 문자, 숫자 상관없음 // 아이디 있음
 								
-								if(code != null){ // 확인
-									if(code == ''){
-										alert('먼저 인증번호를 입력하세요.');
-									}else{
-										
-										$.ajax({
-											url: 'checkEmail.me', 
-											data : {
-													email :$('#email').val(),
-													code : code
-											}, 
-											success : function(result2){ 
+								$.ajax({ // 인증번호
+									
+									url:'sendEmail.me',
+									method:'post',
+									data : {email : mailInput.val()},
+									success : function(result){ 
+										if(result === '1'){ // 이메일 전송 성공
+											
+											min = 0;
+											sec = 30;
+											
+											timer = setInterval(showRemaining, 1000);
+											
+											var a = '';
+											let code = $('#code').val();
+											
+											a += '<tr><td style="text-align: left">'
+												  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>'
+												  + '<tr><td><input type="text" name="code" id="code" class="form-control tooltipstered"'
+												  + 'required="required" aria-required="true"'
+												  + 'style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"></td></tr>';
+											
+											$('#emailValue').after(a);
+											
+											if(code != null){ // 확인
 												
-												if(result2 === '1'){ // 인증메일 전송 성공
-													updatePwd(); // memberPwd update해주기 
-													alert("비밀번호 찾기 성공");
+												if(code == ''){
+													alert('먼저 인증번호를 입력하세요.');
 												}else{
-													alert(" 실패");
-												}
-											},
-											error : function(){
-												console.log("ajax error2");
-											}	
-										});	
+													
+													$.ajax({ 
+														url: 'checkEmail.me', 
+														data : {
+																email : mailInput.val(),
+																code : code
+														}, 
+														success : function(result2){ 
+															
+															if(result2 === '1'){ 
+																updatePwd(); 
+																alert("비밀번호 찾기 성공");
+															}else{
+																alert(" 실패");
+															}
+														},
+														error : function(){
+															console.log("ajax error2");
+														}	
+													});	
+												} // else
+											}
+											
+										}else{ // 메일 전송 실패
+											alert("인증 메일 전송에 실패했습니다. 다시 시도해주세요.");
+										}
+									},
+									error : function(){
+										console.log("ajax error");
 									}
-								}
-							}else{ // 메일 전송 실패
-								alert("인증 메일 전송에 실패했습니다. 다시 시도해주세요.");
+								});
+							}else{
+								mailInput.css("background-color", "transparent"); 
+								$('#mailChk').html("<b style='color:green;'>[존재하지 않는 이메일입니다.]</b>");				
 							}
 						},
 						error : function(){
 							console.log("ajax error");
-						}
-					});		
-				}
+						},
+						method:'post'
+					});
+					
+							
+				} // else
 			
 			});
 		}); 
@@ -156,22 +182,29 @@
 		}
 		
 		function showRemaining(){
-			
-			$('#timeChk').text(' 남은시간 ' + min + ' : ' + sec);
-			
+		
 			if(sec == 0 && min != 0){
 				min = min - 1;
 				sec = 59;
-			}else if(min == 0 && sec == 0){
-		
+			}else{
+				sec = sec - 1;	
+			}
+			
+			$('#timeChk').text(' 남은시간 ' + min + ' : ' + sec);
+			
+			if(min == 0 && sec == 0){
+				$('#timeChk').text('');
+				clearInterval(timer);
+				
 				$.ajax({
-					url: 'timeout.me', 
-					data : , 
-					success : function(result2){ 
-						clearInterval(timer);
+					url: 'timeout.me',  
+					success : function(result){ 
 						
-						if(result2 === '1'){ 
-							alert("입력시간을 초과하였습니다.");
+						alert("입력시간을 초과하였습니다.");
+						
+						if(result === '1'){ // 다시 이메일 보낼 수 있도록 해야함
+							$('')
+
 						}else{
 							alert("실패");
 						}
@@ -180,13 +213,8 @@
 						console.log("ajax error3");
 					}	
 				});	
-			
-			}else{
-				sec = sec - 1;	
+				
 			}
-			
-			console.log('남은시간 ' + min + ' : ' + sec);
-			
 		};
 
 	</script>

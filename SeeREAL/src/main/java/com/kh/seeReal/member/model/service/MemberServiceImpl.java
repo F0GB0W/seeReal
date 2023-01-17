@@ -10,7 +10,9 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.seeReal.board.model.vo.Board;
+import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.collection.model.vo.Collection;
+import com.kh.seeReal.collection.model.vo.CollectionReply;
 import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.meeting.model.vo.Meeting;
@@ -45,13 +47,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public int selectNickname(String nickname) {
+	public String selectNickname(String nickname) {
 		return memberDao.selectNickname(sqlSession, nickname);
 	}
 
 	@Override
 	public String timeout(String email) {
-		return memberDao.timeout(sqlSession, email);
+		return String.valueOf(memberDao.timeout(sqlSession, email));
 	}
 
 	@Override
@@ -90,15 +92,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int selectReplyListCount(String memberEmail) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int selectReplyListCount(int memberNo) {
+		return memberDao.selectReplyListCount(sqlSession,memberNo);
 	}
 
 	@Override
-	public ArrayList<Board> selectReplyList(String memberEmail, PageInfo pi) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<BoardReply> selectReplyList(int memberNo, PageInfo pi) {
+		return memberDao.selectReplyList(sqlSession, memberNo,pi);
 	}
 
 	@Override
@@ -149,6 +149,16 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public ArrayList<Comments> selectLikeComment(PageInfo pi, HashMap map) {
 		return memberDao.selectLikeComment(sqlSession,pi, map);
+	}
+
+	@Override
+	public int selectCollectionReplyListCount(int memberNo) {
+		return memberDao.selectCollectionReplyListCount(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<CollectionReply> selectCollectionReplyList(int memberNo, PageInfo pi) {
+		return memberDao.selectCollectionReplyList(sqlSession,memberNo, pi);
 	}
 
 	
