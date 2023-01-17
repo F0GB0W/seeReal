@@ -13,7 +13,7 @@
 
 <style>
 
-    .outer{
+    .outer1{
     	margin-left: 30%;
         width:600px; 
         align: center;
@@ -65,7 +65,7 @@
 </head>
 <body>
 	<jsp:include page="menubar.jsp" />
-	<div class="outer">
+	<div class="outer1">
 		<div class="profile">
 						<c:choose>
 				<c:when test="${ not empty selectMember.memberPhoto }">

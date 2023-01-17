@@ -347,7 +347,7 @@
 	    	  <button type="submit" class="searchBtn btn btn-secondary">검색</button>
       		</form>
      	</div>
-      
+    <jsp:include page="../../common/footer.jsp"/>  
       
       
       
