@@ -20,9 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.seeReal.comments.model.service.CommentsService;
@@ -30,8 +28,6 @@ import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieInfo;
 import com.kh.seeReal.comments.model.vo.MovieRating;
-import com.kh.seeReal.common.model.vo.PageInfo;
-import com.kh.seeReal.common.template.Pagination;
 
 
 
@@ -81,8 +77,6 @@ public class CommentsController {
 		model.addAttribute("movieDirector",movieInfo.getMovieDirector());
 		//model.addAttribute("movieSubTitle",movieSubTitle);
 		model.addAttribute("movieSubTitle",movieInfo.getMovieSubTitle());
-		
-		model.addAttribute("myCommentsExit", commentsService.checkMyCommentExit(comments));
 		
 		
 		System.out.println(comments);
@@ -188,15 +182,6 @@ public class CommentsController {
             throw new RuntimeException("API 응답을 읽는 데 실패했습니다.", e);
         }
     }
-    @ResponseBody
-    @RequestMapping(value="checkMyCommentExit.co")
-    public int checkMyCommentExit(Comments comments) {
-    	
-    	return commentsService.checkMyCommentExit(comments);
-    }
-    
-    
-    
     
     @ResponseBody
     @RequestMapping(value="ratingGet.co")
@@ -259,7 +244,6 @@ public class CommentsController {
     	System.out.println(comments);
     	System.out.println("--커멘트쓰기");
     	int result=commentsService.commentsWrite(comments);
-    	
     	return "comments/movieDetail";
     	
     	
@@ -358,26 +342,5 @@ public class CommentsController {
     	commentsService.deleteMyComments(comments);
     	
     	return "comments/movieDetail";
-    }
-    
-    @RequestMapping(value="detailComments.co")
-    public ModelAndView detailComments(@RequestParam(value="cpage",defaultValue="1") int currentPage,Comments comments,ModelAndView mv) {
-    	
-    	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 5);
-    	
-    	commentsService.selectCommentsListAll(comments,pi);
-    	
-    	mv.addObject("pi", pi).addObject("commentsList",commentsService.selectCommentsListAll(comments,pi)).setViewName("comments/movieCommentsList");
-    	
-    	return mv;
-    	
-    }
-    
-    @ResponseBody
-    @RequestMapping(value="myComment.co",produces="application/json; charset=UTF-8")
-    public HashMap<String,Object> myComment(Comments comments) {
-    	HashMap<String, Object> myComment=commentsService.myComment(comments);
-    	
-    	return myComment;
     }
 }

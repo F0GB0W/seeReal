@@ -1,13 +1,22 @@
 package com.kh.seeReal.member.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.Cookie;
@@ -30,6 +39,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.seeReal.board.model.vo.Board;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.comments.model.vo.Comments;
+import com.kh.seeReal.comments.model.vo.MovieInfo;
+import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.member.model.service.MemberService;
@@ -61,7 +72,6 @@ public class MemberController {
 	// 이메일 인증 : 이메일 보내는 메소드 / 확인하는 메소드
 	// 이메일 인증 버튼 누르면 insert + 이메일 보내기 => 성공시 prompt 띄워야함
 	// 인증번호 입력 후 버튼 누르면 select + delete 같이
-
 	@ResponseBody
 	@RequestMapping(value="sendEmail.me",produces="text/html; UTF-8")
 	public String sendEmail(String email, HttpServletRequest request) { // 이메일 인증 버튼을 눌렀을 때, 
@@ -100,6 +110,16 @@ public class MemberController {
 		return result;
 	}
 	
+	/*
+	// 남은 시간 없을 경우
+	@ResponseBody
+	@RequestMapping(value="timeout.me",produces="text/html; UTF-8")
+	public String timeout(String code,HttpServletRequest request) {
+		Cert cert = Cert.builder().who(request.getRemoteAddr()).secret(code).build();
+		String result = memberService.timeout(cert));
+		return result;
+	}
+	*/
 
 	// 닉네임 중복체크
 	@ResponseBody
@@ -124,7 +144,7 @@ public class MemberController {
 		}else {
 
 			// 회원가입 실패 메세지 보여주기  또는 에러 페이지로 포워딩
-			session.setAttribute("errorMsg", "회원가입 실패");
+			session.setAttribute("alertMsg", "회원가입 실패");
 			return "common/errorPage";
 		}	
 	}
@@ -171,7 +191,7 @@ public class MemberController {
 		return "redirect:/"; 
 	}
 	
-	
+
 	
 	// 비밀번호 찾기
 	@RequestMapping("searchPwd.me")
@@ -566,21 +586,96 @@ public class MemberController {
 		return mv;
 	}
 
+	// 리얼평 상세 조회
+	@ResponseBody
+	@RequestMapping(value = "comments.me", produces="application/json; charset=UTF-8")
+	public String searchMovie(String title, String year) throws IOException {
+		//String[] mvList = box();
+		
+		String clientId = "Uw8Fe7ZNBoyhy9E3Qn2R"; //애플리케이션 클라이언트 아이디 필수작성
+	    String clientSecret = "XoR_59jjvJ"; //애플리케이션 클라이언트 시크릿 필수작성
+	    System.out.println(year);
+	    //year = URLEncoder.encode(year, "UTF-8");
+	    
+	    String responseBody = "";
+	    /*
+	    JSONArray jarr = new JSONArray();
+	    for(int i = 0; i < mvList.length; i++) {
+	        String apiURL = "https://openapi.naver.com/v1/search/movie.json?query=" + URLEncoder.encode(mvList[i], "UTF-8");
+	        Map<String, String> requestHeaders = new HashMap<>();
+	        requestHeaders.put("X-Naver-Client-Id", clientId);
+	        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+	        //responseBody += get(apiURL,requestHeaders);
+	        jarr.add(get(apiURL,requestHeaders));
+	    }
+	    */
+	    
+	    String apiURL = "https://openapi.naver.com/v1/search/movie.json?query=" + URLEncoder.encode(title, "UTF-8");
+	    apiURL += "&yearfrom=" + Integer.parseInt(year) + "&yearto=" + Integer.parseInt(year);
+	    // apiURL += "&display=100"; (한페이지에 보여줄 개수) 
+	    Map<String, String> requestHeaders = new HashMap<>();
+	    requestHeaders.put("X-Naver-Client-Id", clientId);
+	    requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+	    responseBody = get(apiURL,requestHeaders);
+	    System.out.println(responseBody);
+	    //System.out.println(jarr);
+	    
+	    System.out.println(apiURL);
+	    return responseBody;
+	}
 	
 	
+	private static String get(String apiUrl, Map<String, String> requestHeaders){
+	    HttpURLConnection con = connect(apiUrl);
+	    try {
+	        con.setRequestMethod("GET");
+	        for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
+	            con.setRequestProperty(header.getKey(), header.getValue());
+	        }
+	
+	        int responseCode = con.getResponseCode();
+	        if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
+	            return readBody(con.getInputStream());
+	        } else { // 오류 발생
+	            return readBody(con.getErrorStream());
+	        }
+	    } catch (IOException e) {
+	        throw new RuntimeException("API 요청과 응답 실패", e);
+	    } finally {
+	        con.disconnect();
+	    }
+	}
 	
 	
+	private static HttpURLConnection connect(String apiUrl){
+	    try {
+	        URL url = new URL(apiUrl);
+	        return (HttpURLConnection)url.openConnection();
+	    } catch (MalformedURLException e) {
+	        throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
+	    } catch (IOException e) {
+	        throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
+	    }
+	}
 	
 	
+	private static String readBody(InputStream body){
+	    InputStreamReader streamReader = new InputStreamReader(body);
 	
+	    try (BufferedReader lineReader = new BufferedReader(streamReader)) {
+	        StringBuilder responseBody = new StringBuilder();
 	
-	
-	
-	
-	
-	
-	
-	
+	        String line;
+	        while ((line = lineReader.readLine()) != null) {
+	            responseBody.append(line);
+	        }
+	        System.out.println(responseBody.toString());
+	        
+	        return responseBody.toString();
+	    } catch (IOException e) {
+	        throw new RuntimeException("API 응답을 읽는 데 실패했습니다.", e);
+	    }
+	}
 	
 	
 }

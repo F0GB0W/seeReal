@@ -38,7 +38,7 @@
 							</tr>
 							<tr>
 								<td style="text-align: left">
-									<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
+									<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
 								</td>
 						    </tr>
 							<tr>
@@ -66,6 +66,8 @@
 	
 	
 	<script>
+		var min, sec;
+		
 		$(function() {
 			//자바스크립트 정규 표현식
 			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);	
@@ -99,6 +101,12 @@
 						data : {email :$('#email').val()},
 						success : function(result){ 
 							if(result === '1'){ // 이메일 인증
+								
+								min = 5
+								sec = 00;
+								showRemaining();
+								var timer = setInterval(showRemaining, 1000);
+							
 								var code = prompt('인증번호를 입력하세요');
 								
 								if(code != null){ // 확인
@@ -145,6 +153,38 @@
 			$('#aa').submit();
 		}
 		
+		function showRemaining(){
+			
+			$('#timeChk').text(min + ' : ' + sec);
+			
+			if(sec == 0){
+				min = min - 1;
+				sec = 59;
+			}else if(min == 0 && sec == 0){
+		
+				$.ajax({
+					url: 'timeout.me', 
+					success : function(result2){ 
+						clearInterval(timer);
+						
+						if(result2 === '1'){ 
+							alert("입력시간을 초과하였습니다.");
+						}else{
+							alert("실패");
+						}
+					},
+					error : function(){
+						console.log("ajax error3");
+					}	
+				});	
+			
+			}else{
+				sec = sec - 1;	
+			}
+			
+			console.log(min + ' : ' + sec);
+			
+		};
 	</script>
 </body>
 </html>
