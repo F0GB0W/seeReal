@@ -33,12 +33,13 @@
 						<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
 							<tr>
 								<td>
-									<img src="resources/img/temporarily.png" style="width:150px; height:140px; margin-top:30px; margin-left:167px; margin-bottom:45px;">
+									<img src="resources/img/temporarily.png" style="width:150px; height:140px; margin-top:30px; margin-left:120px; margin-bottom:45px;">
 								</td>							
 							</tr>
 							<tr>
 								<td style="text-align: left">
-									<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
+									<p><strong id="title">아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
+									<input type="hidden" name="userEmail">
 								</td>
 						    </tr>
 							<tr>
@@ -83,18 +84,15 @@
 				
 				//조건식으로 만든 논리적인코드(빈 문자열이면)
 				if(emailInput == ''){
-		
-					emailInput.css("background", "pink");				
 					$('#emailChk').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
 					
 				}else if(!getMail.test(emailInput)) { 
 					// 정규표현식을 만족하지 않으면
-					emailInput.css("background-color", "pink"); 
 					$('#emailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
 					
 				}else{
 					
-					$.ajax({ // // 임시 비민번호를 이메일로 보내는 요청
+					$.ajax({ // // 임시 비밀번호를 이메일로 보내는 요청
 						
 						url:'sendEmail.me',
 						method:'post',
@@ -107,7 +105,10 @@
 								showRemaining();
 								var timer = setInterval(showRemaining, 1000);
 							
-								var code = prompt('인증번호를 입력하세요');
+								//var code = prompt('인증번호를 입력하세요');
+								$('#title').text('인증번호를 입력하세요');
+								$('#email').val('');// 인증번호 입력칸 새로 만들기
+							
 								
 								if(code != null){ // 확인
 									if(code == ''){
@@ -155,15 +156,16 @@
 		
 		function showRemaining(){
 			
-			$('#timeChk').text(min + ' : ' + sec);
+			$('#timeChk').text(' 남은시간 ' + min + ' : ' + sec);
 			
-			if(sec == 0){
+			if(sec == 0 && min != 0){
 				min = min - 1;
 				sec = 59;
 			}else if(min == 0 && sec == 0){
 		
 				$.ajax({
 					url: 'timeout.me', 
+					data : , 
 					success : function(result2){ 
 						clearInterval(timer);
 						
@@ -182,7 +184,7 @@
 				sec = sec - 1;	
 			}
 			
-			console.log(min + ' : ' + sec);
+			console.log('남은시간 ' + min + ' : ' + sec);
 			
 		};
 	</script>
