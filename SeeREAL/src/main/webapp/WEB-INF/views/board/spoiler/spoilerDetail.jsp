@@ -25,6 +25,7 @@
         spList{width:1000px;}
     </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
@@ -89,6 +90,37 @@
 	
 	</div>
 	
+	<c:if test="${loginUser.memberNo ne b.boardWriter && not empty loginUser}">
+		
+			 <div id="reportButton" align="center">
+			 <form id="reportBt">
+             <input type="hidden" name="boardNo" value="${ b.boardNo }">
+             <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
+             <input type="hidden" name="reportOccured" value="${b.boardNo}">
+             <input type="hidden" name="reportType" value="1">
+        
+             
+             			
+             	<input type="hidden" name="reporting">
+		              <select  name="reportReason">
+		              	<option value="1">부적절한 게시글</option>
+		              	<option value="2">스포일러성 정보</option>
+		              	<option value="3">홍보 및 광고</option>
+		              	<option value="4">욕설 및 도배</option>
+		              </select>
+   
+   
+   <button type="button"  id="rpButton" onclick="submitReport()"> 신고하기<i class="fa-solid fa-land-mine-on fa-2x" ></i></button>
+
+				 </form>
+   
+
+              <br><br>
+			
+			</div>
+					</c:if>
+	
+	
 	<script>
 		function postFormSubmit(num){
 			if(num == 1){ // 수정하기
@@ -131,6 +163,50 @@
 		</tbody>
 	
 	</table>
+	<script>
+
+$(function() {
+	var formData = $("#reportBt").serialize();
+
+	$.ajax({
+		url: "reportCount.rp",
+        data: formData,
+		success : function(response) {
+			if(response > 0 ) {
+				$("#rpButton").prop("disabled", true);
+			} else {
+				$("#rpButton").prop("disabled", false);
+			}
+		}
+	})
+})
+
+function submitReport() {
+    var formData = $("#reportBt").serialize();
+
+    $.ajax({
+        type: "POST",
+        url: "insertReport.rp",
+        data: formData,
+        success: function(response) {
+            // Handle the response from the server
+            if (response != "success") {
+                alert("신고가 정상적으로 접수되었습니다.");
+                // disable the button
+                $("#rpButton").prop("disabled", true);
+            } else {
+                alert("이미 신고 처리되었거나 오류 발생 ");
+            }
+        }
+    });
+}
+</script>
+	
+	
+	
+	
+	
+	
 	<script>
 		$(function(){
 			selectSpoilerReplyList();
