@@ -186,6 +186,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+<jsp:include page="../common/menubar.jsp"/>
 <body>
 <section class="notice">
     <div class="page-title">
@@ -241,6 +242,34 @@
 			})
 		});
 	</script>
+
+  <div id="pagingArea">
+    <ul class="pagination">
+    
+      <c:choose>
+        <c:when test="${ pi.currentPage eq 1 }">
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>	
+        </c:when>
+        <c:otherwise>
+            <li class="page-item"><a class="page-link" href="meetingList.mt?cpage=${ pi.currentPage - 1 }">Previous</a></li>	
+        </c:otherwise>
+      </c:choose>
+        
+        <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+          <li class="page-item"><a class="page-link" href="meetingList.mt?cpage=${ p }">${ p }</a></li>
+        </c:forEach>
+        
+        <c:choose>
+        <c:when test="${ pi.currentPage eq pi.maxPage }">
+            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>	
+        </c:when>
+        <c:otherwise>
+            <li class="page-item"><a class="page-link" href="meetingList.mt?cpage=${ pi.currentPage + 1 }">Next</a></li>	
+        </c:otherwise>
+      </c:choose>
+        
+    </ul>
+  </div>
 
 </body>
 </html>

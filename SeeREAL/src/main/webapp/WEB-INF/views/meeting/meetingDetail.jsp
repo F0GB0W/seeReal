@@ -22,7 +22,9 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
 <!-- Semantic UI theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+
 </head>
+
     <input type="hidden" id="title" value="${ meet.movieTitle }" >
     <input type="hidden" id="year" value="${ meet.movieYear }" >
     <c:choose>
@@ -34,8 +36,11 @@
         </c:otherwise>
     </c:choose>
 
-    <h1>${ meetingTitle }</h1>
+    <h1>${ meet.meetingTitle }</h1>
 
+    <h4 onclick="goFeed(${ meet.memberNo })">${ meet.meetingWriter }가 만듦</h4>
+
+    
     <hr>
 
     <h1>함께 볼 영화</h1>
@@ -92,6 +97,7 @@
                         <thead>
                             <tr>
                                 <th>참여자</th>
+                                <th>피드로 이동</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -200,13 +206,15 @@
                         if(itemArr[i].meetingAccept == 'Y') {   // 글작성자 포함 count
                             memberCount++;
                             tableValue += '<tr>'
-                                        + '<td>' + itemArr[i].nickName + '</td>';
+                                        + '<td>' + itemArr[i].nickName + '</td>'
+                                        + '<td>' + '<button onclick="goFeed(' + itemArr[i].memberNo + ')">이동</button>' + '</td>'
+                                        + '</tr>';
                         }
                         $('#enrollMember tbody').html(tableValue);
 
                         if(itemArr[i].memberNo != ${ meet.memberNo }) { // 글작성자는 나오면 안 됨!!
                             value += '<tr>'
-                                    + '<td>' + itemArr[i].nickName + '</td>'
+                                    + '<td onclick="goFeed(' + itemArr[i].memberNo + ')">' + itemArr[i].nickName + '</td>'
                                     + '<td>' + itemArr[i].meetingContent + '</td>';
                             
                             if(itemArr[i].meetingAccept == 'Y') {   // 이미 참여중이라면
@@ -233,6 +241,10 @@
                 }
             });
         };
+
+        function goFeed(memberNo) {
+            location.href = 'feed.me?memberNo=' + memberNo;
+        }
 
         function enrollMeetingMember() {
             $.ajax({

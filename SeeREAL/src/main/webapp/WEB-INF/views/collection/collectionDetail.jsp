@@ -24,6 +24,8 @@
 </style>
 </head>
 <body>
+    <jsp:include page="../common/menubar.jsp"/>
+
 
     <input type="hidden" id="memberNo" value="${ collection.memberNo }">
     <input type="hidden" id="collectionNo" value="${ collection.collectionNo }">
@@ -132,7 +134,7 @@
 
                     for(var i in list) {
                         value += '<tr>'
-                                + '<td>' + list[i].nickName + '</td>'
+                                + '<td onclick="goFeed('+ list[i].memberNo +')">' + list[i].nickName + '</td>'
                                 + '<td class="replyConent">' + list[i].coReplyContent + '</td>'
                                 + '<td>' + list[i].coReplyDate + '</td>'
                                 + '<input type="hidden" value="' + list[i].coReplyNo + '" name="hiddenReplyNo">'
@@ -154,6 +156,10 @@
                 }
             })
         };
+
+        function goFeed(memberNo) {
+            location.href = 'feed.me?memberNo=' + memberNo;
+        }
 
         function updateReply(e) {
             let value = '<td class="ChangeReplyContent"><input type="text" name="hiddenReplyContent" value="'
