@@ -42,4 +42,6 @@ public interface CollectionService {
 
 	int insertLike(CollectionLike clike);
 
+	int deleteCollection(Collection cl);
+
 }

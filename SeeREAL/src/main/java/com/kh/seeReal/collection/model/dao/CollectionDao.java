@@ -75,4 +75,8 @@ public class CollectionDao {
 		return sqlSession.insert("collectionMapper.insetLike", clike);
 	}
 
+	public int deleteCollection(SqlSessionTemplate sqlSession, Collection cl) {
+		return sqlSession.update("collectionMapper.deleteCollection", cl);
+	}
+
 }

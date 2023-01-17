@@ -63,6 +63,9 @@ body h1{
 
 </head>
 <body>
+	<jsp:include page="../common/menubar.jsp"/>
+
+	
 	<c:choose>
 		<c:when test="${ not empty loginUser }">
 			<a href="makeCollection.cl">컬랙션 만들기로 이동~~</a>
