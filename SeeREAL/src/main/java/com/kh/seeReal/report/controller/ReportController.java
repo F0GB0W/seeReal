@@ -50,22 +50,17 @@ public class ReportController {
     	return mv;
     }
 	@RequestMapping("insertReport.rp")
-	public String insertReport(Report r, HttpSession session, Model model,int boardNo,int boReplyNo, int meetingNo,int collectionNo, int commentNo, int coReplyNo) {
+	public String insertReport(@RequestParam(value="reportCheck",defaultValue="1") String reportReason ,Report r,int boardNo) {
 		
-	
+       
+		
 		if(reportService.insertReport(r) > 0) { 
 			reportService.increaseSpoBoardReport(boardNo);
-			reportService.increaseBoReplyReport(boReplyNo);
-			reportService.increaseMeetingReport(meetingNo);
-			reportService.increaseCollectionReport(collectionNo);
-			reportService.increaseCommentReport(commentNo);
-			reportService.increaseCoReplyReport(coReplyNo);
 			
-			session.setAttribute("alertMsg", "신고가 접수 되었습니다 ");
-			return "redirect:list.bo";
+			return "redirect:spoilerList.bo";
 		} else {
-			model.addAttribute("errorMsg", "신고에 실패했어요...");
-			return "";
+			
+			return "redirect:errorPage";
 		}
 	}
 
@@ -74,11 +69,20 @@ public class ReportController {
     
     
     
+
+//	reportService.increaseBoReplyReport(boReplyNo);
+//	reportService.increaseMeetingReport(meetingNo);
+//	reportService.increaseCollectionReport(collectionNo);
+//	reportService.increaseCommentReport(commentNo);
+//	reportService.increaseCoReplyReport(coReplyNo);
+//    
     
-    
-    
-    
-    
+    @ResponseBody
+    @RequestMapping("reportCount.rp")
+    public int selectReportCount(Report r) {
+    	return reportService.selectReportCount(r);
+    	//return String.valueOf(reportService.selectReportCount(r));
+    }
     
     
     

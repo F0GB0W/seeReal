@@ -36,5 +36,7 @@ public interface ReportService {
 	int increaseCommentReport(int commentNo);
 	int increaseCoReplyReport(int coReplyNo);
 
+	int selectReportCount(Report r);
+
 	
 }
