@@ -29,8 +29,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<jsp:include page="../../common/menubar.jsp"/>
 	<div id="spList">
+	<jsp:include page="../../common/menubar.jsp"/>
 		<a class="btn btn-secondary" style="float:right;" href="spoilerList.bo">목록으로</a>
 		<table id="detailView" align="center" class="table">
 			<tr>
@@ -57,6 +57,14 @@
 					<a href="${b.changeName }" download="${b.originName }">${b.originName }</a>
 				</c:otherwise>
 				</c:choose>
+			</tr>
+			<tr>
+				<td>
+					<c:if test="${not empty b.changeName }">
+						<img src="${b.changeName }" alt="이미지" width="300px;" height="400px;">
+					</c:if>
+				</td>
+				
 			</tr>
 			
 			<tr>
