@@ -29,6 +29,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+	<jsp:include page="../../common/menubar.jsp"/>
 	<div id="spList">
 		<a class="btn btn-secondary" style="float:right;" href="spoilerList.bo">목록으로</a>
 		<table id="detailView" align="center" class="table">
@@ -296,7 +297,7 @@
 		
 			
 	</script>
-			 
+<jsp:include page="../../common/footer.jsp"/>		 
 		
 		
 		
