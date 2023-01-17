@@ -221,6 +221,8 @@
 	        <br>
 	    </div>
 	    
+	    <a href="makeCollection.cl">컬렉션 만들기</a>
+	    
     	<!-- board list area -->
       	<div id="board-list">
         	<div class="container content">

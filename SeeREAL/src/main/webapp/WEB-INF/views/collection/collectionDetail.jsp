@@ -24,6 +24,8 @@
 </style>
 </head>
 <body>
+    <jsp:include page="../common/menubar.jsp"/>
+
 
     <input type="hidden" id="memberNo" value="${ collection.memberNo }">
     <input type="hidden" id="collectionNo" value="${ collection.collectionNo }">
@@ -57,7 +59,7 @@
     <table id="replyArea" class="table" align="center">
 		<thead>
 			<c:choose>
-				<c:when test="${empty loginUser }">
+				<c:when test="${ empty loginUser }">
 					<th>
 						<textarea class="form-control" readonly id="reply-content" cols="55" rows="2" style="resize:none;";>로그인 후 이용가능합니다.</textarea>
 					</th>
@@ -80,6 +82,25 @@
 		</tbody>
 	
 	</table>
+
+    <c:choose>
+        <c:when test="${ not empty loginUser }">
+            <c:if test="${ loginUser.memberNo eq collection.memberNo }">
+                <a class="btn btn-danger" onclick="postFormSubmit();">삭제하기</a>
+            </c:if>
+        </c:when>
+    </c:choose>
+    
+    <form action="" method="post" id="postForm"> 
+        <input type="hidden" name="collectionNo" value="${ collection.collectionNo }" />
+        <input type="hidden" name="memberNo" value="${ loginUser.memberNo }" />
+    </form>
+    
+    <script>
+        function postFormSubmit(num) {
+            $('#postForm').attr('action', 'delete.cl').submit();
+        }
+    </script>
 
     <script>
         $(function() {
@@ -113,7 +134,7 @@
 
                     for(var i in list) {
                         value += '<tr>'
-                                + '<td>' + list[i].nickName + '</td>'
+                                + '<td onclick="goFeed('+ list[i].memberNo +')">' + list[i].nickName + '</td>'
                                 + '<td class="replyConent">' + list[i].coReplyContent + '</td>'
                                 + '<td>' + list[i].coReplyDate + '</td>'
                                 + '<input type="hidden" value="' + list[i].coReplyNo + '" name="hiddenReplyNo">'
@@ -135,6 +156,10 @@
                 }
             })
         };
+
+        function goFeed(memberNo) {
+            location.href = 'feed.me?memberNo=' + memberNo;
+        }
 
         function updateReply(e) {
             let value = '<td class="ChangeReplyContent"><input type="text" name="hiddenReplyContent" value="'
@@ -235,7 +260,7 @@
             $.ajax({
                 url : 'creply.cl',
                 data : {
-                    memberNo : $('#memberNo').val(),
+                    memberNo : $('#loginUser').val(),
                     collectionNo : $('#collectionNo').val(),
                     coReplyContent : $('#reply-content').val()
                 },

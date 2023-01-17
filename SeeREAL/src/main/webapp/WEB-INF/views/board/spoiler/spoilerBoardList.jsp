@@ -12,7 +12,8 @@
         border-spacing: 0;
       }
       div.outer {
-        padding: 80px 0;
+      	margin-top : 10px;
+        padding: 0px 0;
         width:"80%"
       }
       
@@ -205,6 +206,7 @@
 </head>
 <body>
 <div class="outer">
+<jsp:include page="../../common/menubar.jsp"/>
     <div class="page-title">
           <div class="container">
               <h3>스포 게시판</h3>

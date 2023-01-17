@@ -71,7 +71,7 @@
 	<jsp:include page="menubar.jsp" />
 	<input type="hidden" id="listCount" value="${ count }">
 	<input type="hidden" id="keyword" value="${ keyword }">
-	<div class="outer">
+	<div class="outer1">
       
 		<div id="searchList">
 			<div class="title">리얼모임</div>
@@ -97,8 +97,8 @@
 		<div id="movieList">
 			<div class="title">영화</div>
 <%-- 			<c:choose>
-				<c:when test="${ data.items eq null }"> --%>
-<!-- 					 <table id="result1" border="1" align="center" >
+				<c:when test="${ data.items eq null }">
+					 <table id="result1" border="1" align="center" >
 	                    <thead>
 	                        <tr>
 	                            <th>영화제목(링크)</th>
@@ -111,22 +111,28 @@
 	                    </thead>
 	                    <tbody>
 	                    </tbody>
-	                  </table> -->
-                    <div class="movieList-area">
-
-					</div>
-<%-- 	            </c:when>   
+	                  </table>
+	            </c:when>   
 				<c:otherwise>
 						검색한 결과가 없어요🤷‍♀️
 				</c:otherwise>
 			</c:choose>  --%>
+			<c:choose>
+				<c:when test="${ empty data.items }">
+				    <div class="movieList-area">
+	    			</div>
+    			</c:when>
+    			<c:otherwise>
+						검색한 결과가 없어요🤷‍♀️
+    			</c:otherwise>
+    		</c:choose>	
 			</div>
 		</div>
 		<jsp:include page="footer.jsp" />
 		<script>
 			<%-- div클릭시 미팅 상세페이지로 이동 --%>
 			$(function(){
-				$('.outer1 #searchList #list .meeting').click(function(){
+				$('.outer #searchList #list .meeting').click(function(){
 					location.href = 'detail.mt?mtno=' + $(this).children('#mtno').val();
 				})
 				searchMovie();
@@ -178,7 +184,7 @@
 				}
 			}
 			
-/* 			function searchMovie(){
+			function searchMovie(){
 				$.ajax({
 					url: 'movie.mt',
 					data : {
@@ -199,40 +205,28 @@
 	                        item.title = item.title.replace(/\&apos;/gi, '');
 	                        item.title = item.title.replace(/\&quot;/gi, '');
 							
-							value += '<tr>'
-								   + '<td><a href="'+ item.link + '">' + item.title + '</a></td>'
-								   + '<td><img src="' + thumb + '"/></td>'
-								   + '<td>' + item.pubDate + '</td>'
-								   + '<td>' + item.director + '</td>'
-								   + '<td>' + item.actor + '</td>'
-								   + '<td>' + item.userRating + '</td>'
-								   + '</tr>' 
+	                        value += '<div class="movieInfo">' 
+	                            + '<form action="movieDetail.co" method="post">'
+	                            + '<button type="submit">'
+	                            + '<img src="' + itemArr.image + '">'
+	                            + '<p>' + itemArr.title + '(' + itemArr.pubDate + ')' + '</p>'
+	                            + '<input type="hidden" name="movieTitle" value="' + itemArr.title + '">'
+	                            + '<input type="hidden" name="movieYear" value="' + itemArr.pubDate + '">'
+	                            + '<input type="hidden" name="movieDirector" value="' + itemArr.director + '">'
+	                            + '<input type="hidden" name="movieImg" value="' + itemArr.image + '">'
+	                            + '<input type="hidden" name="movieSubTitle" value="' + itemArr.subtitle + '">'
+	                            + '</button>'
+	                            + '</form>'
+	                            + '</div>'
+
+	     	            $('.movieList-area').html(value);
 						}
-						$('#result1 tbody').html(value);
+
 					}
 				
 				
 				})
-			} */
-
-	        let value = '';
-	        function makeList(itemArr) {
-	            value += '<div class="movieInfo">' 
-	                   + '<form action="movieDetail.co" method="post">'
-	                   + '<button type="submit">'
-	                   + '<img src="' + itemArr.image + '">'
-	                   + '<p>' + itemArr.title + '(' + itemArr.pubDate + ')' + '</p>'
-	                   + '<input type="hidden" name="movieTitle" value="' + itemArr.title + '">'
-	                   + '<input type="hidden" name="movieYear" value="' + itemArr.pubDate + '">'
-	                   + '<input type="hidden" name="movieDirector" value="' + itemArr.director + '">'
-	                   + '<input type="hidden" name="movieImg" value="' + itemArr.image + '">'
-	                   + '<input type="hidden" name="movieSubTitle" value="' + itemArr.subtitle + '">'
-	                   + '</button>'
-	                   + '</form>'
-	                   + '</div>'
-
-	            $('.movieList-area').html(value);
-	        }
+			}
 
 		</script>
 

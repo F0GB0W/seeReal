@@ -25,12 +25,13 @@
         spList{width:1000px;}
     </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<jsp:include page="../../common/menubar.jsp"/>
 	<div id="spList">
+	<jsp:include page="../../common/menubar.jsp"/>
 		<a class="btn btn-secondary" style="float:right;" href="spoilerList.bo">목록으로</a>
 		<table id="detailView" align="center" class="table">
 			<tr>
@@ -58,6 +59,14 @@
 				</c:otherwise>
 				</c:choose>
 			</tr>
+			<tr>
+				<td>
+					<c:if test="${not empty b.changeName }">
+						<img src="${b.changeName }" alt="이미지" width="300px;" height="400px;">
+					</c:if>
+				</td>
+				
+			</tr>
 			
 			<tr>
 				<th>내용</th>
@@ -80,6 +89,37 @@
 		</form>
 	
 	</div>
+	
+	<c:if test="${loginUser.memberNo ne b.boardWriter && not empty loginUser}">
+		
+			 <div id="reportButton" align="center">
+			 <form id="reportBt">
+             <input type="hidden" name="boardNo" value="${ b.boardNo }">
+             <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
+             <input type="hidden" name="reportOccured" value="${b.boardNo}">
+             <input type="hidden" name="reportType" value="1">
+        
+             
+             			
+             	<input type="hidden" name="reporting">
+		              <select  name="reportReason">
+		              	<option value="1">부적절한 게시글</option>
+		              	<option value="2">스포일러성 정보</option>
+		              	<option value="3">홍보 및 광고</option>
+		              	<option value="4">욕설 및 도배</option>
+		              </select>
+   
+   
+   <button type="button"  id="rpButton" onclick="submitReport()"> 신고하기<i class="fa-solid fa-land-mine-on fa-2x" ></i></button>
+
+				 </form>
+   
+
+              <br><br>
+			
+			</div>
+					</c:if>
+	
 	
 	<script>
 		function postFormSubmit(num){
@@ -123,6 +163,50 @@
 		</tbody>
 	
 	</table>
+	<script>
+
+$(function() {
+	var formData = $("#reportBt").serialize();
+
+	$.ajax({
+		url: "reportCount.rp",
+        data: formData,
+		success : function(response) {
+			if(response > 0 ) {
+				$("#rpButton").prop("disabled", true);
+			} else {
+				$("#rpButton").prop("disabled", false);
+			}
+		}
+	})
+})
+
+function submitReport() {
+    var formData = $("#reportBt").serialize();
+
+    $.ajax({
+        type: "POST",
+        url: "insertReport.rp",
+        data: formData,
+        success: function(response) {
+            // Handle the response from the server
+            if (response != "success") {
+                alert("신고가 정상적으로 접수되었습니다.");
+                // disable the button
+                $("#rpButton").prop("disabled", true);
+            } else {
+                alert("이미 신고 처리되었거나 오류 발생 ");
+            }
+        }
+    });
+}
+</script>
+	
+	
+	
+	
+	
+	
 	<script>
 		$(function(){
 			selectSpoilerReplyList();
@@ -178,11 +262,16 @@
 									   + '<td>' + list[i].boReplyDate + '</td>'
 									   + '<input type="hidden" id="hiddenUpdate" value="'  + list[i].boReplyNo + '"name="hiddenReplyNo">'
 									   + '<input type="hidden" id="hiddendelete" value="' + list[i].memberNo + '"name="memberNo">'
+									   
 						if("${loginUser.memberNickname}" == list[i].replyWriter){
 								value += '<td><button class="updatebtn" onclick="updateReply(this);">수정</button></td>' 
 									   + '<td><button id="deleteReply" onclick="deleteReply(this);">삭제</button></td>'
 									   + '</tr>';
 							  		} 
+						else{
+							value += '<td><button type="button"   id="rpButton"  data-toggle="modal" data-target="#myModal"> <i class="fa-solid fa-land-mine-on"  ></i></button></td>' 		
+						}
+									   
 					}
 					//console.log(value);
 					$('#replyArea tbody').html(value);
@@ -301,9 +390,47 @@
 <jsp:include page="../../common/footer.jsp"/>		 
 		
 		
+<div class="container mt-3">
+  <!-- Button to Open the Modal -->
+
+<button type="button"   id="rpButton"  data-toggle="modal" data-target="#myModal"> <i class="fa-solid fa-land-mine-on"  ></i></button>
 		
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">정말 신고하시겠습니까?</h4>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+ 
+		              <select  name="reportReason" align="center">
+		              	<option value="1">부적절한 게시글</option>
+		              	<option value="2">스포일러성 정보</option>
+		              	<option value="3">홍보 및 광고</option>
+		              	<option value="4">욕설 및 도배</option>
+		              </select>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer" align="center">
+          <button type="button" class="btn btn-danger" id="rpButton" onclick="submitReport()">신고하기 <i class="fa-solid fa-land-mine-on fa" ></i></button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+</div>		
 		
-	
 
 
 

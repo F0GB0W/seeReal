@@ -207,7 +207,7 @@
 		</div>
         <br><br>
     </div>
-        
+        <a href="enrollForm.mt" class="btn btn-sm btn-secondary" style="float:right">글 작성</a>
     <!-- board list area -->
 	<div id="board-list">
 		<div class="container">
@@ -253,8 +253,8 @@
 		// 동적으로 생성된 요소?? -> JavaScript
 		$(function() {
 			$('#board-table > tbody > tr').click(function() {
-				// console.log($(this).siblings('.mtno').text());
-				location.href = 'detail.mt?mtno=' + $(this).siblings('.mtno').text();
+				console.log($(this).siblings('.mtno').text());
+				location.href = 'detail.mt?mtno=' + $(this).children('.mtno').text();
 			})
 
 		});

@@ -44,6 +44,11 @@ public class ReportServiceImpl implements ReportService {
 	public int insertReport(Report r) {
 			return reportDao.insertReport(sqlSession, r);
 	}
+	
+	
+	
+	
+	
 
 	@Override
 	public int increaseSpoBoardReport(int boardNo) {
@@ -78,6 +83,22 @@ public class ReportServiceImpl implements ReportService {
 	public int increaseCoReplyReport(int coReplyNo) {
 		return reportDao.increaseCoReplyReport(sqlSession, coReplyNo);
 
+	}
+	@Override
+	public int selectReportCount(Report r) {
+		return reportDao.selectReportCount(sqlSession, r);
+	}
+	@Override
+	public int sanctionsCollection() {
+		return reportDao.sanctionsCollection(sqlSession);
+	}
+	@Override
+	public int sanctionsMeeting() {
+		return reportDao.sanctionsMeeting(sqlSession);
+	}
+	@Override
+	public int sanctionsComments() {
+		return reportDao.sanctionsComments(sqlSession);
 	}
 
 

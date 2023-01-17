@@ -180,4 +180,10 @@ public class CollectionController {
 		}
 		
 	}
+	
+	@RequestMapping("delete.cl")
+	public String deleteCollection(Collection cl) {
+		collectionService.deleteCollection(cl);
+		return "redirect:list.cl";
+	}
 }

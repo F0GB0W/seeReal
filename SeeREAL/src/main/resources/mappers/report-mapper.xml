@@ -35,6 +35,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEETING_WRITER" property="meetingWriter" />
 	</resultMap>
 
+	<resultMap id="commentsListView" type="comments">
+		<result column="COMMENT_NO" property="commentNo"/>
+		<result column="COMMENT_CONTENT" property="commentContent"/>
+		<result column="COMMENT_ENROLLDATE" property="commentEnrollDate"/>
+		<result column="SPOILER" property="spoiler"/>
+		<result column="MOVIE_TITLE" property="movieTitle"/>
+		<result column="MOVIE_YEAR" property="movieYear"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="COMMENT_REPORT" property="commentReport"/>
+
+	</resultMap>
+	<resultMap id="collectionResultSet"	type="movieCollection">
+		<result column="COLLECTION_NO" property="collectionNo" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
+		<result column="COLLECTION_ENROLL" property="collectionEnroll" />
+		<result column="COLLECTION_TITLE" property="collectionTitle" />
+		<result column="COLLECTION_CONTENT" property="collectionContent" />
+		<result column="COLLECTION_REPORT" property="collectionReport" />
+		<result column="NICK_NAME" property="nickName" />
+	</resultMap>
+	
+	<resultMap type="collectionReply" id="collectionReplyResultSet">
+			<result column="CO_REPLY_NO" property="coReplyNo" />
+			<result column="CO_REPLY_CONTENT" property="coReplyContent" />
+			<result column="CO_REPLY_REPORT" property="coReplyReport" />
+			<result column="CO_REPLY_DATE" property="coReplyDate" />
+			<result column="CO_REPLY_STATUS" property="coReplyStatus" />
+			<result column="MEMBER_NO" property="memberNo" />
+			<result column="COLLECTION_NO" property="collectionNo" />
+			<result column="NICK_NAME" property="nickName" />
+	</resultMap>
 
 	<select id="selectReportMeetingList" resultMap="meetingResultSet">
 		SELECT
@@ -165,15 +198,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				seq_rno.nextval,
 				#{reportWriter},
 				#{reportReason},
-				#{reportDate},
+				   SYSDATE,
 				#{reportOccured},
-				#{reportType}
+					1
 				)
+					
 	</insert>
+	
+	<select id="selectReportCount" parameterType="report" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			report 
+		WHERE 
+			REPORT_WRITER = #{ reportWriter } 
+			AND REPORT_OCCURED = #{ reportOccured }
+			AND REPORT_TYPE = 1
+	</select>
 
+		<update id="sanctionsCollection" parameterType="_int">
 
+		update
+				collection
+		set
+				status = 'N'
+		where
+				collection_report >= 10			
+	</update>
+	<update id="sanctionsMeeting" parameterType="_int">
 
+		update
+				meeting
+		set
+				status = 'N'
+		where
+				meeting_report >= 10			
+	</update>
+	<update id="sanctionsComments" parameterType="_int">
 
+		update
+				comments
+		set
+				status = 'N'
+		where
+				comment_report >= 10			
+	</update>
 
 
 

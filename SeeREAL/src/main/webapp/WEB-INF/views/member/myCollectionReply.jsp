@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스포 게시판 my Post</title>
+<title>my Collection Reply</title>
 <style>
     table {
         border-collapse: collapse;
@@ -206,33 +206,21 @@
 	<div class="outer">
 	    <div class="page-title">
 			<div class="container">
-	        	<c:choose>
-	        		<c:when test="${check eq '1'}">
-	        			<h3>수다 게시판</h3>
-	        		</c:when>
-	        		<c:otherwise>
-	        			<h3>스포일러 게시판</h3>
-	        		</c:otherwise>
-	        	</c:choose>  
-	             
+	        	<h3>내 컬렉션 댓글</h3> 
 	            <br>
 	       </div>
 	       <br>
 	    </div>
-	    
-	    <a href="spoilerEnrollForm.bo">글쓰기</a>
-	    
+	    <a href=>
     	<!-- board list area -->
       	<div id="board-list">
         	<div class="container content">
             	<table class="board-table table table-hover" id="spoilerList">
                 	<thead>
 	                	<tr>
-	                		<th></th>
 	                    	<th scope="col" class="th-num">번호</th>
-	                      	<th scope="col" class="th-title">제목</th>
-	                      	<th scope="col" class="th-count">조회수</th>
-	                      	<th scope="col" class="th-date">등록일</th>
+	                      	<th scope="col" class="th-count">내용</th>
+	                      	<th scope="col" class="th-date">등록일</th> 	
 	                  	</tr>
                   	</thead>
                   	<tbody>
@@ -241,13 +229,13 @@
                   				해당 게시판에 작성한 게시글이 존재하지 않습니다.
                   			</c:when>
                   			<c:otherwise>
-                  				<c:forEach items="${list}" var="b">
+                  				<c:forEach items="${list}" var="r">
 				                	<tr>
-				                		<td><input type="checkbox" name="" id=""></td>
-				                    	<td class="bno">${b.boardNo}</td>
-				                      	<td id="spoilerTitle">${b.boardTitle}</td>
-				                      	<td>${b.count}</td>
-				                      	<td>${b.enrollDate}</td>
+				                    	<td class="bno">${r.collectionNo}</td>
+				                      	<td><input type="hidden" name="">${r.coReplyNo}</td>
+				                      	<td id="spoilerTitle">${r.collectionNo}</td>
+				                      	<td>${r.collectionNo}</td>
+				                      	<td>${r.collectionNo}</td>
 				                  	</tr>
 		              			</c:forEach>
                   			</c:otherwise>
@@ -261,7 +249,7 @@
               		// 동적으로 생성된 요소
               	    $(function(){
               		    $('#spoilerList>tbody>tr').click(function(){
-	              			location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
+	              			location.href = 'detail.cl?clno=' + $(this).children('.bno').text();
               			})	
               		});
               
