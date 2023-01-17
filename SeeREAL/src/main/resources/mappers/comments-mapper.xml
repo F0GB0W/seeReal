@@ -309,6 +309,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getMyComments" parameterType="Comments" resultMap="commentsListView">
+		<!--  
 		SELECT
 		      COMMENT_CONTENT,
 			  SPOILER
@@ -322,7 +323,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  MOVIE_YEAR = #{movieYear}
 	       AND
 			  MEMBER_NO = #{memberNo}
-	       
+		-->
+		SELECT
+			  MEMBER_NO,
+		      COMMENT_NO,
+		      C.COMMENT_CONTENT,
+		      TO_CHAR(C.COMMENT_ENROLLDATE,'YYYY-MM-DD') "COMMENTENROLLDATE",
+		      C.SPOILER,
+		      C.COMMENT_REPORT,
+		      C.MOVIE_TITLE,
+		      C.MOVIE_YEAR,
+		      M.NICK_NAME,
+              L.COMMENT_LIKE,
+              L.COMMENT_DISLIKE,
+              R.RATING
+		  FROM
+		      COMMENTS C
+		  JOIN 
+		  	  MEMBER M
+		 USING 
+		 	  (MEMBER_NO)
+         JOIN
+              (SELECT
+                     COUNT(CASE WHEN COMMENT_LIKE='Y' THEN 1 END) COMMENT_LIKE,
+                     COUNT(CASE WHEN COMMENT_DISLIKE='Y' THEN 1 END) COMMENT_DISLIKE,
+                     COMMENT_NO
+                 FROM
+                     COMMENT_LIKE
+             GROUP BY 
+                     COMMENT_NO) L             
+       USING
+            (COMMENT_NO)
+       JOIN
+            MOVIE_RATING R
+       USING
+            (MEMBER_NO)    
+       WHERE
+            C.STATUS='Y'
+         AND
+            C.MOVIE_TITLE=#{movieTitle}
+         AND
+            C.MOVIE_YEAR=#{movieYear}     
+         AND
+            MEMBER_NO = #{memberNo}    
+    ORDER BY
+            L.COMMENT_LIKE DESC	       
 	</select>
 	<update id="reviseMyComments" parameterType="Comments">
 		UPDATE
@@ -408,5 +453,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             C.MOVIE_YEAR=#{movieYear}         
     ORDER BY
             L.COMMENT_LIKE DESC 
+	</select>
+	
+	<select id="getMyComment" parameterType="Comments" resultType="hashmap">
+	SELECT
+			  MEMBER_NO,
+		      COMMENT_NO,
+		      C.COMMENT_CONTENT,
+		      TO_CHAR(C.COMMENT_ENROLLDATE,'YYYY-MM-DD') "COMMENTENROLLDATE",
+		      C.SPOILER,
+		      C.COMMENT_REPORT,
+		      C.MOVIE_TITLE,
+		      C.MOVIE_YEAR,
+		      M.NICK_NAME,
+              L.COMMENT_LIKE,
+              L.COMMENT_DISLIKE,
+              R.RATING
+		  FROM
+		      COMMENTS C
+		  JOIN 
+		  	  MEMBER M
+		 USING 
+		 	  (MEMBER_NO)
+         JOIN
+              (SELECT
+                     COUNT(CASE WHEN COMMENT_LIKE='Y' THEN 1 END) COMMENT_LIKE,
+                     COUNT(CASE WHEN COMMENT_DISLIKE='Y' THEN 1 END) COMMENT_DISLIKE,
+                     COMMENT_NO
+                 FROM
+                     COMMENT_LIKE
+             GROUP BY 
+                     COMMENT_NO) L             
+       USING
+            (COMMENT_NO)
+       JOIN
+            MOVIE_RATING R
+       USING
+            (MEMBER_NO)    
+       WHERE
+            C.STATUS='Y'
+         AND
+            C.MOVIE_TITLE=#{movieTitle}
+         AND
+            C.MOVIE_YEAR=#{movieYear}         
+    ORDER BY
+            L.COMMENT_LIKE DESC 
+	
 	</select>
 </mapper>

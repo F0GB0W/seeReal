@@ -106,5 +106,8 @@ public class CommentsDao {
 		
 		return list;
 	}
-	
+	public HashMap<String,Object> getMyComment(Comments comments,SqlSessionTemplate sqlSession){
+		return sqlSession.selectOne("comments-mapper.getMyComment", comments);
+		
+	}
 }
