@@ -78,6 +78,9 @@ public class ReportDao {
 	public int increaseCoReplyReport(SqlSessionTemplate sqlSession, int coReplyNo) {
 		return sqlSession.update("reportMapper.increaseCoReplyReport", coReplyNo);
 	}
+	public int selectReportCount(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.selectOne("reportMapper.selectReportCount", r);
+	}
 					
 	
 

@@ -165,11 +165,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				seq_rno.nextval,
 				#{reportWriter},
 				#{reportReason},
-				#{reportDate},
+				   SYSDATE,
 				#{reportOccured},
-				#{reportType}
+					1
 				)
+					
 	</insert>
+	
+	<select id="selectReportCount" parameterType="report" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			report 
+		WHERE 
+			REPORT_WRITER = #{ reportWriter } 
+			AND REPORT_OCCURED = #{ reportOccured }
+			AND REPORT_TYPE = 1
+	</select>
 
 
 

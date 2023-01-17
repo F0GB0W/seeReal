@@ -100,6 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   		b.status = 'Y'
 		   and
 		   		board_type = 2
+		   
 				
 				
 	</select>
