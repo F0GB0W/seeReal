@@ -262,11 +262,16 @@ function submitReport() {
 									   + '<td>' + list[i].boReplyDate + '</td>'
 									   + '<input type="hidden" id="hiddenUpdate" value="'  + list[i].boReplyNo + '"name="hiddenReplyNo">'
 									   + '<input type="hidden" id="hiddendelete" value="' + list[i].memberNo + '"name="memberNo">'
+									   
 						if("${loginUser.memberNickname}" == list[i].replyWriter){
 								value += '<td><button class="updatebtn" onclick="updateReply(this);">수정</button></td>' 
 									   + '<td><button id="deleteReply" onclick="deleteReply(this);">삭제</button></td>'
 									   + '</tr>';
 							  		} 
+						else{
+							value += '<td><button type="button"   id="rpButton"  data-toggle="modal" data-target="#myModal"> <i class="fa-solid fa-land-mine-on"  ></i></button></td>' 		
+						}
+									   
 					}
 					//console.log(value);
 					$('#replyArea tbody').html(value);
@@ -385,9 +390,47 @@ function submitReport() {
 <jsp:include page="../../common/footer.jsp"/>		 
 		
 		
+<div class="container mt-3">
+  <!-- Button to Open the Modal -->
+
+<button type="button"   id="rpButton"  data-toggle="modal" data-target="#myModal"> <i class="fa-solid fa-land-mine-on"  ></i></button>
 		
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">정말 신고하시겠습니까?</h4>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+ 
+		              <select  name="reportReason" align="center">
+		              	<option value="1">부적절한 게시글</option>
+		              	<option value="2">스포일러성 정보</option>
+		              	<option value="3">홍보 및 광고</option>
+		              	<option value="4">욕설 및 도배</option>
+		              </select>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer" align="center">
+          <button type="button" class="btn btn-danger" id="rpButton" onclick="submitReport()">신고하기 <i class="fa-solid fa-land-mine-on fa" ></i></button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+</div>		
 		
-	
 
 
 

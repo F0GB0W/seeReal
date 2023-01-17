@@ -88,6 +88,18 @@ public class ReportServiceImpl implements ReportService {
 	public int selectReportCount(Report r) {
 		return reportDao.selectReportCount(sqlSession, r);
 	}
+	@Override
+	public int sanctionsCollection() {
+		return reportDao.sanctionsCollection(sqlSession);
+	}
+	@Override
+	public int sanctionsMeeting() {
+		return reportDao.sanctionsMeeting(sqlSession);
+	}
+	@Override
+	public int sanctionsComments() {
+		return reportDao.sanctionsComments(sqlSession);
+	}
 
 
 	
