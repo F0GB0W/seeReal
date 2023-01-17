@@ -220,6 +220,8 @@
 	       <br>
 	    </div>
 	    
+	    <a href="spoilerEnrollForm.bo">글쓰기</a>
+	    
     	<!-- board list area -->
       	<div id="board-list">
         	<div class="container content">
