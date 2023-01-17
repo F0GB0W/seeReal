@@ -17,6 +17,8 @@ public interface CommentsService {
 	double ratingGet(MovieRating movieRating);
 	
 	//int ratingCheck(String movie,int rating);
+	int checkRatingExit(MovieRating movieRating);
+	
 	int ratingCheck(MovieRating movieRating);
 	
 	int ratingUpdate(MovieRating movieRating);
@@ -44,5 +46,5 @@ public interface CommentsService {
 	
 	List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi);
 	
-	HashMap<String, Object> myComment(Comments comment);
+	List<Map<String,Object>> myComment(Comments comment);
 }

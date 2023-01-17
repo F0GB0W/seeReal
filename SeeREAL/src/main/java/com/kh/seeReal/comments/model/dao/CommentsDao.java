@@ -31,6 +31,11 @@ public class CommentsDao {
 				System.out.println("tt값은:  "+tt);
 				return tt;
 	}
+	public int checkRatingExit(MovieRating movieRating,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.checkRatingExit",movieRating);
+	}
+	
+	
 	public int ratingCheck(MovieRating movieRating,SqlSessionTemplate sqlSession) {
 		System.out.println("dao"+movieRating);
 		return sqlSession.insert("comments-mapper.ratingCheck", movieRating);
@@ -106,8 +111,12 @@ public class CommentsDao {
 		
 		return list;
 	}
-	public HashMap<String,Object> getMyComment(Comments comments,SqlSessionTemplate sqlSession){
-		return sqlSession.selectOne("comments-mapper.getMyComment", comments);
+	public List<Map<String,Object>> myComment(Comments comments,SqlSessionTemplate sqlSession){
+		List<Map<String,Object>> list =(ArrayList)sqlSession.selectList("comments-mapper.myComment", comments);
+		System.out.println("=========라스트==");
+		System.out.println(comments);
+		System.out.println(list);
+		return list; 
 		
 	}
 }

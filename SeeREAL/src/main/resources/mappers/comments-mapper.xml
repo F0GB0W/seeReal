@@ -56,18 +56,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   AND
 		      MOVIE_YEAR = #{movieYear}
 	</select>
+	
+	<select id="checkRatingExit" parameterType="MovieRating" resultType="_int">
+		SELECT
+		      count(*)
+		  FROM
+		      MOVIE_RATING
+		WHERE
+		      MOVIE_TITLE = #{movieTitle}
+		   AND
+		      MOVIE_YEAR = #{movieYear}
+		   AND
+		      MEMBER_NO = #{memberNo}
+		     
+	
+	</select>
+	
 	<insert id="ratingCheck" parameterType="MovieRating">
 		INSERT
 		  INTO
 		      MOVIE_RATING
-		      (
+		      (		      
 		      MEMBER_NO,
 		      RATING,
 		      MOVIE_TITLE,
 		      MOVIE_YEAR
 		      )
 		  VALUES
-		  	  (
+		  	  (		  	  
 		  	  #{memberNo},
 		  	  #{rating},
 		  	  #{movieTitle},
@@ -114,7 +130,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	-->
 	<select id="commentsList" parameterType="Comments" resultType="hashmap">
-		SELECT
+		SELECT 
+	  DISTINCT
 			  MEMBER_NO,
 		      COMMENT_NO,
 		      C.COMMENT_CONTENT,
@@ -152,6 +169,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             C.STATUS='Y'
          AND
             C.MOVIE_TITLE=#{movieTitle}
+         AND
+            R.MOVIE_TITLE=#{movieTitle}
          AND
             C.MOVIE_YEAR=#{movieYear}
          AND
@@ -217,6 +236,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  'N',
 			  SEQ_COMNO.CURRVAL
 			  )
+		INTO
+              MOVIE_RATING
+              (
+              MEMBER_NO,
+              RATING,
+              MOVIE_TITLE,
+              MOVIE_YEAR              
+              )
+        VALUES
+        	  (
+              #{memberNo},
+              0,
+              #{movieTitle},
+              #{movieYear}
+            
+              )
 			SELECT 
 			  	  * 
 			  FROM 
@@ -455,8 +490,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             L.COMMENT_LIKE DESC 
 	</select>
 	
-	<select id="getMyComment" parameterType="Comments" resultType="hashmap">
-	SELECT
+	<select id="myComment" parameterType="Comments" resultType="hashmap">
+	SELECT 
+	DISTINCT
 			  MEMBER_NO,
 		      COMMENT_NO,
 		      C.COMMENT_CONTENT,
@@ -495,9 +531,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          AND
             C.MOVIE_TITLE=#{movieTitle}
          AND
-            C.MOVIE_YEAR=#{movieYear}         
-    ORDER BY
-            L.COMMENT_LIKE DESC 
+            R.MOVIE_TITLE=#{movieTitle}
+         AND
+            C.MOVIE_YEAR=#{movieYear}     
+         AND
+            MEMBER_NO = #{memberNo}    
+    
 	
 	</select>
 </mapper>

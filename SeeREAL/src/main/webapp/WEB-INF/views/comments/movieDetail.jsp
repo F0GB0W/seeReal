@@ -54,6 +54,16 @@
 	li {
 	    float: left;
 	}
+	textarea{
+		width: 480px;
+		overflow: hidden;
+		height: 96px;
+		overflow:hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-bos-orient: vertical;
+	}
 </style>
 </head>
 <body>
@@ -108,91 +118,48 @@
 		<src img="blob:https://twitter.com/63b6b2bb-3164-4f41-b01d-6d22838154b9">
 		<src img="blob:https://twitter.com/63b6b2bb-3164-4f41-b01d-6d22838154b9" eight="15" width="15">
 		
-		<div>
-			<span>내 커멘트</span>
-			<hr>
-			<div id="myComments">
-			
+		<c:if test="${not empty loginUser  }">
+			<div>
+				<span>내 커멘트</span>
+				<hr>
+				<div id="myComments">
+					
+				</div>
+				<hr>
 			</div>
-			<hr>
-		</div>
-		
+		</c:if>		
 		
 		
 		 						
 			<div style="width:500px;">
 				<div align="right" id="writeBtn">
-					<c:choose>
-						<c:when test="${loginUser ne null && myCommentsExit eq 0}">			
-							<button data-toggle="modal" data-target="#myModal"  class="commentsWrite" onclick="CommentsBase();">글쓰기</button>
-						</c:when>
-					</c:choose>
-				</div>
-				
-				
-		<c:choose>
-			<c:when test="${not empty commentsList  }">
-				<div class="commentsList">
-					<c:forEach items="${commentsList}" var="c">
-						
-						<div class="commentsOne">
-							<div>
-						        <div align="left">
-						            <span>${c.NICK_NAME} &nbsp; ${c.COMMENTENROLLDATE}</span>
-						            <a>${c.MEMBER_NO}  ${loginUser.memberNo} </a>
-						            <span>
-						            
-						            <c:choose>
-							            
-							            <c:when test="${c.MEMBER_NO eq loginUser.memberNo}">
-								            <ul>
-										        <li><button data-toggle="modal" data-target="#myModal" onclick="getMyComments();">수정</button></li>
-										        <li><button onclick="deleteMyComments();">삭제</button></li>					    
-										    </ul>
-							            </c:when>
-						            </c:choose>
-						            
-								    </span>
-						        </div>
-						        <div align="right">
-						            	<button class="reportComment">신고</button>
-						        </div>
-						    </div>
-						    
-						    <div>
-						        <textarea class="${c.MEMBER_NO }textarea">${c.COMMENT_CONTENT}</textarea>
-						    </div>
-						    
-						    <div>
-						        <div align="left">
-						           	 <p class="${c.MEMBER_NO }rating">★ ${c.RATING }</p>
-						        </div>
-						        <div align="right">
-						           	<i class="fa-solid fa-thumbs-up"></i><em class="like">${c.COMMENT_LIKE}</em>
-							   		<i class="fa-solid fa-thumbs-down"></i><em class="dislike">${c.COMMENT_DISLIKE }</em>
-						        </div>
-						    </div>
-						    
-					    </div>
-					    <input type="hidden" value="${c.COMMENT_NO}" class="commentsNo">
-					    <input type="hidden" value="N" class="ifLikeExist">
-					</c:forEach>
-					    <br>
-					<div align="right">
+					
+								
 					<form action="detailComments.co" method="get">
 						<input type="hidden" name="movieTitle" value="${movieTitle}">
 						<input type="hidden" name="movieYear" value="${movieYear}">
-						<button onclick="detailComments();">더보기</button>
-					</form>    
+								<button onclick="detailComments();">더보기</button>
+					</form> 
 					
-					</div>
+						
+					
+				</div>
+				
+				
+		
+				<div class="commentsList">
+					
+				
+						
+					    
+					
 			    </div>   	
 			</div>
-		</c:when>
-		<c:otherwise>
-			<p>등록된 코멘트가 없습니다</p>
-		</c:otherwise>
-	</c:choose>	
+		
+	<div id="test">
+		<button onclick="textOverflow();">실험</button>
+	</div>		
+	
 	
 	
 	<br><br><br><br><br>
@@ -314,6 +281,11 @@
 	
 	$(function(){
 		
+		
+		
+		
+		showMovieCommentsList();//한줄평 첨들어올때 뿌려주기
+		showMyComments();//내한줄평 가져오기
 		showCommentsLike();//좋아요 로그인한 사람한테 보여주기
 		
 		
@@ -368,6 +340,7 @@
 		
 	};
 	*/
+	/*
 	function MyComment(){
 		
 		$.ajax({
@@ -388,8 +361,20 @@
 		
 		
 	}
-	
-	
+	*/
+	function spoilerBlock(){
+		
+		$('textarea[name=Y]').val('스포일러 적혀있는 게시물입니다')
+		
+		
+			
+			
+		
+		
+		
+		
+		
+	}
 	
 	function CommentsBase(){
 		
@@ -428,6 +413,59 @@
 		});
 	};
 	
+	function showMyComments(){
+		$.ajax({
+			url:'myComment.co',
+			data:{"movieTitle":"${movieTitle}",
+			"movieYear":${movieYear},
+			"memberNo":JSON.stringify(${loginUser.memberNo})
+			},
+			success:function(list){
+				console.log('좀되라 ===================')
+				console.log(list[0])
+				console.log(list)
+				console.log(list)
+				console.log(list.length ==0 || list=='')
+				value='';
+				if(list.length ==0 || list==''){
+					
+					value='<p>한줄평을 작성해주세요</p><button data-toggle="modal" data-target="#myModal"  class="commentsWrite" onclick="CommentsBase();">글쓰기</button>'
+					$('#myComments').html(value);
+				}else{
+					
+				value+='<div class="commentsOsne">'					 				    
+					 +  	'<div align="left">'
+					 +       	'<textarea>'+list[0].COMMENT_CONTENT+'</textarea>'	
+					 +			'<ul>'
+				     +   			'<li><button data-toggle="modal" data-target="#myModal" onclick="getMyComments();">수정</button></li>'
+				     +   			'<li><button onclick="deleteMyComments();">삭제</button></li>'					    
+				   	 +			'</ul>'
+					 + 	 	'</div>'					    
+					 +  	'<div>'   	
+					 + 	 	'</div>'					    
+					 +  	'<div>'
+					 +       	'<div align="left">'
+					 +          	 '<p class="${c.MEMBER_NO }rating">★ '+list[0].RATING+'</p>'
+					 +       	'</div>'					       	
+					 +  	'</div>'
+					 +	 '</div>'					
+					 +	 '<input type="hidden" value="'+list[0].COMMENT_NO+'" class="commentsNo">'
+					 +   '<input type="hidden" value="N" class="ifLikeExist">'
+					 +	 '<br>'
+				}
+				
+
+				$('#myComments').html(value);
+				spoilerBlock();
+			},
+			error:function(){
+				console.log('내 한줄평 가져오기 실패')
+			}
+		});
+	}
+	
+	
+	
 	
 	function reviseCommentBtn(){
 		console.log('폼컨프롤 시험')
@@ -446,6 +484,7 @@
 			success:function(){
 				console.log('글수정성공')
 				$('.${loginUser.memberNo}textarea').val($('.form-control').val());
+				showMyComments();
 				
 			},
 			error:function(){
@@ -465,6 +504,8 @@
 			},
 			success:function(){
 				console.log('글삭제성공')
+				showMovieCommentsList();
+				showMyComments();
 			},
 			error:function(){
 				console.log('글삭제실패')
@@ -504,57 +545,62 @@
 				console.log(commentsList);
 				
 				
+				
 				console.log('---커멘트리스트콘솔---')
 				
 				value='';
-				for(var i in commentsList){
-				
-					result=commentsList[i];
+				if(commentsList.length != 0 ){
+					for(var i in commentsList){
 					
-				value+='<div class="commentsOne">'
-					 +   	'<div>'
-					 +    	   '<div align="left">'
-					 +     	      '<span>'+result.NICK_NAME+'&nbsp;&nbsp;'+result.COMMENTENROLLDATE+'</span>'
-					 +     	   '</div>'
-					 +     	   '<div align="right">'
-					 +     	      	'<button class="reportComment">신고</button>'
-					 +     	   '</div>'
-				     +		'</div>'				    
-					 +  	'<div>'
-					 +       	'<textarea>'+result.COMMENT_CONTENT+'</textarea>'
-					 + 	 	'</div>'					    
-					 +  	'<div>'
-					 +       	'<div align="left">'
-					 +          	 '<p class="${c.MEMBER_NO }rating">★ '+result.RATING+'</p>'
-					 +       	'</div>'
-					 +       	'<div align="right">'
-					 +          	 '<i class="fa-solid fa-thumbs-up"></i><em class="like">'+result.COMMENT_LIKE+'</em>'
-					 +				 '<i class="fa-solid fa-thumbs-down"></i><em class="dislike">'+result.COMMENT_DISLIKE+'</em>'
-					 +       	'</div>'
-					 +  	'</div>'
-					 +	 '</div>'					
-					 +	 '<input type="hidden" value="'+result.COMMENT_NO+'" class="commentsNo">'
-					 +   '<input type="hidden" value="N" class="ifLikeExist">'
-					 +	 '<br>'
+						result=commentsList[i];
+						
+					value+='<div class="commentsOne">'
+						 +   	'<div>'
+						 +    	   '<div align="left">'
+						 +     	      '<span>'+result.NICK_NAME+'&nbsp;&nbsp;'+result.COMMENTENROLLDATE+'</span>'
+						 +     	   '</div>'
+						 +     	   '<div align="right">';
+						 
+					
+						 if( (result.MEMBER_NO).toString() != '${loginUser.memberNo}'){
+							 value+=    	      	'<button class="reportComment">신고</button>'
+						 }
+					
+					value+=      	   '</div>'
+					     +		'</div>'				    
+						 +  	'<div>'
+						 +		'<input type="hidden" class="spoiler'+i+'" value="'+result.SPOILER+'">';
+						 if(result.COMMENT_CONTENT.length>75){
+							 value+='<textarea name="'+result.SPOILER+'" class="'+result.MEMBER_NO+'textarea">'+result.COMMENT_CONTENT.substr(0,75)+'....'+'</textarea>';
+						 
+						 }else{
+					value+=       	'<textarea name="'+result.SPOILER+'" class="'+result.MEMBER_NO+'textarea">'+result.COMMENT_CONTENT+'</textarea>'
+							 
+						 }			 
+					value+= 	 	'</div>'					    
+						 +  	'<div>'
+						 +       	'<div align="left">'
+						 +          	 '<p class="'+result.MEMBER_NO+'rating">★ '+result.RATING+'</p>'
+						 +       	'</div>'
+						 +       	'<div align="right">'
+						 +          	 '<i class="fa-solid fa-thumbs-up"></i><em class="like">'+result.COMMENT_LIKE+'</em>'
+						 +				 '<i class="fa-solid fa-thumbs-down"></i><em class="dislike">'+result.COMMENT_DISLIKE+'</em>'
+						 +       	'</div>'
+						 +  	'</div>'
+						 +	 '</div>'					
+						 +	 '<input type="hidden" value="'+result.COMMENT_NO+'" class="commentsNo">'
+						 +   '<input type="hidden" value="N" class="ifLikeExist">'
+						 +	 '<br>'
+					}	
+				}else{
+					value+='아직 작성된 한줄평이 없습니다'
 				}
 						
 				    	
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
 				
 				$('.commentsList').html(value);
-				
+				console.log(value);
 				showCommentsLike();
 			},
 			error:function(){
@@ -575,30 +621,57 @@
 			      
 			},
 			success:function(list){
+				console.log("너는왜또오류가 나니??")
+				console.log(list);
 				
 				
 				var arr=new Array();
+				var j=0;
 				
 				for(var i in list){
 					arr[i]=list[i].commentNo;					
 				}
-				
-				
+				console.log('arr=')
+				console.log(arr)
+				console.log('commentsOne)siblings(commentsNo')
+				console.log($('.commentsOne').siblings('.commentsNo'))
 				
 				var length=$('.commentsOne').siblings('input').length;
-				
+				console.log('length 길이');
+				console.log(length)
 				if(list.length !=0){
+					
 					for(var i=0;i<length;i++){
+						console.log('=======몇번찍히냐==='+i)
+						
+						
 						if( arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val()))){
+							console.log('#######if 안에서 찐실험#######')
+							console.log('#####arr###')
+							console.log(arr)
+							console.log('####includes할거')
+							console.log(Number($('.commentsOne').siblings('.commentsNo').eq(i).val()))
+							console.log(arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val())))
+							console.log('%%%%%%%%if 안에서 찐실험 끝%%%%%%%%%%')
+							console.log('=======if안에는몇번찍히냐==='+i)
 							$('.commentsOne').siblings('.ifLikeExist').eq(i).val('Y')
-						}
-						if( arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val())) && list[i].commentLike =='Y'){
-							$('.commentsOne').find('i').eq(2*i).attr('class','fa-solid fa-thumbs-up blue');
 							
-							//ifLikeExist
-						}else if(arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val())) && list[i].disLike =='Y')
-							$('.commentsOne').find('i').eq((2*i)+1).attr('class','fa-solid fa-thumbs-down red');
+							if(list[j].commentLike =='Y'){
+								$('.commentsOne').find('i').eq(2*i).attr('class','fa-solid fa-thumbs-up blue');
+								
+							}else if(list[j].disLike =='Y'){
+								$('.commentsOne').find('i').eq((2*i)+1).attr('class','fa-solid fa-thumbs-down red');
+								
+							}
+							j++;
+							console.log('j의 숫자=')
+							console.log(j);
+						}
+						
 					}
+					
+					
+					
 					console.log('댓글좋아요불러오기테스트')
 					console.log(list)
 					console.log(arr)
@@ -649,26 +722,7 @@
 		})
 	function commentsInsert(){
 		
-		/*
-				$.ajax({
-					url:'commentsWrite.co',
-					data:{"memberNo":(loginUser ? ${loginUser.memberNo} : null),
-						  commentContent:$('.form-control').val(),
-						  spoiler:$('#on-off').attr('class'),
-						  movieTitle:"${movieTitle}",
-						  movieYear:${movieDate}
-						  
-					},
-					success:function(){
-						
-						alert('글쓰기 완료');
-					},
-					error:function(){
-						
-					}
-				});
-		*/
-			/*복붙*/
+		
 			$.ajax({
 					url: 'commentsWrite.co',
 					data: {
@@ -681,6 +735,8 @@
 					success: function() {
 					    alert('글쓰기 완료');
 					    showMovieCommentsList();
+					    showMyComments();
+					    
 					},
 					error: function() {
 					    // handle error
@@ -713,7 +769,7 @@
 		          data:{rating:idx2,
 		                movieTitle:"${movieTitle}",
 		                movieYear:${movieYear},
-		                memberNo:memberNo,
+		                memberNo: JSON.stringify(${loginUser.memberNo}),
 		                beforeRating:${rating}
 		          },
 		          success:function(data){

@@ -14,6 +14,6 @@ public class Comments {
 	private String movieYear;
 	private String status;
 	private int memberNo;
-	
+	private String commentReport;
 
 }
