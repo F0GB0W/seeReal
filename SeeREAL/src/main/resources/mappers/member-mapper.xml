@@ -136,7 +136,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 시간 지난 인증코드 삭제를 위한 delete -->
-	<select id ="selectNickname" parameterType="String" resultType="_int">
+	<select id ="selectNickname2" parameterType="String" resultType="_int">
 		delete 
 		  from 
 		       cert

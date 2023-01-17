@@ -198,7 +198,7 @@
       
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -225,7 +225,7 @@
     	<!-- board list area -->
       	<div id="board-list">
         	<div class="container content">
-            	<table class="board-table table table-hover" id="spoilerList">
+            	<table class="board-table table table-hover" id="commentsList">
                 	<thead>
 	                	<tr>
 	                		
@@ -245,10 +245,17 @@
                   				<c:forEach items="${list}" var="b">
 				                	<tr>
 				                    	<td class="comno">${b.commentNo}</td>
-				                    	<td>${b.movieYear}</td>
-				                      	<td id="spoilerTitle">${b.movieTitle}</td>
+				                    	<td class="movieYear">${b.movieYear}</td>
+				                      	<td class="movieTitle">${b.movieTitle}</td>
 				                      	<td>${b.commentContent}</td>
 				                      	<td>${b.commentEnrollDate}</td>
+										<form action="movieDetail.co" method="post" class="form1">
+											<input type="hidden" class="movieYear" name="movieYear" value="${b.movieYear}">
+											<input type="hidden" class="movieTitle" name="movieTitle" value="${b.movieTitle}">
+											<input type="hidden" class="movieImg" name="movieImg">
+											<input type="hidden" class="movieDirector" name="movieDirector">
+											<input type="hidden" class="movieSubTitle" name="movieSubTitle">
+										</form>
 				                  	</tr>
 		              			</c:forEach>
                   			</c:otherwise>
@@ -256,16 +263,72 @@
 	                	
                   	</tbody>
               	</table>
+ 
               	
               	<script>
               	
               		// 동적으로 생성된 요소
               	    $(function(){
-              		    $('#spoilerList>tbody>tr').click(function(){
-	              			location.href = 'movieDetail.co?comno=' + $(this).children('.comno').text();
-              			})	
+              	    	
+              		    $('#commentsList>tbody>tr').click(function(){
+              		    	//console.log($(this).children('.movieTitle')[1]);
+              		    	var title = $(this);
+              		    	var movieTitle = $(title.children('.movieTitle')[1]).val();
+              		    	var movieYear = $(title.children('.movieYear')[1]).val();
+              		    	console.log(title.children('form'));
+              		    	var form = title.children('form');
+	              			$.ajax({
+	            				url : 'comments.me',
+	            				data : {title : movieTitle
+	            					,year : movieYear
+	            				},
+	            				success : function(movie){
+	            					console.log(movie);
+	            					var itemArr = movie.items;
+	            					let value = '';
+	            					//console.log(itemArr);
+	            					//console.log(itemArr[0].image);
+	            					//console.log(form[0][2]);
+	            					$(form[0][2]).val(itemArr[0].image);
+	            					$(form[0][3]).val(itemArr[0].director);
+	            					$(form[0][4]).val(itemArr[0].subtitle);
+	            					
+	            					//$('#movieImg').val(m.image);
+	            					//$('#movieDirector').val(m.director);
+	            					//$('#movieSubTitle').val(m.subtitle);
+	            					
+	            					//location.href = "movieDetail.co"; // 쿼리 스트링 객체를 value에 담아 보낼 경우, 데이터 어떻게 뽑지?
+	            					/*
+	            					$.ajax({
+	            						
+	    	            				url : 'movieDetail.co',
+	    	            				data : {title : $('#spoilerTitle').val(),
+	    	            					    year : $('#movieYear').val(),
+	    	            					    movieImg : $('#movieImg').val(),
+	    	            					    movieDirector : $('#movieDirector').val(),
+	    	            					    movieSubTitle : $('#movieSubTitle').val()
+	    	            						//movie : movie	
+	    	            				},
+	    	            				success : data => {
+	    	            					
+	    	            					
+	    	            				},
+	    	            				error : () => {
+	    	            					console.log('요건조금...');
+	    	            				}
+	    	            				
+	    	            			});*/
+	    	            			$(form).submit();
+	            				},
+	            				error : function() {
+	            					console.log('요건조금2...');
+	            				}
+	            				
+	            			});	
+              			});
               		});
-              
+              	
+              	
                 </script>
 			</div>
       	</div>

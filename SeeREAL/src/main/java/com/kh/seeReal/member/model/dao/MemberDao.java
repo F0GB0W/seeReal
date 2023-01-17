@@ -141,6 +141,11 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectLikeComments", map, rowBounds);
 	}
 
+	public String timeout(SqlSessionTemplate sqlSession, String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	// 댓글 조회
 	
 	
