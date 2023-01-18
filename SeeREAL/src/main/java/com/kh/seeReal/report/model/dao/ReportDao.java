@@ -81,6 +81,15 @@ public class ReportDao {
 	public int selectReportCount(SqlSessionTemplate sqlSession, Report r) {
 		return sqlSession.selectOne("reportMapper.selectReportCount", r);
 	}
+	public int sanctionsCollection(SqlSessionTemplate sqlSession) {
+		return sqlSession.update("reportMapper.sanctionsCollection") ;
+	}
+	public int sanctionsMeeting(SqlSessionTemplate sqlSession) {
+		return sqlSession.update("reportMapper.sanctionsMeeting") ;
+	}
+	public int sanctionsComments(SqlSessionTemplate sqlSession) {
+		return sqlSession.update("reportMapper.sanctionsComments") ;
+	}
 					
 	
 

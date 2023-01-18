@@ -128,9 +128,15 @@ public class CommentsServiceImpl implements CommentsService{
 	}
 	
 	@Override
-	public HashMap<String, Object> myComment(Comments comments) {
-		return CommentsDao.getMyComment(comments,sqlSession);
+	public List<Map<String,Object>> myComment(Comments comments) {
+		return CommentsDao.myComment(comments,sqlSession);
 		
+	}
+
+	@Override
+	public int checkRatingExit(MovieRating movieRating) {
+		// TODO Auto-generated method stub
+		return CommentsDao.checkRatingExit(movieRating,sqlSession);
 	}
 
 	

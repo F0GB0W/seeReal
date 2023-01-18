@@ -211,7 +211,7 @@
 	       </div>
 	       <br>
 	    </div>
-	    
+	    <a href=>
     	<!-- board list area -->
       	<div id="board-list">
         	<div class="container content">
@@ -232,9 +232,9 @@
                   				<c:forEach items="${list}" var="r">
 				                	<tr>
 				                    	<td class="bno">${r.collectionNo}</td>
-				                      	<td><input type="hidden" name="${r.boardNo}">${r.coReplyNo}</td>
-				                      	<td id="spoilerTitle">${r.boReplyContent}</td>
-				                      	<td>${r.coReplyDate}</td>
+				                      	<td><input type="hidden" name="">${r.coReplyNo}</td>
+				                      	<td id="spoilerTitle">${r.collectionNo}</td>
+				                      	<td>${r.collectionNo}</td>
 				                      	<td>${r.collectionNo}</td>
 				                  	</tr>
 		              			</c:forEach>
@@ -249,7 +249,7 @@
               		// 동적으로 생성된 요소
               	    $(function(){
               		    $('#spoilerList>tbody>tr').click(function(){
-	              			location.href = 'Detail.cl?clno=' + $(this).children('.bno').text();
+	              			location.href = 'detail.cl?clno=' + $(this).children('.bno').text();
               			})	
               		});
               

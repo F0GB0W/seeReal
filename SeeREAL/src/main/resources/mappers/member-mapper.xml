@@ -82,8 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap id="collectionReplyResultSet" type="CollectionReply">
 		<result column="CO_REPLY_NO" property="coReplyNo"/>
 		<result column="CO_REPLY_CONTENT" property="coReplyContent"/>
-		<result column="CO_REPLY_DATE" property="coReplyReport"/>
-		<result column="CO_REPLY_REPORT" property="coReplyDate"/>
+		<result column="CO_REPLY_DATE" property="coReplyDate"/>
+		<result column="CO_REPLY_REPORT" property="coReplyReport"/>
 		<result column="CO_REPLY_STATUS" property="coReplyStatus"/>
 		<result column="MEMBER_NO" property="memberNo"/>
 		<result column="COLLECTION_NO" property="collectionNo"/>
@@ -329,7 +329,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			COLLECTION_REPLY
 		WHERE 
 		    MEMBER_NO = #{memberNo}
-			
 	</select>
 
 	<select id="selectCollectionReplyList" parameterType="_int" resultMap="collectionReplyResultSet">
@@ -345,7 +344,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 COLLECTION_REPLY
 		WHERE 
 		    MEMBER_NO = #{memberNo}
-		
 	</select>
 	
 	<!-- 참여 모임 리스트 조회를 위한 select -->

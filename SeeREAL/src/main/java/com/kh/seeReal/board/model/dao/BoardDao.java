@@ -27,7 +27,6 @@ public class BoardDao {
 	}
 
 	public int sanctionsBoard(SqlSessionTemplate sqlSession) {
-
 		return sqlSession.update("boardMapper.sanctionsBoard") ;
 	}
 	public int insertSpoiler(SqlSessionTemplate sqlSession, Board b) {
