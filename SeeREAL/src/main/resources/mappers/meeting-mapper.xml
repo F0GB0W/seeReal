@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEMBER_NO" property="memberNo" />
 		<result column="MEETING_REPORT" property="meetingReport" />
 		<result column="MEETING_WRITER" property="meetingWriter" />
+		<result column="MEETING_COUNT" property="meetingCount" />
 	</resultMap>
 
 	<resultMap id="meetingUserResultSet" type="meetingUser">
@@ -213,4 +214,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			MEETING_NO = #{ meetingNo }
 			AND MEMBER_NO = #{ memberNo }
 	</update>
+	
+	<select id="selectMeetingMain" resultMap="meetingResultSet">
+		SELECT
+			T.*
+		FROM
+			(
+			SELECT
+				meet.MEETING_TITLE,
+				meet.MEETING_NO,
+				m.NICK_NAME as MEETING_WRITER,
+				meet.COUNT as MEETING_COUNT
+			FROM
+				MEETING meet
+			JOIN MEMBER m ON
+				m.MEMBER_NO = meet.MEMBER_NO
+			WHERE
+				m.STATUS = 'Y'
+				AND meet.STATUS = 'Y'
+			ORDER BY
+				meet.COUNT DESC) T
+		WHERE 
+			ROWNUM BETWEEN 1 AND 5
+	</select>
 </mapper>
