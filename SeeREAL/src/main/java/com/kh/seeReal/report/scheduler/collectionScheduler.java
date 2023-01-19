@@ -18,10 +18,14 @@ public class collectionScheduler {
 	private SqlSessionTemplate sqlSession;
 	
 	  @Scheduled(cron ="0 0/1 * * * *")
-	  public void sanctionsBoard() {
+	  public void sanctionsCollection() {
 		  reportDao.sanctionsCollection(sqlSession);
 	
 	    }
-	  
+	  @Scheduled(cron ="0 0/1 * * * *")
+	  public void sanctionsCollectionReply() {
+		  reportDao.sanctionsCollectionReply(sqlSession);
+	
+	    }
 	
 }

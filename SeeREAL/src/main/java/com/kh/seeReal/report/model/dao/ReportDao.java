@@ -90,6 +90,14 @@ public class ReportDao {
 	public int sanctionsComments(SqlSessionTemplate sqlSession) {
 		return sqlSession.update("reportMapper.sanctionsComments") ;
 	}
+	public int sanctionsBoReply(SqlSessionTemplate sqlSession) {
+		return sqlSession.update("reportMapper.sanctionsBoReply") ;
+	}
+	public int sanctionsCollectionReply(SqlSessionTemplate sqlSession) {
+		return sqlSession.update("reportMapper.sanctionsCollectionReply") ;
+	}
+
+
 					
 	
 

@@ -19,10 +19,10 @@ public class meetingScheduler {
 	private SqlSessionTemplate sqlSession;
 	
 	  @Scheduled(cron ="0 0/1 * * * *")
-	  public void sanctionsBoard() {
+	  public void sanctionsMeeting() {
 		  reportDao.sanctionsMeeting(sqlSession);
 	
 	    }
-	  
+
 	
 }
