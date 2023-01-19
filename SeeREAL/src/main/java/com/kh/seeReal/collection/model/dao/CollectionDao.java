@@ -79,4 +79,8 @@ public class CollectionDao {
 		return sqlSession.update("collectionMapper.deleteCollection", cl);
 	}
 
+	public ArrayList<Collection> selectCollectionMain(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("collectionMapper.selectCollectionMain");
+	}
+
 }

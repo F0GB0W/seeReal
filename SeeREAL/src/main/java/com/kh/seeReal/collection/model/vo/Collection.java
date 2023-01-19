@@ -17,4 +17,6 @@ public class Collection {
 	private String collectionTitle;
 	
 	private String nickName;
+	
+	private int likeCount;
 }
