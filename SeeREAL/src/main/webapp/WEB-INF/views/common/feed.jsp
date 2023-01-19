@@ -111,7 +111,7 @@
 		                </tr>
 		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
-			                    <td id=title onclick="location.href='movieDetail.co'" style="cursor:pointer;">${f.movieTitle}</td>
+			                    <td id=title>${f.movieTitle}</td>
 			                    <c:choose>
 			                    	<c:when test="${f.rating == 0.5}">
 			                    		<td>☆</td>
@@ -182,7 +182,7 @@
 	                    	diplay: false,
 	                    	beginAtZero: true,
 	                        min: 0,   //y축 최솟값
-	                        max: 10, //y축 최댓값
+	                        max: 5, //y축 최댓값
 	                        stepSize: 1
 	                    }
 	        	}]

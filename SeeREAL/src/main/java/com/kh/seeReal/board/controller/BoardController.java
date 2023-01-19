@@ -88,10 +88,12 @@ public class BoardController {
 	 
 	 }
 	 @RequestMapping("spoilerDetail.bo")
-	 public ModelAndView spoilerDetailView(ModelAndView mv, @RequestParam(value="bno")int bno) {
+	 public ModelAndView spoilerDetailView(ModelAndView mv, @RequestParam(value="bno")int bno,BoardReply br) {
 
 		 if(boardService.spoilerIncreaseCount(bno) > 0) {
 			 mv.addObject("b", boardService.spoilerDetailView(bno)).setViewName("board/spoiler/spoilerDetail");
+			 mv.addObject("br", br);
+			 System.out.println(br);
 		 }else {
 			 mv.addObject("errorMsg", "상세 조회 실패").setViewName("common/errorPage.jsp");
 		 }
@@ -182,6 +184,7 @@ public class BoardController {
 	 @ResponseBody
 	 @RequestMapping(value="sprList.bo", produces="application/json; charset=UTF-8")
 	 public String spoilerReplyList(int boardNo) {
+	
 		 //System.out.println(boardNo);
 		 //System.out.println(boardService.spoilerReplyList(boardNo));
 		// System.out.println(boardNo);

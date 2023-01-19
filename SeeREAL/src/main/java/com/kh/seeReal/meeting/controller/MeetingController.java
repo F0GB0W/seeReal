@@ -248,4 +248,10 @@ public class MeetingController {
     	meetingService.deleteMeeting(meet);
     	return "redirect:meetingList.mt";
     }
+    
+    @ResponseBody
+    @RequestMapping(value="meeting.main", produces="application/json; charset=UTF-8")
+    public String ajaxMeetingMain() {
+    	return new Gson().toJson(meetingService.selectMeetingMain());
+    }
 }

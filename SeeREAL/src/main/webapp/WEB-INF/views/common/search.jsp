@@ -47,7 +47,6 @@
 	#movieList>#list>div{
 		width: 300px;
 		height: 200px;
-		border : 1px solid black;
 	}
 	#searchList>#list>.meeting{
 		padding : 17px;
@@ -59,9 +58,6 @@
 		text-decoration: none;
 		color: black;
 	}
-    .movieList-area {
-        display: flex;
-    }
 
     .movieInfo {
         margin-right: 10px;
@@ -103,11 +99,8 @@
 		</div>
 		<div id="movieList">
 			<div class="title">영화</div>
-
-
-				    <div class="movieList-area">
-	    			</div>
-
+			    <div class="movieList-area" style="width:650px; overflow-y:auto">
+    			</div>
 			</div>
 		</div>
 		<jsp:include page="footer.jsp" />
@@ -161,7 +154,6 @@
 						error : () => {
 							console.log('api 요청 실패ㅠㅠ');
 						}
-					
 					})
 				}
 			}
@@ -184,7 +176,7 @@
 							value = '';
 							for(let i in itemArr){
 								let item = itemArr[i];
-								console.log(item);
+								console.log(i);
 								let thumb = item.image;
 	
 		                        item.subtitle = item.subtitle.replace(/\&apos;/gi, '');   // 따옴표 있으면 안됨...
@@ -193,7 +185,7 @@
 		                        item.title = item.title.replace(/\&apos;/gi, '');
 		                        item.title = item.title.replace(/\&quot;/gi, '');
 								
-		                        value += '<div class="movieInfo">' 
+		                        value += '<div class="movieInfo" style="display:inline-block; width:120px;">' 
 		                            + '<form action="movieDetail.co" method="post">'
 		                            + '<button type="submit">'
 		                            + '<img src="' + item.image + '">'
@@ -205,18 +197,17 @@
 		                            + '<input type="hidden" name="movieSubTitle" value="' + item.subtitle + '">'
 		                            + '</button>'
 		                            + '</form>'
-		                            + '</div>'
-	
+		                            + '</div>';
+		                            
+		                            if(i == 4) {
+		                            	value += '<li style="display:block;"></li>';
+		                            }
 							}
 						}
 		     	            $('.movieList-area').html(value);
-
 					}
-				
-				
 				})
 			}
-
 		</script>
 
 </body>

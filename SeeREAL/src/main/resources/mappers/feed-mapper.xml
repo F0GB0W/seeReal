@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  from movie_rating 
 	  left join comment_like on (member_no = comment_writer)
 	 where member_no = #{memberNo}
-	 
+	   and rownum &lt;= 5
 	  order
 	     by comment_like desc
 	</select>
