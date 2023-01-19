@@ -111,7 +111,7 @@
 		                </tr>
 		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
-			                    <td id=title onclick="location.href='movieDetail.co'" style="cursor:pointer;">${f.movieTitle}</td>
+			                    <td id=title>${f.movieTitle}</td>
 			                    <c:choose>
 			                    	<c:when test="${f.rating == 0.5}">
 			                    		<td>☆</td>
