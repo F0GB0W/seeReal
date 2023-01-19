@@ -21,4 +21,6 @@ public class Meeting {
 
 	// 작성자 아이디가 필요
 	private String meetingWriter;
+	
+	private int meetingCount;
 }
