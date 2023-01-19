@@ -160,7 +160,6 @@
 	<script>
 
 	// chart.js
-       //var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
         var yValues = [${star.star1},${star.star1Half},${star.star2},${star.star2Half},
         				${star.star3},${star.star3Half},${star.star4},${star.star4Half},${star.star5}
         				];
@@ -175,6 +174,7 @@
               }]
         	},
       		options: {
+      			legend: {display: false},
        			scales:{
        				
 	       			yAxes: [{
