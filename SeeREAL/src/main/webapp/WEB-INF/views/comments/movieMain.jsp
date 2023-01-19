@@ -62,6 +62,7 @@
 					let value = '';
 					for(let i in itemArr){
 						let item = itemArr[i];
+						console.log('3333333333333')
 						console.log(item);
 						let thumb = item.image;
 						
