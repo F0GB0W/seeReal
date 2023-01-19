@@ -13,6 +13,89 @@
     
 <title>Insert title here</title>
 <style>
+	/* Container for the entire comments section */
+#myComments {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Comments header */
+#myComments span {
+    font-weight: bold;
+}
+
+/* Individual comments */
+.commentsOsne {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    
+    
+     position: relative;
+    
+}
+
+/* Comment text area */
+.commentsOsne textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    resize: none;
+    font-size: 14px;
+}
+
+/* Buttons for editing and deleting comments */
+.commentsOsne ul {
+ 
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.commentsOsne ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.commentsOsne ul li button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Rating section of the comment */
+.commentsOsne .rating {
+    font-size: 20px;
+    color: #ffc107;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	.movieDetailView{
         width: 800px;
         height: 200px;
@@ -97,6 +180,12 @@
 		-webkit-line-clamp: 2;
 		-webkit-bos-orient: vertical;
 	}
+	textarea:hover{
+		cursor:pointer;
+	}
+	.heightSpace{
+		height: 40px;
+	}
 	
 </style>
 </head>
@@ -161,6 +250,11 @@
 		<src img="blob:https://twitter.com/0e1b67d1-0c98-4d69-9885-f8a8e4543629" height="10" width="10">
 		<src img="blob:https://twitter.com/63b6b2bb-3164-4f41-b01d-6d22838154b9">
 		<src img="blob:https://twitter.com/63b6b2bb-3164-4f41-b01d-6d22838154b9" eight="15" width="15">
+		
+		<hr>
+		<div class="heightSpace">
+		
+		</div>
 		
 		<c:if test="${not empty loginUser  }">
 			<div>
@@ -332,8 +426,9 @@
 		 
 	});
 	
-	
-	
+	$(document).on('click','div[class=commentsOne] textarea',function(){
+		console.log('textarea클릭했다')
+	});
 	
 	$(function(){
 		
@@ -830,7 +925,7 @@
 	        
 	        
 	});
-	        
+	   
 		
 	
 	
