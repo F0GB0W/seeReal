@@ -127,12 +127,11 @@
 	<div>
 	
 	
-	<p>${movieSubTitle }</p>
+	
 	
 	</div>
 	<div>
-	<p id="ratingShow">${rating }</p>
-	<p>${rating }</p>
+	
 	</div>
 	<br><br>
 	
@@ -183,6 +182,8 @@
 					<form action="detailComments.co" method="get">
 						<input type="hidden" name="movieTitle" value="${movieTitle}">
 						<input type="hidden" name="movieYear" value="${movieYear}">
+						
+						
 								<button onclick="detailComments();">더보기</button>
 					</form> 
 					
@@ -344,9 +345,7 @@
 		spoilerBlock();
 		
 		
-		if('${loginUser}' != ''){
-			
-		}
+		
 		console.log($('i[class~=fa-thumbs-up'));
 		$('i[class~=fa-thumbs-up').attr('name','ssddss');
 		console.log('===name===')

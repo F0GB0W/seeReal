@@ -85,9 +85,7 @@ public class CommentsController {
 		//model.addAttribute("movieSubTitle",movieSubTitle);
 		model.addAttribute("movieSubTitle",movieInfo.getMovieSubTitle());
 		
-		System.out.println("1#######session비어있는건 뭘가값이");
-		System.out.println(session.getAttribute("loginUser"));
-		System.out.println(((Member)(session.getAttribute("loginUser"))));
+
 		if( ((Member)(session.getAttribute("loginUser"))) !=null  ) {
 			comments.setMemberNo(((Member)(session.getAttribute("loginUser"))).getMemberNo());
 		}
@@ -97,20 +95,13 @@ public class CommentsController {
 		//comments.setMemberNo(((Member)(session.getAttribute("loginUser"))).getMemberNo());
 		model.addAttribute("myCommentsExit", commentsService.checkMyCommentExit(comments));
 		int test111= commentsService.checkMyCommentExit(comments);
-		System.out.println("test111"+test111);
-		System.out.println(comments);
+		
 		List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
 		model.addAttribute("rating",commentsService.ratingGet(movieRating));
 		
-		System.out.println(movieRating);
+	
 		model.addAttribute("commentsList",commentsList);
-		System.out.println("상세페이지 가기전 데이터 정리=================");
-		System.out.println(session.getAttribute("loginUser"));
 		
-		System.out.println(movieInfo);
-		System.out.println(commentsList);
-		System.out.println("상세페이지 가기전 데이터 정리=================");
-		System.out.println("상세페이지간다 이거 표시"+commentsList);
 		//return new Gson().toJson(commentsList);
 		return "comments/movieDetail";
 		
@@ -234,13 +225,9 @@ public class CommentsController {
     	//String movie=movieRating.getMovieTitle()+movieRating.getMovieYear();
     	//int resultRating=CommentsService.ratingCheck(movie,movieRating.getRating());
     	int resultRating=0;
-    	System.out.println("---------별점매기기------------");
-    	System.out.println(movieRating);
-    	System.out.println(beforeRating);
-    	System.out.println("---------별점매기기------------");
+    	
     	int ratingExit=commentsService.checkRatingExit(movieRating);
-    	System.out.println(ratingExit);
-    	System.out.println("---------별점매기기2------------");
+    	
     	if(ratingExit == 0) {
     		System.out.println("첫번째임");
     		resultRating=commentsService.ratingCheck(movieRating);
@@ -263,12 +250,9 @@ public class CommentsController {
     public String commentsList(Comments comments,Model model) {
 
     	
-    	System.out.println("-2-2-");
     	
-    	System.out.println(comments);
     	List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
-    	System.out.println(commentsList);
-    	System.out.println("-0000-");
+    	
     	
     	return new Gson().toJson(commentsList);
     	
@@ -277,18 +261,12 @@ public class CommentsController {
     @ResponseBody
     @RequestMapping(value="commentsWrite.co")
     public String commentsWrite(Comments comments,MovieRating movieRating,Model model) {
-    	System.out.println("--커멘트쓰기");
-    	System.out.println(comments);
-    	System.out.println("--커멘트쓰기");
+    	
     	int ratingExit=commentsService.checkRatingExit(movieRating);
     	if(ratingExit != 0) {
     		comments.setBeforeRating("Y");
     	}
-    	System.out.println("-4-4-4-4-");
-    	System.out.println(ratingExit);
-    	System.out.println(ratingExit !=0);
-    	System.out.println(comments);
-    	System.out.println("-4-4-4-4-");
+    	
     	
     	
     	int result=commentsService.commentsWrite(comments);
@@ -306,12 +284,20 @@ public class CommentsController {
     	System.out.println(ifLikeExist);
     	System.out.println(ifLikeExist == "N");
     	
-    	commentsService.commentsLikeExit(commentsLike);//임시
+    	int rex=commentsService.commentsLikeExit(commentsLike);//임시
+    	System.out.println("왜이래왜이래왜이래왜이래왜이래왜이래왜이래왜이래");
+    	System.out.println(rex);
+    	System.out.println("왜이래왜이래왜이래왜이래왜이래왜이래왜이래왜이래");
     	
-    	if(commentsService.commentsLikeExit(commentsLike) >0) {
-    		commentsService.thumbsUp(commentsLike);
+    	
+    	if(rex >0) {
+    		int success=commentsService.thumbsUp(commentsLike);
+    		System.out.println(success);
+    		System.out.println("나여기왔노라A");
     	}else {
-    		commentsService.thumbsUpCreate(commentsLike);
+    		int success=commentsService.thumbsUpCreate(commentsLike);
+    		System.out.println(success);
+    		System.out.println("나여기왔노라B");
     	}
     	/*
     	if(ifLikeExist.equals("N")) {
@@ -332,11 +318,19 @@ public class CommentsController {
     	System.out.println(commentsLike);
     	System.out.println(ifLikeExist);
     	System.out.println("싫어요버튼끝");
+    	int rex=commentsService.commentsLikeExit(commentsLike);
+    	System.out.println("왜이래왜이래왜이래왜이래왜이래왜이래왜이래왜이래1");
+    	System.out.println(rex);
+    	System.out.println("왜이래왜이래왜이래왜이래왜이래왜이래왜이래왜이래2");
     	
-    	if(commentsService.commentsLikeExit(commentsLike) > 0) {
-    		commentsService.thumbsDown(commentsLike);
+    	if(rex > 0) {
+    		int success=commentsService.thumbsDown(commentsLike);
+    		System.out.println(success);
+    		System.out.println("나여기왔노라1");
     	}else {
-    		commentsService.thumbsDownCreate(commentsLike); 	
+    		int success=commentsService.thumbsDownCreate(commentsLike);
+    		System.out.println(success);
+    		System.out.println("나여기왔노라2");
     	}
     	
     	/*

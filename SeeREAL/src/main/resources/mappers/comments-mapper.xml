@@ -555,19 +555,16 @@ AND
 	
 	</select>
 	
-	<select id="commentsLikeExit" parameterType="CommentsLike" resultType="_int">
-		select 
-			   A.comment_like+A.comment_dislike
-		 from(
+	<select id="commentsLikeExit" parameterType="CommentsLike" resultMap="commentsLike">
+		
 				 select 
-				 		COUNT(CASE WHEN COMMENT_LIKE='Y' THEN 1 END) COMMENT_LIKE,
-				        COUNT(CASE WHEN COMMENT_DISLIKE='Y' THEN 1 END) COMMENT_DISLIKE
+				 		comment_like
 				 from 
 				 	  comment_like
 				 where 
 				 	  COMMENT_WRITER= #{commentWriter}
 				 and 
-				 	  comment_no = #{commentNo}) A 
+				 	  comment_no = #{commentNo}
 		      
 	
 	</select>

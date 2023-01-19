@@ -123,7 +123,15 @@ public class CommentsDao {
 		
 	}
 	public int commentsLikeExit(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("comments-mapper.commentsLikeExit", commentsLike);
+		CommentsLike list =sqlSession.selectOne("comments-mapper.commentsLikeExit", commentsLike);
+		System.out.println("dao단에서 list");
+		System.out.println(list);
+		int exit=1;
+		if(list ==null) {
+			exit=0;
+		};
+		System.out.println("dao단에서 list");
+		return exit;
 	}
 	/*
 	public double ratingShow(Comments comments,SqlSessionTemplate sqlSession) {
