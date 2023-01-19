@@ -31,6 +31,11 @@ public class CommentsDao {
 				System.out.println("tt값은:  "+tt);
 				return tt;
 	}
+	public int checkRatingExit(MovieRating movieRating,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.checkRatingExit",movieRating);
+	}
+	
+	
 	public int ratingCheck(MovieRating movieRating,SqlSessionTemplate sqlSession) {
 		System.out.println("dao"+movieRating);
 		return sqlSession.insert("comments-mapper.ratingCheck", movieRating);
@@ -62,9 +67,12 @@ public class CommentsDao {
 		return sqlSession.update("comments-mapper.thumbsDown",commentsLike);
 	}
 	public int thumbsUpCreate(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		System.out.println("thumbsUpCreate 왔냐?");
+		System.out.println(commentsLike);
 		return sqlSession.update("comments-mapper.thumbsUpCreate",commentsLike);
 	}
 	public int thumbsDownCreate(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		System.out.println("thumbsDownCreate 왔냐?");
 		return sqlSession.update("comments-mapper.thumbsDownCreate",commentsLike);
 	}
 	public ArrayList showCommentsLike(Comments comments,SqlSessionTemplate sqlSession) {
@@ -74,8 +82,8 @@ public class CommentsDao {
 		System.out.println("---showCommentsLike 가기후 ----"+list);
 		return list;
 	}
-	public Comments getMyComments(Comments comments,SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("comments-mapper.getMyComments",comments);
+	public List<Map<String,Object>> getMyComments(Comments comments,SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("comments-mapper.getMyComments",comments);
 	}
 	/*
 	public ArrayList commentsLikeSum(Comments comments,SqlSessionTemplate sqlSession) {
@@ -106,8 +114,28 @@ public class CommentsDao {
 		
 		return list;
 	}
-	public HashMap<String,Object> getMyComment(Comments comments,SqlSessionTemplate sqlSession){
-		return sqlSession.selectOne("comments-mapper.getMyComment", comments);
+	public List<Map<String,Object>> myComment(Comments comments,SqlSessionTemplate sqlSession){
+		List<Map<String,Object>> list =(ArrayList)sqlSession.selectList("comments-mapper.myComment", comments);
+		System.out.println("=========라스트==");
+		System.out.println(comments);
+		System.out.println(list);
+		return list; 
 		
 	}
+	public int commentsLikeExit(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		CommentsLike list =sqlSession.selectOne("comments-mapper.commentsLikeExit", commentsLike);
+		System.out.println("dao단에서 list");
+		System.out.println(list);
+		int exit=1;
+		if(list ==null) {
+			exit=0;
+		};
+		System.out.println("dao단에서 list");
+		return exit;
+	}
+	/*
+	public double ratingShow(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.ratingShow", comments);
+	}
+	*/
 }

@@ -34,7 +34,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEETING_REPORT" property="meetingReport" />
 		<result column="MEETING_WRITER" property="meetingWriter" />
 	</resultMap>
+	
+	<resultMap id="replyResultSet" type="boardReply">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BO_REPLY_NO" property="boReplyNo" />
+		<result column="BO_REPLY_STATUS" property="boReplyStatus" />
+		<result column="BOARD_TYPE" property="boardType" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="BO_REPLY_CONTENT" property="boReplyContent" />
+		<result column="BO_REPLY_DATE" property="boReplyDate" />
+	</resultMap>
 
+	<resultMap id="commentsListView" type="comments">
+		<result column="COMMENT_NO" property="commentNo"/>
+		<result column="COMMENT_CONTENT" property="commentContent"/>
+		<result column="COMMENT_ENROLLDATE" property="commentEnrollDate"/>
+		<result column="SPOILER" property="spoiler"/>
+		<result column="MOVIE_TITLE" property="movieTitle"/>
+		<result column="MOVIE_YEAR" property="movieYear"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="COMMENT_REPORT" property="commentReport"/>
+
+	</resultMap>
+	<resultMap id="collectionResultSet"	type="movieCollection">
+		<result column="COLLECTION_NO" property="collectionNo" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
+		<result column="COLLECTION_ENROLL" property="collectionEnroll" />
+		<result column="COLLECTION_TITLE" property="collectionTitle" />
+		<result column="COLLECTION_CONTENT" property="collectionContent" />
+		<result column="COLLECTION_REPORT" property="collectionReport" />
+		<result column="NICK_NAME" property="nickName" />
+	</resultMap>
+	
+	<resultMap type="collectionReply" id="collectionReplyResultSet">
+			<result column="CO_REPLY_NO" property="coReplyNo" />
+			<result column="CO_REPLY_CONTENT" property="coReplyContent" />
+			<result column="CO_REPLY_REPORT" property="coReplyReport" />
+			<result column="CO_REPLY_DATE" property="coReplyDate" />
+			<result column="CO_REPLY_STATUS" property="coReplyStatus" />
+			<result column="MEMBER_NO" property="memberNo" />
+			<result column="COLLECTION_NO" property="collectionNo" />
+			<result column="NICK_NAME" property="nickName" />
+	</resultMap>
 
 	<select id="selectReportMeetingList" resultMap="meetingResultSet">
 		SELECT
@@ -95,16 +138,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  		board_no = #{boardNo}
 		   and
 		   		board_type = 2
-	</update>
-		<update id="increaseFreeBoardReport">
-		update
-				board
-		   set
-		   		report_count = report_count + 1
-		 where
-		  		board_no = #{boardNo}
-		   and
-		   		board_type = 1
 	</update>
 		<update id="increaseBoReplyReport">
 		update
@@ -183,14 +216,85 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND REPORT_TYPE = 1
 	</select>
 
+		<update id="sanctionsCollection" parameterType="_int">
 
+		update
+				collection
+		set
+				status = 'N'
+		where
+				collection_report >= 10			
+	</update>
+	<update id="sanctionsMeeting" parameterType="_int">
 
+		update
+				meeting
+		set
+				status = 'N'
+		where
+				meeting_report >= 10			
+	</update>
+	<update id="sanctionsComments" parameterType="_int">
 
+		update
+				comments
+		set
+				status = 'N'
+		where
+				comment_report >= 10			
+	</update>
 
+	<update id="sanctionsBoReply" parameterType="_int">
 
+		update
+				BOARD_REPLY
+		set
+				BO_REPLY_STATUS = 'N'
+		where
+				BO_REPLY_REPORT_COUNT >= 10				
+	</update>
+	<update id="sanctionsCollectionReply" parameterType="_int">
 
-
-
+		update
+				COLLECTION_REPLY
+		set
+				CO_REPLY_STATUS = 'N'
+		where
+				CO_REPLY_REPORT >= 10			
+	</update>
+	<select id="selectReportBoardReplyCount" parameterType="report" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			report 
+		WHERE 
+			REPORT_WRITER = #{ reportWriter } 
+			AND REPORT_OCCURED = #{ reportOccured }
+			AND REPORT_TYPE = 0
+	</select>
+	<insert id="insertReportBoardReply" parameterType="report">
+		insert
+		  into
+		  		report
+		  		(
+					REPORT_NO,
+					REPORT_WRITER,
+					REPORT_REASON,
+					REPORT_DATE,
+					REPORT_OCCURED,
+					REPORT_TYPE
+		  		)
+		values
+				(
+				seq_rno.nextval,
+				#{reportWriter},
+				#{reportReason},
+				   SYSDATE,
+				#{reportOccured},
+					0
+				)
+					
+	</insert>
 
 
 

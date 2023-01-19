@@ -103,7 +103,7 @@
              			
              	<input type="hidden" name="reporting">
 		              <select  name="reportReason">
-		              	<option value="1">부적절한 게시글</option>
+		              	<option value="1">부적절한 글</option>
 		              	<option value="2">스포일러성 정보</option>
 		              	<option value="3">홍보 및 광고</option>
 		              	<option value="4">욕설 및 도배</option>
@@ -111,9 +111,9 @@
    
    
    <button type="button"  id="rpButton" onclick="submitReport()"> 신고하기<i class="fa-solid fa-land-mine-on fa-2x" ></i></button>
-
+	<input type="hidden" id="mm">
 				 </form>
-   
+   <p>${br.boReplyNo}</p>
 
               <br><br>
 			
@@ -202,7 +202,46 @@ function submitReport() {
 }
 </script>
 	
-	
+	<script>
+
+$(function() {
+	var reportFormData = $("#reportReplyBt").serialize();
+
+	$.ajax({
+		url: "reportBoardReplyCount.rp",
+        data: reportFormData,
+		success : function(response) {
+			if(response > 0 ) {
+				$("#ReplyReportBt").prop("disabled", true);
+			} else {
+				$("#ReplyReportBt").prop("disabled", false);
+			}
+		}
+	})
+})
+
+function submitReplyReport() {
+    var reportFormData = $("#reportReplyBt").serialize();
+
+    $.ajax({
+        type: "POST",
+        url: "insertReportBoardReply.rp",
+        data: reportFormData,
+        success: function(response) {
+            // Handle the response from the server
+            
+            if (response != "success") {
+            	console.log(response);
+            	alert("신고가 정상적으로 접수되었습니다.");
+                // disable the button
+                $("#ReplyReportBt").prop("disabled", true);
+            } else {
+                alert("이미 신고 처리되었거나 오류 발생 ");
+            }
+        }
+    });
+}
+</script>	
 	
 	
 	
@@ -256,17 +295,25 @@ function submitReport() {
 					//for(var i=0; i< list.length; i++){
 					for(var i in list){
 						if(${not empty loginUser}){
+							console.log('---------------------')
+							console.log(list[i].boReplyNo)
+							console.log('---------------------')
 								  value += '<tr>'
 									   + '<td class="replyContent">' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].replyWriter + '</td>'
 									   + '<td>' + list[i].boReplyDate + '</td>'
 									   + '<input type="hidden" id="hiddenUpdate" value="'  + list[i].boReplyNo + '"name="hiddenReplyNo">'
 									   + '<input type="hidden" id="hiddendelete" value="' + list[i].memberNo + '"name="memberNo">'
+									   
 						if("${loginUser.memberNickname}" == list[i].replyWriter){
 								value += '<td><button class="updatebtn" onclick="updateReply(this);">수정</button></td>' 
 									   + '<td><button id="deleteReply" onclick="deleteReply(this);">삭제</button></td>'
 									   + '</tr>';
 							  		} 
+						else{
+							value += '<td><button type="button" name="'+list[i].boReplyNo+'"  id="ReplyrpButton"  data-toggle="modal" data-target="#myModal" onclick="saveData(this);"> <i class="fa-solid fa-land-mine-on"  ></i></button></td>' 		
+						}
+									   
 					}
 					//console.log(value);
 					$('#replyArea tbody').html(value);
@@ -285,6 +332,18 @@ function submitReport() {
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
 		*/
+		function saveData(a){
+
+			$('input[name=boReplyNo]').val(a.name);
+			$('input[name=reportOccured]').val(a.name);
+			
+		}
+		
+		
+		
+		
+		
+		
 		function updateReply(e){
 			
 			let value = '<td class="ChangeReplyContent"><textarea id="hiddenContent" style="resize:none;" type="text" name="boReplyContent" value="'
@@ -385,9 +444,58 @@ function submitReport() {
 <jsp:include page="../../common/footer.jsp"/>		 
 		
 		
+<div class="container mt-3">
+  <!-- Button to Open the Modal -->		
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">정말 신고하시겠습니까?</h4>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+ 
+ 
+ 			
+ 			 <form id="reportReplyBt">
+             <input type="hidden" name="boardNo" value="${ b.boardNo }">
+             <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
+             <input type="hidden" name="reportOccured"  value="${br.boReplyNo}">
+             <input type="hidden" name="reportType" value="0">
+             <input type="hidden" name="boReplyNo"  value="${br.boReplyNo}">
+   
+ 
+		              <select  name="reportReason" >
+		              	<option value="1">부적절한 글</option>
+		              	<option value="2">스포일러성 정보</option>
+		              	<option value="3">홍보 및 광고</option>
+		              	<option value="4">욕설 및 도배</option>
+		              </select>
+		      </form>   
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer" align="center">
+          <button type="button" class="btn btn-danger" id="ReplyReportBt" onclick="submitReplyReport()">신고하기 <i class="fa-solid fa-land-mine-on fa" ></i></button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+</div>		
 		
-		
-	
 
 
 

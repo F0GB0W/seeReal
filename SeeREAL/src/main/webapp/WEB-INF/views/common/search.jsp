@@ -47,7 +47,6 @@
 	#movieList>#list>div{
 		width: 300px;
 		height: 200px;
-		border : 1px solid black;
 	}
 	#searchList>#list>.meeting{
 		padding : 17px;
@@ -59,6 +58,10 @@
 		text-decoration: none;
 		color: black;
 	}
+
+    .movieInfo {
+        margin-right: 10px;
+    }
 </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -96,36 +99,8 @@
 		</div>
 		<div id="movieList">
 			<div class="title">영화</div>
-<%-- 			<c:choose>
-				<c:when test="${ data.items eq null }">
-					 <table id="result1" border="1" align="center" >
-	                    <thead>
-	                        <tr>
-	                            <th>영화제목(링크)</th>
-	                            <th>이미지</th>
-	                            <th>개봉일</th>
-	                            <th>감독</th>
-	                            <th>출연배우</th>
-	                            <th>평점</th>
-	                        </tr>
-	                    </thead>
-	                    <tbody>
-	                    </tbody>
-	                  </table>
-	            </c:when>   
-				<c:otherwise>
-						검색한 결과가 없어요🤷‍♀️
-				</c:otherwise>
-			</c:choose>  --%>
-			<c:choose>
-				<c:when test="${ empty data.items }">
-				    <div class="movieList-area">
-	    			</div>
-    			</c:when>
-    			<c:otherwise>
-						검색한 결과가 없어요🤷‍♀️
-    			</c:otherwise>
-    		</c:choose>	
+			    <div class="movieList-area" style="width:650px; overflow-y:auto">
+    			</div>
 			</div>
 		</div>
 		<jsp:include page="footer.jsp" />
@@ -179,7 +154,6 @@
 						error : () => {
 							console.log('api 요청 실패ㅠㅠ');
 						}
-					
 					})
 				}
 			}
@@ -192,42 +166,48 @@
 					},
 					success : data => {
 						const itemArr = data.items;
+						console.log(itemArr.length)
 						
 						let value = '';
-						for(let i in itemArr){
-							let item = itemArr[i];
-							console.log(item);
-							let thumb = item.image;
-
-	                        item.subtitle = item.subtitle.replace(/\&apos;/gi, '');   // 따옴표 있으면 안됨...
-	                        item.subtitle = item.subtitle.replace(/\&quot;/gi, '');   // 혹시 몰라 쌍따옴표도..
-
-	                        item.title = item.title.replace(/\&apos;/gi, '');
-	                        item.title = item.title.replace(/\&quot;/gi, '');
+						if(itemArr.length==0){
+							value = '검색한 결과가 없어요🤷‍♀️';
+						} else {
 							
-	                        value += '<div class="movieInfo">' 
-	                            + '<form action="movieDetail.co" method="post">'
-	                            + '<button type="submit">'
-	                            + '<img src="' + itemArr.image + '">'
-	                            + '<p>' + itemArr.title + '(' + itemArr.pubDate + ')' + '</p>'
-	                            + '<input type="hidden" name="movieTitle" value="' + itemArr.title + '">'
-	                            + '<input type="hidden" name="movieYear" value="' + itemArr.pubDate + '">'
-	                            + '<input type="hidden" name="movieDirector" value="' + itemArr.director + '">'
-	                            + '<input type="hidden" name="movieImg" value="' + itemArr.image + '">'
-	                            + '<input type="hidden" name="movieSubTitle" value="' + itemArr.subtitle + '">'
-	                            + '</button>'
-	                            + '</form>'
-	                            + '</div>'
-
-	     	            $('.movieList-area').html(value);
+							value = '';
+							for(let i in itemArr){
+								let item = itemArr[i];
+								console.log(i);
+								let thumb = item.image;
+	
+		                        item.subtitle = item.subtitle.replace(/\&apos;/gi, '');   // 따옴표 있으면 안됨...
+		                        item.subtitle = item.subtitle.replace(/\&quot;/gi, '');   // 혹시 몰라 쌍따옴표도..
+	
+		                        item.title = item.title.replace(/\&apos;/gi, '');
+		                        item.title = item.title.replace(/\&quot;/gi, '');
+								
+		                        value += '<div class="movieInfo" style="display:inline-block; width:120px;">' 
+		                            + '<form action="movieDetail.co" method="post">'
+		                            + '<button type="submit">'
+		                            + '<img src="' + item.image + '">'
+		                            + '<p>' + item.title + '(' + item.pubDate + ')' + '</p>'
+		                            + '<input type="hidden" name="movieTitle" value="' + item.title + '">'
+		                            + '<input type="hidden" name="movieYear" value="' + item.pubDate + '">'
+		                            + '<input type="hidden" name="movieDirector" value="' + item.director + '">'
+		                            + '<input type="hidden" name="movieImg" value="' + item.image + '">'
+		                            + '<input type="hidden" name="movieSubTitle" value="' + item.subtitle + '">'
+		                            + '</button>'
+		                            + '</form>'
+		                            + '</div>';
+		                            
+		                            if(i == 4) {
+		                            	value += '<li style="display:block;"></li>';
+		                            }
+							}
 						}
-
+		     	            $('.movieList-area').html(value);
 					}
-				
-				
 				})
 			}
-
 		</script>
 
 </body>

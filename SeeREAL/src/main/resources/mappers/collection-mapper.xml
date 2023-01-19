@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="COLLECTION_TITLE" property="collectionTitle" />
 		<result column="COLLECTION_CONTENT" property="collectionContent" />
 		<result column="NICK_NAME" property="nickName" />
+		<result column="LIKECOUNT" property="likeCount" />
 	</resultMap>
 	
 	<resultMap type="collectionReply" id="collectionReplyResultSet">
@@ -236,4 +237,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			COLLECTION_NO = #{ collectionNo }
 			AND MEMBER_NO = #{ memberNo }	
 	</update>
+	
+	<select id="selectCollectionMain" resultMap="collectionResultSet">
+		SELECT
+			T.*
+		FROM
+			(
+			SELECT
+				cl.COLLECTION_NO,
+				SUM(cl.COLLECTION_LIKE) AS likeCount,
+				c.COLLECTION_TITLE,
+				c.CHANGE_NAME,
+				m.NICK_NAME,
+				m.MEMBER_NO
+			FROM
+				COLLECTION_LIKE cl
+			JOIN COLLECTION c ON
+				cl.COLLECTION_NO = c.COLLECTION_NO
+			JOIN MEMBER m ON
+				c.MEMBER_NO = m.MEMBER_NO
+			WHERE c.STATUS = 'Y'
+			GROUP BY
+				cl.COLLECTION_NO,
+				c.COLLECTION_TITLE,
+				c.CHANGE_NAME,
+				m.NICK_NAME,
+				m.MEMBER_NO
+			HAVING
+				SUM(cl.COLLECTION_LIKE) > 0
+			ORDER BY
+				likeCount DESC) T
+		WHERE 
+			ROWNUM BETWEEN 1 AND 5
+	</select>
 </mapper>

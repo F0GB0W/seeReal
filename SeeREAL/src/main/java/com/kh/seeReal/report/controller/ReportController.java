@@ -1,15 +1,13 @@
 package com.kh.seeReal.report.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.seeReal.board.model.vo.BoardReply;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.report.model.service.ReportService;
@@ -86,10 +84,27 @@ public class ReportController {
     
     
     
+	@RequestMapping("insertReportBoardReply.rp")
+	public String insertReportBoardReply(@RequestParam(value="reportCheck",defaultValue="1") String reportReason ,Report r,int boReplyNo) {
+		
+       
+		
+		if(reportService.insertReportBoardReply(r) > 0) { 
+			reportService.increaseBoReplyReport(boReplyNo);
+			
+			return "redirect:spoilerList.bo";
+		} else {
+			
+			return "redirect:errorPage";
+		}
+	}
     
-    
-    
-    
+   @ResponseBody
+    @RequestMapping("reportBoardReplyCount.rp")
+    public int selectReportBoardReplyCount(Report r) {
+    	return reportService.selectReportBoardReplyCount(r);
+    	//return String.valueOf(reportService.selectReportCount(r));
+    }
     
     
     

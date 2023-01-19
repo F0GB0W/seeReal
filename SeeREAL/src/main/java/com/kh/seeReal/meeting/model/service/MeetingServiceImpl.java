@@ -80,4 +80,9 @@ public class MeetingServiceImpl implements MeetingService {
 		return meetingDao.deleteMeeting(sqlSession, meet);
 	}
 
+	@Override
+	public ArrayList<Meeting> selectMeetingMain() {
+		return meetingDao.selectMeetingMain(sqlSession);
+	}
+
 }

@@ -12,5 +12,8 @@ public class MovieRating {
 	private String movieYear;
 	
 	private String commentLike;
+	private int commentNo;
+	
+	private int count;
 
 }

@@ -26,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="COMMENT_NO" property="commentNo"/>
 		<result column="COMMENT_LIKE" property="commentLike"/>
 		<result column="COMMENT_DISLIKE" property="disLike"/>
+		<result column="COMMENT_WRITER" property="commentWriter"/>
 	</resultMap>
 	
 	<select id="checkMyCommentExit" parameterType="Comments" resultType="_int">
@@ -55,19 +56,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		      MOVIE_TITLE = #{movieTitle}
 		   AND
 		      MOVIE_YEAR = #{movieYear}
+		   AND
+		      RATING &gt; 0
 	</select>
+	
+	<select id="checkRatingExit" parameterType="MovieRating" resultType="_int">
+		SELECT
+		      count(*)
+		  FROM
+		      MOVIE_RATING
+		WHERE
+		      MOVIE_TITLE = #{movieTitle}
+		   AND
+		      MOVIE_YEAR = #{movieYear}
+		   AND
+		      MEMBER_NO = #{memberNo}
+		     
+	
+	</select>
+	
 	<insert id="ratingCheck" parameterType="MovieRating">
 		INSERT
 		  INTO
 		      MOVIE_RATING
-		      (
+		      (		      
 		      MEMBER_NO,
 		      RATING,
 		      MOVIE_TITLE,
 		      MOVIE_YEAR
 		      )
 		  VALUES
-		  	  (
+		  	  (		  	  
 		  	  #{memberNo},
 		  	  #{rating},
 		  	  #{movieTitle},
@@ -114,7 +133,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	-->
 	<select id="commentsList" parameterType="Comments" resultType="hashmap">
-		SELECT
+		 SELECT A.*, ROWNUM	
+     FROM
+	(SELECT 
+	  DISTINCT
 			  MEMBER_NO,
 		      COMMENT_NO,
 		      C.COMMENT_CONTENT,
@@ -153,11 +175,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          AND
             C.MOVIE_TITLE=#{movieTitle}
          AND
-            C.MOVIE_YEAR=#{movieYear}
+            R.MOVIE_TITLE=#{movieTitle}
          AND
-            ROWNUM &lt; 4
+            C.MOVIE_YEAR=#{movieYear}
     ORDER BY
-            L.COMMENT_LIKE DESC 
+            L.COMMENT_LIKE-L.COMMENT_DISLIKE DESC) A
+   WHERE 
+            ROWNUM &lt; 4
 		  
 	</select>
 	<insert id="commentsWrite" parameterType="Comments">
@@ -217,6 +241,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  'N',
 			  SEQ_COMNO.CURRVAL
 			  )
+		<if test="beforeRating != 'Y'.toString()">
+		INTO
+              MOVIE_RATING
+              (
+              MEMBER_NO,
+              RATING,
+              MOVIE_TITLE,
+              MOVIE_YEAR              
+              )
+        VALUES
+        	  (
+              #{memberNo},
+              0,
+              #{movieTitle},
+              #{movieYear}
+            
+              )
+        </if>
 			SELECT 
 			  	  * 
 			  FROM 
@@ -286,45 +328,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="showCommentsLike" parameterType="Comments" resultMap="commentsLike">
-		SELECT 
-		      COMMENT_NO,
-		      COMMENT_LIKE,
-			  COMMENT_DISLIKE
-		  FROM
-		      COMMENT_LIKE
-		 WHERE
-		      COMMENT_WRITER = #{memberNo}
-		   AND
-		      COMMENT_NO IN (SELECT
-		                          COMMENT_NO
-		                      FROM
-		                          COMMENTS
-		                     WHERE
-		                          MOVIE_TITLE=#{movieTitle}
-		                       AND
-		                          MOVIE_YEAR=#{movieYear} )
-		 ORDER BY 
-		          COMMENT_LIKE DESC 
+		SELECT
+       COMMENT_NO,
+       COMMENT_LIKE,
+        COMMENT_DISLIKE,
+        COMMENT_WRITER
+FROM
+     COMMENT_LIKE
+WHERE 
+     COMMENT_NO IN
+	(
+	SELECT 
+	         A.COMMENT_NO 
+	FROM
+	         (	SELECT
+	                     COUNT(CASE WHEN COMMENT_LIKE='Y' THEN 1 END) COMMENT_LIKE,
+	                     COUNT(CASE WHEN COMMENT_DISLIKE='Y' THEN 1 END) COMMENT_DISLIKE,
+	                     COMMENT_NO
+	                 FROM
+	                     COMMENT_LIKE
+		    WHERE
+			 COMMENT_NO IN (SELECT COMMENT_NO
+					FROM COMMENTS
+					WHERE MOVIE_TITLE = #{movieTitle}
+					AND MOVIE_YEAR = #{movieYear} 	
+					)
+ 	            GROUP 
+		      BY 
+ 	                     COMMENT_NO
+		ORDER 
+ 	 	      BY
+ 	                     COMMENT_LIKE-COMMENT_DISLIKE) A
+	WHERE 
+ 	        ROWNUM &lt; 4
+	) 
+AND
+         COMMENT_WRITER = #{memberNo}
 	
 	</select>
 	
-	<select id="getMyComments" parameterType="Comments" resultMap="commentsListView">
-		<!--  
+	<select id="getMyComments" parameterType="Comments" resultType="hashmap">
+		
 		SELECT
-		      COMMENT_CONTENT,
-			  SPOILER
-		  FROM
-		      COMMENTS
-		 WHERE 
-		      STATUS = 'Y'
-	       AND
-	          MOVIE_TITLE = #{movieTitle}
-	       AND
-			  MOVIE_YEAR = #{movieYear}
-	       AND
-			  MEMBER_NO = #{memberNo}
-		-->
-		SELECT
+		DISTINCT
 			  MEMBER_NO,
 		      COMMENT_NO,
 		      C.COMMENT_CONTENT,
@@ -363,11 +409,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          AND
             C.MOVIE_TITLE=#{movieTitle}
          AND
-            C.MOVIE_YEAR=#{movieYear}     
+            C.MOVIE_YEAR=#{movieYear}
+         AND
+            R.MOVIE_TITLE=#{movieTitle}     
          AND
             MEMBER_NO = #{memberNo}    
-    ORDER BY
-            L.COMMENT_LIKE DESC	       
+           
 	</select>
 	<update id="reviseMyComments" parameterType="Comments">
 		UPDATE
@@ -411,7 +458,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectCommentsListAll" parameterType="Comments" resultType="hashmap">
-		SELECT
+		SELECT 
+	  DISTINCT
 			  MEMBER_NO,
 		      COMMENT_NO,
 		      C.COMMENT_CONTENT,
@@ -450,13 +498,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          AND
             C.MOVIE_TITLE=#{movieTitle}
          AND
-            C.MOVIE_YEAR=#{movieYear}         
+            R.MOVIE_TITLE=#{movieTitle}
+         AND
+            C.MOVIE_YEAR=#{movieYear}
     ORDER BY
-            L.COMMENT_LIKE DESC 
+            L.COMMENT_LIKE-L.COMMENT_DISLIKE DESC
 	</select>
 	
-	<select id="getMyComment" parameterType="Comments" resultType="hashmap">
-	SELECT
+	<select id="myComment" parameterType="Comments" resultType="hashmap">
+	SELECT 
+	DISTINCT
 			  MEMBER_NO,
 		      COMMENT_NO,
 		      C.COMMENT_CONTENT,
@@ -495,9 +546,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          AND
             C.MOVIE_TITLE=#{movieTitle}
          AND
-            C.MOVIE_YEAR=#{movieYear}         
-    ORDER BY
-            L.COMMENT_LIKE DESC 
+            R.MOVIE_TITLE=#{movieTitle}
+         AND
+            C.MOVIE_YEAR=#{movieYear}     
+         AND
+            MEMBER_NO = #{memberNo}    
+    
 	
+	</select>
+	
+	<select id="commentsLikeExit" parameterType="CommentsLike" resultMap="commentsLike">
+		
+				 select 
+				 		comment_like
+				 from 
+				 	  comment_like
+				 where 
+				 	  COMMENT_WRITER= #{commentWriter}
+				 and 
+				 	  comment_no = #{commentNo}
+		      
+	
+	</select>
+	
+	<select id="ratingShow" parameterType="Comments" resultType="double">
+		SELECT
+			  NVL(ROUND(AVG(RATING),3),0) RATING 
+		  FROM
+		  	  MOVIE_RATING
+		WHERE
+		      RATING &gt; 0
+          AND
+             MOVIE_TITLE = #{movieTitle}
+          AND
+             MOVIE_YEAR = #{movieYear}
 	</select>
 </mapper>

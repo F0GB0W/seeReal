@@ -36,7 +36,7 @@ public class CollectionController {
 	
 	@Transactional
 	@RequestMapping("insert.ch")
-	public void insertCollection(ModelAndView mv, HttpSession session,
+	public ModelAndView insertCollection(ModelAndView mv, HttpSession session,
 										Collection collection, CollectionMovieList movieList, 
 										MultipartFile upfile) {
 				
@@ -68,13 +68,15 @@ public class CollectionController {
 		*/
 		
 		if(collectionService.insertCollection(collection) > 0) {
-			System.out.println("컬렉션 인서트 성공!~~");
 			if(collectionService.insertCollectionMovie(movieList) > 0) {
-				System.out.println("영화 목록 인서트 성공~~");
+				mv.setViewName("redirect:/list.cl");
 			}
+		} else {
+			mv.addObject("errorMsg", "컬렉션 생성 실패").setViewName("common/errorPage");
 		}
 		
-		
+		return mv;
+				
 	}
 	
 	public String saveFile(MultipartFile upfile, HttpSession session) {
@@ -185,5 +187,16 @@ public class CollectionController {
 	public String deleteCollection(Collection cl) {
 		collectionService.deleteCollection(cl);
 		return "redirect:list.cl";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "collection.main", produces = "application/json; charset=UTF-8")
+	public String ajaxCollectionMain() {
+		return new Gson().toJson(collectionService.selectCollectionMain());
+	}
+	
+	@RequestMapping("main.juni") // 나중에 통합 필요!
+	public String mainJuni() {
+		return "common/mainJuni";
 	}
 }

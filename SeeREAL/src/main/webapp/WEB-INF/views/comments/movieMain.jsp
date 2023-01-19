@@ -55,6 +55,8 @@
 					
 					
 					
+					
+					
 					const itemArr = data.items;
 					
 					let value = '';
@@ -77,7 +79,7 @@
 					
 					$('#result1 tbody').html(value);
 					console.log(value);
-					$('#title').val(title);
+					
 					console.log($('#result1 tbody').children())
 					
 				},
@@ -110,6 +112,7 @@
 		console.log($('#movieDirector').val());
 		console.log($('#movieSubTitle').val());
 				console.log('==========클릭시 정보뜨기===========')
+				
 				$('#form1').submit();
 			})
 		}
