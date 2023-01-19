@@ -67,9 +67,12 @@ public class CommentsDao {
 		return sqlSession.update("comments-mapper.thumbsDown",commentsLike);
 	}
 	public int thumbsUpCreate(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		System.out.println("thumbsUpCreate 왔냐?");
+		System.out.println(commentsLike);
 		return sqlSession.update("comments-mapper.thumbsUpCreate",commentsLike);
 	}
 	public int thumbsDownCreate(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		System.out.println("thumbsDownCreate 왔냐?");
 		return sqlSession.update("comments-mapper.thumbsDownCreate",commentsLike);
 	}
 	public ArrayList showCommentsLike(Comments comments,SqlSessionTemplate sqlSession) {
@@ -79,8 +82,8 @@ public class CommentsDao {
 		System.out.println("---showCommentsLike 가기후 ----"+list);
 		return list;
 	}
-	public Comments getMyComments(Comments comments,SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("comments-mapper.getMyComments",comments);
+	public List<Map<String,Object>> getMyComments(Comments comments,SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("comments-mapper.getMyComments",comments);
 	}
 	/*
 	public ArrayList commentsLikeSum(Comments comments,SqlSessionTemplate sqlSession) {
@@ -119,4 +122,12 @@ public class CommentsDao {
 		return list; 
 		
 	}
+	public int commentsLikeExit(CommentsLike commentsLike,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.commentsLikeExit", commentsLike);
+	}
+	/*
+	public double ratingShow(Comments comments,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.ratingShow", comments);
+	}
+	*/
 }
