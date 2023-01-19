@@ -84,12 +84,19 @@
 						<c:otherwise>
 							<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${pi.currentPage + 1 }">Next</a></li>
 						</c:otherwise>
-                    </c:choose>
-                    
-                    
-                    
-                    
+                    </c:choose>                   
               </ul>
        </div>
+       
+       <script>
+       x
+       
+       
+       
+       </script>
+       
+       
+       
+       
 </body>
 </html>

@@ -261,8 +261,10 @@ public class CommentsController {
     @ResponseBody
     @RequestMapping(value="commentsList.co",produces="application/json; charset=UTF-8")
     public String commentsList(Comments comments,Model model) {
+
     	
     	System.out.println("-2-2-");
+    	
     	System.out.println(comments);
     	List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
     	System.out.println(commentsList);
@@ -274,10 +276,21 @@ public class CommentsController {
     
     @ResponseBody
     @RequestMapping(value="commentsWrite.co")
-    public String commentsWrite(Comments comments,Model model) {
+    public String commentsWrite(Comments comments,MovieRating movieRating,Model model) {
     	System.out.println("--커멘트쓰기");
     	System.out.println(comments);
     	System.out.println("--커멘트쓰기");
+    	int ratingExit=commentsService.checkRatingExit(movieRating);
+    	if(ratingExit != 0) {
+    		comments.setBeforeRating("Y");
+    	}
+    	System.out.println("-4-4-4-4-");
+    	System.out.println(ratingExit);
+    	System.out.println(ratingExit !=0);
+    	System.out.println(comments);
+    	System.out.println("-4-4-4-4-");
+    	
+    	
     	int result=commentsService.commentsWrite(comments);
     	
     	return "comments/movieDetail";
@@ -290,12 +303,23 @@ public class CommentsController {
     public String thumbsUp(CommentsLike commentsLike,String ifLikeExist,Model model) {
     	System.out.println("좋아요 버튼");
     	System.out.println(commentsLike);
-    	if(ifLikeExist == "N") {
+    	System.out.println(ifLikeExist);
+    	System.out.println(ifLikeExist == "N");
+    	
+    	commentsService.commentsLikeExit(commentsLike);//임시
+    	
+    	if(commentsService.commentsLikeExit(commentsLike) >0) {
+    		commentsService.thumbsUp(commentsLike);
+    	}else {
+    		commentsService.thumbsUpCreate(commentsLike);
+    	}
+    	/*
+    	if(ifLikeExist.equals("N")) {
     		commentsService.thumbsUpCreate(commentsLike); 		
     	}else {
     		commentsService.thumbsUp(commentsLike);
     	}
-    		
+    	*/
     	
     	return "comments/movieDetail";
     	
@@ -304,13 +328,24 @@ public class CommentsController {
     @ResponseBody
     @RequestMapping(value="thumbsDown.co")
     public String thumbsDown(CommentsLike commentsLike,String ifLikeExist,Model model) {
+    	System.out.println("싫어요 버튼");
+    	System.out.println(commentsLike);
+    	System.out.println(ifLikeExist);
+    	System.out.println("싫어요버튼끝");
     	
-    	if(ifLikeExist == "N") {
+    	if(commentsService.commentsLikeExit(commentsLike) > 0) {
+    		commentsService.thumbsDown(commentsLike);
+    	}else {
+    		commentsService.thumbsDownCreate(commentsLike); 	
+    	}
+    	
+    	/*
+    	if(ifLikeExist.equals("N")) {
     		commentsService.thumbsDownCreate(commentsLike); 		
     	}else {
     		commentsService.thumbsDown(commentsLike);
     	}
-    	
+    	*/
     	
     	
     	return "comments/movieDetail";
@@ -351,7 +386,7 @@ public class CommentsController {
     @RequestMapping(value="getMyComments.co",produces="application/json; charset=UTF-8")
     public String getMyComments(Comments comments) {
     	
-    	Comments list=commentsService.getMyComments(comments);
+    	List<Map<String,Object>> list=commentsService.getMyComments(comments);
     	System.out.println("=====한줄평가오기 수정중=====");
     	System.out.println(list);
     	return new Gson().toJson(list);
@@ -395,12 +430,13 @@ public class CommentsController {
     
     @RequestMapping(value="detailComments.co")
     public ModelAndView detailComments(@RequestParam(value="cpage",defaultValue="1") int currentPage,Comments comments,ModelAndView mv) {
-    	
-    	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 5);
+    	System.out.println("실험이야실험이야@@@@@@@@@@@@@@@");
+    	System.out.println(comments);
+    	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 2);
     	
     	commentsService.selectCommentsListAll(comments,pi);
     	
-    	mv.addObject("pi", pi).addObject("commentsList",commentsService.selectCommentsListAll(comments,pi)).setViewName("comments/movieCommentsList");
+    	mv.addObject("pi", pi).addObject("commentsList",commentsService.selectCommentsListAll(comments,pi)).addObject("comments",comments).setViewName("comments/movieCommentsList");
     	
     	return mv;
     	
@@ -416,4 +452,12 @@ public class CommentsController {
     	
     	return new Gson().toJson(myComment);
     }
+    /*
+    @RequestMapping(value="ratingShow.co")
+    public double ratingShow(Comments comments) {
+    	
+    	return commentsService.ratingShow(comments);
+    }
+    */
+    
 }
