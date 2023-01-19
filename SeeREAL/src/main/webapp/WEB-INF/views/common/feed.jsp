@@ -182,7 +182,7 @@
 	                    	diplay: false,
 	                    	beginAtZero: true,
 	                        min: 0,   //y축 최솟값
-	                        max: 10, //y축 최댓값
+	                        max: 5, //y축 최댓값
 	                        stepSize: 1
 	                    }
 	        	}]
