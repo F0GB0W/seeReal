@@ -49,6 +49,26 @@
 									style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 인증</button>
 						</td>
 					</tr>
+					
+					<tr>
+						<td style="text-align: left">
+							<p><strong>인증코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
+						</td>
+				    </tr>
+					<tr>
+						<td><input type="text" name="code" id="code"
+							    		class="form-control tooltipstered" 
+							    		required="required" aria-required="true"
+							    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"></td>
+					</tr>
+			
+					<tr>
+						<td style="width: 100%; text-align: center; colspan: 2;">
+							<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
+									style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">탈퇴</button>
+						</td>
+					</tr>
+					
 				</table>
 			</form>
 	
@@ -85,9 +105,8 @@
 					$('#emailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
 					
 				}else{
-					console.log(1);
-					$.ajax({ // 이메일 보내는 요청
-						
+					
+					$.ajax({ // 이메일 보내는 요청 > select 이메일 하고 와야함						
 						url:'sendEmail.me',
 						method:'post',
 						data : {email :$('#user_email').val()},
@@ -101,7 +120,7 @@
 									}else{
 										console.log(2);
 										$.ajax({
-											url: 'checkEmail.me',
+											url: 'checkCode.me',
 											data : {
 													email :$('#user_email').val(),
 													code : code

@@ -89,8 +89,10 @@
 						<jsp:include page="../member/login.jsp" />
 						<div><a class="link-3" data-toggle="modal" data-target="#sign-up">회원가입</a></div>
 						<jsp:include page="../member/enrollForm.jsp" />
-						<div><a class="link-3" data-toggle="modal" data-target="#searchPwd">비밀번호 찾기</a></div>
-						<jsp:include page="../member/searchPwd.jsp" />
+						<div><a class="link-3" data-toggle="modal" data-target="#searchPwd2"></a></div>
+						<jsp:include page="../member/searchPwd2.jsp" />
+						<div><a class="link-3" data-toggle="modal" data-target="#temporaryPwd"></a></div>
+						<jsp:include page="../member/temporaryPwd.jsp" />
 					</c:when>
 					<c:when test="${loginUser.status == 'Y'}">
 						<div><a class="link-3" href="myPage.me">마이페이지</a></div>

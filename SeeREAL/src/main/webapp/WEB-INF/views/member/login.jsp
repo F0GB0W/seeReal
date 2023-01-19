@@ -67,8 +67,14 @@
 									<input type="hidden" id="before" name="saveId" value="N"> 
 								</td>
 								<td>
-									<a class="btn form-control" data-toggle="modal"
-									href="#searchPwd" style="margin-bottom:20px;">
+									<a id="temporary" class="btn form-control" data-toggle="modal"
+									href="#temporaryPwd" style="margin-bottom:20px;">
+									임시비밀번호</a>
+								
+								</td>
+								<td>
+									<a id="search" class="btn form-control" data-toggle="modal"
+									href="#searchPwd2" style="margin-bottom:20px;">
 									비밀번호 찾기</a>
 								
 								</td>
@@ -145,6 +151,8 @@
 			$(this).submit();
 			
 		});
+		
+		
 	</script>
 </body>
 </html>

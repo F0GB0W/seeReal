@@ -64,10 +64,19 @@ public class MemberController {
 	// 이메일 중복 체크 : select
 	@ResponseBody
 	@RequestMapping(value="selectEmail.me",produces="text/html; UTF-8")
-	public String selectEmail(String email) {
+	public String selectEmail(String email, HttpServletRequest request) {
 		
 		int result = memberService.selectEmail(email);
-		String result2 = String.valueOf(result); // int > String으로 변경
+		String result2="";
+		if(result > 0) { // 있으면 이메일 보내야함  : sendEmail.me 호출해야하는데...? redirect로 ?
+			
+			result2 = sendEmail(email, request); 
+			
+			
+		}else { // 그냥 화면으로 보내서 
+			
+		}
+		
 		return result2;
 	}
 	
@@ -76,8 +85,25 @@ public class MemberController {
 	// 인증번호 입력 후 버튼 누르면 select + delete 같이
 	@ResponseBody
 	@RequestMapping(value="sendEmail.me",produces="text/html; UTF-8")
-	public String sendEmail(String email, HttpServletRequest request) { // 이메일 인증 버튼을 눌렀을 때, 
+	public String Email(String email, HttpServletRequest request) { // 이메일 인증 버튼을 눌렀을 때, 
+		
+		//Cert cert = sendEmail(email, request);
+		//String result = String.valueOf(memberService.insertCert(cert));
+			
+		return sendEmail(email, request);
+	}
 	
+	// 랜덤 인증번호 생성하는 메소드
+	public String createCode() {
+		Random r = new Random();
+		int n = r.nextInt(100000); // 난수 범위 지정 
+		Format f = new DecimalFormat("000000");
+		return f.format(n);	
+	}
+	
+	// 이메일 전송하는 메소드
+	public String sendEmail(String email, HttpServletRequest request) {
+		
 		SimpleMailMessage message = new SimpleMailMessage();
 		String ip = request.getRemoteAddr();
 		String code = createCode();
@@ -91,25 +117,22 @@ public class MemberController {
 		sender.send(message);
 		
 		String result = String.valueOf(memberService.insertCert(cert));
-			
+		
 		return result;
-	}
-	
-	// 랜덤 인증번호 생성하는 메소드
-	public String createCode() {
-		Random r = new Random();
-		int n = r.nextInt(100000); // 난수 범위 지정 
-		Format f = new DecimalFormat("000000");
-		return f.format(n);	
 	}
 	
 	// 인증번호 확인
 	@ResponseBody
-	@RequestMapping(value="checkEmail.me",produces="text/html; UTF-8")
+	@RequestMapping(value="checkCode.me",produces="text/html; UTF-8")
 	public String selectCert(String code,HttpServletRequest request) {
 		Cert cert = Cert.builder().who(request.getRemoteAddr()).secret(code).build();
-		String result = String.valueOf(memberService.selectCert(cert));
-		return result;
+		
+		if(memberService.selectCert(cert) > 0) {
+			return "success";
+			 // 결과
+		}else {
+			return "fail";
+		}
 	}
 	
 	
@@ -193,9 +216,27 @@ public class MemberController {
 	}
 	
 
+	/*
+	// 비밀번호 찾기 : searchPwd.me
+	@RequestMapping(value="searchPwd.me")
+	public String searchPwd(Member m, String newPw, HttpSession session) { // Member : loginMember()사용 위해서
+
+		if(bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {	
+			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(newPw));
+			
+			memberService.updatePwd(loginUser); // 아이디(이메일) 필요
+			session.setAttribute("loginUser", memberService.loginMember(m));
+			return "redirect:myPage.me";
+			
+		}else { // 입력한 비밀번호가 다르면
+			session.setAttribute("alertMsg", "현재 비밀번호를 확인해주세요.");
+			return "redirect:updatePwdForm.me"; 
+		}
+	}
+	*/
 	
-	// 비밀번호 찾기
-	@RequestMapping("searchPwd.me")
+	// 임시비밀번호 : 
+	@RequestMapping("temporaryPwd.me")
 	public String searchPwd(HttpServletRequest request, Member m) { 
 		// 정규표현식 만족하는 임시비밀번호 생성해서 메일 보내고, member 테이블 update
 		
