@@ -117,4 +117,10 @@ public class CollectionServiceImpl implements CollectionService {
 	public int deleteCollection(Collection cl) {
 		return collectionDao.deleteCollection(sqlSession, cl);
 	}
+
+
+	@Override
+	public ArrayList<Collection> selectCollectionMain() {
+		return collectionDao.selectCollectionMain(sqlSession);
+	}
 }

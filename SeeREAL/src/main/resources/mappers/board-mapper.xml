@@ -110,7 +110,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   set
 		   		count = count + 1
 		 where
-		   and
 		   		status = 'Y'
 		   and
 		   		board_type = 2

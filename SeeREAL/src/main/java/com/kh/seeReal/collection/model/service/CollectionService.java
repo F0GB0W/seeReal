@@ -3,7 +3,6 @@ package com.kh.seeReal.collection.model.service;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.google.gson.JsonElement;
 import com.kh.seeReal.collection.model.vo.Collection;
 import com.kh.seeReal.collection.model.vo.CollectionLike;
 import com.kh.seeReal.collection.model.vo.CollectionMovie;
@@ -43,5 +42,7 @@ public interface CollectionService {
 	int insertLike(CollectionLike clike);
 
 	int deleteCollection(Collection cl);
+
+	ArrayList<Collection> selectCollectionMain();
 
 }

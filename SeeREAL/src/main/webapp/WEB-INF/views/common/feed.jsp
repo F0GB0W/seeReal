@@ -67,7 +67,7 @@
 	<jsp:include page="menubar.jsp" />
 	<div class="outer1">
 		<div class="profile">
-						<c:choose>
+			<c:choose>
 				<c:when test="${ not empty selectMember.memberPhoto }">
 					<img src="${ selectMember.memberPhoto }" height="60px" width="60px" class="rounded-circle">
 				</c:when>
@@ -79,7 +79,6 @@
 		</div>
 		
 		<div class="ratingCount">
-		<!-- comments가 있으면 count 가져오고, 없으면 없다고 보여주기 -->
 			<h4>평가수</h4>
 			<c:choose>
 				<c:when test="${ not empty comments }">
@@ -92,7 +91,6 @@
         </div>
             
 		<div class="ratingSpread">
-			<%-- <input type="hidden" value="${ ratingYj }" id="ratingYj"> --%>
             <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
         </div>           
 
@@ -113,7 +111,6 @@
 		                </tr>
 		                <c:forEach items="${ review }" var="f" varStatus="status">
 			                <tr>
-			                	<!-- <input type="hidden" id="realNo" value="" /> -->
 			                    <td id=title onclick="location.href='movieDetail.co'" style="cursor:pointer;">${f.movieTitle}</td>
 			                    <c:choose>
 			                    	<c:when test="${f.rating == 0.5}">
@@ -150,7 +147,7 @@
 			                    		☆☆☆☆☆
 			                    	</c:otherwise>
 			                    </c:choose>
-			                    <td>👍${status.count}</td> 
+			                    <td>👍${f.count}</td> 
 			                </tr>
 						</c:forEach>
 		            </c:otherwise>
@@ -163,25 +160,34 @@
 	<script>
 
 	// chart.js
-        var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
-        var yValues = [${star.starHalf},${star.star1},${star.star1Half},${star.star2},${star.star2Half},
+        var yValues = [${star.star1},${star.star1Half},${star.star2},${star.star2Half},
         				${star.star3},${star.star3Half},${star.star4},${star.star4Half},${star.star5}
         				];
 
         var myChart = new Chart("myChart", {
-            type: "bar",
+            type: 'bar',
             data: {
-              labels: xValues,
+              labels: ['★','','★★','','★★★','','★★★★','','★★★★★'],
               datasets: [{
 	                backgroundColor: '#ff91c3',
 	                data: yValues
               }]
         	},
       		options: {
-       			legend: {
-       			display:false
-       		}
-        	}
+      			legend: {display: false},
+       			scales:{
+       				
+	       			yAxes: [{
+	                    ticks: {
+	                    	diplay: false,
+	                    	beginAtZero: true,
+	                        min: 0,   //y축 최솟값
+	                        max: 10, //y축 최댓값
+	                        stepSize: 1
+	                    }
+	        	}]
+       			}
+      		}
         });
 
 	</script>

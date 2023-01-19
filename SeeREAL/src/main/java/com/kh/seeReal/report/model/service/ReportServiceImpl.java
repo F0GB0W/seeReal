@@ -100,6 +100,15 @@ public class ReportServiceImpl implements ReportService {
 	public int sanctionsComments() {
 		return reportDao.sanctionsComments(sqlSession);
 	}
+	@Override
+	public int sanctionsBoReply() {
+		return reportDao.sanctionsBoReply(sqlSession);
+	}
+	@Override
+	public int sanctionsCollectionReply() {
+		return reportDao.sanctionsCollectionReply(sqlSession);
+	}
+
 
 
 	

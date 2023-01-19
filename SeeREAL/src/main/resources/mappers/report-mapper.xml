@@ -244,8 +244,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				comment_report >= 10			
 	</update>
 
+	<update id="sanctionsBoReply" parameterType="_int">
 
+		update
+				BOARD_REPLY
+		set
+				BO_REPLY_STATUS = 'N'
+		where
+				BO_REPLY_REPORT_COUNT >= 10				
+	</update>
+	<update id="sanctionsCollectionReply" parameterType="_int">
 
+		update
+				COLLECTION_REPLY
+		set
+				CO_REPLY_STATUS = 'N'
+		where
+				CO_REPLY_REPORT >= 10			
+	</update>
 
 
 

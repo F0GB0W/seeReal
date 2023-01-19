@@ -40,4 +40,8 @@ public interface ReportService {
 	int sanctionsCollection();
 	int sanctionsMeeting();
 	int sanctionsComments();
+	int sanctionsBoReply();
+	int sanctionsCollectionReply();	
+	
+	
 }

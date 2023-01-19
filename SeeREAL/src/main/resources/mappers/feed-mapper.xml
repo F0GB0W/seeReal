@@ -26,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="rating"    property="rating" />	
 		<result column="movie_title"    property="movieTitle" />	
 		<result column="movie_year"    property="movieYear" />	
+		<result column="count"    property="count" />	
 	</resultMap>
 	
 	<resultMap id="member" type="com.kh.seeReal.member.model.vo.Member">
@@ -67,12 +68,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="reviewList" resultMap="movie_rating">
-		select movie_title, rating, comment_like
-		  from movie_rating 
-		  left join comment_like on (member_no = comment_writer)
-		 where member_no = #{memberNo}
-		  order
-		     by comment_like desc
+		select movie_title, rating, 
+	        (SELECT
+	                count(comment_like)
+	            FROM
+	                comment_like
+	            WHERE
+	                 comment_like = 'Y')
+	        comment_like
+	  from movie_rating 
+	  left join comment_like on (member_no = comment_writer)
+	 where member_no = #{memberNo}
+	 
+	  order
+	     by comment_like desc
 	</select>
 	
 	<select id="ratingList" resultMap="movie_rating">
@@ -96,42 +105,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="star" parameterType="_int" resultMap="star">
-		select rating,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=0.5) starHalf,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=1) star1,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=1.5) star1Half,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=2) star2,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=2.5) star2Half,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=3) star3,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=3.5) star3Half,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=4) star4,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=4.5) star4Half,
-		      (select count(*)
-		      	 from movie_rating
-		        where rating=5) star5
-		  from movie_rating
-		 where member_no = #{memberNo}
-		   and rownum = 1
-		  	  
+		select
+			  (select count(*)
+			    from movie_rating
+			    where rating=1
+			    and member_no = #{memberNo}) star1,
+			(select count(*)
+			    from movie_rating
+			    where rating=1.5
+			    and member_no = #{memberNo}) star1Half,
+			  (select count(*)
+			    from movie_rating
+			    where rating=2
+			    and member_no = #{memberNo}) star2,             
+			  (select count(*)
+			    from movie_rating
+			    where rating=2.5
+			    and member_no = #{memberNo}) star2Half,   
+			      (select count(*)
+			    from movie_rating
+			    where rating=3
+			    and member_no = #{memberNo}) star3, 
+			      (select count(*)
+			    from movie_rating
+			    where rating=3.5
+			     and member_no = #{memberNo}) star3Half,  
+			           (select count(*)
+			    from movie_rating
+			    where rating=4
+			    and member_no = #{memberNo}) star4, 
+			    (select count(*)
+			    from movie_rating
+			    where rating=4.5
+			     and member_no = #{memberNo}) star4Half,  
+			     (select count(*)
+			    from movie_rating
+			    where rating=5
+			    and member_no = #{memberNo}) star5
+		from movie_rating
+		where rownum = 1
 	</select>
-
+	
+	<select id="commentCount" resultMap="comments">
+		select comment_no
+		  from comments
+		 where member_no = #{memberNo};
+	</select>
 
 </mapper>
