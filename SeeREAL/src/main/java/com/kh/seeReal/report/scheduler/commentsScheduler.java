@@ -19,10 +19,14 @@ public class commentsScheduler {
 	private SqlSessionTemplate sqlSession;
 	
 	  @Scheduled(cron ="0 0/1 * * * *")
-	  public void sanctionsBoard() {
+	  public void sanctionsComments() {
 		  reportDao.sanctionsComments(sqlSession);
 	
 	    }
-	  
+	  @Scheduled(cron ="0 0/1 * * * *")
+	  public void sanctionsBoReply() {
+		  reportDao.sanctionsBoReply(sqlSession);
+	
+	    }
 	
 }
