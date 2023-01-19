@@ -42,6 +42,10 @@ public interface ReportService {
 	int sanctionsComments();
 	int sanctionsBoReply();
 	int sanctionsCollectionReply();	
+	int selectReportBoardReplyCount(Report r);
+
+	int insertReportBoardReply(Report r);
+
 	
 	
 }

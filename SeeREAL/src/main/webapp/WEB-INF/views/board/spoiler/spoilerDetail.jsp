@@ -103,7 +103,7 @@
              			
              	<input type="hidden" name="reporting">
 		              <select  name="reportReason">
-		              	<option value="1">부적절한 게시글</option>
+		              	<option value="1">부적절한 글</option>
 		              	<option value="2">스포일러성 정보</option>
 		              	<option value="3">홍보 및 광고</option>
 		              	<option value="4">욕설 및 도배</option>
@@ -202,7 +202,44 @@ function submitReport() {
 }
 </script>
 	
-	
+	<script>
+
+$(function() {
+	var reportFormData = $("#reportReplyBt").serialize();
+
+	$.ajax({
+		url: "reportBoardReplyCount.rp",
+        data: reportFormData,
+		success : function(response) {
+			if(response > 0 ) {
+				$("#ReplyrpButton").prop("disabled", true);
+			} else {
+				$("#ReplyrpButton").prop("disabled", false);
+			}
+		}
+	})
+})
+
+function submitReplyReport() {
+    var reportFormData = $("#reportReplyBt").serialize();
+ 	console.log(reportFormData);
+    $.ajax({
+        type: "POST",
+        url: "insertReportBoardReply.rp",
+        data: reportFormData,
+        success: function(response) {
+            // Handle the response from the server
+            if (response != "success") {
+                alert("신고가 정상적으로 접수되었습니다.");
+                // disable the button
+                $("#ReplyReportBt").prop("disabled", true);
+            } else {
+                alert("이미 신고 처리되었거나 오류 발생 ");
+            }
+        }
+    });
+}
+</script>	
 	
 	
 	
@@ -269,7 +306,7 @@ function submitReport() {
 									   + '</tr>';
 							  		} 
 						else{
-							value += '<td><button type="button"   id="rpButton"  data-toggle="modal" data-target="#myModal"> <i class="fa-solid fa-land-mine-on"  ></i></button></td>' 		
+							value += '<td><button type="button"   id="ReplyrpButton"  data-toggle="modal" data-target="#myModal"> <i class="fa-solid fa-land-mine-on"  ></i></button></td>' 		
 						}
 									   
 					}
@@ -391,14 +428,11 @@ function submitReport() {
 		
 		
 <div class="container mt-3">
-  <!-- Button to Open the Modal -->
-
-<button type="button"   id="rpButton"  data-toggle="modal" data-target="#myModal"> <i class="fa-solid fa-land-mine-on"  ></i></button>
-		
+  <!-- Button to Open the Modal -->		
 
 
   <!-- The Modal -->
-  <div class="modal fade" id="myModal">
+  <div class="modal fade" id="myModal" >
     <div class="modal-dialog">
       <div class="modal-content">
       
@@ -411,23 +445,37 @@ function submitReport() {
         <!-- Modal body -->
         <div class="modal-body">
  
-		              <select  name="reportReason" align="center">
-		              	<option value="1">부적절한 게시글</option>
+ 
+ 
+ 			 <form id="reportReplyBt">
+             <input type="hidden" name="boardNo" value="${ br.boardNo }">
+             <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
+             <input type="hidden" name="reportOccured" value="${br.boReplyNo}">
+             <input type="hidden" name="reportType" value="0">
+             <input type="hidden" name="boReplyNo" value="${br.boReplyNo}">
+   
+ 
+		              <select  name="reportReason" >
+		              	<option value="1">부적절한 글</option>
 		              	<option value="2">스포일러성 정보</option>
 		              	<option value="3">홍보 및 광고</option>
 		              	<option value="4">욕설 및 도배</option>
 		              </select>
+		      </form>   
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer" align="center">
-          <button type="button" class="btn btn-danger" id="rpButton" onclick="submitReport()">신고하기 <i class="fa-solid fa-land-mine-on fa" ></i></button>
+          <button type="button" class="btn btn-danger" id="ReplyReportBt" onclick="submitReplyReport()">신고하기 <i class="fa-solid fa-land-mine-on fa" ></i></button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
         </div>
 
       </div>
     </div>
   </div>
+  
+  
+  
   
 </div>		
 		

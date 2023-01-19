@@ -34,6 +34,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="MEETING_REPORT" property="meetingReport" />
 		<result column="MEETING_WRITER" property="meetingWriter" />
 	</resultMap>
+	
+	<resultMap id="replyResultSet" type="boardReply">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BO_REPLY_NO" property="boReplyNo" />
+		<result column="BO_REPLY_STATUS" property="boReplyStatus" />
+		<result column="BOARD_TYPE" property="boardType" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="BO_REPLY_CONTENT" property="boReplyContent" />
+		<result column="BO_REPLY_DATE" property="boReplyDate" />
+	</resultMap>
 
 	<resultMap id="commentsListView" type="comments">
 		<result column="COMMENT_NO" property="commentNo"/>
@@ -128,16 +138,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  		board_no = #{boardNo}
 		   and
 		   		board_type = 2
-	</update>
-		<update id="increaseFreeBoardReport">
-		update
-				board
-		   set
-		   		report_count = report_count + 1
-		 where
-		  		board_no = #{boardNo}
-		   and
-		   		board_type = 1
 	</update>
 		<update id="increaseBoReplyReport">
 		update
@@ -262,8 +262,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where
 				CO_REPLY_REPORT >= 10			
 	</update>
-
-
+	<select id="selectReportBoardReplyCount" parameterType="report" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			report 
+		WHERE 
+			REPORT_WRITER = #{ reportWriter } 
+			AND REPORT_OCCURED = #{ reportOccured }
+			AND REPORT_TYPE = 0
+	</select>
+	<insert id="insertReportBoardReply" parameterType="report">
+		insert
+		  into
+		  		report
+		  		(
+					REPORT_NO,
+					REPORT_WRITER,
+					REPORT_REASON,
+					REPORT_DATE,
+					REPORT_OCCURED,
+					REPORT_TYPE
+		  		)
+		values
+				(
+				seq_rno.nextval,
+				#{reportWriter},
+				#{reportReason},
+				   SYSDATE,
+				#{reportOccured},
+					0
+				)
+					
+	</insert>
 
 
 

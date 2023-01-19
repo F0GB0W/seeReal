@@ -96,11 +96,17 @@ public class ReportDao {
 	public int sanctionsCollectionReply(SqlSessionTemplate sqlSession) {
 		return sqlSession.update("reportMapper.sanctionsCollectionReply") ;
 	}
+	public int insertReportBoardReply(SqlSessionTemplate sqlSession,Report r) {
+		return sqlSession.insert("reportMapper.insertReportBoardReply", r);
+	}
+	public int selectReportBoardReplyCount(SqlSessionTemplate sqlSession,Report r) {
+		return sqlSession.selectOne("reportMapper.selectReportBoardReplyCount", r);
+	}
+
 
 
 					
 	
-
 
 
 	
