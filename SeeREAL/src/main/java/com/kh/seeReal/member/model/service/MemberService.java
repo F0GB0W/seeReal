@@ -88,6 +88,7 @@ public interface MemberService {
 
 	public ArrayList<CollectionReply> selectCollectionReplyList(int memberNo, PageInfo pi);
 
+
 	
 	
 	

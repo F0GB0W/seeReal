@@ -216,24 +216,28 @@ public class MemberController {
 	}
 	
 
-	/*
+	
 	// 비밀번호 찾기 : searchPwd.me
 	@RequestMapping(value="searchPwd.me")
-	public String searchPwd(Member m, String newPw, HttpSession session) { // Member : loginMember()사용 위해서
-
-		if(bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {	
-			loginUser.setMemberPwd(bcryptPasswordEncoder.encode(newPw));
+	public String searchPwd(HttpSession session, Member m) { // Member : loginMember()사용 위해서
+		
+	    System.out.println("newPwd : " +m.getMemberPwd());
+		m.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
+		System.out.println("2 : " +m.getMemberPwd());
+		if(memberService.updatePwd(m) > 0) { // 성	
+			//loginUser.setMemberPwd(bcryptPasswordEncoder.encode(newPw));
 			
-			memberService.updatePwd(loginUser); // 아이디(이메일) 필요
+			//memberService.updatePwd(loginUser); // 아이디(이메일) 필요
 			session.setAttribute("loginUser", memberService.loginMember(m));
-			return "redirect:myPage.me";
+			session.setAttribute("alertMsg", "비밀번호 재설정 성공");
 			
 		}else { // 입력한 비밀번호가 다르면
 			session.setAttribute("alertMsg", "현재 비밀번호를 확인해주세요.");
-			return "redirect:updatePwdForm.me"; 
+			
 		}
+		return "redirect:/";
 	}
-	*/
+	
 	
 	// 임시비밀번호 : 
 	@RequestMapping("temporaryPwd.me")

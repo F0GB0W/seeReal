@@ -105,7 +105,7 @@
 	                  
 	                  		<tr>
 	                     		<td style="width: 100%; text-align: center; colspan: 2;"><input
-	                        		type="submit" value="설정" 
+	                        		type="submit" value="비밀번호 재설정" 
 	                        		class="btn form-control tooltipstered" id="update-btn"
 	                        		style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
 	                     		</td>
@@ -122,18 +122,16 @@
 		var min, sec;
 		var code = '';
 		
+		
 		//jQuery 사용
 		$(function() {
-			
-			$('#id').attr('style', "display:none;");
-			
 			
 			//자바스크립트 정규 표현식
 			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/); // 메일체크 특수문자는 _랑 -랑 . 가능!!
 			const getPwCheck= RegExp(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])|([a-zA-Z0-9])/); // 비밀번호 체크
 			
 			//입력창을 제대로 입력했는지를 판별할 논리 변수들 선언 후 초기화
-			let emailCheck = false, passwordCheck = false;
+			let emailCheck = false, passwordCheck = false, codeCheck = false;
 			var $email = $('#check_email');
 			
 			$email.on('keyup', function(){
@@ -186,6 +184,7 @@
 				$('#sCheck').css("display", 'block');
 				$('#emailChange').css("display", "none");	
 				emailCheck = false;
+				codeCheck = false;
 			});
 					
 			// 이메일 인증 버튼 
@@ -209,6 +208,7 @@
 								$('#codeTitle').show();
 								$('#codeInput').show();
 								$('#code-btn').show();
+								emailCheck = true;
 								
 							}else{ // 메일 전송 실패
 								alert("인증 메일 전송에 실패했습니다. 다시 시도해주세요.");
@@ -265,12 +265,15 @@
 							success : function(result2){ 
 								
 								if(result2 === 'success'){ 
-									// show()
-									//updatePwd();
-									emailCheck = true;
-									alert("성공");
+	
+								 	codeCheck = true;
+									alert("인증 성공");
+									clearInterval(timer);
+									$('#timeChk').text('');
+									$('#s').attr('disabled', true);
+									
 								}else{
-									alert("실패");
+									alert("인증 실패");
 								}
 							},
 							error : function(){
@@ -303,9 +306,12 @@
 			}
 		
 			$('#update-btn').on('click', function(){
-				if(emailCheck && passwordCheck){ 
+				if(emailCheck && passwordCheck && codeCheck){ 
 					$(this).submit();
-				} else {
+				} else if(!codeCheck){
+					alert('이메일 인증 먼저 해주세요');
+					return false; //요청 못보냄	
+				}else {
 
 					alert('입력한 비밀번호를 다시 확인하세요');
 					return false; //요청 못보냄	

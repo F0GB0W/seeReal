@@ -163,6 +163,6 @@ public class MemberDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectCollectionReplyList", memberNo,rowBounds);
 	}
-	
+
 	
 }

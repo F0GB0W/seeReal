@@ -161,6 +161,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.selectCollectionReplyList(sqlSession,memberNo, pi);
 	}
 
+
 	
 
 	
