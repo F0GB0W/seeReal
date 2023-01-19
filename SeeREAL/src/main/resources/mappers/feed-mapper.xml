@@ -26,7 +26,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="rating"    property="rating" />	
 		<result column="movie_title"    property="movieTitle" />	
 		<result column="movie_year"    property="movieYear" />	
-		<result column="comment_no"    property="commentNo" />	
 		<result column="count"    property="count" />	
 	</resultMap>
 	
@@ -84,16 +83,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				FROM
 					comment_like
 				WHERE
-					comment_no = #{commentNo}
-					AND comment_like = 'Y'
+					 comment_like = 'Y'
 			) AS count
 			FROM
 				COMMENTS c
 			JOIN COMMENT_LIKE cl ON
 				c.COMMENT_NO = cl.COMMENT_NO
 			WHERE
-				c.COMMENT_NO = #{commentNo}
-				AND c.MEMBER_NO = #{memberNo}
+				 c.MEMBER_NO = #{memberNo}
 			ORDER BY count ASC) T
 	</select>
 	

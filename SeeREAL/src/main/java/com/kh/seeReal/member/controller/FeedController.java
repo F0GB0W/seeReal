@@ -16,7 +16,7 @@ public class FeedController {
 	private FeedService feedService;
 	
 	@RequestMapping("feed.me")
-	public ModelAndView feed(ModelAndView mv, int memberNo, int commentNo) {
+	public ModelAndView feed(ModelAndView mv, int memberNo) {
 		mv.addObject("count", feedService.selectCommentsCount(memberNo))
 		  .addObject("comments", feedService.commentsCount(memberNo))
 		  .addObject("review", feedService.reviewList(memberNo))
@@ -26,19 +26,9 @@ public class FeedController {
 		  .addObject("memberNo", memberNo)
 		  .setViewName("common/feed");
 		
-		System.out.println(feedService.reviewList(memberNo));
+		
 		return mv;
 	}
 
-	@ResponseBody
-	@RequestMapping("commentCount.me")
-	public String commentCount(int memberNo, int commentNo) {
-		MovieRating mv = new MovieRating();
-		mv.setMemberNo(memberNo);
-		mv.setCommentNo(commentNo);
-		
-		return feedService.commentCount(mv);
-	}
-	
 
 }
