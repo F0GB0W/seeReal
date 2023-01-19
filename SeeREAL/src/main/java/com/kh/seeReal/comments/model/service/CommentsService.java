@@ -36,7 +36,7 @@ public interface CommentsService {
 	
 	ArrayList commentsLikeSum(Comments comments);
 	
-	Comments getMyComments(Comments comments);
+	List<Map<String,Object>> getMyComments(Comments comments);
 	
 	int reviseMyComments(Comments comments);
 	
@@ -47,4 +47,9 @@ public interface CommentsService {
 	List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi);
 	
 	List<Map<String,Object>> myComment(Comments comment);
+	
+	int commentsLikeExit(CommentsLike commentsLike);
+	
+	//double ratingShow(Comments comments);
+	
 }

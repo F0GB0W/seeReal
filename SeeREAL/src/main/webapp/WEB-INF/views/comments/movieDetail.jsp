@@ -13,6 +13,39 @@
     
 <title>Insert title here</title>
 <style>
+	.movieDetailView{
+        width: 800px;
+        height: 200px;
+        
+        
+    }
+    .movieDetailView>div{
+        height: 100%;
+        float: left;
+    }
+    .movieImg{
+        width: 20%;
+        height: 100%;
+        
+    }
+    .movieInfoShow{
+        width: 80%;
+        height: 100%;
+           
+    }    
+    div{
+            
+        box-sizing: border-box;
+    }   
+    .movieInfo1{height: 30%;}
+    .movieInfo2{height: 40%;}
+    .movieInfo3{height: 30%;}
+	
+	.movieImgFile{
+		width:90%;
+	    height:90%;
+	    object-fit:cover;
+	}
 	.star{
 	  display:inline-block;
 	  width: 20px;height: 40px;
@@ -64,24 +97,36 @@
 		-webkit-line-clamp: 2;
 		-webkit-bos-orient: vertical;
 	}
+	
 </style>
 </head>
 <body>
-
-	<div>
-	<img src="${movieImg }">
-	<div>
-	<h1>${movieTitle }</h1>
 	
-	<span>${movieTitle }</span>
-	</div>
-	<span>${movieTitle }</span><br>
-	<span>${movieTitle }</span>
-	</div>
+	<div class="movieDetailView">
+    	<div class="movieImg">
+            <img src="${movieImg }" class="movieImgFile">     
+        </div>
+        <div class="movieInfoShow">
+            <div class="movieInfo1">
+                <span>${movieTitle }</span>&nbsp;&nbsp;<span>${movieYear }</span>
+            </div>
+            <div class="movieInfo2">
+                <span>${movieDirector }</span>
+            </div>
+            <div class="movieInfo3">
+                <span class="ratingShow">★${rating }</span>
+            </div>
+        </div>  
+    </div>
+	
+	
+	
+	
+	
+	
 	<div>
-	<p>${movieTitle }</p>
-	<p>${movieYear }</p>
-	<p>${movieDirector }</p>
+	
+	
 	<p>${movieSubTitle }</p>
 	
 	</div>
@@ -209,18 +254,21 @@
                     $(this).next().next().next().text(Number($(this).next().next().next().text())-1);
                 }
                 $(this).next().next().attr('class','fa-solid fa-thumbs-down')
+                $(this).parents('.commentsOne').next().next().attr('class','Y')
             }else{
                 $(this).attr('class','fa-solid fa-thumbs-up')
                 $(this).next().text(Number($(this).next().text())-1);
+                if($(this).next().next().attr('class') == 'fa-solid fa-thumbs-down'){
+                	$(this).parents('.commentsOne').next().next().attr('class','N')
+                }
+                
+                
             }
        		
-           	console.log('-- 부모 실험 --')
-           	console.log($(this).parents('.commentsOne'))
-           	console.log($(this).parents('.commentsOne').next().val())
-           	console.log('-- 부모 실험 --')
+           
         	var TF=$(this).attr('class')=='fa-solid fa-thumbs-up' ? 'N' : 'Y';
             console.log(TF);
-		
+			
 			$.ajax({//좋아요 눌렀을때 기능
 				url:'thumbsUp.co',
 				data:{"commentNo":$(this).parents('.commentsOne').next().val(),
@@ -236,6 +284,7 @@
 					console.log('좋아요실패')
 				}
 			});
+				
 		}else{
 			alert('로그인후 좋아요를 누를수 있습니다')
 		}
@@ -251,11 +300,16 @@
                  $(this).prev().text(Number($(this).prev().text())-1)
              }
              $(this).prev().prev().attr('class','fa-solid fa-thumbs-up')
+             $(this).parents('.commentsOne').next().next().attr('class','Y')
          }else{
              $(this).attr('class','fa-solid fa-thumbs-down')
              $(this).next().text(Number($(this).next().text())-1);
+             
+             if($(this).prev().prev().attr('class')=='fa-solid fa-thumbs-up'){
+            	 $(this).parents('.commentsOne').next().next().attr('class','N')
+             }
          }
-		
+			
 			$.ajax({//싫어요 눌렀을때 기능
 				url:'thumbsDown.co',
 				data:{"commentNo":$(this).parents('.commentsOne').next().val(),
@@ -270,6 +324,7 @@
 					console.log('싫어요실패')
 				}
 			});
+			
 		}else{
 			alert('로그인후 싫어요를 누를수 있습니다')
 		}
@@ -283,10 +338,10 @@
 		
 		
 		
-		
 		showMovieCommentsList();//한줄평 첨들어올때 뿌려주기
 		showMyComments();//내한줄평 가져오기
 		showCommentsLike();//좋아요 로그인한 사람한테 보여주기
+		spoilerBlock();
 		
 		
 		if('${loginUser}' != ''){
@@ -395,17 +450,22 @@
 			success:function(list){
 				console.log('내 한줄평 가져오기 성공')
 				console.log(list)
-				console.log(list.commentContent)
-				console.log(list.commentContent.length)
+				console.log(list[0])
+				console.log(list[0])
+				console.log(list[0].COMMENT_CONTENT)
+				console.log(list[0].SPOILER)
+				console.log(list[0].COMMENT_CONTENT.length)
+				
+				
 				var spoiler= 'on';
 				if(list.spoiler == 'Y'){
 					$('#on-off').text('Y');
 				}
-				$('.form-control').val(list.commentContent);
-				$('#on-off').attr('class',list.spoiler);
+				$('.form-control').val(list[0].COMMENT_CONTENT);
+				$('#on-off').attr('class',list[0].SPOILER);
 				$('#CommentsInsert').text('수정');
 				$('#CommentsInsert').attr('onclick',' reviseCommentBtn()');
-				$('.textarea-length').text(list.commentContent.length+'/1000')
+				$('.textarea-length').text(list[0].SPOILER+'/1000')
 			},
 			error:function(){
 				console.log('내 한줄평 가져오기 실패')
@@ -466,6 +526,30 @@
 	
 	
 	
+	function commentsInsert(){
+			console.log('글쓴닷')
+			console.log($('#on-off'))
+		
+			$.ajax({
+					url: 'commentsWrite.co',
+					data: {
+					    memberNo: JSON.stringify(${loginUser.memberNo}),
+					    commentContent: $('.form-control').val(),
+					    spoiler: $('#on-off').attr('class'),
+					    movieTitle: "${movieTitle}",
+					    movieYear: ${movieYear}
+					},
+					success: function() {
+					    alert('글쓰기 완료');
+					    showMovieCommentsList();
+					    showMyComments();
+					    spoilerBlock();
+					},
+					error: function() {
+					    // handle error
+					}
+			});
+	}
 	
 	function reviseCommentBtn(){
 		console.log('폼컨프롤 시험')
@@ -524,7 +608,7 @@
 				  movieYear:${movieYear}
 			},
 			success:function(data){
-				$('#ratingShow').text(data);
+				$('.ratingShow').text('★'+data);
 			},
 			error:function(){
 				console.log("실패");
@@ -602,6 +686,7 @@
 				$('.commentsList').html(value);
 				console.log(value);
 				showCommentsLike();
+				spoilerBlock();
 			},
 			error:function(){
 				console.log('커멘츠불러오기실패')
@@ -621,77 +706,36 @@
 			      
 			},
 			success:function(list){
-				console.log("너는왜또오류가 나니??")
-				console.log(list);
-				
-				
-				var arr=new Array();
-				var j=0;
-				
-				for(var i in list){
-					arr[i]=list[i].commentNo;					
-				}
-				console.log('arr=')
-				console.log(arr)
-				console.log('commentsOne)siblings(commentsNo')
-				console.log($('.commentsOne').siblings('.commentsNo'))
-				
-				var length=$('.commentsOne').siblings('input').length;
-				console.log('length 길이');
-				console.log(length)
-				if(list.length !=0){
-					
-					for(var i=0;i<length;i++){
-						console.log('=======몇번찍히냐==='+i)
-						
-						
-						if( arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val()))){
-							console.log('#######if 안에서 찐실험#######')
-							console.log('#####arr###')
-							console.log(arr)
-							console.log('####includes할거')
-							console.log(Number($('.commentsOne').siblings('.commentsNo').eq(i).val()))
-							console.log(arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(i).val())))
-							console.log('%%%%%%%%if 안에서 찐실험 끝%%%%%%%%%%')
-							console.log('=======if안에는몇번찍히냐==='+i)
-							$('.commentsOne').siblings('.ifLikeExist').eq(i).val('Y')
+				//console.log('=======================================fdsfsdfsdf================')
+				//console.log(list)				
+				//console.log(Number($('.commentsOne').siblings('.commentsNo').eq(0).val()))
+				//console.log(Number($('.commentsOne').siblings('.commentsNo').eq(1).val()))
+				//console.log(list.length)
+				var length=$('.commentsOne').length
+				//console.log(length)
+				//console.log(list[1].commentNo == Number($('.commentsOne').siblings('.commentsNo').eq(0).val()))
+				//console.log(list[1].commentNo)
+				//console.log(Number($('.commentsOne').siblings('.commentsNo').eq(0).val()))
+				//console.log(list[1].commentLike =='Y')
+				for(var i=0;i<list.length;i++){
+					for(var j=0;j<length;j++){
+						if(list[i].commentNo == Number($('.commentsOne').siblings('.commentsNo').eq(j).val())){
+								
 							
-							if(list[j].commentLike =='Y'){
-								$('.commentsOne').find('i').eq(2*i).attr('class','fa-solid fa-thumbs-up blue');
-								
-							}else if(list[j].disLike =='Y'){
-								$('.commentsOne').find('i').eq((2*i)+1).attr('class','fa-solid fa-thumbs-down red');
-								
-							}
-							j++;
-							console.log('j의 숫자=')
-							console.log(j);
-						}
+							if(list[i].commentLike =='Y'){
+								$('.commentsOne').find('i').eq(2*j).attr('class','fa-solid fa-thumbs-up blue');
+								$('.commentsOne').siblings('.ifLikeExist').eq(j).attr('class','Y')
+							}else if(list[i].disLike =='Y'){
+								$('.commentsOne').find('i').eq((2*j)+1).attr('class','fa-solid fa-thumbs-down red');
+								$('.commentsOne').siblings('.ifLikeExist').eq(j).attr('class','Y')					
 						
-					}
-					
-					
-					
-					console.log('댓글좋아요불러오기테스트')
-					console.log(list)
-					console.log(arr)
-					console.log($('.commentsOne').find('i'))
-					console.log($('.commentsOne').find('i').eq(0).attr('class'))
-					console.log(arr.includes(Number($('.commentsOne').siblings('.commentsNo').eq(0).val())))
-					console.log(list[0].commentLike )
-					console.log($('.commentsOne').find('i').eq(0).attr('class'))
-					
-					console.log('댓글좋아요불러오기테스트')
-				}else{//없으면 좋아요 누른적이없음
-					//n넣기?
+							
+							}
+							
+						}
+					}	
 				}
-				//console.log('############################작업중')
-				//console.log($('.commentsOne').siblings('.ifLikeExist'))  // ############################작업중
-				//console.log($('.commentsOne').siblings('.ifLikeExist').eq(0))  // ############################작업중
-				//console.log($('.commentsOne').siblings('.ifLikeExist').eq(0).val())  // ############################작업중
-				//console.log($('.commentsOne').siblings('.ifLikeExist').eq(1))  // ############################작업중
-				//console.log($('.commentsOne').siblings('.ifLikeExist').eq(1).val())  // ############################작업중
-				//console.log('############################작업중')
+				
 			},
 			error:function(){
 				console.log('좋아요부르기실패');
@@ -700,6 +744,25 @@
 
 
 	};
+	/*
+	function ratingShow(){
+		
+		$.ajax({
+			url:'ratingShow.co',
+			data:{"movieTitle":"${movieTitle}",
+				"movieYear":${movieYear}
+			},
+			success:function(rating){
+				$('.movieInfo3').val('★'+rating)
+			},
+			error:function(){
+				
+			}
+			
+		});
+	}
+	*/
+	
 	
 	function spoiler(){
 		if($('#on-off').text() =="off"){
@@ -720,29 +783,6 @@
 			console.log('성공')
 			alert('성')
 		})
-	function commentsInsert(){
-		
-		
-			$.ajax({
-					url: 'commentsWrite.co',
-					data: {
-					    memberNo: JSON.stringify(${loginUser.memberNo}),
-					    commentContent: $('.form-control').val(),
-					    spoiler: $('#on-off').attr('class'),
-					    movieTitle: "${movieTitle}",
-					    movieYear: ${movieYear}
-					},
-					success: function() {
-					    alert('글쓰기 완료');
-					    showMovieCommentsList();
-					    showMyComments();
-					    
-					},
-					error: function() {
-					    // handle error
-					}
-			});
-	}
 	
 	function detailComments(){
 		

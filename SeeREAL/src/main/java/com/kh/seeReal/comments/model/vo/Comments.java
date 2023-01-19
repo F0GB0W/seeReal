@@ -15,5 +15,5 @@ public class Comments {
 	private String status;
 	private int memberNo;
 	private String commentReport;
-
+	private String beforeRating;
 }

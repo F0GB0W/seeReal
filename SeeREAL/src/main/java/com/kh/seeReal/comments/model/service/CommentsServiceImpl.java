@@ -87,18 +87,18 @@ public class CommentsServiceImpl implements CommentsService{
 
 	@Override
 	public int thumbsUpCreate(CommentsLike commentsLike) {
-		// TODO Auto-generated method stub
-		return 0;
+		System.out.println("@@@@@thumbup create 왔다@@@@@@@@@@@@@");
+		return CommentsDao.thumbsUpCreate(commentsLike, sqlSession);
 	}
 
 	@Override
 	public int thumbsDownCreate(CommentsLike commentsLike) {
-		// TODO Auto-generated method stub
-		return 0;
+		System.out.println("@@@@@thumbdown create 왔다@@@@@@@@@@@@@");
+		return CommentsDao.thumbsDownCreate(commentsLike, sqlSession);
 	}
 
 	@Override
-	public Comments getMyComments(Comments comments) {
+	public List<Map<String,Object>> getMyComments(Comments comments) {
 		
 		return CommentsDao.getMyComments(comments,sqlSession);
 	}
@@ -139,6 +139,18 @@ public class CommentsServiceImpl implements CommentsService{
 		return CommentsDao.checkRatingExit(movieRating,sqlSession);
 	}
 
+	@Override
+	public int commentsLikeExit(CommentsLike commentsLike) {
+		
+		return CommentsDao.commentsLikeExit(commentsLike,sqlSession);
+	}
+	/*
+	@Override
+	public double ratingShow(Comments comments) {
+		
+		return CommentsDao.ratingShow(comments,sqlSession);
+	}
+	*/
 	
 
 	
