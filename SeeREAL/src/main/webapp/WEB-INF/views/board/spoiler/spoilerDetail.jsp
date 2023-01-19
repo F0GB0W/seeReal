@@ -111,9 +111,9 @@
    
    
    <button type="button"  id="rpButton" onclick="submitReport()"> 신고하기<i class="fa-solid fa-land-mine-on fa-2x" ></i></button>
-
+	<input type="hidden" id="mm">
 				 </form>
-   
+   <p>${br.boReplyNo}</p>
 
               <br><br>
 			
@@ -212,9 +212,9 @@ $(function() {
         data: reportFormData,
 		success : function(response) {
 			if(response > 0 ) {
-				$("#ReplyrpButton").prop("disabled", true);
+				$("#ReplyReportBt").prop("disabled", true);
 			} else {
-				$("#ReplyrpButton").prop("disabled", false);
+				$("#ReplyReportBt").prop("disabled", false);
 			}
 		}
 	})
@@ -222,15 +222,17 @@ $(function() {
 
 function submitReplyReport() {
     var reportFormData = $("#reportReplyBt").serialize();
- 	console.log(reportFormData);
+
     $.ajax({
         type: "POST",
         url: "insertReportBoardReply.rp",
         data: reportFormData,
         success: function(response) {
             // Handle the response from the server
+            
             if (response != "success") {
-                alert("신고가 정상적으로 접수되었습니다.");
+            	console.log(response);
+            	alert("신고가 정상적으로 접수되었습니다.");
                 // disable the button
                 $("#ReplyReportBt").prop("disabled", true);
             } else {
@@ -293,6 +295,9 @@ function submitReplyReport() {
 					//for(var i=0; i< list.length; i++){
 					for(var i in list){
 						if(${not empty loginUser}){
+							console.log('---------------------')
+							console.log(list[i].boReplyNo)
+							console.log('---------------------')
 								  value += '<tr>'
 									   + '<td class="replyContent">' + list[i].boReplyContent + '</td>'
 									   + '<td>' + list[i].replyWriter + '</td>'
@@ -306,7 +311,7 @@ function submitReplyReport() {
 									   + '</tr>';
 							  		} 
 						else{
-							value += '<td><button type="button"   id="ReplyrpButton"  data-toggle="modal" data-target="#myModal"> <i class="fa-solid fa-land-mine-on"  ></i></button></td>' 		
+							value += '<td><button type="button" name="'+list[i].boReplyNo+'"  id="ReplyrpButton"  data-toggle="modal" data-target="#myModal" onclick="saveData(this);"> <i class="fa-solid fa-land-mine-on"  ></i></button></td>' 		
 						}
 									   
 					}
@@ -327,6 +332,18 @@ function submitReplyReport() {
 			setInterval(selectSpoilerReplyList, 1000);
 		}); 
 		*/
+		function saveData(a){
+
+			$('input[name=boReplyNo]').val(a.name);
+			$('input[name=reportOccured]').val(a.name);
+			
+		}
+		
+		
+		
+		
+		
+		
 		function updateReply(e){
 			
 			let value = '<td class="ChangeReplyContent"><textarea id="hiddenContent" style="resize:none;" type="text" name="boReplyContent" value="'
@@ -446,13 +463,13 @@ function submitReplyReport() {
         <div class="modal-body">
  
  
- 
+ 			
  			 <form id="reportReplyBt">
-             <input type="hidden" name="boardNo" value="${ br.boardNo }">
+             <input type="hidden" name="boardNo" value="${ b.boardNo }">
              <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
-             <input type="hidden" name="reportOccured" value="${br.boReplyNo}">
+             <input type="hidden" name="reportOccured"  value="${br.boReplyNo}">
              <input type="hidden" name="reportType" value="0">
-             <input type="hidden" name="boReplyNo" value="${br.boReplyNo}">
+             <input type="hidden" name="boReplyNo"  value="${br.boReplyNo}">
    
  
 		              <select  name="reportReason" >
