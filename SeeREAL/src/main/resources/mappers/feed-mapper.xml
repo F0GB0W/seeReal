@@ -68,30 +68,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="reviewList" resultMap="movie_rating">
-		SELECT
-			ROWNUM,
-			T.*
-		FROM
-			(
-			SELECT
-				DISTINCT 
-			c.*
-			,
-				(
-				SELECT
-					count(comment_like)
-				FROM
-					comment_like
-				WHERE
-					 comment_like = 'Y'
-			) AS count
-			FROM
-				COMMENTS c
-			JOIN COMMENT_LIKE cl ON
-				c.COMMENT_NO = cl.COMMENT_NO
-			WHERE
-				 c.MEMBER_NO = #{memberNo}
-			ORDER BY count ASC) T
+		select movie_title, rating, 
+	        (SELECT
+	                count(comment_like)
+	            FROM
+	                comment_like
+	            WHERE
+	                 comment_like = 'Y')
+	        comment_like
+	  from movie_rating 
+	  left join comment_like on (member_no = comment_writer)
+	 where member_no = #{memberNo}
+	 
+	  order
+	     by comment_like desc
 	</select>
 	
 	<select id="ratingList" resultMap="movie_rating">

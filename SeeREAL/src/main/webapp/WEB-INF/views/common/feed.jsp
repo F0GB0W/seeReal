@@ -160,25 +160,34 @@
 	<script>
 
 	// chart.js
-        var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
-        var yValues = [${star.starHalf},${star.star1},${star.star1Half},${star.star2},${star.star2Half},
+       //var xValues = ["","★","","★★","","★★★","","★★★★","","★★★★★"];
+        var yValues = [${star.star1},${star.star1Half},${star.star2},${star.star2Half},
         				${star.star3},${star.star3Half},${star.star4},${star.star4Half},${star.star5}
         				];
 
         var myChart = new Chart("myChart", {
-            type: "bar",
+            type: 'bar',
             data: {
-              labels: xValues,
+              labels: ['★','','★★','','★★★','','★★★★','','★★★★★'],
               datasets: [{
 	                backgroundColor: '#ff91c3',
 	                data: yValues
               }]
         	},
       		options: {
-       			legend: {
-       			display:false
-       		}
-        	}
+       			scales:{
+       				
+	       			yAxes: [{
+	                    ticks: {
+	                    	diplay: false,
+	                    	beginAtZero: true,
+	                        min: 0,   //y축 최솟값
+	                        max: 10, //y축 최댓값
+	                        stepSize: 1
+	                    }
+	        	}]
+       			}
+      		}
         });
 
 	</script>
