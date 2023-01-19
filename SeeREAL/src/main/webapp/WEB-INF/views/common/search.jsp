@@ -99,11 +99,8 @@
 		</div>
 		<div id="movieList">
 			<div class="title">영화</div>
-
-
-				    <div class="movieList-area" style="width:650px; overflow-y:auto">
-	    			</div>
-
+			    <div class="movieList-area" style="width:650px; overflow-y:auto">
+    			</div>
 			</div>
 		</div>
 		<jsp:include page="footer.jsp" />
@@ -157,7 +154,6 @@
 						error : () => {
 							console.log('api 요청 실패ㅠㅠ');
 						}
-					
 					})
 				}
 			}
@@ -206,17 +202,12 @@
 		                            if(i == 4) {
 		                            	value += '<li style="display:block;"></li>';
 		                            }
-	
 							}
 						}
 		     	            $('.movieList-area').html(value);
-
 					}
-				
-				
 				})
 			}
-
 		</script>
 
 </body>
