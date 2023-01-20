@@ -66,8 +66,11 @@ public class MemberController {
 	@RequestMapping(value="selectEmail.me",produces="text/html; UTF-8")
 	public String selectEmail(String email, HttpServletRequest request) {
 		
+		/*
 		int result = memberService.selectEmail(email);
+		
 		String result2="";
+		
 		if(result > 0) { // 있으면 이메일 보내야함  : sendEmail.me 호출해야하는데...? redirect로 ?
 			
 			result2 = sendEmail(email, request); 
@@ -78,8 +81,32 @@ public class MemberController {
 		}
 		
 		return result2;
+		*/
+		
+		return String.valueOf(memberService.selectEmail(email));
 	}
 	
+	/*
+	// 임시비밀번호 : 이메일 조회 + 이매일 전송
+	@ResponseBody
+	@RequestMapping(value="temporaryEmail.me",produces="text/html; UTF-8")
+	public String sendTemporaryEmail(String email, HttpServletRequest request) {
+	
+		int result = memberService.selectEmail(email);
+		
+		String result2="";
+		
+		if(result > 0) { // 있으면 이메일 보내야함  : sendEmail.me 호출해야하는데...? redirect로 ?
+			
+			result2 = sendEmail(email, request); 
+	
+		}
+		
+		return result2;
+
+	}
+	*/
+		
 	// 이메일 인증 : 이메일 보내는 메소드 / 확인하는 메소드
 	// 이메일 인증 버튼 누르면 insert + 이메일 보내기 => 성공시 prompt 띄워야함
 	// 인증번호 입력 후 버튼 누르면 select + delete 같이
@@ -149,7 +176,10 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="selectNickname.me", produces= "text/html; UTF-8")
 	public String selectNickname(String nickname) {
-		return memberService.selectNickname(nickname);
+		System.out.println(nickname);
+		String result = String.valueOf(memberService.selectNickname(nickname));
+		System.out.println("result " + result);
+		return result;
 	}
 	
 	
@@ -199,12 +229,12 @@ public class MemberController {
 				Cookie check = new Cookie("saveId", m.getMemberEmail());
 				check.setMaxAge(60 * 60 * 24 * 28);
 				check.setPath("/");
-				response.addCookie(check); // 여기까지 옴
+				response.addCookie(check);
 				
 			}else if(saveId.equals("N")) {  // 해제 Y-> N : N(쿠키 삭제)
 				
 				Cookie check = new Cookie("saveId", m.getMemberEmail());
-				System.out.println("2 check : " + check);
+				//System.out.println("2 check : " + check);
 				check.setMaxAge(0);
 				response.addCookie(check);	
 			}		
@@ -221,14 +251,13 @@ public class MemberController {
 	@RequestMapping(value="searchPwd.me")
 	public String searchPwd(HttpSession session, Member m) { // Member : loginMember()사용 위해서
 		
-	    System.out.println("newPwd : " +m.getMemberPwd());
+	  
 		m.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
-		System.out.println("2 : " +m.getMemberPwd());
+		
 		if(memberService.updatePwd(m) > 0) { // 성	
 			//loginUser.setMemberPwd(bcryptPasswordEncoder.encode(newPw));
 			
-			//memberService.updatePwd(loginUser); // 아이디(이메일) 필요
-			session.setAttribute("loginUser", memberService.loginMember(m));
+			//session.setAttribute("loginUser", memberService.loginMember(m));
 			session.setAttribute("alertMsg", "비밀번호 재설정 성공");
 			
 		}else { // 입력한 비밀번호가 다르면
@@ -238,8 +267,9 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	/*
 	
-	// 임시비밀번호 : 
+	// 임시비밀번호 :
 	@RequestMapping("temporaryPwd.me")
 	public String searchPwd(HttpServletRequest request, Member m) { 
 		// 정규표현식 만족하는 임시비밀번호 생성해서 메일 보내고, member 테이블 update
@@ -263,6 +293,7 @@ public class MemberController {
 		
 		return "redirect:/"; // 메인페이지로 이동
 	}
+	*/
 	
 	// 랜덤 인증번호 생성하는 메소드
 	// 문자 + 숫자 + 특수문자 중 2가지, 6개 이상

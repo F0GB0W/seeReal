@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public String selectNickname(String nickname) {
+	public int selectNickname(String nickname) {
 		return memberDao.selectNickname(sqlSession, nickname);
 	}
 

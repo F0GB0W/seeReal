@@ -39,7 +39,7 @@ public class MemberDao {
 	}
 	
 	// 닉네임 중복체크
-	public String selectNickname(SqlSessionTemplate sqlSession, String nickname) {
+	public int selectNickname(SqlSessionTemplate sqlSession, String nickname) {
 		return sqlSession.selectOne("memberMapper.selectNickname", nickname);
 	}
 	

@@ -31,6 +31,8 @@
 	
 	<context:component-scan base-package="com.kh.seeReal" />
 	
+	<beans:bean id="naverLoginBO" class="com.kh.seeReal.member.login.NaverLoginBO" />
+	
 	<!-- 로그인을 위한 인터셉터 -->
 	<interceptors>
 		<interceptor>

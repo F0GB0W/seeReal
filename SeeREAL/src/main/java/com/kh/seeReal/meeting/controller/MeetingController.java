@@ -164,7 +164,7 @@ public class MeetingController {
     		System.out.println("저장 실패~!!!");
     	}
     	
-    	return "redirect:/enrollForm.mt";
+    	return "redirect:/meetingList.mt";
     }
     
     // 모임 상세보기

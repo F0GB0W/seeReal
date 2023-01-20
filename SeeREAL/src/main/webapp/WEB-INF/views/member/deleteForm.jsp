@@ -13,149 +13,244 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-	<br><br>
-	<div class="row">
-		<div class="col-md-3"></div>
-	
-		<div class="col-md-6">
-			<ul class="nav nav-tabs nav-justified">
-				   <li class="nav-item" ><a class="nav-link" href="updatePwdForm.me" style="font-size: 20px;"><strong>비밀번호 변경</strong></a></li>
-				   <li class="nav-item"><a class="nav-link" href="updateForm.me" style="font-size: 20px;"><strong>회원정보 수정</strong></a></li>
-				   <li class="nav-item"><a class="nav-link active" href="deleteForm.me" style="font-size: 20px;"><strong>회원 탈퇴하기</strong></a></li>
-			</ul>
-			<br><br>
-	
-			<h4 style="color: #ff52a0;">회원 탈퇴</h4><hr/><br/>
-		
-			<form action="deleteMember.me" method="post" style="margin-bottom: 0;" id="aa">
-				<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
-					<tr>
-						<td style="text-align: left">
-							<p><strong>이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
-						</td>
-				    </tr>
-					<tr>
-						<td><input type="email" name="memberEmail" id="user_email"
-							    		class="form-control tooltipstered" 
-							    		required="required" aria-required="true"
-							    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
-										placeholder="이메일 형식으로 작성해주세요."></td>
-					</tr>
-			
-					<tr>
-						<td style="width: 100%; text-align: center; colspan: 2;">
-							<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
-									style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 인증</button>
-						</td>
-					</tr>
-					
-					<tr>
-						<td style="text-align: left">
-							<p><strong>인증코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
-						</td>
-				    </tr>
-					<tr>
-						<td><input type="text" name="code" id="code"
-							    		class="form-control tooltipstered" 
-							    		required="required" aria-required="true"
-							    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"></td>
-					</tr>
-			
-					<tr>
-						<td style="width: 100%; text-align: center; colspan: 2;">
-							<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
-									style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">탈퇴</button>
-						</td>
-					</tr>
-					
-				</table>
-			</form>
-	
-		</div>
-		<div class="col-md-3"></div>
+	<div style="border:1px solid black;">
+		<jsp:include page="../common/menubar.jsp" />
 	</div>
 	
+	<div style ="display:flex">
+	
+		<div style="margin-left: 250px;  width:300px;" > 
+			<jsp:include page="../member/myPageSidebar.jsp" />
+		</div>
+
+		<div class="row" style="margin-left:5px; width:1100px; style="">
+			<div class="col-md-3"></div>
+		
+			<div class="col-md-6">
+				
+				<br><br><br><br>
+		
+				<h4 style="color: #ff52a0;">회원 탈퇴</h4><hr/><br/>
+			
+				<form action="deleteMember.me" method="post" style="margin-bottom: 0;" id="deleteMemberForm">
+					<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
+						<tr>
+							<td style="text-align: left">
+								<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
+							</td>
+					    </tr>
+						<tr>
+							<td><input type="email" name="memberEmail" id="deleteEmail"
+								    		class="form-control tooltipstered" 
+								    		required="required" aria-required="true"
+								    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
+											placeholder="이메일 형식으로 작성해주세요."></td>
+						</tr>
+				
+						<tr>
+							<td style="width: 100%; text-align: center; colspan: 2;">
+								<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
+										style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 인증</button>
+							</td>
+						</tr>
+						
+						<tr style="display:none;" id="codeTitle">
+	                 			<td style="text-align: left">
+									  <p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
+								</td>
+							</tr>		  
+							<tr style="display:none;" id="codeInput">
+								<td>
+									<input type="text" name="code" id="code" class="form-control tooltipstered"
+									  required="required" aria-required="true"
+									   style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de">
+									   </td>
+							</tr>	
+							<tr style="display:none;" id="code-btn">
+	                 			<td style="text-align: left">	
+									   <button class="btn form-control tooltipstered"
+										style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="s">인증</button>
+								</td>
+							</tr>
+							
+					</table>
+				</form>
+		
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+		
 	<br><br>
+	</div>
+	<div> 
+		<jsp:include page="../common/footer.jsp" />
+	</div>
 	
 	
 	<script>
+		var timer, min, sec;
+		var code;
+		
 		$(function() {
 			//자바스크립트 정규 표현식
 			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);	
-			let emailCheck = false;
+			var $email = $('#deleteEmail');
+			let mailCheck = false;
 			
-			// 이메일 인증 버튼 
-			$('#delete-btn').on('click',function(){
-				
-				//자바스크립트 정규 표현식
-				const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/); 
-
-				const emailInput = $('#user_email').val();
+			$email.on('keyup', function(){
 				
 				//조건식으로 만든 논리적인코드(빈 문자열이면)
-				if(emailInput == ''){
-		
-					emailInput.css("background", "pink");				
+				if($email.val() == ''){
 					$('#emailChk').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
 					
-				}else if(!getMail.test(emailInput)) { 
+				}else if(!getMail.test($email.val())) { 
 					// 정규표현식을 만족하지 않으면
-					emailInput.css("background-color", "pink"); 
 					$('#emailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
 					
 				}else{
 					
-					$.ajax({ // 이메일 보내는 요청 > select 이메일 하고 와야함						
-						url:'sendEmail.me',
-						method:'post',
-						data : {email :$('#user_email').val()},
+					 $.ajax({
+		                  url:'selectEmail.me',
+		                  data : {email : $email.val()},
+		                  success : function(result){
+		                     if(result === '1'){  // == : 문자, 숫자 상관없음
+		                    	 
+		                    	 $('#emailChk').html("<b style='color:green;'>[존재하는 아이디입니다.]</b>");
+		                    	 mailCheck = true;	
+		                     }else{
+		                    	 $('#emailChk').html("<b style='color:red;'>[존재하지 않는 아이디입니다.]</b>");  
+		                    	 // input 색상 바꾸기
+		                     }
+		                  },
+		                  error : function(){
+		                     console.log("ajax error");
+		                  },
+		                  method:'post'
+		               });
+				}
+			});
+			
+			$('#delete-btn').click(function(){
+				
+				if(mailCheck){
+					
+					$.ajax({ // 있는 아이디인지 확인 +  인증 메일 보냄 > fail : 없는 아이디
+						url:'sendEmail.me', 
+						data : {email : $email.val()},
+						method : 'post',
 						success : function(result){
-							if(result === '1'){ // 인증메일 전송 성공
-								var code = prompt('인증번호를 입력하세요');
+							
+							if(result === '1'){ // 인증 번호 전송 + cert에 등록
+								alert('이메일을 전송했습니다. 확인해주세요');
 								
-								if(code != null){ // 확인
-									if(code == ''){
-										alert('먼저 인증번호를 입력하세요.');
-									}else{
-										console.log(2);
-										$.ajax({
-											url: 'checkCode.me',
-											data : {
-													email :$('#user_email').val(),
-													code : code
-											}, 
-											success : function(result2){
-												console.log(3);
-												if(result2 === '1'){
-													deleteMember();
-													alert("탈퇴성공");
-												}else{
-													alert("인증 실패");
-												}
-											},
-											error : function(){
-												console.log("ajax error2");
-											}	
-										});	
-									}
-								}
+								min = 1;
+								sec = 0;
+								
+								timer = setInterval(showRemaining, 1000);
+				
+								var a = '<tr><td style="text-align: left">'
+									  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>'
+									  + '<tr><td><input type="text" name="code" id="code" class="form-control tooltipstered"'
+									  + 'required="required" aria-required="true"'
+									  + 'style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"><button class="btn form-control tooltipstered"'
+									  + 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="abcde">dtd</button></td></tr>';
+									
+								
+								$('#btn-area').html(a);
+								$('#delete-btn').attr('disabled', true);
+								
 							}else{ // 메일 전송 실패
 								alert("인증 메일 전송에 실패했습니다. 다시 시도해주세요.");
 							}
+						
 						},
 						error : function(){
 							console.log("ajax error");
 						}
-					});		
+						
+					});	
+			
+				}
+			});			
+			
+		}); 
+
+		$(document).on('click', '#abcde', function(){
+			
+			code = $('#code').val();
+			
+			if(code != null && timer != 0){ // 남은 시간 있고, 입력값 있으면!
+				
+				if(code == ''){
+					alert('먼저 인증번호를 입력하세요.');
+				}else{
+					
+					$.ajax({ 
+						url: 'checkCode.me', 
+						data : {
+								code : code
+						}, 
+						success : function(result2){ // 인증번호 동일하면 임시 비밀번호 전송
+							
+							if(result2 === 'success'){ 
+								updatePwd(); 
+								alert("임시비밀번호를 메일로 전송했습니다.");
+								$('#timeChk').text('');
+								clearInterval(timer);
+								
+							}else{
+								alert("실패");
+							}
+						
+						
+						},
+						error : function(){
+							console.log("ajax error2");
+						}	
+					});	
+				} // else
+			}
+		})
+	
+		function showRemaining(){
+			
+			if(timer >= 0){
+				$('#timeChk').text(' 남은시간 ' + min + ' : ' + sec);
+				
+				if(sec == 0 && min != 0){
+					min = min - 1;
+					sec = 59;
+				}else{
+					sec = sec - 1;	
 				}
 			
-			});
-		}); 
+				if(min == 0 && sec == 0){
+					
+					$('#timeChk').text('');
+					clearInterval(timer);
+					//timer = 0;
+				
+					$.ajax({
+						url: 'timeout.me',  
+						success : function(result){ 
+							
+							alert("입력시간을 초과하였습니다. 다시 시도해주세요."); 
+							
+						},
+						error : function(){
+							console.log("ajax error3");
+						}	
+					});	
+					
+				}
+			}
+	
+		};
+		
 		
 		function deleteMember(){
 			$('#delete-btn').attr("type","submit");
-			$('#aa').submit();
+			$('#deleteMemberForm').submit();
 		}
 		
 	</script>
