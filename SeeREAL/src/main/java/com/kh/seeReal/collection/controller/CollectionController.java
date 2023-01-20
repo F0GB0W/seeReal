@@ -195,8 +195,4 @@ public class CollectionController {
 		return new Gson().toJson(collectionService.selectCollectionMain());
 	}
 	
-	@RequestMapping("main.juni") // 나중에 통합 필요!
-	public String mainJuni() {
-		return "common/mainJuni";
-	}
 }

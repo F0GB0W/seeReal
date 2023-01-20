@@ -56,6 +56,29 @@
     </div>
 
     <hr>
+    	<c:if test="${loginUser.memberNo ne collection.memberNo && not empty loginUser}">
+		
+			 <div id="reportButton" align="center">
+			 <form id="reportBt">
+             <input type="hidden" name="collectionNo" value="${ collection.collectionNo }">
+             <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
+             <input type="hidden" name="reportOccured" value="${collection.collectionNo}">
+             <input type="hidden" name="reportType" value="4">	
+             	<input type="hidden" name="reporting">
+		              <select  name="reportReason">
+		              	<option value="1">부적절한 글</option>
+		              	<option value="2">스포일러성 정보</option>
+		              	<option value="3">홍보 및 광고</option>
+		              	<option value="4">욕설 및 도배</option>
+		              </select>
+   <button type="button"  id="rpButton" onclick="submitReport()"> 신고하기<i class="fa-solid fa-land-mine-on fa-2x" ></i></button>
+              <br><br>
+			</div>
+					</c:if>
+    
+    
+    
+    
     <table id="replyArea" class="table" align="center">
 		<thead>
 			<c:choose>
@@ -328,5 +351,44 @@
             });
         }
     </script>
+        	<script>
+        <!-- 신고기능 중복방지-->
+$(function() {
+	var formData = $("#reportBt").serialize();
+
+	$.ajax({
+		url: "reportCollectionCount.rp",
+        data: formData,
+		success : function(response) {
+			if(response > 0 ) {
+				$("#rpButton").prop("disabled", true);
+			} else {
+				$("#rpButton").prop("disabled", false);
+			}
+		}
+	})
+})
+
+
+function submitReport() {
+    var formData = $("#reportBt").serialize();
+
+    $.ajax({
+        type: "POST",
+        url: "insertCollectionReport.rp",
+        data: formData,
+        success: function(response) {
+            // Handle the response from the server
+            if (response != "success") {
+                alert("신고가 정상적으로 접수되었습니다.");
+                // disable the button
+                $("#rpButton").prop("disabled", true);
+            } else {
+                alert("이미 신고 처리되었거나 오류 발생 ");
+            }
+        }
+    });
+}
+</script>
 </body>
 </html>

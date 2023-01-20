@@ -116,6 +116,22 @@ public class ReportServiceImpl implements ReportService {
 	public int insertReportBoardReply(Report r) {
 		return reportDao.insertReportBoardReply(sqlSession, r);
 	}
+	@Override
+	public int insertMeetingReport(Report r) {
+		return reportDao.insertMeetingReport(sqlSession, r);
+	}
+	@Override
+	public int reportMeetingCount(Report r) {
+		return reportDao.reportMeetingCount(sqlSession,r);
+	}
+	@Override
+	public int insertCollectionReport(Report r) {
+		return reportDao.insertCollectionReport(sqlSession, r);
+	}
+	@Override
+	public int reportCollectionCount(Report r) {
+		return reportDao.reportCollectionCount(sqlSession,r);
+	}
 	
 
 
