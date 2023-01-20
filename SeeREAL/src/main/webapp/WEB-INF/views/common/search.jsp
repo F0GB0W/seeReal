@@ -19,49 +19,41 @@
 	.title{
 		width: 150px;
 		height: 50px;
-		margin-top : 10px;
 		background-color:  #ff52a0;
 		padding: 6px;
+		color: white;
 	}
 	.outer{
 		align: center;
 	}
-
+	#movieList{
+		margin-top: 40px;
+	}
 	#movieList,#searchList {
 		margin-left: 30%;
 	}
-	#searchList>#list{
-		margin-top : 10px;
-		display: flex;
-		align : center;
-	}
+
 	#searchList>#list>div{
 		width: 300px;
 		height: 250px;
 	}
+
+	#search-area{
+		float: right;
+	}
 	#movieList>#list{
-		margin-top : 10px;
-		display: flex;
 		align : center;
 	}
 	#movieList>#list>div{
 		width: 300px;
 		height: 200px;
 	}
-	#searchList>#list>.meeting{
-		padding : 17px;
-	}
-	#search-area{
-		float: right;
-	}
 	#movieList>#result1>tbody>td>a{
 		text-decoration: none;
 		color: black;
 	}
 
-    .movieInfo {
-        margin-right: 10px;
-    }
+    
 </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -97,6 +89,7 @@
 				</c:choose>
 			</div>
 		</div>
+		
 		<div id="movieList">
 			<div class="title">영화</div>
 			    <div class="movieList-area" style="width:650px; overflow-y:auto">
@@ -107,7 +100,7 @@
 		<script>
 			<%-- div클릭시 미팅 상세페이지로 이동 --%>
 			$(function(){
-				$('.outer #searchList #list .meeting').click(function(){
+				$('.outer1 #searchList #list .meeting').click(function(){
 					location.href = 'detail.mt?mtno=' + $(this).children('#mtno').val();
 				})
 				searchMovie();
@@ -125,7 +118,7 @@
 						console.log(list);
 					},
 					error : () => {
-						console.log('실패ㅠㅠㅠㅠ');
+						console.log('실패');
 					}
 				})
 			});
