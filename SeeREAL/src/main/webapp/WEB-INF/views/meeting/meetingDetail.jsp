@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>모임 상세보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <!-- 부트스트랩에서 제공하고 있는 스크립트 -->
@@ -326,5 +327,77 @@
             } 
         });    
     </script>
+    
+    <!-- 신고기능 추가 -->
+    	<c:if test="${loginUser.memberNo ne meet.memberNo && not empty loginUser}">
+		
+			 <div id="reportButton" align="center">
+			 <form id="reportBt">
+             <input type="hidden" name="meetingNo" value="${ meet.meetingNo }">
+             <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
+             <input type="hidden" name="reportOccured" value="${meet.meetingNo}">
+             <input type="hidden" name="reportType" value="3">
+        
+             
+             			
+             	<input type="hidden" name="reporting">
+		              <select  name="reportReason">
+		              	<option value="1">부적절한 모임</option>
+		              	<option value="2">스포일러성 정보</option>
+		              	<option value="3">홍보 및 광고</option>
+		              	<option value="4">욕설 및 도배</option>
+		              </select>
+   
+   
+   <button type="button"  id="rpButton" onclick="submitReport()"> 신고하기<i class="fa-solid fa-land-mine-on fa-2x" ></i></button>
+	
+ 
+
+              <br><br>
+			
+			</div>
+					</c:if>
+    	<script>
+        <!-- 신고기능 중복방지-->
+$(function() {
+	var formData = $("#reportBt").serialize();
+
+	$.ajax({
+		url: "reportMeetingCount.rp",
+        data: formData,
+		success : function(response) {
+			if(response > 0 ) {
+				$("#rpButton").prop("disabled", true);
+			} else {
+				$("#rpButton").prop("disabled", false);
+			}
+		}
+	})
+})
+
+
+function submitReport() {
+    var formData = $("#reportBt").serialize();
+
+    $.ajax({
+        type: "POST",
+        url: "insertMeetingReport.rp",
+        data: formData,
+        success: function(response) {
+            // Handle the response from the server
+            if (response != "success") {
+                alert("신고가 정상적으로 접수되었습니다.");
+                // disable the button
+                $("#rpButton").prop("disabled", true);
+            } else {
+                alert("이미 신고 처리되었거나 오류 발생 ");
+            }
+        }
+    });
+}
+</script>
+    
+    
+    
 </body>
 </html>

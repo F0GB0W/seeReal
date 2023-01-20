@@ -79,7 +79,6 @@ public class ReportController {
     @RequestMapping("reportCount.rp")
     public int selectReportCount(Report r) {
     	return reportService.selectReportCount(r);
-    	//return String.valueOf(reportService.selectReportCount(r));
     }
     
     
@@ -106,8 +105,49 @@ public class ReportController {
     	//return String.valueOf(reportService.selectReportCount(r));
     }
     
+	@RequestMapping("insertMeetingReport.rp")
+	public String insertMeetingReport(@RequestParam(value="reportCheck",defaultValue="1") String reportReason ,Report r,int meetingNo) {
+		
+      
+		
+		if(reportService.insertMeetingReport(r) > 0) { 
+			reportService.increaseMeetingReport(meetingNo);
+			
+			return "redirect:spoilerList.bo";
+		} else {
+			
+			return "redirect:errorPage";
+		}
+	}
+   
+  @ResponseBody
+   @RequestMapping("reportMeetingCount.rp")
+   public int reportMeetingCount(Report r) {
+   	return reportService.reportMeetingCount(r);
+   	//return String.valueOf(reportService.selectReportCount(r));
+   }
+  
+ 	@RequestMapping("insertCollectionReport.rp")
+	public String insertCollectionReport(@RequestParam(value="reportCheck",defaultValue="1") String reportReason ,Report r,int collectionNo) {
+		
     
-    
+		
+		if(reportService.insertCollectionReport(r) > 0) { 
+			reportService.increaseCollectionReport(collectionNo);
+			
+			return "redirect:spoilerList.bo";
+		} else {
+			
+			return "redirect:errorPage";
+		}
+	}
+ 
+@ResponseBody
+ @RequestMapping("reportCollectionCount.rp")
+ public int reportCollectionCount(Report r) {
+ 	return reportService.reportCollectionCount(r);
+ 	//return String.valueOf(reportService.selectReportCount(r));
+ }
     
     
     

@@ -97,10 +97,7 @@
              <input type="hidden" name="boardNo" value="${ b.boardNo }">
              <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
              <input type="hidden" name="reportOccured" value="${b.boardNo}">
-             <input type="hidden" name="reportType" value="1">
-        
-             
-             			
+             <input type="hidden" name="reportType" value="1">	
              	<input type="hidden" name="reporting">
 		              <select  name="reportReason">
 		              	<option value="1">부적절한 글</option>
@@ -108,15 +105,8 @@
 		              	<option value="3">홍보 및 광고</option>
 		              	<option value="4">욕설 및 도배</option>
 		              </select>
-   
-   
    <button type="button"  id="rpButton" onclick="submitReport()"> 신고하기<i class="fa-solid fa-land-mine-on fa-2x" ></i></button>
-	<input type="hidden" id="mm">
-				 </form>
-   <p>${br.boReplyNo}</p>
-
               <br><br>
-			
 			</div>
 					</c:if>
 	
