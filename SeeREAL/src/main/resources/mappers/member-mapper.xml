@@ -144,7 +144,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!-- 닉네임 중복체크를 위한 select -->
-	<select id ="selectNickname" parameterType="String" resultType="string">
+	<select id ="selectNickname" parameterType="String" resultType="int">
 		select
 			   count(*)
 	      from 

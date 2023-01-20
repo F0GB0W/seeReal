@@ -28,7 +28,7 @@ public interface MemberService {
 	public int selectCert(Cert cert);
 	
 	// 닉네임 중복체크용 조회
-	public String selectNickname(String nickName);
+	public int selectNickname(String nickName);
 	
 	// 시간 지난 인증코드 삭제
 	public String timeout(String email);
