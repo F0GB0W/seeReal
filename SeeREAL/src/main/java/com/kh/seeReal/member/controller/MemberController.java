@@ -86,7 +86,7 @@ public class MemberController {
 		return String.valueOf(memberService.selectEmail(email));
 	}
 	
-	/*
+	
 	// 임시비밀번호 : 이메일 조회 + 이매일 전송
 	@ResponseBody
 	@RequestMapping(value="temporaryEmail.me",produces="text/html; UTF-8")
@@ -105,7 +105,7 @@ public class MemberController {
 		return result2;
 
 	}
-	*/
+	
 		
 	// 이메일 인증 : 이메일 보내는 메소드 / 확인하는 메소드
 	// 이메일 인증 버튼 누르면 insert + 이메일 보내기 => 성공시 prompt 띄워야함
@@ -237,10 +237,12 @@ public class MemberController {
 				//System.out.println("2 check : " + check);
 				check.setMaxAge(0);
 				response.addCookie(check);	
-			}		
+			}	
+			
+			session.setAttribute("alertMsg", "로그인 성공");
 			
 		}else {
-			model.addAttribute("alertMsg", "로그인 실패");
+			session.setAttribute("alertMsg", "로그인 실패");
 		}
 		return "redirect:/"; 
 	}
@@ -254,7 +256,7 @@ public class MemberController {
 	  
 		m.setMemberPwd(bcryptPasswordEncoder.encode(m.getMemberPwd()));
 		
-		if(memberService.updatePwd(m) > 0) { // 성	
+		if(memberService.updatePwd(m) > 0) {
 			//loginUser.setMemberPwd(bcryptPasswordEncoder.encode(newPw));
 			
 			//session.setAttribute("loginUser", memberService.loginMember(m));
@@ -267,7 +269,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	/*
+	
 	
 	// 임시비밀번호 :
 	@RequestMapping("temporaryPwd.me")
@@ -282,7 +284,7 @@ public class MemberController {
 		String email = m.getMemberEmail();
 		
 		message.setSubject("see:Real");
-		message.setText("임시비밀번호 : " + code );
+		message.setText("임시비밀번호 : " + code +"\\n해당 비밀번호로 로그인 후 개인정보 보호를 위해 비밀번호 수정 해주세요.");
 		message.setTo(email);	 // 아이디로 사용중인 이메일로만 인증가능
 		// m.getMemberEmail() : javax.mail.internet.AddressException: Illegal address in string ``''발생
 		sender.send(message); // 이메일이 제대로 갔는지 어떻게 확인하지?
@@ -293,7 +295,7 @@ public class MemberController {
 		
 		return "redirect:/"; // 메인페이지로 이동
 	}
-	*/
+	
 	
 	// 랜덤 인증번호 생성하는 메소드
 	// 문자 + 숫자 + 특수문자 중 2가지, 6개 이상
@@ -376,10 +378,26 @@ public class MemberController {
 	 */
 	
 	@RequestMapping(value="updateMember.me")
-	public String updateMember(Member m, HttpSession session, Model model, MultipartFile upfile) {
+	public String updateMember(Member m, HttpSession session, Model model, MultipartFile upfile) { // 값이 변경되면 안넘어온다는 가정하에
 	
 		String originPhoto = (((Member)session.getAttribute("loginUser")).getMemberPhoto());
-	
+		
+		if(m.getMemberPhoto().equals("delete")) { // nullpointer 발생 : 해결
+			
+			new File(session.getServletContext().getRealPath(originPhoto)).delete(); // 기존 파일 삭제
+			m.setMemberPhoto(""); 
+			
+		}else if(!m.getMemberPhoto().equals(originPhoto)) {
+			
+			if(originPhoto == null) { // 기존에 사진 없었으면 : 추가 
+				m.setMemberPhoto("resources/uploadFiles/"+ saveFile(upfile,session)); 	
+				
+			}else {
+				
+				new File(session.getServletContext().getRealPath(originPhoto)).delete(); // 기존 파일 삭제
+			}
+		}
+/*
 		if(upfile.getSize()!=0) { // 새로운 사진 추가(변경)
 			
 			if(originPhoto == null) { // 기존 파일 없음
@@ -391,24 +409,18 @@ public class MemberController {
 				// 저 값을 받으면 또 resources/uploadFiles/ 붙음??? ㄴㄴㄴ
 			}
 		}
-		
-		if(m.getMemberPhoto().equals("delete")) { // nullpointer 발생 : 해결
-			
-			new File(session.getServletContext().getRealPath(originPhoto)).delete(); // 기존 파일 삭제
-			m.setMemberPhoto(""); 
-		}
-	
+*/
 		if(memberService.updateMember(m) > 0){
 			
 			Member loginUser = memberService.loginMember(m);
-			model.addAttribute("alertMsg","수정 성공");
+			session.setAttribute("alertMsg","수정 성공");
 			session.setAttribute("loginUser", loginUser);
 			return "redirect:updateForm.me";
 			
 		}else {
 			// 사진 업로드와 db 수정 동시에 해야해서
 			new File(session.getServletContext().getRealPath(m.getMemberPhoto())).delete();
-			model.addAttribute("alertMsg","수정 실패");
+			session.setAttribute("alertMsg","수정 실패");
 			return "redirect:updateForm.me";
 		}	
 	}
@@ -478,10 +490,11 @@ public class MemberController {
 	
 	// 회원탈퇴
 	@RequestMapping(value="deleteMember.me")
-	public String deleteMember(String memberEmail) {
+	public String deleteMember(String memberEmail, HttpSession session) {
 		
 		if(memberService.deleteMember(memberEmail) > 0) { // 탈퇴 성공
-			
+			session.removeAttribute("loginUser");
+			session.setAttribute("alertMsg", "탈퇴 성공");
 			return "redirect:/";// 메인 페이지로 포워딩
 		}else {
 			return "redirect:deleteForm.me"; // 원래 화면 으로 다시 재요청

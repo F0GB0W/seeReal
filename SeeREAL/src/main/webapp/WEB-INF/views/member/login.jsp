@@ -61,19 +61,19 @@
 							
 							<tr style="display:flex;">
 								<td style="text-align: left;">
-									<input type="checkbox" id="check2" 
-									name="check2" aria-required="true" 
-									style="ime-mode: inactive; margin-bottom: 20px; height: 20px; border: 1px solid #d9d9de" value="N"> <label for="check2">아이디저장</label>
+									<input type="checkbox" id="signIn-Check" 
+									name="signInCheck" aria-required="true" 
+									style="ime-mode: inactive; margin-bottom: 20px; height: 20px; border: 1px solid #d9d9de" value="N"> <label for="signIn-Check">아이디저장</label>
 									<input type="hidden" id="before" name="saveId" value="N"> 
 								</td>
 								<td>
-									<a id="temporary" class="btn form-control" data-toggle="modal"
-									href="#temporaryPwd" style="margin-bottom:20px;">
+									<a id="temPwd_a" class="btn form-control" data-toggle="modal" 
+									href="#temPwdModal" style="margin-bottom:20px;">
 									임시비밀번호</a>
 								
 								</td>
 								<td>
-									<a id="search" class="btn form-control" data-toggle="modal"
+									<a id="searPwd" class="btn form-control" data-toggle="modal"
 									href="#searchPwd2" style="margin-bottom:20px;">
 									비밀번호 찾기</a>
 								
@@ -84,8 +84,8 @@
 								<c:when test="${ not empty cookie.saveId }">
 									<script>
 										$(function(){
-											$('#check2').prop("checked",true);
-											$('#check2').val("Y");
+											$('#signIn-Check').prop("checked",true);
+											$('#signIn-Check').val("Y");
 											$('#before').val("Y"); 
 										});
 									</script>
@@ -100,6 +100,12 @@
 								</td>
 							</tr>
 							
+							<tr>
+								<td style="width: 100%; text-align: center; colspan: 2;">
+									<a href="/seeReal/login.do">네이버로 로그인</a>
+									
+								</td>
+							</tr>
 							<tr>
 								<td
 									style="width: 100%; text-align: center; colspan: 2; margin-top: 24px; padding-top: 12px; border-top: 1px solid #ececec">
@@ -120,12 +126,12 @@
 
 	<script>
 	
-		$('#check2').on('click',function(){
+		$('#signIn-Check').on('click',function(){
 			
-			if($('#check2').prop('checked')){		
-				$('#check2').val('Y');
+			if($('#signIn-Check').prop('checked')){		
+				$('#signIn-Check').val('Y');
 			}else{
-				$('#check2').val('N');	
+				$('#signIn-Check').val('N');	
 			}	
 		});
 		
@@ -136,7 +142,7 @@
 	    	
 	    	//var $after = $('#check2').val();
 	    	//var $before = $('#before').val();
-	    	var $after = $('#check2');
+	    	var $after = $('#signIn-Check');
 	    	var $before = $('#before');
 	   
 	    	if((($before.val()) == 'N')&&(($after.val()) == 'Y')){

@@ -14,7 +14,7 @@
 </head>
 <body>
 
-	<div class="modal fade" id="temporaryPwd" role="dialog">
+	<div class="modal fade" id="temPwdModal" role="dialog">
 		<div class="modal-dialog">
 	
 			<!-- Modal content-->
@@ -29,7 +29,7 @@
 
 	         	<div class="modal-body">
 		
-					<form action="temporaryPwd.me" method="post" style="margin-bottom: 0;" id="temporaryPwdForm">
+					<form action="temporaryPwd.me" method="post" style="margin-bottom: 0;" id="temPwdForm">
 						<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
 							<tr>
 								<td>
@@ -41,13 +41,11 @@
 							<tr>
 								<td style="text-align: left">
 
-									<p><strong id="title">아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="mailChk1"></span></p>
-									<input type="hidden" name="id">
-
+									<p><strong id="title">아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="temEmailChk"></span></p>
 								</td>
 						    </tr>
 							<tr>
-								<td><input type="email" name="memberEmail" id="email1"
+								<td><input type="email" name="memberEmail" id="temEmail"
 									    		class="form-control tooltipstered" 
 									    		required="required" aria-required="true"
 									    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
@@ -78,25 +76,25 @@
 	
 	<script>
 		
-		var timer;
-		var min, sec;
-		var code;
+		var timer, min, sec, code;
 		
 		$(function() {
+			
 			//자바스크립트 정규 표현식
 			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);	
-			var $email = $('#email1');
+			
+			var $email = $('#temEmail');
 			let mailCheck = false;
 			
 			$email.on('keyup', function(){
 				
 				//조건식으로 만든 논리적인코드(빈 문자열이면)
 				if($email.val() == ''){
-					$('#mailChk1').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
+					$('#temEmailChk').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
 					
 				}else if(!getMail.test($email.val())) { 
 					// 정규표현식을 만족하지 않으면
-					$('#mailChk1').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
+					$('#temEmailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
 					
 				}else{
 					
@@ -106,10 +104,10 @@
 		                  success : function(result){
 		                     if(result === '1'){  // == : 문자, 숫자 상관없음
 		                    	 
-		                    	 $('#mailChk1').html("<b style='color:green;'>[존재하는 아이디입니다.]</b>");
+		                    	 $('#temEmailChk').html("<b style='color:green;'>[존재하는 아이디입니다.]</b>");
 		                    	 mailCheck = true;	
 		                     }else{
-		                    	 $('#mailChk1').html("<b style='color:red;'>[존재하지 않는 아이디입니다.]</b>");  
+		                    	 $('#temEmailChk').html("<b style='color:red;'>[존재하지 않는 아이디입니다.]</b>");  
 		                    	 // input 색상 바꾸기
 		                     }
 		                  },
@@ -142,11 +140,11 @@
 								var a = '';
 				
 								a += '<tr><td style="text-align: left">'
-									  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk1" style="border:1px solid red;"></span></p>'
-									  + '<tr><td><input type="text" name="code" id="code1" class="form-control tooltipstered"'
+									  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="temTimeChk"></span></p>'
+									  + '<tr><td><input type="text" name="code" id="temCode" class="form-control tooltipstered"'
 									  + 'required="required" aria-required="true"'
 									  + 'style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"><button class="btn form-control tooltipstered"'
-										+ 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="abcde">dtd</button></td></tr>';
+									  + 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="temPwd">임시비밀번호 전송</button></td></tr>';
 									
 								
 								$('#btn-area1').html(a);
@@ -168,9 +166,9 @@
 			
 		}); 
 
-		$(document).on('click', '#abcde', function(){
+		$(document).on('click', '#temPwd', function(){
 			
-			code = $('#code1').val();
+			code = $('#temCode').val();
 			
 			if(code != null && timer != 0){ // 남은 시간 있고, 입력값 있으면!
 				
@@ -188,7 +186,7 @@
 							if(result2 === 'success'){ 
 								updatePwd(); 
 								alert("임시비밀번호를 메일로 전송했습니다.");
-								$('#timeChk1').text('');
+								$('#temTimeChk').text('');
 								clearInterval(timer);
 								
 							}else{
@@ -209,13 +207,13 @@
 		function updatePwd(){
 			
 			$('#temporaryPwd-btn').attr("type","submit");
-			$('#temporaryPwdForm').submit();
+			$('#temPwdForm').submit();
 		}
 		
 		function showRemaining(){
 			
 			if(timer >= 0){
-				$('#timeChk1').text(' 남은시간 ' + min + ' : ' + sec);
+				$('#temTimeChk').text(' 남은시간 ' + min + ' : ' + sec);
 				
 				if(sec == 0 && min != 0){
 					min = min - 1;
@@ -226,7 +224,7 @@
 			
 				if(min == 0 && sec == 0){
 					
-					$('#timeChk1').text('');
+					$('#temTimeChk').text('');
 					clearInterval(timer);
 					//timer = 0;
 				

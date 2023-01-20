@@ -267,7 +267,7 @@
                         
                         if(result2 === 'success'){ 
    
-                            codeCheck = true;
+                           codeCheck = true;
                            alert("인증 성공");
                            clearInterval(timer);
                            $('#timeChk').text('');

@@ -31,17 +31,17 @@
 	  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 	}
     #nav-3 {
- 	 background: #ff52a0;
-	 display :flex;
-	 margin-top : 10px;
+		background: #ff52a0;
+		display :flex;
+		margin-top : 10px;
 	}
 	.link-3 {
-  transition: 0.4s;
-  color: #ffffff;
-  font-size: 20px;
-  text-decoration: none;
-  padding: 0 10px;
-  margin: 0 30px;
+	  transition: 0.4s;
+	  color: #ffffff;
+	  font-size: 20px;
+	  text-decoration: none;
+	  padding: 0 10px;
+	  margin: 0 30px;
 	}
 	.link-3:hover {
   background-color: #ffffff;
@@ -74,8 +74,10 @@
 		<div><a class="link-3" href="movieSelect.co">영화고르는창</a></div>
 		<div><a class="link-3" href="meetingList.mt">리얼 모임</a></div>
 		<div><a class="link-3" href="list.cl">컬렉션리스트</a></div>
-		
-		
+		<jsp:include page="../member/login.jsp" />		
+		<jsp:include page="../member/enrollForm.jsp" />		
+		<jsp:include page="../member/searchPwd2.jsp" />
+		<jsp:include page="../member/temporaryPwd.jsp" />
 		<div id="search-area">
 			<form action="search.yj" method="get">
 				<input type="hidden" name="currentPage" value="1">
@@ -85,14 +87,10 @@
 		</div>
 				<c:choose>
 					<c:when test="${empty loginUser}">
-						<div><a class="link-3" a data-toggle="modal" data-target="#log-in">로그인</a></div>
-						<jsp:include page="../member/login.jsp" />
+						<div><a class="link-3" data-toggle="modal" data-target="#log-in">로그인</a></div>
 						<div><a class="link-3" data-toggle="modal" data-target="#sign-up">회원가입</a></div>
-						<jsp:include page="../member/enrollForm.jsp" />
 						<div><a class="link-3" data-toggle="modal" data-target="#searchPwd2"></a></div>
-						<jsp:include page="../member/searchPwd2.jsp" />
-						<div><a class="link-3" data-toggle="modal" data-target="#temporaryPwd"></a></div>
-						<jsp:include page="../member/temporaryPwd.jsp" />
+						<div><a class="link-3" data-toggle="modal" data-target="#temPwdModal"></a></div>
 					</c:when>
 					<c:when test="${loginUser.status == 'Y'}">
 						<div><a class="link-3" href="myPage.me">마이페이지</a></div>

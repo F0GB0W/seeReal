@@ -31,48 +31,34 @@
 				<br><br><br><br>
 		
 				<h4 style="color: #ff52a0;">회원 탈퇴</h4><hr/><br/>
-			
+				<br>
 				<form action="deleteMember.me" method="post" style="margin-bottom: 0;" id="deleteMemberForm">
 					<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
-						<tr>
+						<thead>
+							<tr>
 							<td style="text-align: left">
-								<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
-							</td>
-					    </tr>
-						<tr>
-							<td><input type="email" name="memberEmail" id="deleteEmail"
-								    		class="form-control tooltipstered" 
-								    		required="required" aria-required="true"
-								    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
-											placeholder="이메일 형식으로 작성해주세요."></td>
-						</tr>
-				
-						<tr>
-							<td style="width: 100%; text-align: center; colspan: 2;">
-								<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
-										style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 인증</button>
-							</td>
-						</tr>
-						
-						<tr style="display:none;" id="codeTitle">
-	                 			<td style="text-align: left">
-									  <p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
+									<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="deleteEmailChk"></span></p>
 								</td>
-							</tr>		  
-							<tr style="display:none;" id="codeInput">
-								<td>
-									<input type="text" name="code" id="code" class="form-control tooltipstered"
-									  required="required" aria-required="true"
-									   style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de">
-									   </td>
-							</tr>	
-							<tr style="display:none;" id="code-btn">
-	                 			<td style="text-align: left">	
-									   <button class="btn form-control tooltipstered"
-										style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="s">인증</button>
+						    </tr>
+							<tr>
+								<td><input type="email" name="memberEmail" id="deleteEmailForm"
+									    		class="form-control tooltipstered" 
+									    		required="required" aria-required="true"
+									    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
+												placeholder="이메일 형식으로 작성해주세요."></td>
+							</tr>
+					
+							<tr>
+								<td style="width: 100%; text-align: center; colspan: 2;">
+									<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
+											style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 인증</button>
 								</td>
 							</tr>
-							
+						</thead>
+						
+						<tbody id="deletebtn-area">
+						
+						</tbody>
 					</table>
 				</form>
 		
@@ -94,18 +80,18 @@
 		$(function() {
 			//자바스크립트 정규 표현식
 			const getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);	
-			var $email = $('#deleteEmail');
+			var $email = $('#deleteEmailForm');
 			let mailCheck = false;
 			
 			$email.on('keyup', function(){
 				
 				//조건식으로 만든 논리적인코드(빈 문자열이면)
 				if($email.val() == ''){
-					$('#emailChk').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
+					$('#deleteEmailChk').html("<b style='color:red;'>[아이디로 사용중인 이메일 주소를 입력해주세요.]</b>");
 					
 				}else if(!getMail.test($email.val())) { 
 					// 정규표현식을 만족하지 않으면
-					$('#emailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
+					$('#deleteEmailChk').html("<b style='color:red;'>[입력한 이메일 주소를 확인해주세요]</b>");
 					
 				}else{
 					
@@ -115,10 +101,10 @@
 		                  success : function(result){
 		                     if(result === '1'){  // == : 문자, 숫자 상관없음
 		                    	 
-		                    	 $('#emailChk').html("<b style='color:green;'>[존재하는 아이디입니다.]</b>");
+		                    	 $('#deleteEmailChk').html("<b style='color:green;'>[존재하는 아이디입니다.]</b>");
 		                    	 mailCheck = true;	
 		                     }else{
-		                    	 $('#emailChk').html("<b style='color:red;'>[존재하지 않는 아이디입니다.]</b>");  
+		                    	 $('#deleteEmailChk').html("<b style='color:red;'>[존재하지 않는 아이디입니다.]</b>");  
 		                    	 // input 색상 바꾸기
 		                     }
 		                  },
@@ -144,19 +130,19 @@
 								alert('이메일을 전송했습니다. 확인해주세요');
 								
 								min = 1;
-								sec = 0;
+								sec = 00;
 								
 								timer = setInterval(showRemaining, 1000);
 				
 								var a = '<tr><td style="text-align: left">'
-									  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>'
-									  + '<tr><td><input type="text" name="code" id="code" class="form-control tooltipstered"'
+									  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="deleteTimeChk" style="border:1px solid red;"></span></p>'
+									  + '<tr><td><input type="text" name="code" id="deleteCode" class="form-control tooltipstered"'
 									  + 'required="required" aria-required="true"'
 									  + 'style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"><button class="btn form-control tooltipstered"'
-									  + 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="abcde">dtd</button></td></tr>';
+									  + 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="deleteCode-btn">인증코드 확인</button></td></tr>';
 									
 								
-								$('#btn-area').html(a);
+								$('#deletebtn-area').html(a);
 								$('#delete-btn').attr('disabled', true);
 								
 							}else{ // 메일 전송 실패
@@ -175,9 +161,9 @@
 			
 		}); 
 
-		$(document).on('click', '#abcde', function(){
+		$(document).on('click', '#deleteCode-btn', function(){
 			
-			code = $('#code').val();
+			code = $('#deleteCode').val();
 			
 			if(code != null && timer != 0){ // 남은 시간 있고, 입력값 있으면!
 				
@@ -190,12 +176,18 @@
 						data : {
 								code : code
 						}, 
-						success : function(result2){ // 인증번호 동일하면 임시 비밀번호 전송
+						success : function(result2){ 
 							
 							if(result2 === 'success'){ 
-								updatePwd(); 
-								alert("임시비밀번호를 메일로 전송했습니다.");
-								$('#timeChk').text('');
+								
+								var del = confirm("정말로 탈퇴??"); // 입력값 없음
+								//var del = prompt("정말로 탈퇴??");
+								
+								if(del== true){
+									deleteMember(); 
+								}
+								
+								$('#deleteTimeChk').text('');
 								clearInterval(timer);
 								
 							}else{
@@ -214,36 +206,36 @@
 	
 		function showRemaining(){
 			
-			if(timer >= 0){
-				$('#timeChk').text(' 남은시간 ' + min + ' : ' + sec);
-				
-				if(sec == 0 && min != 0){
-					min = min - 1;
-					sec = 59;
-				}else{
-					sec = sec - 1;	
-				}
 			
-				if(min == 0 && sec == 0){
-					
-					$('#timeChk').text('');
-					clearInterval(timer);
-					//timer = 0;
-				
-					$.ajax({
-						url: 'timeout.me',  
-						success : function(result){ 
-							
-							alert("입력시간을 초과하였습니다. 다시 시도해주세요."); 
-							
-						},
-						error : function(){
-							console.log("ajax error3");
-						}	
-					});	
-					
-				}
+			$('#deleteTimeChk').text(' 남은시간 ' + min + ' : ' + sec);
+			
+			if(sec == 0 && min != 0){
+				min = min - 1;
+				sec = 59;
+			}else{
+				sec = sec - 1;	
 			}
+		
+			if(min == 0 && sec == 0){
+				
+				$('#deleteTimeChk').text('');
+				clearInterval(timer);
+				//timer = 0;
+			
+				$.ajax({
+					url: 'timeout.me',  
+					success : function(result){ 
+						
+						alert("입력시간을 초과하였습니다. 다시 시도해주세요."); 
+						
+					},
+					error : function(){
+						console.log("ajax error3");
+					}	
+				});	
+				
+			}
+			
 	
 		};
 		

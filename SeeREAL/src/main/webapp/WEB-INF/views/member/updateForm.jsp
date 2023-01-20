@@ -22,118 +22,113 @@
 	</style>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp" />
+	<div style="border:1px solid black;">
+		<jsp:include page="../common/menubar.jsp" />
+	</div>
 	
-	<br>
-	<br>
-	<div class="row">
-		<div class="col-md-3"></div>
-
-		<div class="col-md-6">
-
-			<ul class="nav nav-tabs nav-justified">
-				<li class="nav-item">
-					<a class="nav-link" href="updatePwdForm.me" style="font-size: 20px;"><strong>비밀번호 변경</strong></a>
-				</li>
+	<div style ="display:flex">
+	
+		<div style="margin-left: 250px;  width:300px;" > 
+			<jsp:include page="../member/myPageSidebar.jsp" />
+		</div>
+	
+	
+		<div class="row">
+			<div class="col-md-3"></div>
+	
+			<div class="col-md-6">
+	
+				<br><br><br><br>
+	
+				<h4 style="color: #ff52a0;">회원정보 수정</h4>
+				<br>
 				
-				<li class="nav-item">
-					<a class="nav-link active" href="updateForm.me" style="font-size: 20px;"><strong>회원정보수정</strong></a>
-				</li>
-				
-				<li class="nav-item">
-					<a class="nav-link" href="deleteForm.me" style="font-size: 20px;"><strong>회원탈퇴하기</strong></a>
-				</li>
-
-			</ul>
-			
-			<br>
-			<br>
-
-			<h4 style="color: #ff52a0;">회원정보 수정</h4>
-			<hr>
-			<br>
-			
-			<form action="updateMember.me" name="signup" id="signUpForm" method="post" style="margin-bottom: 0;" enctype="multipart/form-data">
-
-				<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
-					
-					<tr>
-						<td style="text-align: left">
-							<input type="hidden" name="memberEmail" value="${loginUser.memberEmail}">
-							<p>
-								<strong>프로필 편집</strong>
-							</p>
-						</td>
-					</tr>
-					
-					<tr>
-						<td style="text-align: left">
-							<c:choose>
-								<c:when test="${empty loginUser.memberPhoto}">
-										<img id="photo" src="resources/img/user.png" class="photo"/>
-								</c:when>
-								<c:otherwise>
-										<img id="photo" src="${loginUser.memberPhoto}" class="photo"/>
-										
-								</c:otherwise>
-							</c:choose>
-							<input id="photoInfo" type="hidden" name="memberPhoto" value="1">
-                            <input type="file" name="upfile" id="file" onchange="loadImg(this);">
-                           
-                        </td>
-					</tr>
-					<tr>
-						<td style="text-align: left">
-							<button id="updatePhoto-btn" type="button">사진변경</button>
-							<button id="deletePhoto-btn" type="button">삭제</button>
-							
-						</td>	
-					</tr>
-					
-					<tr>
-						<td style="text-align: left">
-							<p>
-								<br>
-								<strong>닉네임</strong>&nbsp;&nbsp;&nbsp;<span id="nicknameChk"></span>
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="text" name="memberNickname" id="nickname"
-							class="form-control tooltipstered" maxlength="6" required="required"
-							aria-required="true" value="${loginUser.memberNickname}"
-							style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"></td>
-					</tr>
-
-				    <tr>
-						<td style="text-align: left">
-							<p>
-								<strong>휴대폰 번호</strong>&nbsp;&nbsp;&nbsp;<span id="phoneChk"></span>
-							</p>
-						</td>
-				    </tr>
-				    <tr>
-				   		<td><input type="text" name="memberPhone" id="phone"
-							class="form-control tooltipstered" maxlength="11"
-							aria-required="true" value="${loginUser.memberPhone}"
-							style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
-							placeholder="-없이 번호만 입력"></td>
-				    </tr>
-
-					<tr>
-						<td style="width: 100%; text-align: center; colspan: 2;"><input
-						type="submit" value="정보 수정" class="btn form-control tooltipstered"
-						id="update-btn"
-						style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
-						</td>
-					</tr>
-
-				</table>
-			</form>
+				<form action="updateMember.me" name="updateMember" id="updateMemberForm" method="post" style="margin-bottom: 0;" enctype="multipart/form-data">
+	
+					<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
+						
+						<tr>
+							<td style="text-align: left">
+								<input type="hidden" name="memberEmail" value="${loginUser.memberEmail}">
+								<p>
+									<strong>프로필 편집</strong>
+								</p>
+							</td>
+						</tr>
+						
+						<tr>
+							<td style="text-align: left">
+								<c:choose>
+									<c:when test="${empty loginUser.memberPhoto}">
+											<img id="upPhoto" src="resources/img/user.png" class="photo"/>
+									</c:when>
+									<c:otherwise>
+											<img id="upPhoto" src="${loginUser.memberPhoto}" class="photo"/>	
+									</c:otherwise>
+								</c:choose>
+								
+								<input id="photoInfo" type="hidden" name="memberPhoto" value="${loginUser.memberPhoto}">
+	                            <input type="file" name="upfile" id="file" onchange="loadImg(this);">
+	                           
+	                        </td>
+						</tr>
+						<tr>
+							<td style="text-align: left">
+								<button id="updatePhoto-btn" type="button">사진변경</button>
+								<button id="deletePhoto-btn" type="button">삭제</button>
+								
+							</td>	
+						</tr>
+						
+						<tr>
+							<td style="text-align: left">
+								<p>
+									<br>
+									<strong>닉네임</strong>&nbsp;&nbsp;&nbsp;<span id="upNicknameChk"></span>
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td><input type="text" name="memberNickname" id="upNickname"
+								class="form-control tooltipstered" maxlength="6" required="required"
+								aria-required="true" value="${loginUser.memberNickname}"
+								style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"></td>
+						</tr>
+	
+					    <tr>
+							<td style="text-align: left">
+								<p>
+									<strong>휴대폰 번호</strong>&nbsp;&nbsp;&nbsp;<span id="upPhoneChk"></span>
+								</p>
+							</td>
+					    </tr>
+					    <tr>
+					   		<td><input type="text" name="memberPhone" id="upPhone"
+								class="form-control tooltipstered" maxlength="11"
+								aria-required="true" value="${loginUser.memberPhone}"
+								style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
+								placeholder="-없이 번호만 입력"></td>
+					    </tr>
+	
+						<tr>
+							<td style="width: 100%; text-align: center; colspan: 2;"><input
+							type="submit" value="정보 수정" class="btn form-control tooltipstered"
+							id="update-btn"
+							style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
+							</td>
+						</tr>
+	
+					</table>
+				</form>
+			</div>
 		</div>
 	</div>
 	<br>
 	<br>
+	
+	<div> 
+		<jsp:include page="../common/footer.jsp" />
+	</div>
 	
 	
 	
@@ -147,11 +142,11 @@
 			let nickNameCheck = true, phoneCheck = true;
 			
 			// 닉네임 입력값 검증
-			$('#nickname').on('keyup', function(){ 
+			$('#upNickname').on('keyup', function(){ 
 				const nicknameInput = $(this);
 				
 				if(!getName.test(nicknameInput.val())){ 			
-					$('#nicknameChk').html("<b style='color:red;'>[다시 확인해주세요]</b>");			
+					$('#upNicknameChk').html("<b style='color:red;'>[다시 확인해주세요]</b>");			
 					nickNameCheck = false;		
 				}else{
 					
@@ -160,10 +155,10 @@
 						date : {nickname : nicknameInput.val()},
 						success : function(result){
 							if(result == 1){		
-								$('#nicknameChk').html("<b style='color:red;'>[이미 존재하는 닉네임]</b>");			
+								$('#upNicknameChk').html("<b style='color:red;'>[이미 존재하는 닉네임]</b>");			
 								nickNameCheck = false;	
 							}else{		
-								$('#nicknameChk').html("<b style='color:green;'>[사용가능한 닉네임]</b>");	
+								$('#upNicknameChk').html("<b style='color:green;'>[사용가능한 닉네임]</b>");	
 								nickNameCheck = true;	
 							}
 						},
@@ -177,24 +172,24 @@
 			// 닉네임 검증 끝	
 			
 			// 핸드폰 번호 입력값 검증
-			$('#phone').on('keyup', function(){ 
-				if($('#phone').val().length == 11){
+			$('#upPhone').on('keyup', function(){ 
+				if($('#upPhone').val().length == 11){
 					if(!getPhone.test($('#phone').val())){ 
-						$('#phoneChk').html("<b style='color:red;'>[숫자만 입력해주세요!]</b>");
+						$('#upPhoneChk').html("<b style='color:red;'>[숫자만 입력해주세요!]</b>");
 						emailCheck = false;
 					}else{
-						$('#phoneChk').html("<b style='color:green;'>[확인]</b>");
+						$('#upPhoneChk').html("<b style='color:green;'>[확인]</b>");
 						
 						emailCheck = true;
 					}
 				}else{
-					if($('#phone').val() == ''){
-						$('#phone').css("background-color", "transparent"); 
-						$('#phoneChk').html("");
+					if($('#upPhone').val() == ''){
+						$('#upPhone').css("background-color", "transparent"); 
+						$('#upPhoneChk').html("");
 					
 						emailCheck = true;
-					}else if(!getPhone.test($('#phone').val())){  
-						$('#phoneChk').html("<b style='color:red;'>[번호를 확인해주세요!]</b>");
+					}else if(!getPhone.test($('#upPhone').val())){  
+						$('#upPhoneChk').html("<b style='color:red;'>[번호를 확인해주세요!]</b>");
 						emailCheck = false;
 					}
 				}
@@ -233,19 +228,20 @@
                
                reader.onload = function(e){
             	   
-                   $('#photo').attr("src", e.target.result);
+                   $('#upPhoto').attr("src", e.target.result);
                    
                }
             }else{ // 취소 누르면
             	if(img = ''){
-            		$('#photo').attr("src", img);
+            		$('#upPhoto').attr("src", img);
             	} else{
-                	$('#photo').attr("src", "resources/img/user.png");
+                	$('#upPhoto').attr("src", "resources/img/user.png");
             	}
             }   
-         }
+         };
+         
 		$('#deletePhoto-btn').on('click',function(){
-			$('#photo').attr("src", "resources/img/user.png");
+			$('#upPhoto').attr("src", "resources/img/user.png");
 			//$('#photoInfo').attr("name", "memberPhoto");
      	    $('#photoInfo').val("delete");
 			

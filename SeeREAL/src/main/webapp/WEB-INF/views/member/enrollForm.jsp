@@ -301,17 +301,17 @@
 		
 			// 닉네임 입력값 검증
 			$('#nickname').on('keyup', function(){ 
-				const nicknameInput = $(this);
+				const nicknameInput = $('#nickname');
 				
-				if(!getName.test($('#nickname').val())){ // 특수문자 있음
+				if(!getName.test(nicknameInput.val())){ // 특수문자 있음
 					$('#nickname').css("background", "pink");			
 					$('#nicknameChk').html("<b style='color:red;'>[다시 확인해주세요]</b>");			
 					nickNameCheck = false;		
 				}else{
-					
+					console.log(nicknameInput.val());
 					$.ajax({
 						url : 'selectNickname.me',
-						date : {nickname : nicknameInput.val()},
+						data : {'nickname' : nicknameInput.val()},
 						success : function(result){
 							if(result === '1'){
 								$('#nickname').css("background", "pink");			
