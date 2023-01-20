@@ -9,5 +9,7 @@
 </head>
 <body>
 	<jsp:include page="WEB-INF/views/common/menubar.jsp"/>
+
+    <jsp:include page="WEB-INF/views/common/mainJuni.jsp"/>
 </body>
 </html>

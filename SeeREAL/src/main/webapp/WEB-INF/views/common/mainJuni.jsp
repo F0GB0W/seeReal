@@ -10,18 +10,44 @@
 <script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
+
+* {
+    list-style: none;
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
 .collectionLike-area {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 #meetingCount-table > tbody:hover {
     cursor: pointer;
 }
+
+.collection {
+    padding: 3px;
+}
+
+.collection div p {
+    margin-bottom: 1px;
+}
+
+.collection :hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
 </style>
 </head>
 <body>
-    <h1>요즘 뜨는 컬렉션(좋아요 많은 순)</h1>
+    <h1>요즘 뜨는 컬렉션</h1>
 
     <div class="collectionLike-area">
         
@@ -30,7 +56,7 @@
 
     <hr>
 
-    <h1>요즘 뜨는 모임(조회수 순)</h1>
+    <h1>요즘 뜨는 모임</h1>
     <div class="meetingCount-area">
         <table id="meetingCount-table" class="table table-hover">
             <thead>
@@ -61,10 +87,15 @@
                 for(let i in data) {
                     value += '<div class="collection" onclick="goCollection(' + data[i].collectionNo + ')">'
                            + '<img width="400px" height="300px" src="' + data[i].changeName + '">'
-                           + '<p>' + data[i].collectionTitle+ '</p>'
+                           + '<div><p>' + data[i].collectionTitle+ '</p>'
                            + '<p>' + data[i].nickName + '가 만듦</p>'
-                           + '<p>좋아요 : ' + data[i].likeCount + '개</p>'
+                           + '<p><i class="fa-solid fa-heart" id="heart"></i> x ' + data[i].likeCount + '</p></div>'
                            + '</div>'
+
+
+                    if(i == 3) {
+                        value += '<li style="display:block;"></li>';
+                    }
                 }
 
                 $('.collectionLike-area').html(value);
@@ -93,7 +124,8 @@
                                + '<td>' + data[i].meetingTitle + '</td>'
                                + '<td>' + data[i].meetingWriter + '</td>'
                                + '<td>' + data[i].meetingCount + '</td>'
-                               + '</tr>'
+                               + '</tr>';
+
                     }
 
                     $('#meetingCount-table > tbody').html(value);
