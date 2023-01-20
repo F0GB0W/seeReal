@@ -43,12 +43,13 @@ public interface ReportService {
 	int sanctionsBoReply();
 	int sanctionsCollectionReply();	
 	int selectReportBoardReplyCount(Report r);
-
 	int insertReportBoardReply(Report r);
 	int insertMeetingReport(Report r);
 	int reportMeetingCount(Report r);
 	int insertCollectionReport(Report r);
 	int reportCollectionCount(Report r);
+	int insertReportCollectionReply(Report r);
+	int reportCollectionReplyCount(Report r);
 
 	
 	

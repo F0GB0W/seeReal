@@ -173,7 +173,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 where
 		  		comment_no = #{commentNo}
 	</update>
-		<update id="increaseCollectionReplyReport">
+		<update id="increaseCoReplyReport">
 		update
 				collection_reply
 		   set
@@ -361,6 +361,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND REPORT_OCCURED = #{ reportOccured }
 			AND REPORT_TYPE = 4
 	</select>
+	<insert id="insertReportCollectionReply" parameterType="report">
+		insert
+		  into
+		  		report
+		  		(
+					REPORT_NO,
+					REPORT_WRITER,
+					REPORT_REASON,
+					REPORT_DATE,
+					REPORT_OCCURED,
+					REPORT_TYPE
+		  		)
+		values
+				(
+				seq_rno.nextval,
+				#{reportWriter},
+				#{reportReason},
+				   SYSDATE,
+				#{reportOccured},
+					5
+				)
+					
+	</insert>
+	<select id="reportCollectionReplyCount" parameterType="report" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			report 
+		WHERE 
+			REPORT_WRITER = #{ reportWriter } 
+			AND REPORT_OCCURED = #{ reportOccured }
+			AND REPORT_TYPE = 5
+	</select>
+	
+
+
+
 
 
 </mapper>

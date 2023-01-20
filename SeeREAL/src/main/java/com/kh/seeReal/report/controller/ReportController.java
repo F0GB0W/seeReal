@@ -149,10 +149,30 @@ public class ReportController {
  	//return String.valueOf(reportService.selectReportCount(r));
  }
     
+
+
+
+	@RequestMapping("insertReportCollectionReply.rp")
+	public String insertReportCollectionReply(@RequestParam(value="reportCheck",defaultValue="1") String reportReason ,Report r,int coReplyNo) {
+		
+ 
+		
+		if(reportService.insertReportCollectionReply(r) > 0) { 
+			reportService.increaseCoReplyReport(coReplyNo);
+			
+			return "redirect:spoilerList.bo";
+		} else {
+			return "redirect:errorPage";
+		}
+	}
+
+@ResponseBody
+@RequestMapping("reportCollectionReplyCount.rp")
+public int reportCollectionReplyCount(Report r) {
+	return reportService.reportCollectionReplyCount(r);
+	//return String.valueOf(reportService.selectReportCount(r));
+} 
     
-    
-    
-	
-	
+
 	
 }

@@ -44,11 +44,9 @@
 			<mapping path="/myboardList.me"/>
 			<mapping path="/myReply.me"/>
 			<mapping path="/myComments.me"/>
-			
 			<mapping path="/myLikeComments.me"/>
 			<mapping path="/myMeeting.me"/>
 			<mapping path="/myMeetingStatus.me"/>
-			
 			<mapping path="/deleteForm.me"/>
 			<mapping path="/enrollForm.bo"/>			
 			<beans:bean class="com.kh.seeReal.common.interceptor.LoginInterceptor" id="loginInterceptor"></beans:bean>

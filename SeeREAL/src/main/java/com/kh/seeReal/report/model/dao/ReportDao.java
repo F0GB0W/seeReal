@@ -114,6 +114,13 @@ public class ReportDao {
 	public int reportCollectionCount(SqlSessionTemplate sqlSession, Report r) {
 		return sqlSession.selectOne("reportMapper.reportCollectionCount", r);
 	}
+	public int insertReportCollectionReply(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.insert("reportMapper.insertReportCollectionReply", r);
+
+	}
+	public int reportCollectionReplyCount(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.selectOne("reportMapper.reportCollectionReplyCount", r);
+	}
 
 
 

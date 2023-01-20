@@ -112,8 +112,9 @@ public class CollectionController {
 	}
 	
 	@RequestMapping("detail.cl")
-	public ModelAndView selectCollection(int clno, ModelAndView mv) {
+	public ModelAndView selectCollection(int clno, ModelAndView mv,CollectionReply cr) {
 		
+		mv.addObject("cr", cr);
 		mv.addObject("collection", collectionService.selectCollectionDetail(clno))
 		  .setViewName("collection/collectionDetail");
 		
