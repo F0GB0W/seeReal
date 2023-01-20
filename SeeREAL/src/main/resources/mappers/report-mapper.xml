@@ -295,9 +295,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				)
 					
 	</insert>
-
-
-
+	<insert id="insertMeetingReport" parameterType="report">
+		insert
+		  into
+		  		report
+		  		(
+					REPORT_NO,
+					REPORT_WRITER,
+					REPORT_REASON,
+					REPORT_DATE,
+					REPORT_OCCURED,
+					REPORT_TYPE
+		  		)
+		values
+				(
+				seq_rno.nextval,
+				#{reportWriter},
+				#{reportReason},
+				   SYSDATE,
+				#{reportOccured},
+					3
+				)
+					
+	</insert>
+	<select id="reportMeetingCount" parameterType="report" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			report 
+		WHERE 
+			REPORT_WRITER = #{ reportWriter } 
+			AND REPORT_OCCURED = #{ reportOccured }
+			AND REPORT_TYPE = 3
+	</select>
+	<insert id="insertCollectionReport" parameterType="report">
+		insert
+		  into
+		  		report
+		  		(
+					REPORT_NO,
+					REPORT_WRITER,
+					REPORT_REASON,
+					REPORT_DATE,
+					REPORT_OCCURED,
+					REPORT_TYPE
+		  		)
+		values
+				(
+				seq_rno.nextval,
+				#{reportWriter},
+				#{reportReason},
+				   SYSDATE,
+				#{reportOccured},
+					4
+				)
+					
+	</insert>
+	<select id="reportCollectionCount" parameterType="report" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			report 
+		WHERE 
+			REPORT_WRITER = #{ reportWriter } 
+			AND REPORT_OCCURED = #{ reportOccured }
+			AND REPORT_TYPE = 4
+	</select>
 
 
 </mapper>

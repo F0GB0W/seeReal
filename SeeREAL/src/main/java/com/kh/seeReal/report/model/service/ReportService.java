@@ -45,6 +45,10 @@ public interface ReportService {
 	int selectReportBoardReplyCount(Report r);
 
 	int insertReportBoardReply(Report r);
+	int insertMeetingReport(Report r);
+	int reportMeetingCount(Report r);
+	int insertCollectionReport(Report r);
+	int reportCollectionCount(Report r);
 
 	
 	
