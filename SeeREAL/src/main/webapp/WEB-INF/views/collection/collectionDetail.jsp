@@ -60,7 +60,7 @@
 		
 			 <div id="reportButton" align="center">
 			 <form id="reportBt">
-             <input type="hidden" name="collectionNo" value="${ collection.collectionNo }">
+             <input type="hidden" name="clno" value="${ collection.collectionNo }">
              <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
              <input type="hidden" name="reportOccured" value="${collection.collectionNo}">
              <input type="hidden" name="reportType" value="4">	
@@ -167,8 +167,12 @@
                             value += '<td><button onclick="updateReply(this)">수정</button><td>'
                                    + '<td><button onclick="removeReply(this)">삭제</button><td>';
                         }
-
+                        if($('#loginUser').val() != list[i].memberNo && ${not empty loginUser}) {
+                       
+							value += '<td><button type="button" name="'+list[i].coReplyNo+'"  id="ReplyrpButton"  data-toggle="modal" data-target="#myModal2" onclick="saveData(this);"> <i class="fa-solid fa-land-mine-on"  ></i></button></td>' 		
+						}
                         value += '</tr>';
+
                     }
 
                     $('#replyArea tbody').html(value);
@@ -351,6 +355,14 @@
             });
         }
     </script>
+    <!-- 댓글 번호 데이터 값 넘겨주기 -->
+   <script>
+    		function saveData(a){
+			$('input[name=coReplyNo]').val(a.name);
+			$('input[name=reportOccured]').val(a.name);
+		}
+   </script>
+    
         	<script>
         <!-- 신고기능 중복방지-->
 $(function() {
@@ -390,5 +402,84 @@ function submitReport() {
     });
 }
 </script>
+
+<!-- 컬렉션 댓글 기능 신고기능 및 중복방지 -->
+	<script>
+$(function() {
+	var reportFormData = $("#reportReplyBt").serialize();
+
+	$.ajax({
+		url: "reportCollectionReplyCount.rp",
+        data: reportFormData,
+		success : function(response) {
+			if(response > 0 ) {
+				$("#ReplyReportBt").prop("disabled", true);
+			} else {
+				$("#ReplyReportBt").prop("disabled", false);
+			}
+		}
+	})
+})
+
+function submitReplyReport() {
+    var reportFormData = $("#reportReplyBt").serialize();
+
+    $.ajax({
+        type: "POST",
+        url: "insertReportCollectionReply.rp",
+        data: reportFormData,
+        success: function(response) {
+            // Handle the response from the server
+            
+            if (response != "success") {
+            	console.log(response);
+            	alert("신고가 정상적으로 접수되었습니다.");
+                // disable the button
+                $("#ReplyReportBt").prop("disabled", true);
+            } else {
+                alert("이미 신고 처리되었거나 오류 발생 ");
+            }
+        }
+    });
+}
+</script>	
+
+
+<!-- 신고 버튼 모달 -->
+<div class="container mt-3">
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal2" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">정말 신고하시겠습니까?</h4>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+ 			 <form id="reportReplyBt">
+             <input type="hidden" name="collectionNo" value="${collection.collectionNo }">
+             <input type="hidden" name="reportWriter" value="${loginUser.memberNickname}">
+             <input type="hidden" name="reportOccured"  value="${cr.coReplyNo}">
+             <input type="hidden" name="reportType" value="5">
+             <input type="hidden" name="coReplyNo"  value="${cr.coReplyNo}">
+		              <select  name="reportReason" >
+		              	<option value="1">부적절한 글</option>
+		              	<option value="2">스포일러성 정보</option>
+		              	<option value="3">홍보 및 광고</option>
+		              	<option value="4">욕설 및 도배</option>
+		              </select>
+		      </form>   
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer" align="center">
+          <button type="button" class="btn btn-danger" id="ReplyReportBt" onclick="submitReplyReport()">신고하기 <i class="fa-solid fa-land-mine-on fa" ></i></button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

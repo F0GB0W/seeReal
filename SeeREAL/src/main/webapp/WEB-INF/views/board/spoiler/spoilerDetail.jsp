@@ -94,7 +94,7 @@
 		
 			 <div id="reportButton" align="center">
 			 <form id="reportBt">
-             <input type="hidden" name="boardNo" value="${ b.boardNo }">
+             <input type="hidden" name="bno" value="${ b.boardNo }">
              <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
              <input type="hidden" name="reportOccured" value="${b.boardNo}">
              <input type="hidden" name="reportType" value="1">	
@@ -215,6 +215,8 @@ function submitReplyReport() {
 
     $.ajax({
         type: "POST",
+        
+        
         url: "insertReportBoardReply.rp",
         data: reportFormData,
         success: function(response) {
@@ -323,10 +325,8 @@ function submitReplyReport() {
 		}); 
 		*/
 		function saveData(a){
-
 			$('input[name=boReplyNo]').val(a.name);
 			$('input[name=reportOccured]').val(a.name);
-			
 		}
 		
 		
@@ -435,33 +435,23 @@ function submitReplyReport() {
 		
 		
 <div class="container mt-3">
-  <!-- Button to Open the Modal -->		
-
-
   <!-- The Modal -->
   <div class="modal fade" id="myModal" >
     <div class="modal-dialog">
       <div class="modal-content">
-      
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">정말 신고하시겠습니까?</h4>
           <button type="button" class="close" data-dismiss="modal">×</button>
         </div>
-        
         <!-- Modal body -->
         <div class="modal-body">
- 
- 
- 			
  			 <form id="reportReplyBt">
-             <input type="hidden" name="boardNo" value="${ b.boardNo }">
+             <input type="hidden" name="bno" value="${ b.boardNo }">
              <input type="hidden" name="reportWriter" value="${ loginUser.memberNickname }">
-             <input type="hidden" name="reportOccured"  value="${br.boReplyNo}">
+             <input type="hidden" name="reportOccured"  value="${boReplyNo}">
              <input type="hidden" name="reportType" value="0">
-             <input type="hidden" name="boReplyNo"  value="${br.boReplyNo}">
-   
- 
+             <input type="hidden" name="boReplyNo"  value="${boReplyNo}">
 		              <select  name="reportReason" >
 		              	<option value="1">부적절한 글</option>
 		              	<option value="2">스포일러성 정보</option>
@@ -470,13 +460,11 @@ function submitReplyReport() {
 		              </select>
 		      </form>   
         </div>
-        
         <!-- Modal footer -->
         <div class="modal-footer" align="center">
           <button type="button" class="btn btn-danger" id="ReplyReportBt" onclick="submitReplyReport()">신고하기 <i class="fa-solid fa-land-mine-on fa" ></i></button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
         </div>
-
       </div>
     </div>
   </div>
