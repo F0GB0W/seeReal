@@ -93,8 +93,7 @@
 						<div><a class="link-3" data-toggle="modal" data-target="#temPwdModal"></a></div>
 					</c:when>
 					<c:when test="${loginUser.status == 'Y'}">
-						<div><a class="link-3" href="myPage.me">마이페이지</a></div>
-							<p>${loginUser.memberNickname}님 환영합니다.</p>
+						<div><a class="link-3" href="myPage.me">마이페이지</a></div>	
 						<div><a class="link-3" href="logout.me">로그아웃</a></div>
 						<input type="hidden" value="${loginUser.memberEmail}"/>
 					</c:when>

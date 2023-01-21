@@ -14,123 +14,165 @@
 	
 	<style>
 	.photo{
-		width:100px;
-		height:100px;
+		width:150px;
+		height:150px;
 		margin-left : 5px;
-		margin-bottom: 20px;
+		margin-bottom: 20px; 
+		border:2px solid black;
 	}
+	
+	#updatePhoto-btn{
+		 
+		margin-top: 0; 
+		height: 38px; 
+		width: 80px; 
+		border: 0px solid #388E3C opacity: 0.8;
+	}
+	
+	#deletePhoto-btn{
+		 
+		margin-top: 0; 
+		height: 38px; 
+		width: 80px; 
+		border: 0px solid #388E3C opacity: 0.8;
+	}
+	
+	#updateMember-btn{
+		background-color: #ff52a0; 
+		margin-top: 0; 
+		height: 40px; 
+		width: 100%; 
+		color: white;
+		border: 0px solid #388E3C opacity: 0.8;
+	}
+	
+	#updatePhoto-btn:hover{
+		background-color: #ff52a0; 
+		margin-top: 0; 
+		height: 38px; 
+		width: 80px; 
+		color: white;
+		border: 0px solid #388E3C opacity: 0.8;
+	}
+	
+	#deletePhoto-btn:hover{
+		background-color: #ff52a0; 
+		margin-top: 0; 
+		height: 38px; 
+		width: 80px; 
+		color: white;
+		border: 0px solid #388E3C opacity: 0.8;
+	}
+	
 	</style>
 </head>
 <body>
-	<div style="border:1px solid black;">
+
+	<div>
 		<jsp:include page="../common/menubar.jsp" />
 	</div>
 	
 	<div style ="display:flex">
 	
-		<div style="margin-left: 250px;  width:300px;" > 
+		<div style="margin-left: 185px;" > 
 			<jsp:include page="../member/myPageSidebar.jsp" />
 		</div>
-	
-	
-		<div class="row">
-			<div class="col-md-3"></div>
-	
-			<div class="col-md-6">
-	
-				<br><br><br><br>
-	
-				<h4 style="color: #ff52a0;">회원정보 수정</h4>
-				<br>
+		
+		<div style="margin-left:70px; width:1000px;">
+			<div>
+				<h1 class="main">회원정보 수정</h1>
+				<div>
+					<form action="updateMember.me" name="updateMember" id="updateMemberForm" method="post"  enctype="multipart/form-data">
+		
+							<table class="content">
+								
+								<tr>
+									<td style="text-align: left">
+										<input type="hidden" name="memberEmail" value="${loginUser.memberEmail}">
+										<p>
+											<strong style="font-size:18px;">프로필 편집</strong>
+										</p>
+									</td>
+								</tr>
+								
+								<tr>
+									<td style="text-align: left">
+										<c:choose>
+											<c:when test="${empty loginUser.memberPhoto}">
+													<img id="upPhoto" src="resources/img/user.png" class="photo" />
+											</c:when>
+											<c:otherwise>
+													<img id="upPhoto" src="${loginUser.memberPhoto}" class="photo"/>	
+											</c:otherwise>
+										</c:choose>
+										
+										<input id="photoInfo" type="hidden" name="memberPhoto" value="${loginUser.memberPhoto}">
+			                            <input type="file" name="upfile" id="file" onchange="loadImg(this);">
+			                           
+			                        </td>
+								</tr>
+								<tr>
+									<td style="text-align: left">
+										<button id="updatePhoto-btn" type="button">사진변경</button>
+										<button id="deletePhoto-btn" type="button">삭제</button>
+									 	<br>
+									</td>	
+								</tr>
+								
+								<tr>
+									<td style="text-align: left">
+										<p>
+											<br>
+											<strong style="font-size:18px;">닉네임</strong>&nbsp;&nbsp;&nbsp;<span id="upNicknameChk"></span>
+										</p>
+									</td>
+								</tr>
+								<tr>
+									<td><input type="text" name="memberNickname" id="upNickname"
+										class="form-control tooltipstered" maxlength="6" required="required"
+										aria-required="true" value="${loginUser.memberNickname}"
+										style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"></td>
+								</tr>
+								
+							    <tr>
+									<td style="text-align: left">
+										<p>
+											<strong style="font-size:18px;">휴대폰 번호</strong>&nbsp;&nbsp;&nbsp;<span id="upPhoneChk"></span>
+										</p>
+									</td>
+							    </tr>
+							    <tr>
+							   		<td><input type="text" name="memberPhone" id="upPhone"
+										class="form-control tooltipstered" maxlength="11"
+										aria-required="true" value="${loginUser.memberPhone}"
+										style="margin-bottom: 25px; width:100%; height: 40px; border: 1px solid #d9d9de"
+										placeholder="-없이 번호만 입력">
+										<br>	
+									</td>
+							    </tr>
+							    
+								<tr>
+									<td style="width: 100%; text-align: center; colspan: 2;">
+										<button type="submit" class="btn form-control tooltipstered" id="updateMember-btn">수정</button>
+									</td>
+								</tr>
+								
+							</table>
+						</form>
+					</div>
+					<br>
+					<br>
 				
-				<form action="updateMember.me" name="updateMember" id="updateMemberForm" method="post" style="margin-bottom: 0;" enctype="multipart/form-data">
+				</div>
+				<br><br>
+			</div>		
+		<br><br>
 	
-					<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
-						
-						<tr>
-							<td style="text-align: left">
-								<input type="hidden" name="memberEmail" value="${loginUser.memberEmail}">
-								<p>
-									<strong>프로필 편집</strong>
-								</p>
-							</td>
-						</tr>
-						
-						<tr>
-							<td style="text-align: left">
-								<c:choose>
-									<c:when test="${empty loginUser.memberPhoto}">
-											<img id="upPhoto" src="resources/img/user.png" class="photo"/>
-									</c:when>
-									<c:otherwise>
-											<img id="upPhoto" src="${loginUser.memberPhoto}" class="photo"/>	
-									</c:otherwise>
-								</c:choose>
-								
-								<input id="photoInfo" type="hidden" name="memberPhoto" value="${loginUser.memberPhoto}">
-	                            <input type="file" name="upfile" id="file" onchange="loadImg(this);">
-	                           
-	                        </td>
-						</tr>
-						<tr>
-							<td style="text-align: left">
-								<button id="updatePhoto-btn" type="button">사진변경</button>
-								<button id="deletePhoto-btn" type="button">삭제</button>
-								
-							</td>	
-						</tr>
-						
-						<tr>
-							<td style="text-align: left">
-								<p>
-									<br>
-									<strong>닉네임</strong>&nbsp;&nbsp;&nbsp;<span id="upNicknameChk"></span>
-								</p>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="text" name="memberNickname" id="upNickname"
-								class="form-control tooltipstered" maxlength="6" required="required"
-								aria-required="true" value="${loginUser.memberNickname}"
-								style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"></td>
-						</tr>
-	
-					    <tr>
-							<td style="text-align: left">
-								<p>
-									<strong>휴대폰 번호</strong>&nbsp;&nbsp;&nbsp;<span id="upPhoneChk"></span>
-								</p>
-							</td>
-					    </tr>
-					    <tr>
-					   		<td><input type="text" name="memberPhone" id="upPhone"
-								class="form-control tooltipstered" maxlength="11"
-								aria-required="true" value="${loginUser.memberPhone}"
-								style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
-								placeholder="-없이 번호만 입력"></td>
-					    </tr>
-	
-						<tr>
-							<td style="width: 100%; text-align: center; colspan: 2;"><input
-							type="submit" value="정보 수정" class="btn form-control tooltipstered"
-							id="update-btn"
-							style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
-							</td>
-						</tr>
-	
-					</table>
-				</form>
-			</div>
-		</div>
 	</div>
-	<br>
-	<br>
 	
 	<div> 
 		<jsp:include page="../common/footer.jsp" />
 	</div>
-	
-	
 	
 	<script>
 		$(function(){
@@ -196,7 +238,7 @@
 			}); // 핸드폰 번호 검증 끝
 			
 			// 수정 버튼 클릭 이벤트 처리
-			$('#update-btn').on('click', function(){
+			$('#updateMember-btn').on('click', function(){
 				if(nickNameCheck && phoneCheck){ 
 					//alert($('#nickname').val());
 					$(this).submit();
@@ -214,7 +256,6 @@
 		// 사진 클릭하면
 		$('#updatePhoto-btn').click(function(){			
             $('#file').click();
-            
         });
 		
 		function loadImg(inputFile){

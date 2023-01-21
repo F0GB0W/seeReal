@@ -252,6 +252,7 @@
          $('#code-btn').on('click',function(){
             
             code = $('#code').val();
+            
             if(code != null && timer != 0){ // 남은 시간 있고, 입력값 있으면!
                
                if(code == ''){

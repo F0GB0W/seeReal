@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.kh.seeReal.member.login.NaverLoginBO;
+import com.kh.seeReal.member.model.service.MemberService;
 import com.kh.seeReal.member.model.service.NaverService;
 import com.kh.seeReal.member.model.vo.NaverVO;
 
@@ -28,6 +32,10 @@ public class NaverLoginController {
 	
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
+	
+	@Autowired
+	private MemberService memberService;
+	
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -45,7 +53,7 @@ public class NaverLoginController {
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		/* 인증요청문 확인 */
-		System.out.println("네이버:" + naverAuthUrl);
+		//System.out.println("네이버:" + naverAuthUrl);
 		/* 객체 바인딩 */
 		model.addAttribute("urlNaver", naverAuthUrl);
 
@@ -73,18 +81,18 @@ public class NaverLoginController {
 		System.out.println(response_obj);
 		// 프로필 조회
 		String email = (String)response_obj.get("email");
-		/*
-		String name = (String)response_obj.get("name");
-		String mobile = (String)response_obj.get("mobile");
-		String birthday = (String)response_obj.get("birthday");
-		String gender = (String)response_obj.get("gender");
-		String nickname = (String)response_obj.get("nickname");
-		*/
+		
 		
 		// 세션에 사용자 정보 등록
 		session.setAttribute("signIn", apiResult);
 		
-		NaverVO loginUser = new NaverVO(email,nickname);
+		 String pwd = createPwd();
+		 String nickname = "user" + createPwd();
+		 if(memberService.selectNickname(nickname) > 1) {
+			 
+		 }
+		 
+		NaverVO loginUser = new NaverVO(email, pwd, nickname);
 		
 		if(naverService.emailCheck(email) > 0) {
 			System.out.println("1");
@@ -100,7 +108,55 @@ public class NaverLoginController {
         /* 네이버 로그인 성공 페이지 View 호출 */
 		return "redirect:/loginSuccess.do";
 	}
-    
+
+	public String createPwd() {
+		
+		Random r = new Random();
+		int n = r.nextInt(100000); // 난수 범위 지정 
+		Format f = new DecimalFormat("000000");
+		String length = f.format(n);	
+		
+		String pwd = "";
+		int finish = 0;
+		
+		for(int i = 0; i < 6; i++) {
+			
+			int check = Character.getNumericValue(length.charAt(i)); // Character.getNumericValue(): char형을 int로(1글자씩)
+			String sc = "!@#$%^&*?_~";
+			String c = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+			
+			int rndNum;   
+			
+			switch((check % 3)) { // 6자리 난수 중 하나의 숫자마다 변경
+				case 0 : 
+					
+					rndNum = (int) (Math.random()* 100)+1; // 메소드로 따로 빼서 가능
+					pwd += String.valueOf(rndNum);
+					finish ++;
+					break;
+					
+				case 1 :
+					rndNum = (int) (Math.random()* 51); // 0 ~ 51
+					pwd += c.charAt(rndNum);
+					finish ++;
+					break;
+				
+				case 2 : 
+					rndNum = (int) (Math.random()* 11);
+					pwd += sc.charAt(rndNum);
+					finish ++;
+					break;
+			}
+				
+		}
+		
+		if(finish > 1) { // 2가지 조건 충족
+			return pwd;
+		}else {
+			return createPwd();
+		}	
+	}
+	
 	// 소셜 로그인 성공 페이지
 	@RequestMapping("/loginSuccess.do")
 	public String loginSuccess() {

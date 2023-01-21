@@ -239,7 +239,7 @@ public class MemberController {
 				response.addCookie(check);	
 			}	
 			
-			session.setAttribute("alertMsg", "로그인 성공");
+			session.setAttribute("alertMsg", loginUser.getMemberNickname()+"님 환영합니다.");
 			
 		}else {
 			session.setAttribute("alertMsg", "로그인 실패");
@@ -355,7 +355,7 @@ public class MemberController {
 	// 마이페이지
 	@RequestMapping(value="myPage.me")
 	public String myPage() {
-		return "member/myPage";
+		return "member/updateForm";
 	}
 	
 	// 회원정보 수정페이지
@@ -474,12 +474,12 @@ public class MemberController {
 			
 			memberService.updatePwd(loginUser); // 아이디(이메일) 필요
 			session.setAttribute("loginUser", memberService.loginMember(m));
-			return "redirect:myPage.me";
+			session.setAttribute("alertMsg", "비밀번호 변경 성공");
 			
 		}else { // 입력한 비밀번호가 다르면
 			session.setAttribute("alertMsg", "현재 비밀번호를 확인해주세요.");
-			return "redirect:updatePwdForm.me"; 
 		}
+		return "redirect:updatePwdForm.me"; 
 	}
 	
 	// 회원탈퇴 화면페이지
@@ -523,7 +523,7 @@ public class MemberController {
 		System.out.println("boardType : " + check);
 		System.out.println(spoilerSearchListCount);
 		
-		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 7, 5);
 		ArrayList<Board> list = memberService.selectBoardList(pi, map); // 페이징 바
 	
 		//session.setAttribute("list", list);// 조회 결과

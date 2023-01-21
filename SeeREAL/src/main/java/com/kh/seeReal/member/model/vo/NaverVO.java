@@ -6,11 +6,8 @@ import lombok.Data;
 @Data @AllArgsConstructor
 public class NaverVO {
 	
-	 private String naverName;
-	 private String phone; 
 	 private String email;
-	 private String gender;
-	 private String nickName;
-	 private String birthDay;
-
+	 private String pwd;
+	 private String nickname;
+	 
 }

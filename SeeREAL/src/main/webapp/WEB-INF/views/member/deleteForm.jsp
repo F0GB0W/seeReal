@@ -13,61 +13,60 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div style="border:1px solid black;">
+
+	<div>
 		<jsp:include page="../common/menubar.jsp" />
 	</div>
 	
 	<div style ="display:flex">
 	
-		<div style="margin-left: 250px;  width:300px;" > 
+		<div style="margin-left: 185px;" > 
 			<jsp:include page="../member/myPageSidebar.jsp" />
 		</div>
-
-		<div class="row" style="margin-left:5px; width:1100px; style="">
-			<div class="col-md-3"></div>
 		
-			<div class="col-md-6">
-				
-				<br><br><br><br>
-		
-				<h4 style="color: #ff52a0;">회원 탈퇴</h4><hr/><br/>
-				<br>
-				<form action="deleteMember.me" method="post" style="margin-bottom: 0;" id="deleteMemberForm">
-					<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
-						<thead>
-							<tr>
-							<td style="text-align: left">
-									<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="deleteEmailChk"></span></p>
-								</td>
-						    </tr>
-							<tr>
-								<td><input type="email" name="memberEmail" id="deleteEmailForm"
-									    		class="form-control tooltipstered" 
-									    		required="required" aria-required="true"
-									    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
-												placeholder="이메일 형식으로 작성해주세요."></td>
-							</tr>
-					
-							<tr>
-								<td style="width: 100%; text-align: center; colspan: 2;">
-									<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
-											style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 인증</button>
-								</td>
-							</tr>
-						</thead>
-						
-						<tbody id="deletebtn-area">
-						
-						</tbody>
-					</table>
-				</form>
-		
+		<div style="margin-left:70px; width:1000px;">
+			<div>
+				<h1 class="main">회원 탈퇴</h1>
+				<div>
+					<form action="deleteMember.me" method="post" style="margin-bottom: 0;" id="deleteMemberForm">
+						<table class="content">
+							<thead>
+								<tr>
+									<td style="text-align: left">
+										<br>
+										<p><strong>아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="deleteEmailChk"></span></p>
+									</td>
+							    </tr>
+								<tr>
+									<td><input type="email" name="memberEmail" id="deleteEmailForm"
+										    		class="form-control tooltipstered" 
+										    		required="required" aria-required="true"
+										    		style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
+													placeholder="이메일 형식으로 작성해주세요."></td>
+								</tr>
+								
+								<tr>
+									<td style="width: 100%; text-align: center; colspan: 2;">
+										
+										<button type="button" id="delete-btn" class="btn form-control tooltipstered" 
+												style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">이메일 인증</button>
+										<br><br><br><br>
+									</td>
+								</tr>
+								
+							</thead>
+							
+							<tbody id="deletebtn-area">
+							
+							</tbody>
+						</table>
+					</form>
+				</div>
 			</div>
-			<div class="col-md-3"></div>
 		</div>
-		
-	<br><br>
+			
 	</div>
+	<br><br><br><br><br>
 	<div> 
 		<jsp:include page="../common/footer.jsp" />
 	</div>
@@ -129,17 +128,18 @@
 							if(result === '1'){ // 인증 번호 전송 + cert에 등록
 								alert('이메일을 전송했습니다. 확인해주세요');
 								
-								min = 1;
-								sec = 00;
+								min = 4;
+								sec = 59;
 								
 								timer = setInterval(showRemaining, 1000);
 				
 								var a = '<tr><td style="text-align: left">'
-									  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="deleteTimeChk" style="border:1px solid red;"></span></p>'
+									  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="deleteTimeChk"></span></p>'
 									  + '<tr><td><input type="text" name="code" id="deleteCode" class="form-control tooltipstered"'
 									  + 'required="required" aria-required="true"'
 									  + 'style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"><button class="btn form-control tooltipstered"'
-									  + 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="deleteCode-btn">인증코드 확인</button></td></tr>';
+									  + 'style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="deleteCode-btn">인증코드 확인</button>';
+									  + '</td></tr>';
 									
 								
 								$('#deletebtn-area').html(a);
@@ -156,6 +156,8 @@
 						
 					});	
 			
+				}else{
+					alert('이메일 먼저 입력해주세요.');
 				}
 			});			
 			
