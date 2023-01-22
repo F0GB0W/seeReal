@@ -68,7 +68,7 @@
 								<td style="text-align: left; display:flex">
 									<input type="checkbox" id="signIn-Check"  class="btn form-control" 
 									name="signInCheck" aria-required="true" 
-									style="ime-mode: inactive; height: 20px; width:50px; border: 1px solid #d9d9de; margin-top:3px;" value="N"><label for="signIn-Check"">아이디저장</label>
+									style="ime-mode: inactive; height: 20px; width:40px; border: 1px solid #d9d9de; margin-top:3px;" value="N"><label for="signIn-Check"">아이디저장</label>
 									<input type="hidden" id="before" name="saveId" value="N"> 
 									<a id="temPwd_a" class="btn form-control" data-toggle="modal" 
 									href="#temPwdModal" style="width:120px; margin-left:100px; margin-bottom:5px; padding-right:0px; padding-top:0px;">
