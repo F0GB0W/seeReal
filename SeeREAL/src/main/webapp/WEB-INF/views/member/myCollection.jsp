@@ -65,7 +65,6 @@
 </head>
 
 <body>
-	
 		<div>
 			<jsp:include page="../common/menubar.jsp" />
 		</div>

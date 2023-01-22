@@ -112,7 +112,7 @@
 	<div>
 		<jsp:include page="../common/menubar.jsp" />
 	</div>
-	<br>
+	
 	<div style ="display:flex">
 		<div style="margin-left: 185px;"> 
 			<jsp:include page="../member/myPageSidebar.jsp" />
