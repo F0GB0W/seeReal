@@ -91,14 +91,7 @@
         width: 1100px;
         margin: 0 auto;
       }
-      .blind {
-        position: absolute;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        margin: -1px;
-        width: 1px;
-        height: 1px;
-      }
+     
       #spoilerTitle{
       margin-left : 257px;
       }
@@ -132,12 +125,15 @@
 				    	<!-- board list area -->
 				      	<div id="board-list">
 				        	<div class="container content">
-				        		<br>
+				        	
+				        		<a href="spoilerEnrollForm.bo" class="btn btn-sm btn-secondary" style="float:right; margin-bottom:15px; ">글 작성</a>
+				            	
 				            	<table class="board-table table table-hover" id="spoilerList">
 				                	<thead>
 					                	<tr>
 					                    	<th scope="col" class="th-num">번호</th>
 					                      	<th scope="col" class="th-title">제목</th>
+					                      	<th scope="col" class="th-date">내용</th>
 					                      	<th scope="col" class="th-count">조회수</th>
 					                      	<th scope="col" class="th-date">등록일</th>
 					                  	</tr>
@@ -145,16 +141,14 @@
 				                  	<tbody>
 				                  		<c:choose>
 				                  			<c:when test="${empty list}">
-					                  			<tr>
-					                  				<td>해당 게시판에 작성한 게시글이 존재하지 않습니다.</td>
-					                  			</tr>
-				                  				
+				                  				해당 게시판에 작성한 게시글이 존재하지 않습니다.
 				                  			</c:when>
 				                  			<c:otherwise>
 				                  				<c:forEach items="${list}" var="b">
 								                	<tr>
 								                    	<td class="bno">${b.boardNo}</td>
 								                      	<td id="spoilerTitle">${b.boardTitle}</td>
+								                      	<td>${b.boardContent}</td>
 								                      	<td>${b.count}</td>
 								                      	<td>${b.enrollDate}</td>
 								                  	</tr>
@@ -182,50 +176,28 @@
         				
 				        <div id="pagingBar">
 					      	<ul id="pagination">
-					      	
 					      		<c:choose>
 					      			<c:when test="${pi.currentPage eq 1 }">
-					      				<li class="page-item disabled " ><a class="page-link" href="#">Previous</a></li>
+					      				<li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
 					      			</c:when>
 					      			<c:otherwise>
-					      			<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage - 1 }">Previous</a></li>
+					      				<li class="page-item"><a class="page-link" href="myboardList.me?cpage=${pi.currentPage - 1 }">Previous</a></li>
 					      			</c:otherwise>
 					      		</c:choose>
 					      		
-					      		<c:if test="${empty pi.boardLimit }">
-						      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
-						      			<c:choose>
-							      			<c:when test="${ empty condition }">
-							      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-							      			</c:when>
-							      			<c:otherwise>
-							      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
-							      			</c:otherwise>
-						      			</c:choose>
-						      		</c:forEach>
-						      	</c:if>
+					      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
+					      			<li class="page-item"><a class="page-link" href="myboardList.me?cpage=${p }">${p }</a></li>
+					      		</c:forEach>
 					      		
-							      <c:if test="${not empty pi.boardLimit }">
-							      	<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
-							      			<c:choose>
-								      			<c:when test="${ empty pi.boardLimit }">
-								      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-								      			</c:when>
-								      			<c:otherwise>
-								      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }&board-count=${pi.boardLimit}">${p}</a></li>
-								      			</c:otherwise>
-							      			</c:choose>
-							      		</c:forEach>
-							      	</c:if>
-							      	
 					      		<c:choose>
 					      			<c:when test="${pi.currentPage eq pi.maxPage }">
 					      				<li class="page-item disabled" ><a class="page-link" href="#">Next</a></li>
 					      			</c:when>
 					      			<c:otherwise>
-					      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage + 1 }">Next</a></li>
+					      				<li class="page-item"><a class="page-link" href="myboardList.me?cpage=${pi.currentPage + 1 }">Next</a></li>
 					      			</c:otherwise>
 					      		</c:choose>
+					      		
 					      	</ul>
 					      </div>
   

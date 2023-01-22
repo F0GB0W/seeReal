@@ -68,17 +68,12 @@ public class MemberController {
 		
 		/*
 		int result = memberService.selectEmail(email);
-		
 		String result2="";
-		
 		if(result > 0) { // 있으면 이메일 보내야함  : sendEmail.me 호출해야하는데...? redirect로 ?
 			
-			result2 = sendEmail(email, request); 
+			result2 = sendEmail(email, request); 	
 			
-			
-		}else { // 그냥 화면으로 보내서 
-			
-		}
+		}else { // 그냥 화면으로 보내서 }
 		
 		return result2;
 		*/
@@ -103,7 +98,6 @@ public class MemberController {
 		}
 		
 		return result2;
-
 	}
 	
 		
@@ -138,8 +132,7 @@ public class MemberController {
 		
 		message.setSubject("see:Real");
 		// "see:Real 화면으로 돌아가 인증번호를 입력해주세요."
-		// 시간되면 예쁘게 전송하기 : MimeMessage 사용
-		message.setText("인증번호 : " + code );
+		message.setText("인증번호 : " + code + "\n화면으로 돌아가 인증번호를 입력해주세요.");
 		message.setTo(email);	
 		sender.send(message);
 		
@@ -194,7 +187,6 @@ public class MemberController {
 		if(memberService.insertMember(m) > 0) { // 회원가입 성공	
 			session.setAttribute("alertMsg", "회원가입 성공");
 			return "redirect:/";
-			// 메인 화면으로 돌려주기(redirect: url 변경) + 회원가입 성공 창 보여주기
 		}else {
 
 			// 회원가입 실패 메세지 보여주기  또는 에러 페이지로 포워딩
@@ -204,13 +196,13 @@ public class MemberController {
 	}
 	
 	// 로그인
-	// 로그인 아이디 저장 : 쿠키 사용
-		/* 
+	/* 
+		로그인 아이디 저장 : 쿠키 사용
 		   N-> N : U
 		유지 Y-> Y : U
 		해제 Y-> N : N(쿠키 삭제) 
 		체크 N-> Y : Y(쿠키 생성)
-		 */
+	 */
 	@RequestMapping(value="login.me")
 	public String login(Member m, HttpSession session, Model model, String saveId, HttpServletResponse response) {  // 다 사용할 수 있도록 담아야함 : include 
 		
@@ -225,16 +217,14 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser);
 			
 			if(saveId.equals("Y")) { // 아이디 저장 
-				
-				Cookie check = new Cookie("saveId", m.getMemberEmail());
+				Cookie check = new Cookie("save", m.getMemberEmail());
 				check.setMaxAge(60 * 60 * 24 * 28);
-				check.setPath("/");
+				//check.setPath("/");
 				response.addCookie(check);
 				
 			}else if(saveId.equals("N")) {  // 해제 Y-> N : N(쿠키 삭제)
 				
-				Cookie check = new Cookie("saveId", m.getMemberEmail());
-				//System.out.println("2 check : " + check);
+				Cookie check = new Cookie("save", m.getMemberEmail()); // name 속성 같게 하여 setMAxAge0으로 덮기
 				check.setMaxAge(0);
 				response.addCookie(check);	
 			}	
@@ -284,7 +274,7 @@ public class MemberController {
 		String email = m.getMemberEmail();
 		
 		message.setSubject("see:Real");
-		message.setText("임시비밀번호 : " + code +"\\n해당 비밀번호로 로그인 후 개인정보 보호를 위해 비밀번호 수정 해주세요.");
+		message.setText("임시비밀번호 : " + code +"\n해당 비밀번호로 로그인 후 개인정보 보호를 위해 비밀번호를 수정 해주세요.");
 		message.setTo(email);	 // 아이디로 사용중인 이메일로만 인증가능
 		// m.getMemberEmail() : javax.mail.internet.AddressException: Illegal address in string ``''발생
 		sender.send(message); // 이메일이 제대로 갔는지 어떻게 확인하지?
@@ -523,7 +513,7 @@ public class MemberController {
 		System.out.println("boardType : " + check);
 		System.out.println(spoilerSearchListCount);
 		
-		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 7, 5);
+		PageInfo pi = Pagination.getPageInfo(spoilerSearchListCount, currentPage, 10, 5);
 		ArrayList<Board> list = memberService.selectBoardList(pi, map); // 페이징 바
 	
 		//session.setAttribute("list", list);// 조회 결과
@@ -662,6 +652,7 @@ public class MemberController {
 		ArrayList<Comments> list = memberService.selectCommentsList(pi, memberNo);
 		
 		mv.addObject("list", list)
+		  .addObject("pi", pi)
 		  .setViewName("member/myComments");
 		
 		return mv;
@@ -681,6 +672,7 @@ public class MemberController {
 		ArrayList<Comments> list = memberService.selectLikeComment(pi, map);
 		
 		mv.addObject("list", list)
+		  .addObject("pi", pi)
 		  .addObject("check", check)
 		  .setViewName("member/myComments");
 		

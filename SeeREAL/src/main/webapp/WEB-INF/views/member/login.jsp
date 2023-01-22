@@ -12,6 +12,11 @@
 	<!-- 부트스트랩에서 제공하고 있는 스크립트 -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+<style>
+	#temPwd_a:hover, #searPwd:hover{
+		font-weight: bold;
+	}
+</style>
 <body>
 	<!-- 로그인 Modal-->
 	<div class="modal fade" id="log-in">
@@ -39,7 +44,7 @@
 								<td>
 									<input type="text" name="memberEmail" id="signInId"
 												class="form-control tooltipstered" maxlength="40"
-												required="required" aria-required="true" value="${cookie.saveId.value}"
+												required="required" aria-required="true" value="${cookie.save.value}"
 												style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
 												placeholder="이메일 형식으로 작성">
 								</td>
@@ -60,34 +65,31 @@
 							</tr>
 							
 							<tr style="display:flex;">
-								<td style="text-align: left;">
-									<input type="checkbox" id="signIn-Check" 
+								<td style="text-align: left; display:flex">
+									<input type="checkbox" id="signIn-Check"  class="btn form-control" 
 									name="signInCheck" aria-required="true" 
-									style="ime-mode: inactive; margin-bottom: 20px; height: 20px; border: 1px solid #d9d9de" value="N"> <label for="signIn-Check">아이디저장</label>
+									style="ime-mode: inactive; height: 20px; width:50px; border: 1px solid #d9d9de; margin-top:3px;" value="N"><label for="signIn-Check"">아이디저장</label>
 									<input type="hidden" id="before" name="saveId" value="N"> 
-								</td>
-								<td>
 									<a id="temPwd_a" class="btn form-control" data-toggle="modal" 
-									href="#temPwdModal" style="margin-bottom:20px;">
-									임시비밀번호</a>
-								
-								</td>
-								<td>
-									<a id="searPwd" class="btn form-control" data-toggle="modal"
-									href="#searchPwd2" style="margin-bottom:20px;">
+									href="#temPwdModal" style="width:120px; margin-left:100px; margin-bottom:5px; padding-right:0px; padding-top:0px;">
+									임시비밀번호</a> |
+									<a id="searPwd" class="btn form-control" data-toggle="modal" style="width:120px; margin-bottom:5px; padding-left:0px; padding-top:0px;"
+									href="#searchPwd2">
 									비밀번호 찾기</a>
-								
 								</td>
+								
 							</tr>
 							
 							<c:choose>
-								<c:when test="${ not empty cookie.saveId }">
+								<c:when test="${ not empty cookie.save}">
+									
 									<script>
 										$(function(){
 											$('#signIn-Check').prop("checked",true);
 											$('#signIn-Check').val("Y");
 											$('#before').val("Y"); 
 										});
+									
 									</script>
 								</c:when>
 							</c:choose>
@@ -99,13 +101,7 @@
 									style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #f78f24; opacity: 0.8">
 								</td>
 							</tr>
-							
-							<tr>
-								<td style="width: 100%; text-align: center; colspan: 2;">
-									<a href="/seeReal/login.do">네이버로 로그인</a>
-									
-								</td>
-							</tr>
+						
 							<tr>
 								<td
 									style="width: 100%; text-align: center; colspan: 2; margin-top: 24px; padding-top: 12px; border-top: 1px solid #ececec">

@@ -181,7 +181,7 @@ small {
 			<label for="answer02">스포일러<small>▼</small></label>
 			<div>
 				<ul>
-					<li><a onclick="postFormSubmit('2','myboardList.me')">게시글</a></li>
+					<li><a href="#" onclick="postFormSubmit('2','myboardList.me')">게시글</a></li>
 					<li><a href="myReply.me">댓글</a></li>
 				</ul>
 			</div>
@@ -191,8 +191,8 @@ small {
 			<div>
 				<ul>
 					<li><a href="myMeeting.me">만든 모임</a></li>
-					<li><a onclick="postFormSubmit('Y','myMeetingStatus.me')">참여한 모임</a></li>
-					<li><a onclick="postFormSubmit('N','myMeetingStatus.me')">대기중</a></li>
+					<li><a href="#" onclick="postFormSubmit('Y','myMeetingStatus.me')">참여한 모임</a></li>
+					<li><a href="#" onclick="postFormSubmit('N','myMeetingStatus.me')">대기중</a></li>
 				</ul>
 			</div>
 	
@@ -212,8 +212,8 @@ small {
 			<div>
 				<ul>
 					<li><a href="myComments.me">작성한 리얼평</a></li>
-					<li><a onclick="postFormSubmit('Y','myLikeComments.me')">좋아요</a></li>
-					<li><a onclick="postFormSubmit('N','myLikeComments.me')">싫어요</a></li>
+					<li><a href="#" onclick="postFormSubmit('Y','myLikeComments.me')">좋아요</a></li>
+					<li><a href="#" onclick="postFormSubmit('N','myLikeComments.me')">싫어요</a></li>
 				</ul>
 			</div>
 		</article>
@@ -225,12 +225,12 @@ small {
 		<br> 
 		</div>
 	</div>
-<script>
-function postFormSubmit(check, mappingValue){
-	
-$('#postValue').val(check);
-$('#postForm').attr('action', mappingValue).submit();
-}
-</script>
+	<script>
+	function postFormSubmit(check, mappingValue){
+		
+		$('#postValue').val(check);
+		$('#postForm').attr('action', mappingValue).submit();
+	}
+	</script>
 </body>
 </html>

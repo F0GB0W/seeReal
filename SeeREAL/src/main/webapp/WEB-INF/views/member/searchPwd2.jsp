@@ -38,7 +38,7 @@
                      
                            <tr>
                               <td style="text-align: left">
-                                 <p><strong>이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="emailChk"></span></p>
+                                 <p><strong>이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="serEmailChk"></span></p>
                               </td>
                            </tr>
                            <tr>
@@ -56,7 +56,8 @@
                      </tr>
                           <tr style="display:none;" id="codeTitle">
                              <td style="text-align: left">
-                             <p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="timeChk" style="border:1px solid red;"></span></p>
+                             <br>
+                             <p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="serTimeChk"></span></p>
                         </td>
                      </tr>        
                      <tr style="display:none;" id="codeInput">
@@ -69,14 +70,15 @@
                      <tr style="display:none;" id="code-btn">
                              <td style="text-align: left">   
                               <button class="btn form-control tooltipstered"
-                              style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="s">인증</button></td></tr>
+                              style="background-color: #ff52a0; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8" type="button" id="searEmail-btn">인증</button>
+                              
                         </td>
                      </tr>
                         
                           <tr>
                               <td style="text-align: left">
                                  <br>
-                                 <p><strong>새 비밀번호를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="pwChk"></span></p>
+                                 <p><strong>새 비밀번호를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="serPwChk"></span></p>
                               </td>
                            </tr>
                            
@@ -91,7 +93,7 @@
                      
                            <tr>
                              <td style="text-align: left">
-                                 <p><strong>비밀번호를 재확인해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="pwChk2"></span></p>
+                                 <p><strong>비밀번호를 재확인해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="serPwChk2"></span></p>
                               </td>
                            </tr>
                            
@@ -141,14 +143,14 @@
                //css함수는 디자인을 바꾸는 함수 
                emailInput.css("background", "pink");         
                //html함수는 콘텐트영역을 바꾸는 함수         
-               $('#emailChk').html("<b style='color:red;'>[이메일은 필수 정보에요!]</b>");
+               $('#serEmailChk').html("<b style='color:red;'>[이메일은 필수 정보에요!]</b>");
                //조건에 부합하지 않는다면 논리변수에 false값 대입
                emailCheck = false; 
       
             } else if(!getMail.test(emailInput.val())) { // 정규표현식 객체의 test()메소드를 이용해서 패턴에 부합하는지 조건검사 (부합하면 true, !를 붙이면 부합하지않으면)
                // 정규표현식을 만족하지 않으면
                emailInput.css("background-color", "pink"); 
-               $('#emailChk').html("<b style='color:red;'>[입력정보를 확인해주세요]</b>");
+               $('#serEmailChk').html("<b style='color:red;'>[입력정보를 확인해주세요]</b>");
                emailCheck = false;
       
             } else {
@@ -161,11 +163,11 @@
                   success : function(result){
                      if(result === '1'){  // == : 문자, 숫자 상관없음
                         emailInput.css("background-color", "transparent"); 
-                        $('#emailChk').html("<b style='color:green;'></b>");
+                        $('#serEmailChk').html("<b style='color:green;'>[존재하는 아이디입니다.]</b>");
            
                      }else{
-                        emailInput.css("background-color", "transparent"); 
-                        $('#emailChk').html("<b style='color:red;'>[해당 이메일 주소는 없습니다.]</b>");            
+                        emailInput.css("background-color", "pink"); 
+                        $('#serEmailChk').html("");            
                      }
                   },
                   error : function(){
@@ -175,16 +177,6 @@
                });
             }
          }); 
-         
-         // 수정하기 버튼 
-         $(document).on('click', '#emailChange', function(){
-   
-            $email.removeAttr('readonly');
-            $('#sCheck').css("display", 'block');
-            $('#emailChange').css("display", "none");   
-            emailCheck = false;
-            codeCheck = false;
-         });
                
          // 이메일 인증 버튼 
          $('#sCheck').on('click',function(){ 
@@ -201,11 +193,11 @@
                          $('#sCheck').attr('disabled',true); // 비활성화
                          //$email.attr('readonly',true);
 
-                        min = 0;
-                        sec = 40;
+                        min = 2;
+                        sec = 59;
                         
-                        timer = setInterval(showRemaining, 1000);
-                        
+                        timer = setInterval(showRemaining2, 1000);
+                       
                         $('#codeTitle').show();
                         $('#codeInput').show();
                         $('#code-btn').show();
@@ -231,16 +223,16 @@
             //조건식으로 만든 논리적인코드
             if($('#newPwd').val().length < 6){
                passwordInput.css("background-color", "pink"); 
-               $("#pwChk").html("<b style='color:red;'>[6글자 이상 입력해주세요]</b>");
+               $('#serPwChk').html("<b style='color:red;'>[6글자 이상 입력해주세요]</b>");
                passwordCheck = false;
             } else if(!getPwCheck.test(passwordInput.val())){
                passwordInput.css("background-color", "pink"); 
-               $("#pwChk").html("<b style='color:red;'>[영문, 숫자, 특수문자 중 2개 이상 조합하여 6~15글자 입력해주세요!]</b>");
+               $('#serPwChk').html("<b style='color:red;'>[영문, 숫자, 특수문자 중 2개 이상 조합하여 6~15글자 입력해주세요!]</b>");
                pwdCheck();
                passwordCheck = false;
             } else if(getPwCheck.test(passwordInput.val())){ 
                passwordInput.css("background-color", "transparent"); 
-               $("#pwChk").html("<b style='color:green;'>[가능]</b>");
+               $('#serPwChk').html("<b style='color:green;'>[가능한 비밀번호입니다.]</b>");
                if($('#checkPwd').val() != ''){
                   pwdCheck();
                }   
@@ -249,7 +241,7 @@
          }); // 패스워드 입력값 검증 끝
          
          
-         $('#code-btn').on('click',function(){
+         $('#searEmail-btn').on('click',function(){
             
             code = $('#code').val();
             
@@ -271,8 +263,8 @@
                            codeCheck = true;
                            alert("인증 성공");
                            clearInterval(timer);
-                           $('#timeChk').text('');
-                           $('#s').attr('disabled', true);
+                           $('#serTimeChk').text('');
+                           $('#searEmail-btn').attr('disabled', true);
                            
                         }else{
                            alert("인증 실패");
@@ -286,9 +278,6 @@
             }
          });
          
-         
-         
-         
          $('#checkPwd').on('keyup',function(){
             pwdCheck();
          });
@@ -298,11 +287,11 @@
             
             if($('#newPwd').val() != $('#checkPwd').val()){
                $('#checkPwd').css("background-color", "pink"); 
-               $("#pwChk2").html("<b style='color:red;'>[비밀번호가 다릅니다.]</b>");
+               $("#serPwChk2").html("<b style='color:red;'>[비밀번호가 다릅니다.]</b>");
                passwordCheck = false;
             } else {
                $('#checkPwd').css("background-color", "transparent"); 
-               $("#pwChk2").html("<b style='color:green;'>[비밀번호가 같습니다.]</b>");
+               $("#serPwChk2").html("<b style='color:green;'>[비밀번호가 같습니다.]</b>");
                passwordCheck = true;
             }
          }
@@ -322,22 +311,22 @@
          // 회원가입 버튼 클릭 이벤트 처리 끝
       }); 
       
-      function showRemaining(){
-         
+      function showRemaining2(){
+    	 
          if(sec == 0 && min != 0){
             min = min - 1;
             sec = 59;
          }else{
             sec = sec - 1;   
          }
-         
-         $('#timeChk').text(' 남은시간 ' + min + ' : ' + sec);
-         
+      
+         $('#serTimeChk').text(' 남은시간 ' + min + ' : ' + sec);
+         console.log('3 serTimeChk : ');
          if(min == 0 && sec == 0){
-            $('#timeChk').text('');
+            $('#serTimeChk').text('');
             clearInterval(timer);
-            timer = 0;
-            console.log(' 1 : ' + timer);
+            //timer = 0;
+            
             $.ajax({
                url: 'timeout.me',  
                success : function(result){ 

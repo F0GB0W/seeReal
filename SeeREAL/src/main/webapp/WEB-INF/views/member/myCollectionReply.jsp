@@ -10,11 +10,7 @@
         border-collapse: collapse;
         border-spacing: 0;
       }
-      div.outer {
-        padding: 80px 0;
-        width:"80%"
-      }
-      
+    
       .page-title {
         margin-bottom: 60px;
       }
@@ -25,41 +21,8 @@
         text-align: center;
       }
       
-      #board-search .search-window {
-        padding: 15px 0;
-        background-color: #f9f7f9;
-      }
-      #board-search .search-window .search-wrap {
-        position: relative;
-        padding-right: 124px;
-        margin: 0 auto;
-        width: 80%;
-        max-width: 564px;
-      }
-      #board-search .search-window .search-wrap input {
-        height: 40px;
-        width: 100%;
-        font-size: 14px;
-        padding: 7px 14px;
-        border: 1px solid #ccc;
-      }
-      #board-search .search-window .search-wrap input:focus {
-        border-color: #333;
-        outline: 0;
-        border-width: 1px;
-      }
-      #board-search .search-window .search-wrap .btn {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 108px;
-        padding: 0;
-        font-size: 16px;
-      }
-      
       .board-table {
-        font-size: 13px;
+        font-size: 15px;
         width: 100%;
         border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
@@ -95,7 +58,7 @@
       }
       
       .board-table th, .board-table td {
-        padding: 14px 0;
+        padding: 15px 0;
       }
       
       .board-table tbody td {
@@ -109,57 +72,7 @@
         border-top: 1px solid #e7e7e7;
         text-align: left;
       }
-      
-      .btn {
-        display: inline-block;
-        padding: 0 30px;
-        font-size: 15px;
-        font-weight: 400;
-        background: transparent;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        -ms-touch-action: manipulation;
-        touch-action: manipulation;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        border: 1px solid transparent;
-        text-transform: uppercase;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-        -webkit-transition: all 0.3s;
-        -moz-transition: all 0.3s;
-        -ms-transition: all 0.3s;
-        -o-transition: all 0.3s;
-        transition: all 0.3s;
-      }
-      
-      .btn-dark {
-        background: #555;
-        color: #fff;
-      }
-      
-      .btn-dark:hover, .btn-dark:focus {
-        background: #373737;
-        border-color: #373737;
-        color: #fff;
-      }
-      
-      .btn-dark {
-        background: #555;
-        color: #fff;
-      }
-      
-      .btn-dark:hover, .btn-dark:focus {
-        background: #373737;
-        border-color: #373737;
-        color: #fff;
-      }
-      
+ 
       /* reset */
       
       * {
@@ -178,23 +91,14 @@
         width: 1100px;
         margin: 0 auto;
       }
-      .blind {
-        position: absolute;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        margin: -1px;
-        width: 1px;
-        height: 1px;
-      }
+     
       #spoilerTitle{
       margin-left : 257px;
       }
+      
       ul{list-style-type:none;}
-      #pagingBar {}
-      #pagination{ margin-left: 870px; display:flex; float:center;}
-      #searchForm{margin-left: 780px; display:flex;}
-      #searchSelect{margin-top:7px;}
-      #page-count{float:right;}
+      
+      #pagination{ margin-left: 360px; display:flex; float:center;}
       
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -203,96 +107,112 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-	<div class="outer">
-	    <div class="page-title">
-			<div class="container">
-	        	<h3>내 컬렉션 댓글</h3> 
-	            <br>
-	       </div>
-	       <br>
-	    </div>
-	    <a href=>
-    	<!-- board list area -->
-      	<div id="board-list">
-        	<div class="container content">
-            	<table class="board-table table table-hover" id="spoilerList">
-                	<thead>
-	                	<tr>
-	                    	<th scope="col" class="th-num">번호</th>
-	                      	<th scope="col" class="th-count">내용</th>
-	                      	<th scope="col" class="th-date">등록일</th> 	
-	                  	</tr>
-                  	</thead>
-                  	<tbody>
-                  		<c:choose>
-                  			<c:when test="${empty list}">
-                  				해당 게시판에 작성한 게시글이 존재하지 않습니다.
-                  			</c:when>
-                  			<c:otherwise>
-                  				<c:forEach items="${list}" var="r">
-				                	<tr>
-				                    	<td class="bno">${r.collectionNo}</td>
-				                      	<td><input type="hidden" name="">${r.coReplyNo}</td>
-				                      	<td id="spoilerTitle">${r.collectionNo}</td>
-				                      	<td>${r.collectionNo}</td>
-				                      	<td>${r.collectionNo}</td>
-				                  	</tr>
-		              			</c:forEach>
-                  			</c:otherwise>
-                  		</c:choose>
-	                	
-                  	</tbody>
-              	</table>
-              	
-              	<script>
-              	
-              		// 동적으로 생성된 요소
-              	    $(function(){
-              		    $('#spoilerList>tbody>tr').click(function(){
-	              			location.href = 'detail.cl?clno=' + $(this).children('.bno').text();
-              			})	
-              		});
-              
-                </script>
+
+	<div>
+		<jsp:include page="../common/menubar.jsp" />
+	</div>
+	
+	<div style ="display:flex">
+		<div style="margin-left: 185px;"> 
+			<jsp:include page="../member/myPageSidebar.jsp" />
+		</div>
+		
+		<div>
+			<div style="margin-left:70px; width:1000px;">
+				
+				<h1 class="main">내 컬렉션 댓글</h1>
+				<div>
+		        	<div class="container content">
+						<c:choose>
+	                  			<c:when test="${empty list}">
+	                  				해당 게시판에 작성한 게시글이 존재하지 않습니다.
+	                  			</c:when>
+	                  			<c:otherwise>
+	                  				<table class="board-table table table-hover" id="collectionList">
+					                	<thead>
+						                	<tr>
+						                    	<th scope="col" class="th-num">번호</th>
+						                      	<th scope="col" class="th-count">내용</th>
+						                      	<th scope="col" class="th-date">등록일</th> 	
+						                  	</tr>
+					                  	</thead>
+					                  	<tbody>
+					            			<c:forEach items="${list}" var="r">
+							                	<tr>
+							                    	<td class="bno">${r.collectionNo}</td>
+							                      	<td><input type="hidden" name="">${r.coReplyNo}</td>
+							                      	<td id="spoilerTitle">${r.collectionNo}</td>
+							                      	<td>${r.collectionNo}</td>
+							                      	<td>${r.collectionNo}</td>
+							                  	</tr>
+					              			</c:forEach>
+					                  	</tbody>
+					              	</table>
+	                  			</c:otherwise>
+	    				</c:choose>
+       
+		              	<script>
+		              	
+		              		// 동적으로 생성된 요소
+		              	    $(function(){
+		              		    $('#collectionList>tbody>tr').click(function(){
+			              			location.href = 'detail.cl?clno=' + $(this).children('.bno').text();
+		              			})	
+		              		});
+		              
+	                	</script>
+					</div>
+        			<br>
+        			<c:choose>
+                	    <c:when test="${empty list}">
+               				
+               			</c:when>
+               			<c:otherwise>
+               				<div id="pagingBar">
+						       <ul id="pagination">
+						      	
+						      		<c:choose>
+						      			<c:when test="${pi.currentPage eq 1 }">
+						      				<li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
+						      			</c:when>
+						      			<c:otherwise>
+						      			<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage - 1 }">Previous</a></li>
+						      			</c:otherwise>
+						      		</c:choose>
+						      		
+						      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
+						      			<c:choose>
+							      			<c:when test="${ empty condition }">
+							      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
+							      			</c:when>
+							      			<c:otherwise>
+							      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
+							      			</c:otherwise>
+						      			</c:choose>
+						      		</c:forEach>
+						      		
+						      		<c:choose>
+						      			<c:when test="${pi.currentPage eq pi.maxPage }">
+						      				<li class="page-item disabled" ><a class="page-link" href="#">Next</a></li>
+						      			</c:when>
+						      			<c:otherwise>
+						      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage + 1 }">Next</a></li>
+						      			</c:otherwise>
+						      		</c:choose>
+						      	</ul>
+						     </div>
+               			</c:otherwise>
+	                </c:choose>
+	            
+		      	</div>
 			</div>
-      	</div>
-        <br>
-        <div id="pagingBar">
-       <ul id="pagination">
-      	
-      		<c:choose>
-      			<c:when test="${pi.currentPage eq 1 }">
-      				<li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
-      			</c:when>
-      			<c:otherwise>
-      			<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage - 1 }">Previous</a></li>
-      			</c:otherwise>
-      		</c:choose>
-      		
-      		<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p" step="1">
-      			<c:choose>
-	      			<c:when test="${ empty condition }">
-	      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${p }">${p }</a></li>
-	      			</c:when>
-	      			<c:otherwise>
-	      				<li class="page-item"><a class="page-link" href="spoilerSearch.bo?cpage=${p }&condition=${condition}&keyword=${keyword}">${p }</a></li>
-	      			</c:otherwise>
-      			</c:choose>
-      		</c:forEach>
-      		
-      		<c:choose>
-      			<c:when test="${pi.currentPage eq pi.maxPage }">
-      				<li class="page-item disabled" ><a class="page-link" href="#">Next</a></li>
-      			</c:when>
-      			<c:otherwise>
-      				<li class="page-item"><a class="page-link" href="spoilerList.bo?cpage=${pi.currentPage + 1 }">Next</a></li>
-      			</c:otherwise>
-      		</c:choose>
-      	</ul>
-      </div>
-     
-      
-      
+		</div>
+	</div>
+	<br><br><br><br><br>
+	<div> 
+		<jsp:include page="../common/footer.jsp" />
+	</div>
+	   
       
       
       

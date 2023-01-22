@@ -33,14 +33,14 @@
 						<table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
 							<tr>
 								<td>
-								
+									<br>
 									<img src="resources/img/logo.png"  style="width:150px; height:150px; margin-bottom:30px;">
 									
 								</td>							
 							</tr>
 							<tr>
 								<td style="text-align: left">
-
+									<br>
 									<p><strong id="title">아이디로 사용중인 이메일을 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="temEmailChk"></span></p>
 								</td>
 						    </tr>
@@ -105,9 +105,11 @@
 		                     if(result === '1'){  // == : 문자, 숫자 상관없음
 		                    	 
 		                    	 $('#temEmailChk').html("<b style='color:green;'>[존재하는 아이디입니다.]</b>");
+		                    	 $('#temEmail').css("background", "transparent");
 		                    	 mailCheck = true;	
 		                     }else{
-		                    	 $('#temEmailChk').html("<b style='color:red;'>[존재하지 않는 아이디입니다.]</b>");  
+		                    	 $('#temEmailChk').html("");
+		                    	 $('#temEmail').css("background", "pink");  
 		                    	 // input 색상 바꾸기
 		                     }
 		                  },
@@ -132,14 +134,14 @@
 							if(result === '1'){ // 인증 번호 전송 + cert에 등록
 								alert('이메일을 전송했습니다. 확인해주세요');
 								
-								min = 1;
-								sec = 0;
+								min = 2;
+								sec = 59;
 								
 								timer = setInterval(showRemaining, 1000);
 							
 								var a = '';
 				
-								a += '<tr><td style="text-align: left">'
+								a += '<tr><td style="text-align: left"><br>'
 									  + '<p><strong id="title">인증 코드를 입력해주세요.</strong>&nbsp;&nbsp;&nbsp;<span id="temTimeChk"></span></p>'
 									  + '<tr><td><input type="text" name="code" id="temCode" class="form-control tooltipstered"'
 									  + 'required="required" aria-required="true"'
