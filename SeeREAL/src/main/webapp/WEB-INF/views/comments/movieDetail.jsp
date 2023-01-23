@@ -14,6 +14,11 @@
 <title>Insert title here</title>
 <style>
 	/* Container for the entire comments section */
+#movieDetail-scope{
+	margin-left: 300px;
+	margin-top: 100px;
+}
+
 #myComments {
     margin: 20px;
     padding: 20px;
@@ -190,152 +195,122 @@
 </style>
 </head>
 <body>
-	
-	<div class="movieDetailView">
-    	<div class="movieImg">
-            <img src="${movieImg }" class="movieImgFile">     
-        </div>
-        <div class="movieInfoShow">
-            <div class="movieInfo1">
-                <span>${movieTitle }</span>&nbsp;&nbsp;<span>${movieYear }</span>
-            </div>
-            <div class="movieInfo2">
-                <span>${movieDirector }</span>
-            </div>
-            <div class="movieInfo3">
-                <span class="ratingShow">★${rating }</span>
-            </div>
-        </div>  
-    </div>
-	
-	
-	
-	
-	
-	
-	<div>
-	
-	
-	
-	
-	</div>
-	<div>
-	
-	</div>
-	<br><br>
-	
-	<div class="rating-scope">
-      <div class="rating-comment">평가해주세요</div>
-    </div>
-    <div class="star-box">
-        <span class="star star_left"></span>
-        <span class="star star_right"></span>
-      
-        <span class="star star_left"></span>
-        <span class="star star_right"></span>
-      
-        <span class="star star_left"></span>
-        <span class="star star_right"></span>
-      
-       <span class="star star_left"></span>
-       <span class="star star_right"></span>
-      
-       <span class="star star_left"></span>
-       <span class="star star_right"></span>
+	<div id="movieDetail-scope">
 
-       <span class="rating-number"></span>
-      </div>
 	
+
+		<div class="movieDetailView">
+			<div class="movieImg">
+				<img src="${movieImg }" class="movieImgFile">     
+			</div>
+			<div class="movieInfoShow">
+				<div class="movieInfo1">
+					<span>${movieTitle }</span>&nbsp;&nbsp;<span>${movieYear }</span>
+				</div>
+				<div class="movieInfo2">
+					<span>${movieDirector }</span>
+				</div>
+				<div class="movieInfo3">
+					<span class="ratingShow">★${rating }</span>
+				</div>
+			</div>  
+		</div>
+	
+		<br><br>
+		
+		<div class="rating-scope">
+			<div class="rating-comment">평가해주세요</div>
+		</div>
+		<div class="star-box">
+			<span class="star star_left"></span>
+			<span class="star star_right"></span>
+			
+			<span class="star star_left"></span>
+			<span class="star star_right"></span>
+			
+			<span class="star star_left"></span>
+			<span class="star star_right"></span>
+			
+			<span class="star star_left"></span>
+			<span class="star star_right"></span>
+			
+			<span class="star star_left"></span>
+			<span class="star star_right"></span>
+
+			<span class="rating-number"></span>
+		</div>
+		
 		<src img="blob:https://twitter.com/0e1b67d1-0c98-4d69-9885-f8a8e4543629">
 		<src img="blob:https://twitter.com/0e1b67d1-0c98-4d69-9885-f8a8e4543629" height="10" width="10">
 		<src img="blob:https://twitter.com/63b6b2bb-3164-4f41-b01d-6d22838154b9">
 		<src img="blob:https://twitter.com/63b6b2bb-3164-4f41-b01d-6d22838154b9" eight="15" width="15">
-		
+			
 		<hr>
 		<div class="heightSpace">
-		
+			
 		</div>
-		
+			
 		<c:if test="${not empty loginUser  }">
 			<div>
 				<span>내 커멘트</span>
 				<hr>
 				<div id="myComments">
-					
+						
 				</div>
 				<hr>
 			</div>
 		</c:if>		
-		
-		
-		 						
-			<div style="width:500px;">
-				<div align="right" id="writeBtn">
-					
-								
-					<form action="detailComments.co" method="get">
-						<input type="hidden" name="movieTitle" value="${movieTitle}">
-						<input type="hidden" name="movieYear" value="${movieYear}">
-						
-						
-								<button onclick="detailComments();">더보기</button>
-					</form> 
-					
-						
-					
-				</div>
-				
-				
-		
-				<div class="commentsList">
-					
-				
-						
-					    
-					
-			    </div>   	
+			
+			
+									
+		<div style="width:500px;">
+			<div align="right" id="writeBtn">															
+				<form action="detailComments.co" method="get">
+					<input type="hidden" name="movieTitle" value="${movieTitle}">
+					<input type="hidden" name="movieYear" value="${movieYear}">														
+					<button onclick="detailComments();">더보기</button>
+				</form> 				
 			</div>
+			<div class="commentsList">
 		
-	<div id="test">
-		<button onclick="textOverflow();">실험</button>
-	</div>		
+			</div>   	
+		</div>
+			
+		<div id="test">
+			<button onclick="textOverflow();">실험</button>
+		</div>		
 	
+		<br><br><br><br><br>
+
+		<!-- Button to Open the Modal  -->
+		<!-- The Modal 글쓰기 버튼-->
+	<div class="modal" id="myModal">
+		<div class="modal-dialog">
+		<div class="modal-content">
 	
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">${movieTitle }</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
 	
-	<br><br><br><br><br>
-	
-	
-	<!-- Button to Open the Modal  -->
-	<!-- The Modal 글쓰기 버튼-->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">${movieTitle }</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-        
-        <textarea class="form-control" rows="5" style="border: none;" placeholder="이 작품에 대한 생각을 자유롭게 표현해주세요."></textarea>
-        
-        </div>
-  		
-        <!-- Modal footer -->
-        <div class="modal-footer">
-        
- 	         <button type="button" class="mr-auto" style="border:none;" onclick="spoiler();"><span>스포일러&nbsp;</span><span id="on-off" class="N">off</span></button>
-        	
-          <p class="textarea-length">0/1000</p>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" id="CommentsInsert" onclick="">저장</button>
-        </div>
-		<!-- Modal end 글쓰기 버튼-->
-		
-		
-	
+			<!-- Modal body -->
+			<div class="modal-body">
+				<textarea class="form-control" rows="5" style="border: none;" placeholder="이 작품에 대한 생각을 자유롭게 표현해주세요."></textarea>			
+			</div>
+			
+			<!-- Modal footer -->
+			<div class="modal-footer">			
+				<button type="button" class="mr-auto" style="border:none;" onclick="spoiler();">
+					<span>스포일러&nbsp;</span>
+					<span id="on-off" class="N">off</span>
+				</button>				
+				<p class="textarea-length">0/1000</p>
+				<button type="button" class="btn btn-danger" data-dismiss="modal" id="CommentsInsert" onclick="">저장</button>
+			</div>
+			<!-- Modal end 글쓰기 버튼-->		
+	</div>
+
 	<script>
 	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-up]',function(){
 		
@@ -465,73 +440,17 @@
 	
 	
 	<script>
-	/*
-	function checkMyCommentExit(){
-		
-		$.ajax({
-			url:'checkMyCommentExit.co',
-			data:{"movieTitle":"${movieTitle}",
-				"movieYear":${movieYear},
-				"memberNo":JSON.stringify(${loginUser.memberNo})
-			},
-			success:function(exit){
-									
-					
-					
-					
-					
-				}
-			},
-			error:function(){
-				
-			}
-		});
-		
-	};
-	*/
-	/*
-	function MyComment(){
-		
-		$.ajax({
-			url:'myComment.co',
-			data:{
-				"movieTitle":"${movieTitle}",
-				"movieYear":${movieYear},
-				"memberNo":JSON.stringify(${loginUser.memberNo})
-			},
-			success:function(){
-				
-			},
-			error:function(){
-				
-			}
-			
-		});
-		
-		
-	}
-	*/
-	function spoilerBlock(){
-		
-		$('textarea[name=Y]').val('스포일러 적혀있는 게시물입니다')
-		
-		
-			
-			
-		
-		
-		
-		
-		
+	
+	function spoilerBlock(){		
+		$('textarea[name=Y]').val('스포일러 적혀있는 게시물입니다');
 	}
 	
-	function CommentsBase(){
-		
+	function CommentsBase(){		
 		$('.form-control').val("");
 		$('#on-off').attr('class','N');
 		$('#CommentsInsert').text('등록');
 		$('#CommentsInsert').attr('onclick',"commentsInsert();");
-		$('.textarea-length').text('0/1000')
+		$('.textarea-length').text('0/1000');
 	}
 	
 	function getMyComments(){
@@ -543,14 +462,7 @@
 			},
 			success:function(list){
 				console.log('내 한줄평 가져오기 성공')
-				console.log(list)
-				console.log(list[0])
-				console.log(list[0])
-				console.log(list[0].COMMENT_CONTENT)
-				console.log(list[0].SPOILER)
-				console.log(list[0].COMMENT_CONTENT.length)
-				
-				
+			
 				var spoiler= 'on';
 				if(list.spoiler == 'Y'){
 					$('#on-off').text('Y');
@@ -559,7 +471,7 @@
 				$('#on-off').attr('class',list[0].SPOILER);
 				$('#CommentsInsert').text('수정');
 				$('#CommentsInsert').attr('onclick',' reviseCommentBtn()');
-				$('.textarea-length').text(list[0].SPOILER+'/1000')
+				$('.textarea-length').text(list[0].SPOILER+'/1000');
 			},
 			error:function(){
 				console.log('내 한줄평 가져오기 실패')
@@ -575,13 +487,9 @@
 			"memberNo":JSON.stringify(${loginUser.memberNo})
 			},
 			success:function(list){
-				console.log('좀되라 ===================')
-				console.log(list[0])
-				console.log(list)
-				console.log(list)
-				console.log(list.length ==0 || list=='')
+				
 				value='';
-				if(list.length ==0 || list==''){
+				if(list.length == 0 || list==''){
 					
 					value='<p>한줄평을 작성해주세요</p><button data-toggle="modal" data-target="#myModal"  class="commentsWrite" onclick="CommentsBase();">글쓰기</button>'
 					$('#myComments').html(value);
@@ -607,7 +515,6 @@
 					 +   '<input type="hidden" value="N" class="ifLikeExist">'
 					 +	 '<br>'
 				}
-				
 
 				$('#myComments').html(value);
 				spoilerBlock();
@@ -616,41 +523,34 @@
 				console.log('내 한줄평 가져오기 실패')
 			}
 		});
-	}
+	};
 	
 	
 	
 	function commentsInsert(){
-			console.log('글쓴닷')
-			console.log($('#on-off'))
-		
-			$.ajax({
-					url: 'commentsWrite.co',
-					data: {
-					    memberNo: JSON.stringify(${loginUser.memberNo}),
-					    commentContent: $('.form-control').val(),
-					    spoiler: $('#on-off').attr('class'),
-					    movieTitle: "${movieTitle}",
-					    movieYear: ${movieYear}
-					},
-					success: function() {
-					    alert('글쓰기 완료');
-					    showMovieCommentsList();
-					    showMyComments();
-					    spoilerBlock();
-					},
-					error: function() {
-					    // handle error
-					}
-			});
-	}
+			
+		$.ajax({
+			url: 'commentsWrite.co',
+			data: {
+				memberNo: JSON.stringify(${loginUser.memberNo}),
+				commentContent: $('.form-control').val(),
+				spoiler: $('#on-off').attr('class'),
+				movieTitle: "${movieTitle}",
+				movieYear: ${movieYear}
+			},
+			success: function() {
+				alert('글쓰기 완료');
+				showMovieCommentsList();
+				showMyComments();
+				spoilerBlock();
+			},
+			error: function() {
+				// handle error
+			}
+		});
+	};
 	
 	function reviseCommentBtn(){
-		console.log('폼컨프롤 시험')
-		console.log($('.form-control').text())
-		console.log($('.form-control').val())
-		console.log('폼컨프롤 시험')
-		
 		$.ajax({
 			url:'reviseMyComments.co',
 			data:{"movieTitle":"${movieTitle}",
@@ -662,15 +562,14 @@
 			success:function(){
 				console.log('글수정성공')
 				$('.${loginUser.memberNo}textarea').val($('.form-control').val());
-				showMyComments();
-				
+				showMyComments();				
 			},
 			error:function(){
-				console.log('글수정실패')
+				console.log('글수정실패');
 			}
-		})
+		});
 
-	}
+	};
 	
 	function deleteMyComments(){
 		
@@ -688,14 +587,11 @@
 			error:function(){
 				console.log('글삭제실패')
 			}
-		})
-		
-		
-	}
+		});				
+	};
 	
 	
-	function showMovieRating(){
-		
+	function showMovieRating(){		
 		$.ajax({
 			url:'ratingGet.co',
 			data:{movieTitle:"${movieTitle}",
@@ -706,8 +602,7 @@
 			},
 			error:function(){
 				console.log("실패");
-			}
-			
+			}			
 		});
 	};
 	
@@ -718,42 +613,28 @@
 				  movieYear:${movieYear}
 			},
 			success:function(commentsList){
-				
-				console.log('---커멘트리스트콘솔---')
-				console.log(commentsList);
-				
-				
-				
-				console.log('---커멘트리스트콘솔---')
-				
 				value='';
 				if(commentsList.length != 0 ){
-					for(var i in commentsList){
-					
-						result=commentsList[i];
-						
+					for(var i in commentsList){					
+						result=commentsList[i];						
 					value+='<div class="commentsOne">'
 						 +   	'<div>'
 						 +    	   '<div align="left">'
 						 +     	      '<span>'+result.NICK_NAME+'&nbsp;&nbsp;'+result.COMMENTENROLLDATE+'</span>'
 						 +     	   '</div>'
 						 +     	   '<div align="right">';
-						 
-					
+				
 						 if( (result.MEMBER_NO).toString() != '${loginUser.memberNo}'){
-							 value+=    	      	'<button class="reportComment">신고</button>'
-						 }
-					
-					value+=      	   '</div>'
+							 value+=   '<button class="reportComment">신고</button>'
+						 }					
+					value+=        '</div>'
 					     +		'</div>'				    
 						 +  	'<div>'
 						 +		'<input type="hidden" class="spoiler'+i+'" value="'+result.SPOILER+'">';
 						 if(result.COMMENT_CONTENT.length>75){
-							 value+='<textarea name="'+result.SPOILER+'" class="'+result.MEMBER_NO+'textarea">'+result.COMMENT_CONTENT.substr(0,75)+'....'+'</textarea>';
-						 
+							 value+='<textarea name="'+result.SPOILER+'" class="'+result.MEMBER_NO+'textarea">'+result.COMMENT_CONTENT.substr(0,75)+'....'+'</textarea>';						 
 						 }else{
-					value+=       	'<textarea name="'+result.SPOILER+'" class="'+result.MEMBER_NO+'textarea">'+result.COMMENT_CONTENT+'</textarea>'
-							 
+					value+=       	'<textarea name="'+result.SPOILER+'" class="'+result.MEMBER_NO+'textarea">'+result.COMMENT_CONTENT+'</textarea>'							 
 						 }			 
 					value+= 	 	'</div>'					    
 						 +  	'<div>'
@@ -773,10 +654,7 @@
 				}else{
 					value+='아직 작성된 한줄평이 없습니다'
 				}
-						
-				    	
-
-				
+		
 				$('.commentsList').html(value);
 				console.log(value);
 				showCommentsLike();
@@ -789,9 +667,7 @@
 	};
 	
 	function showCommentsLike(){
-
-		
-		
+	
 		$.ajax({
 			url:'showCommentsLike.co',
 			data:{"movieTitle":"${movieTitle}",
