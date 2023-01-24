@@ -6,66 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.movieDetailView{
-        width: 800px;
-        height: 200px;
-        
-        
-    }
-    .movieDetailView>div{
-        height: 100%;
-        float: left;
-    }
-    .movieImg{
-        width: 20%;
-        height: 100%;
-        
-    }
-    .movieInfoShow{
-        width: 80%;
-        height: 100%;
-           
-    }    
-    div{
-            
-        box-sizing: border-box;
-    }   
-    .movieInfo1{height: 30%;}
-    .movieInfo2{height: 40%;}
-    .movieInfo3{height: 30%;}
 	
-	.movieImgFile{
-		width:90%;
-	    height:90%;
-	    object-fit:cover;
-	}
-	.star{
-	  display:inline-block;
-	  width: 20px;height: 40px;
-	  cursor: pointer;
-	}
-	.star_left{
-	  background: url(https://pbs.twimg.com/media/FlwQNrgaEAICfMO?format=png&name=120x120) no-repeat 0 0; 
-	  background-size: 40px; 
-	  margin-right: -3px;
-	}
-	.star_right{
-	  background: url(https://pbs.twimg.com/media/FlwQNrgaEAICfMO?format=png&name=120x120) no-repeat -20px 0; 
-	  background-size: 40px; 
-	  margin-left: -3px;
-	}
-	.star.on{
-	  background-image: url(https://pbs.twimg.com/media/FlwQNrjakAAn1qw?format=png&name=120x120);
-	}
-	.rating-number{
-	  font-size: 20px;
-	  
-	}
-	.commentsList{
-		border:1px solid black;
-	}
-	.commentsOne{
-		border:1px solid red;
+	
+   
+    div{           
+    	box-sizing: border-box;
+    }   
+  
+	
+	.commentsOne{		
+		background-color: rgb(242, 242, 242);
 	}
 	.red{
 		color:red;
@@ -74,7 +24,8 @@
 		color:blue;
 	}
 	ul {
-    list-style:none;
+    	list-style:none;
+    
 	}
 	 
 	li {
@@ -89,6 +40,38 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-bos-orient: vertical;
+		background-color: rgb(242, 242, 242);
+	}
+	textarea:hover{
+		cursor:pointer;
+	}
+	.heightSpace{
+		height: 40px;
+	}		
+	.commentsOne > div:first-child > div:first-child span {
+	    font-size: 14px;
+	    font-weight: bold;
+	}
+	.commentsOne textarea {
+	    width: 100%;
+	    height: 100px;
+	    padding: 10px;
+	    border: 1px solid #ccc;
+	    border-radius: 5px;
+	    resize: none;
+	    font-size: 14px;
+	}
+	.commentsOne button.reportComment {
+	    padding: 5px 10px;
+	    border: none;
+	    border-radius: 5px;
+	    background-color: #007bff;
+	    color: #fff;
+	    cursor: pointer;
+	}
+	#pagingArea {
+	    display: flex;
+	    justify-content: center;
 	}
 	
 </style>
@@ -100,73 +83,77 @@
     <script src="https://kit.fontawesome.com/aa839e973e.js" crossorigin="anonymous"></script>
 </head>
 <body>
-	<div style="width:500px;">
-				<div align="right">
-					<c:choose>
-						<c:when test="${loginUser ne null }">			
-							<button data-toggle="modal" data-target="#myModal" class="commentsWrite" onclick="CommentsBase();">글쓰기</button>
-						</c:when>
-					</c:choose>
-				</div>
 
-				<div class="commentsList">
-				
-					<c:forEach items="${commentsList}" var="c">
-						
-						<div class="commentsOne">
-							<div>
-						        <div align="left">
-						            <span>${c.NICK_NAME} &nbsp; ${c.COMMENTENROLLDATE}</span>
-	            
-						        </div>
-						        <div align="right">
-						            	<button class="reportComment">신고</button>
-						        </div>
-						    </div>
-						    
-						    <div>
-						        <textarea name="${c.SPOILER}" class="${c.MEMBER_NO }textarea">${c.COMMENT_CONTENT}</textarea>
-						    </div>
-						    
-						    <div>
-						        <div align="left">
-						           	 <p class="${c.MEMBER_NO }rating">★ ${c.RATING }</p>
-						        </div>
-						        <div align="right">
-						           	<i class="fa-solid fa-thumbs-up"></i><em class="like">${c.COMMENT_LIKE}</em>
-							   		<i class="fa-solid fa-thumbs-down"></i><em class="dislike">${c.COMMENT_DISLIKE }</em>
-						        </div>
-						    </div>
-						    
-					    </div>
-					    <input type="hidden" value="${c.COMMENT_NO}" class="commentsNo">
-					    <input type="hidden" value="N" class="ifLikeExist">
-					</c:forEach>
-					    <br>
-					
+	<jsp:include page="/WEB-INF/views/common/menubar.jsp"/>
+	<div>
+		<h3>리얼평</h3>
+	</div>
+	<br>
+	
+	<div class="commentsList-scope" align="center">
+	
+		<div style="width:500px;">
+			<div align="right">
+				<c:choose>
+					<c:when test="${loginUser ne null }">			
+						<button data-toggle="modal" data-target="#myModal" class="commentsWrite" onclick="CommentsBase();">글쓰기</button>
+					</c:when>
+				</c:choose>
+			</div>
+	
+			<div class="commentsList">
+				<c:choose>
+					<c:when test="${not empty commentsList }">
+						<c:forEach items="${commentsList}" var="c">									
+							<div class="commentsOne">
+								<div>
+									<div align="left">
+										<span>${c.NICK_NAME} &nbsp; ${c.COMMENTENROLLDATE}</span>			            
+									</div>
+									<div align="right">
+										<button class="reportComment">신고</button>
+									</div>
+								</div>
+									    
+								<div>
+									<textarea name="${c.SPOILER}" class="${c.MEMBER_NO }textarea">${c.COMMENT_CONTENT}</textarea>
+								</div>
+									    
+								<div>
+									<div align="left">
+										<p class="${c.MEMBER_NO }rating">★ ${c.RATING }</p>
+									</div>
+							        	<div align="right">
+								           	<i class="fa-solid fa-thumbs-up"></i><em class="like">${c.COMMENT_LIKE}</em>
+									   		<i class="fa-solid fa-thumbs-down"></i><em class="dislike">${c.COMMENT_DISLIKE }</em>
+								        </div>
+								    </div>								    
+							    </div>
+							    <input type="hidden" value="${c.COMMENT_NO}" class="commentsNo">
+							    <input type="hidden" value="N" class="ifLikeExist">
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<h3>등록된 한줄평이 없습니다</h3>
+						</c:otherwise>
+					</c:choose>
+					<br>						
 			    </div>   	
 			</div>
-
-
-
-
-		<div id="pagingArea">
-             <ul class="pagination">
-                	<c:choose>
-                		<c:when test="${pi.currentPage eq 1 }">
-                    		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                    	</c:when>
-                    <c:otherwise>
-                    		<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${pi.currentPage -1 }&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Previous</a></li>                  			
-                    	</c:otherwise>
-                    </c:choose>
-                    
-                    
+			<br><br>
+			<div id="pagingArea">
+	             <ul class="pagination">
+	                	<c:choose>
+	                		<c:when test="${pi.currentPage eq 1 }">
+	                    		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+	                    	</c:when>
+	                    <c:otherwise>
+	                    		<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${pi.currentPage -1 }&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Previous</a></li>                  			
+	                    	</c:otherwise>
+	                    </c:choose>	                    	                    
                     <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
                     	<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${p}&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">${p }</a></li>
-                    </c:forEach>
-                    
-                    
+                    </c:forEach>                                      
                     <c:choose>
                     	<c:when test="${pi.currentPage eq pi.maxPage }">
                     		<li class="page-item disabled"><a class="page-link" href="">Next</a></li>
@@ -176,8 +163,8 @@
 						</c:otherwise>
                     </c:choose>                   
               </ul>
+       		</div>
        </div>
-       
        <script>
        $(function(){
     	   showCommentsLike();
@@ -185,9 +172,7 @@
        });
        
        function showCommentsLike(){
-
-   		
-   		
+		
    		$.ajax({
    			url:'showCommentsLike.co',
    			data:{"movieTitle":"${comments.movieTitle}",
@@ -196,16 +181,7 @@
    			      
    			},
    			success:function(list){
-   				console.log(list)
-   				//console.log(list[0])
-   				//console.log(list[1])
-   				//console.log(list[2])
-   				//console.log($('.commentsOne'))
-   				//console.log(Number($('.commentsOne').siblings('.commentsNo').eq(0).val()));
-   				//console.log(Number($('.commentsOne').siblings('.commentsNo').eq(1).val()));
-   				//console.log(list[2].commentNo == Number($('.commentsOne').siblings('.commentsNo').eq(0).val()))
-   				//console.log(list[2].commentLike =='Y')
-   				//console.log($('.commentsOne').find('i').eq(0))
+   				
    				var length=$('.commentsOne').length
    				
    				for(var i=0;i<list.length;i++){
@@ -218,9 +194,7 @@
    								$('.commentsOne').siblings('.ifLikeExist').eq(j).attr('class','Y')
    							}else if(list[i].disLike =='Y'){
    								$('.commentsOne').find('i').eq((2*j)+1).attr('class','fa-solid fa-thumbs-down red');
-   								$('.commentsOne').siblings('.ifLikeExist').eq(j).attr('class','Y')					
-   						
-   							
+   								$('.commentsOne').siblings('.ifLikeExist').eq(j).attr('class','Y')					 						 							
    							}
    							
    						}

@@ -20,11 +20,12 @@
 }
 
 #myComments {
-    margin: 20px;
+    
     padding: 20px;
-    border: 1px solid #ccc;
+    
     border-radius: 5px;
     background-color: #f9f9f9;
+    width:600px;
 }
 
 /* Comments header */
@@ -39,7 +40,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
-    
+    width: 500px;
     
      position: relative;
     
@@ -54,6 +55,7 @@
     border-radius: 5px;
     resize: none;
     font-size: 14px;
+    background-color: white;
 }
 
 /* Buttons for editing and deleting comments */
@@ -81,23 +83,6 @@
     cursor: pointer;
 }
 
-/* Rating section of the comment */
-.commentsOsne .rating {
-    font-size: 20px;
-    color: #ffc107;
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -117,7 +102,7 @@
         
     }
     .movieInfoShow{
-        width: 80%;
+        width: 60%;
         height: 100%;
            
     }    
@@ -157,10 +142,11 @@
 	  
 	}
 	.commentsList{
-		border:1px solid black;
+		
 	}
 	.commentsOne{
-		border:1px solid red;
+		
+		background-color: rgb(242, 242, 242);
 	}
 	.red{
 		color:red;
@@ -184,6 +170,7 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-bos-orient: vertical;
+		background-color: rgb(242, 242, 242);
 	}
 	textarea:hover{
 		cursor:pointer;
@@ -191,10 +178,77 @@
 	.heightSpace{
 		height: 40px;
 	}
-	
+	/*  ===============================================================================    */
+	/* Styling for the Nickname and date of the comment */
+.commentsOne > div:first-child > div:first-child span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Styling for the comment textarea */
+.commentsOne textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    font-size: 14px;
+}
+
+/* Styling for the report button */
+.commentsOne button.reportComment {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Styling for the rating */
+.commentsOne .rating {
+    font-size: 20px;
+    color: #ffc107;
+}
+#writeBtn button {
+    border: none;
+    cursor: pointer;
+	background-color: white;
+	color: #ff52a0;
+}
+
+#writeBtn button:hover {
+    color: red;
+}	
+.comments-label {
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: 550;
+  font-size: 16px;
+}
+#writeBtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#writeBtn button {
+    margin-left: auto;
+}
+.movieInfo1, .movieInfo2 {
+    border-bottom: 1px solid #ccc; /* This will add a line between the three parts */
+}
+.movieTitle-scope{
+	font-weight: 800;
+	font-size: 20px;
+}
 </style>
 </head>
 <body>
+
+	<jsp:include page="/WEB-INF/views/common/menubar.jsp"/>
+
 	<div id="movieDetail-scope">
 
 	
@@ -205,13 +259,13 @@
 			</div>
 			<div class="movieInfoShow">
 				<div class="movieInfo1">
-					<span>${movieTitle }</span>&nbsp;&nbsp;<span>${movieYear }</span>
+					<span class="movieTitle-scope">${movieTitle }</span>&nbsp;&nbsp;<span>${movieYear }</span>
 				</div>
 				<div class="movieInfo2">
 					<span>${movieDirector }</span>
 				</div>
 				<div class="movieInfo3">
-					<span class="ratingShow">★${rating }</span>
+					<span class="ratingShow">평점 ★${rating }</span>
 				</div>
 			</div>  
 		</div>
@@ -222,11 +276,11 @@
 			<div class="rating-comment">평가해주세요</div>
 		</div>
 		<div class="star-box">
-			<span class="star star_left"></span>
-			<span class="star star_right"></span>
+			<span class="star star_left" name="rating0.5"></span>
+			<span class="star star_right" name="rating1"></span>
 			
-			<span class="star star_left"></span>
-			<span class="star star_right"></span>
+			<span class="star star_left" name="rating1.5"></span>
+			<span class="star star_right" name="rating2"></span>
 			
 			<span class="star star_left"></span>
 			<span class="star star_right"></span>
@@ -260,30 +314,32 @@
 				<hr>
 			</div>
 		</c:if>		
-			
-			
-									
+						
 		<div style="width:500px;">
-			<div align="right" id="writeBtn">															
+			<div align="right" id="writeBtn">
+				<p class="comments-label">리얼평</p>																		
 				<form action="detailComments.co" method="get">
 					<input type="hidden" name="movieTitle" value="${movieTitle}">
 					<input type="hidden" name="movieYear" value="${movieYear}">														
 					<button onclick="detailComments();">더보기</button>
 				</form> 				
 			</div>
+			
+			
+			
 			<div class="commentsList">
-		
+			
 			</div>   	
 		</div>
 			
-		<div id="test">
-			<button onclick="textOverflow();">실험</button>
-		</div>		
+			
 	
 		<br><br><br><br><br>
-
-		<!-- Button to Open the Modal  -->
-		<!-- The Modal 글쓰기 버튼-->
+	</div>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	
+	<!-- Button to Open the Modal  -->
+	<!-- The Modal 글쓰기 버튼-->
 	<div class="modal" id="myModal">
 		<div class="modal-dialog">
 		<div class="modal-content">
@@ -309,8 +365,10 @@
 				<button type="button" class="btn btn-danger" data-dismiss="modal" id="CommentsInsert" onclick="">저장</button>
 			</div>
 			<!-- Modal end 글쓰기 버튼-->		
-	</div>
-
+	
+	
+	
+	
 	<script>
 	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-up]',function(){
 		
@@ -413,29 +471,14 @@
 		showMyComments();//내한줄평 가져오기
 		showCommentsLike();//좋아요 로그인한 사람한테 보여주기
 		spoilerBlock();
-		
-		
-		
-		console.log($('i[class~=fa-thumbs-up'));
+				
 		$('i[class~=fa-thumbs-up').attr('name','ssddss');
-		console.log('===name===')
-        console.log($('i[class~=fa-thumbs-up').attr('name'));
-		console.log('===name===')
-		
-		
-		console.log('화면되면서 로딩됨')
-		//showMovieCommentsList();
-		
-		console.log($('.form-control').val().length)
-		console.log($('.textarea-length'))
+
 		$('.form-control').on('keyup',function(){
-			$('.textarea-length').text($('.form-control').val().length+'/1000')
-			console.log($('.textarea-length'))
-			console.log($('.form-control').val().length)
-			console.log($('.textarea-length').text())
-		})	
+			$('.textarea-length').text($('.form-control').val().length+'/1000')			
+		});	
 		
-		})
+	});
 	</script>
 	
 	
@@ -462,16 +505,18 @@
 			},
 			success:function(list){
 				console.log('내 한줄평 가져오기 성공')
-			
+				console.log(list[0].SPOILER)
+				console.log(list[0].SPOILER == 'Y')
+				
 				var spoiler= 'on';
-				if(list.spoiler == 'Y'){
-					$('#on-off').text('Y');
+				if(list[0].SPOILER == 'Y'){
+					$('#on-off').text('on');
 				}
 				$('.form-control').val(list[0].COMMENT_CONTENT);
 				$('#on-off').attr('class',list[0].SPOILER);
 				$('#CommentsInsert').text('수정');
 				$('#CommentsInsert').attr('onclick',' reviseCommentBtn()');
-				$('.textarea-length').text(list[0].SPOILER+'/1000');
+				$('.textarea-length').text(list[0].COMMENT_CONTENT.length+'/1000');
 			},
 			error:function(){
 				console.log('내 한줄평 가져오기 실패')
@@ -518,6 +563,15 @@
 
 				$('#myComments').html(value);
 				spoilerBlock();
+				console.log('별표실험')
+				console.log(list[0].RATING)
+				console.log('별표실험')
+				$('.rating-number').text(list[0].RATING);
+				$(".star").removeClass("on");
+			      for(var i=0; i<=((2*list[0].RATING)-1); i++){
+			        $(".star").eq(i).addClass("on");			       
+			      }
+				
 			},
 			error:function(){
 				console.log('내 한줄평 가져오기 실패')
@@ -562,7 +616,8 @@
 			success:function(){
 				console.log('글수정성공')
 				$('.${loginUser.memberNo}textarea').val($('.form-control').val());
-				showMyComments();				
+				showMyComments();
+				
 			},
 			error:function(){
 				console.log('글수정실패');
@@ -598,6 +653,9 @@
 				  movieYear:${movieYear}
 			},
 			success:function(data){
+				console.log('별점가져오기@')
+				console.log(data)
+				console.log('별점가져오기@')
 				$('.ratingShow').text('★'+data);
 			},
 			error:function(){
@@ -675,89 +733,39 @@
 			      "memberNo":JSON.stringify(${loginUser.memberNo})//json 형태로 보내기	
 			      
 			},
-			success:function(list){
-				//console.log('=======================================fdsfsdfsdf================')
-				//console.log(list)				
-				//console.log(Number($('.commentsOne').siblings('.commentsNo').eq(0).val()))
-				//console.log(Number($('.commentsOne').siblings('.commentsNo').eq(1).val()))
-				//console.log(list.length)
+			success:function(list){				
 				var length=$('.commentsOne').length
-				//console.log(length)
-				//console.log(list[1].commentNo == Number($('.commentsOne').siblings('.commentsNo').eq(0).val()))
-				//console.log(list[1].commentNo)
-				//console.log(Number($('.commentsOne').siblings('.commentsNo').eq(0).val()))
-				//console.log(list[1].commentLike =='Y')
+				
 				for(var i=0;i<list.length;i++){
 					for(var j=0;j<length;j++){
-						if(list[i].commentNo == Number($('.commentsOne').siblings('.commentsNo').eq(j).val())){
-								
-							
+						if(list[i].commentNo == Number($('.commentsOne').siblings('.commentsNo').eq(j).val())){															
 							if(list[i].commentLike =='Y'){
 								$('.commentsOne').find('i').eq(2*j).attr('class','fa-solid fa-thumbs-up blue');
 								$('.commentsOne').siblings('.ifLikeExist').eq(j).attr('class','Y')
 							}else if(list[i].disLike =='Y'){
 								$('.commentsOne').find('i').eq((2*j)+1).attr('class','fa-solid fa-thumbs-down red');
-								$('.commentsOne').siblings('.ifLikeExist').eq(j).attr('class','Y')					
-						
-							
-							}
-							
+								$('.commentsOne').siblings('.ifLikeExist').eq(j).attr('class','Y')																		
+							}							
 						}
 					}	
-				}
-				
+				}				
 			},
 			error:function(){
 				console.log('좋아요부르기실패');
 			}		
 		});
-
-
 	};
-	/*
-	function ratingShow(){
-		
-		$.ajax({
-			url:'ratingShow.co',
-			data:{"movieTitle":"${movieTitle}",
-				"movieYear":${movieYear}
-			},
-			success:function(rating){
-				$('.movieInfo3').val('★'+rating)
-			},
-			error:function(){
-				
-			}
-			
-		});
-	}
-	*/
-	
-	
+
 	function spoiler(){
 		if($('#on-off').text() =="off"){
-			$('#on-off').text("on");
-			
-			
-			
+			$('#on-off').text("on");					
 			$('#on-off').attr('class','Y');
 		}else{
 			$('#on-off').text("off");
 			$('#on-off').attr('class','N');
-		}
-		console.log($('#on-off').attr('class'));
-	}
-	
-	
-	$(document).on('click','#CommentsInsert',function(){
-			console.log('성공')
-			alert('성')
-		})
-	
-	function detailComments(){
-		
-	}
-		
+		}		
+	};
+				
 	$(".star").on('mouseenter',function(){
 	      console.log("별모양"+this);
 	      var idx = $(this).index();
@@ -771,9 +779,7 @@
 	$(".star").on('click',function(){
 	          
 	      var idx2 = 0.5*($(this).index()+1); //별점점수
-	      if('${loginUser}' != ''){
-				
-	          
+	      if('${loginUser}' != ''){					          
 		      $.ajax({
 		          url:'ratingCheck.co',
 		          data:{rating:idx2,
@@ -782,29 +788,20 @@
 		                memberNo: JSON.stringify(${loginUser.memberNo}),
 		                beforeRating:${rating}
 		          },
-		          success:function(data){
-		            	
+		          success:function(data){		            	
 		             $('.rating-number').text(idx2);//별점점수 별 옆에 표시
 		             showMovieRating();//별점보여주기
-		             $('.${loginUser.memberNo }rating').text('★'+idx2)
-		             
+		             $('.${loginUser.memberNo }rating').text('★'+idx2);
+		             showMyComments();
 		          },
-		          error:{
-		              
+		          error:function(){
+		          	console.log('별점체크실패'); 
 		          }     
 		      });
-			
-	        
 	      } else{
 			  alert('로그인 후 평가해주세요')
-		  } 
-	        
-	        
-	});
-	   
-		
-	
-	
+		  };	        
+	});	
 	</script>
 	
 	

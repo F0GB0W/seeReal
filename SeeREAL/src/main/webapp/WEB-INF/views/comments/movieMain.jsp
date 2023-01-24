@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
   <head>
@@ -11,15 +12,26 @@ pageEncoding="UTF-8"%>
         text-decoration: none;
         color: black;
       }
+      #searchMovie-scope{
+        margin-top: 50px;
+      }
+      #result1{
+      	margin-top: 50px;
+      }
     </style>
   </head>
   <body>
-    <input placeholder="영화제목을 입력하세요~" id="title" />
-	<button onclick="movie();">
-      이동~
-    </button>
+  	
+  	<jsp:include page="/WEB-INF/views/common/menubar.jsp"/>
+  
+  
+  	<div align="center" id="searchMovie-scope">
+	    <input placeholder="영화제목을 입력하세요~" id="titleBox" />
+		<button id="searchButton" onclick="movie();">이동~</button>
+  	</div>
 
-    <table id="result1" border="1" align="center">
+	
+    <table id="result1" border="1" align="center" style="display: none;">
       <thead>
         <tr>
           <th>영화제목(링크)</th>
@@ -39,16 +51,26 @@ pageEncoding="UTF-8"%>
       <input type="hidden" id="movieDirector" name="movieDirector" />
       <input type="hidden" id="movieSubTitle" name="movieSubTitle" />
     </form>
-    <input type="text" id="test1" />
+    
 
     <script>
+	    $('#titleBox').on('keyup',function(key){
+				
+				if(key.keyCode==13){
+					
+					$('#searchButton').click();
+					
+				}		
+			})	
+    
       function movie() {
+    	console.log($("#titleBox").val());
+    	console.log($("#titleBox"));
         $.ajax({
           url: "movie.do",
-          data: { title: $("#title").val() },
+          data: { title: $("#titleBox").val() },
           success: (data) => {
-            console.log(data.items[0]);
-            //console.log(data.getFoodKr.item);
+            $('#result1').attr('style','display:')
 
             const itemArr = data.items;
 
