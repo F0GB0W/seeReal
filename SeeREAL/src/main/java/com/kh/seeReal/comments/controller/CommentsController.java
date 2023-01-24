@@ -175,7 +175,7 @@ public class CommentsController {
     	return commentsService.ratingGet(movieRating);	
     }
 
-    @ResponseBody
+    
     @RequestMapping(value="ratingCheck.co")
     public String ratingCheck(MovieRating movieRating,String beforeRating,Model model) {
     	
@@ -208,7 +208,7 @@ public class CommentsController {
     	return new Gson().toJson(commentsList);  	
     }
     
-    @ResponseBody
+    
     @RequestMapping(value="commentsWrite.co")
     public String commentsWrite(Comments comments,MovieRating movieRating,Model model) {
     	
@@ -221,7 +221,7 @@ public class CommentsController {
     	return "comments/movieDetail";	
     }
      
-    @ResponseBody
+    
     @RequestMapping(value="thumbsUp.co")
     public String thumbsUp(CommentsLike commentsLike,String ifLikeExist,Model model) { 	
     	int rex=commentsService.commentsLikeExit(commentsLike);//임시
@@ -240,7 +240,7 @@ public class CommentsController {
     	return "comments/movieDetail";    	
     }
     
-    @ResponseBody
+    
     @RequestMapping(value="thumbsDown.co")
     public String thumbsDown(CommentsLike commentsLike,String ifLikeExist,Model model) {
     	
