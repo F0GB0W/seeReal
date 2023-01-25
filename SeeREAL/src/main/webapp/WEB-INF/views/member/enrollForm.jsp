@@ -222,7 +222,8 @@
 													code : code
 											}, 
 											success : function(result2){
-												if(result2 === '1'){
+												console.log(result2);
+												if(result2 === 'success'){
 													alert("인증성공");
 													$('#user_email').attr('readonly',true);
 													emailCheck = true;
