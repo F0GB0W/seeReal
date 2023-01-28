@@ -139,11 +139,10 @@
 					                  	<tbody>
 					            			<c:forEach items="${list}" var="r">
 							                	<tr>
-							                    	<td class="bno">${r.collectionNo}</td>
-							                      	<td><input type="hidden" name="">${r.coReplyNo}</td>
-							                      	<td id="spoilerTitle">${r.collectionNo}</td>
-							                      	<td>${r.collectionNo}</td>
-							                      	<td>${r.collectionNo}</td>
+							                    	<td><input type="hidden" value="${r.collectionNo}" class="bno">${r.coReplyNo}</td>
+							                      	
+							                      	<td id="spoilerTitle">${r.coReplyContent}</td>
+							                      	<td>${r.coReplyDate}</td>
 							                  	</tr>
 					              			</c:forEach>
 					                  	</tbody>
@@ -156,7 +155,8 @@
 		              		// 동적으로 생성된 요소
 		              	    $(function(){
 		              		    $('#collectionList>tbody>tr').click(function(){
-			              			location.href = 'detail.cl?clno=' + $(this).children('.bno').text();
+			              			location.href = 'detail.cl?clno=' + $(this).find('.bno').val();
+			              			//console.log($(this).children('.bno').text());
 		              			})	
 		              		});
 		              
