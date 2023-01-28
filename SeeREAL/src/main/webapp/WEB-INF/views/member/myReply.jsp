@@ -123,7 +123,7 @@
 				<br>
 				<div id="board-list">
 		        	<div class="container">
-		            	<table class="board-table table table-hover" id="spoilerList">
+		            	<table class="board-table table table-hover" id="boardReplyList">
 		                	<thead>
 			                	<tr>
 			                    	<th scope="col" class="th-num">번호</th>
@@ -139,8 +139,8 @@
 		                  			<c:otherwise>
 		                  				<c:forEach items="${list}" var="b">
 						                	<tr>
-						                    	<td class="bno"><input type="hidden" name="${b.boardNo}">${b.boReplyNo}</td>
-						                      	<td id="spoilerTitle">${b.boReplyContent}</td>
+						                    	<td><input type="hidden" value="${b.boardNo}" class="bno">${b.boReplyNo}</td>
+						                      	<td>${b.boReplyContent}</td>
 						                      	<td>${b.boReplyDate}</td>
 						                  	</tr>
 				              			</c:forEach>
@@ -151,11 +151,10 @@
 		              	</table>
 		              	
 		              	<script>
-		              	
-		              		// 동적으로 생성된 요소
 		              	    $(function(){
-		              		    $('#spoilerList>tbody>tr').click(function(){
-			              			location.href = 'spoilerDetail.bo?bno=' + $(this).children('.bno').text();
+		              		    $('#boardReplyList>tbody>tr').click(function(){
+		              		    	
+			              			location.href = 'spoilerDetail.bo?bno='+$(this).find('.bno').val();
 		              			})	
 		              		});
 		              
