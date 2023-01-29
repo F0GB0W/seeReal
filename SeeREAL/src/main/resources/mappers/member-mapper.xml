@@ -443,9 +443,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 좋아요한 컬렉션 리스트 조회를 위한 select -->
 	<select id="selectLikeCollection" resultMap="collectionResultSet" parameterType="_int">
 		SELECT 
-			COLLECTION_NO,
-			COLLECTION_TITLE,
-			CHANGE_NAME,
+			c.COLLECTION_NO,
+			c.COLLECTION_TITLE,
+			c.CHANGE_NAME,
 			m.NICK_NAME,
 			c.MEMBER_NO 
 		FROM
@@ -453,11 +453,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN 
             MEMBER m ON c.MEMBER_NO = m.MEMBER_NO
         JOIN 
-            COLLECTION_LIKE USING(COLLECTION_NO)
+            COLLECTION_LIKE cl on (cl.COLLECTION_NO = c.COLLECTION_NO)
 		WHERE
 			c.STATUS = 'Y'
-			AND c.MEMBER_NO = #{memberNo}
-			AND COLLECTION_LIKE = 1
+			AND cl.MEMBER_NO = #{memberNo}
+			AND cl.COLLECTION_LIKE = 1
 		ORDER BY
 			COLLECTION_ENROLL
 	</select>
