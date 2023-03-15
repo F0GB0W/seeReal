@@ -56,7 +56,7 @@ public class CommentsController {
 	
 	
 	@RequestMapping(value="movieDetail.co",produces="application/json; charset=UTF-8")	
-		public String detailMovie(MovieInfo movieInfo,Comments comments,MovieRating movieRating,Model model,HttpSession session) {
+	public String detailMovie(MovieInfo movieInfo,Comments comments,MovieRating movieRating,Model model,HttpSession session) {
 		
 		
 		model.addAttribute("movieYear",movieInfo.getMovieYear());		
@@ -72,14 +72,15 @@ public class CommentsController {
 		
 		
 		//comments.setMemberNo(((Member)(session.getAttribute("loginUser"))).getMemberNo());
-		model.addAttribute("myCommentsExit", commentsService.checkMyCommentExit(comments));
-		int test111= commentsService.checkMyCommentExit(comments);
+		//model.addAttribute("myCommentsExit", commentsService.checkMyCommentExit(comments));
+		//int test111= commentsService.checkMyCommentExit(comments);
 		
-		List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
+		
+		//List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
 		model.addAttribute("rating",commentsService.ratingGet(movieRating));
 		
 	
-		model.addAttribute("commentsList",commentsList);
+		//model.addAttribute("commentsList",commentsList);
 		
 		//return new Gson().toJson(commentsList);
 		return "comments/movieDetail";
@@ -163,19 +164,20 @@ public class CommentsController {
             throw new RuntimeException("API 응답을 읽는 데 실패했습니다.", e);
         }
     }
+    /*
     @ResponseBody
     @RequestMapping(value="checkMyCommentExit.co")
     public int checkMyCommentExit(Comments comments) {   	
     	return commentsService.checkMyCommentExit(comments);
     }
-    
+    */
     @ResponseBody
     @RequestMapping(value="ratingGet.co")
     public double ratingGet(MovieRating movieRating) {	
     	return commentsService.ratingGet(movieRating);	
     }
 
-    
+    @ResponseBody
     @RequestMapping(value="ratingCheck.co")
     public String ratingCheck(MovieRating movieRating,String beforeRating,Model model) {
     	
@@ -208,59 +210,47 @@ public class CommentsController {
     	return new Gson().toJson(commentsList);  	
     }
     
-    
+    @ResponseBody
     @RequestMapping(value="commentsWrite.co")
-    public String commentsWrite(Comments comments,MovieRating movieRating,Model model) {
+    public int commentsWrite(Comments comments,MovieRating movieRating,Model model) {
     	
     	int ratingExit=commentsService.checkRatingExit(movieRating);
     	if(ratingExit != 0) {
     		comments.setBeforeRating("Y");
     	}
-    	int result=commentsService.commentsWrite(comments);
-    	
-    	return "comments/movieDetail";	
+    	return commentsService.commentsWrite(comments);   	
     }
-     
-    
+    /**
+     * 좋아요 눌렀을때 컨트롤러 
+     */
+    @ResponseBody
     @RequestMapping(value="thumbsUp.co")
-    public String thumbsUp(CommentsLike commentsLike,String ifLikeExist,Model model) { 	
-    	int rex=commentsService.commentsLikeExit(commentsLike);//임시
+    public int thumbsUp(CommentsLike commentsLike,Model model) { 	
+    	
+        int rex=commentsService.commentsLikeExit(commentsLike);//좋아요 싫어요 한 기록이 있는지 확인
  
     	if(rex >0) {
-    		int success=commentsService.thumbsUp(commentsLike);
-    		System.out.println(success);
-    		System.out.println("나여기왔노라A");
+    		return commentsService.thumbsUp(commentsLike);//기록이있을때 update    		
     	}else {
-    		int success=commentsService.thumbsUpCreate(commentsLike);
-    		System.out.println(success);
-    		System.out.println("나여기왔노라B");
-    	}
+    		return commentsService.thumbsUpCreate(commentsLike);//기록이 없을때 insert   		
+    	}  	
+    };
     
-    	
-    	return "comments/movieDetail";    	
-    }
-    
-    
+    /**
+     * 싫어요 눌렀을때 컨트롤러 
+     */
+    @ResponseBody
     @RequestMapping(value="thumbsDown.co")
-    public String thumbsDown(CommentsLike commentsLike,String ifLikeExist,Model model) {
+    public int thumbsDown(CommentsLike commentsLike,String ifLikeExist,Model model) {
     	
-    	int rex=commentsService.commentsLikeExit(commentsLike);
-    	
-    	
+    	int rex=commentsService.commentsLikeExit(commentsLike);//좋아요 싫어요 한 기록이 있는지 확인
+    		
     	if(rex > 0) {
-    		int success=commentsService.thumbsDown(commentsLike);
-    		
+    		return commentsService.thumbsDown(commentsLike);//기록이있을때 update   		
     	}else {
-    		int success=commentsService.thumbsDownCreate(commentsLike);
-    		
-    	}
-    	
-    	
-    	
-    	
-    	return "comments/movieDetail";
-    	
-    }
+    		return commentsService.thumbsDownCreate(commentsLike);//기록이 없을때 insert  		
+    	} 	
+    };
     
     @ResponseBody
     @RequestMapping(value="showCommentsLike.co")
@@ -304,19 +294,22 @@ public class CommentsController {
     }
     
     
-  
+    @ResponseBody
     @RequestMapping(value="reviseMyComments.co")
-    public String reviseMyComments(Comments comments) {
-    	
-    	int result=commentsService.reviseMyComments(comments);
-    	
-    	return "comments/movieDetail";
+    public int reviseMyComments(Comments comments) {	
+        return commentsService.reviseMyComments(comments); 	
     }
+    @ResponseBody
     @RequestMapping(value="deleteMyComments.co")
-    public String deleteMyComments(Comments comments) {
-    	commentsService.deleteMyComments(comments);
+    public int deleteMyComments(Comments comments) {
+    	//int a=commentsService.deleteMyComments(comments);
     	
-    	return "comments/movieDetail";
+    	//System.out.println("지우기커멘츠");
+    	//System.out.println(a);
+    	//System.out.println("지우기커멘츠");
+    	
+    	//return "comments/movieDetail";
+    	return commentsService.deleteMyComments(comments);
     }
     
     @RequestMapping(value="detailComments.co")

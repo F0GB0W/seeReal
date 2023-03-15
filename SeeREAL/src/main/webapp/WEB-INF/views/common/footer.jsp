@@ -39,7 +39,7 @@
 			Copyright ⓒ Greenwich   All rights reserved
 
 			<br><br>
-			<a>🐱Junghwan</a> 
+			<a href="https://github.com/finkangjung">🐱Junghwan</a> 
 			<a href="https://github.com/YEJINK072">🐱YeJin</a> 
 			<a>🐱DongJoon</a> 
 			<a href="https://github.com/F0GB0W">🐱JooEun</a> 
