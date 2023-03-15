@@ -95,8 +95,7 @@
 						<jsp:include page="../member/temporaryPwd.jsp" />
 					</c:when>
 					<c:when test="${loginUser.status == 'Y'}">
-						<div><a class="link-3" href="myPage.me">마이페이지</a></div>
-							<p>${loginUser.memberNickname}님 환영합니다.</p>
+						<div><a class="link-3" href="myPage.me"><img id="srLogo" src="resources/img/user.png" style="width:30px; height:30px; margin-right:10px;">${loginUser.memberNickname }</a></div>
 						<div><a class="link-3" href="logout.me">로그아웃</a></div>
 						<input type="hidden" value="${loginUser.memberEmail}"/>
 					</c:when>
