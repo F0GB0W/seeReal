@@ -329,41 +329,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="showCommentsLike" parameterType="Comments" resultMap="commentsLike">
 		SELECT
-       COMMENT_NO,
-       COMMENT_LIKE,
-        COMMENT_DISLIKE,
-        COMMENT_WRITER
-FROM
-     COMMENT_LIKE
-WHERE 
-     COMMENT_NO IN
-	(
-	SELECT 
-	         A.COMMENT_NO 
-	FROM
-	         (	SELECT
-	                     COUNT(CASE WHEN COMMENT_LIKE='Y' THEN 1 END) COMMENT_LIKE,
-	                     COUNT(CASE WHEN COMMENT_DISLIKE='Y' THEN 1 END) COMMENT_DISLIKE,
-	                     COMMENT_NO
-	                 FROM
-	                     COMMENT_LIKE
-		    WHERE
-			 COMMENT_NO IN (SELECT COMMENT_NO
-					FROM COMMENTS
-					WHERE MOVIE_TITLE = #{movieTitle}
-					AND MOVIE_YEAR = #{movieYear} 	
-					)
- 	            GROUP 
-		      BY 
- 	                     COMMENT_NO
-		ORDER 
- 	 	      BY
- 	                     COMMENT_LIKE-COMMENT_DISLIKE) A
-	WHERE 
- 	        ROWNUM &lt; 4
-	) 
-AND
-         COMMENT_WRITER = #{memberNo}
+		      COMMENT_NO,
+		      COMMENT_LIKE,
+		      COMMENT_DISLIKE,
+		      COMMENT_WRITER
+		  FROM
+		      COMMENT_LIKE
+		 WHERE 
+		      COMMENT_NO IN
+			  (
+			  SELECT 
+			        A.COMMENT_NO 
+			    FROM
+			        (	
+			        SELECT
+			              COUNT(CASE WHEN COMMENT_LIKE='Y' THEN 1 END) COMMENT_LIKE,
+			              COUNT(CASE WHEN COMMENT_DISLIKE='Y' THEN 1 END) COMMENT_DISLIKE,
+			              COMMENT_NO
+			          FROM
+			              COMMENT_LIKE
+				     WHERE
+					      COMMENT_NO IN (SELECT COMMENT_NO
+					  FROM 
+					      COMMENTS
+					 WHERE 
+					      MOVIE_TITLE = #{movieTitle}					   
+					  AND 
+					      MOVIE_YEAR = #{movieYear} 	
+					 )
+		 	    GROUP 
+				   BY 
+		 	         COMMENT_NO
+				ORDER 
+		 	 	   BY
+		 	         COMMENT_LIKE-COMMENT_DISLIKE) A
+			    WHERE 
+		 	         ROWNUM &lt; 4
+			    ) 
+		 AND
+		    COMMENT_WRITER = #{memberNo}
 	
 	</select>
 	
@@ -504,7 +508,7 @@ AND
     ORDER BY
             L.COMMENT_LIKE-L.COMMENT_DISLIKE DESC
 	</select>
-	
+	<!--  
 	<select id="myComment" parameterType="Comments" resultType="hashmap">
 	SELECT 
 	DISTINCT
@@ -554,7 +558,7 @@ AND
     
 	
 	</select>
-	
+	-->
 	<select id="commentsLikeExit" parameterType="CommentsLike" resultMap="commentsLike">
 		
 				 select 

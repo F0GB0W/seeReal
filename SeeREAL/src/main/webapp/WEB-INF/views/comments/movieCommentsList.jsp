@@ -4,77 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/movieCommentsList.css">
 <meta charset="UTF-8">
-<style>
-	
-	
-   
-    div{           
-    	box-sizing: border-box;
-    }   
-  
-	
-	.commentsOne{		
-		background-color: rgb(242, 242, 242);
-	}
-	.red{
-		color:red;
-	}
-	.blue{
-		color:blue;
-	}
-	ul {
-    	list-style:none;
-    
-	}
-	 
-	li {
-	    float: left;
-	}
-	textarea{
-		width: 480px;
-		overflow: hidden;
-		height: 96px;
-		overflow:hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-bos-orient: vertical;
-		background-color: rgb(242, 242, 242);
-	}
-	textarea:hover{
-		cursor:pointer;
-	}
-	.heightSpace{
-		height: 40px;
-	}		
-	.commentsOne > div:first-child > div:first-child span {
-	    font-size: 14px;
-	    font-weight: bold;
-	}
-	.commentsOne textarea {
-	    width: 100%;
-	    height: 100px;
-	    padding: 10px;
-	    border: 1px solid #ccc;
-	    border-radius: 5px;
-	    resize: none;
-	    font-size: 14px;
-	}
-	.commentsOne button.reportComment {
-	    padding: 5px 10px;
-	    border: none;
-	    border-radius: 5px;
-	    background-color: #007bff;
-	    color: #fff;
-	    cursor: pointer;
-	}
-	#pagingArea {
-	    display: flex;
-	    justify-content: center;
-	}
-	
-</style>
+
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>

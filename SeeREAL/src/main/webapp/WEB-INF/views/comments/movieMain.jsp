@@ -5,20 +5,10 @@ pageEncoding="UTF-8"%>
 <html>
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/movieMain.css">
     <title>영화 검색?</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <style>
-      a {
-        text-decoration: none;
-        color: black;
-      }
-      #searchMovie-scope{
-        margin-top: 50px;
-      }
-      #result1{
-      	margin-top: 50px;
-      }
-    </style>
+   
   </head>
   <body>
   	

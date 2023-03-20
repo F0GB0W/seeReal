@@ -1,0 +1,226 @@
+@charset "UTF-8";
+	#movieDetail-scope{
+		margin-left: 300px;
+		margin-top: 100px;
+	}
+	#myComments {		
+		padding: 20px;		
+		border-radius: 5px;
+		background-color: #f9f9f9;
+		width:600px;
+	}
+	#myComments span {
+		font-weight: bold;
+	}
+	.commentsOsne {
+		margin-top: 10px;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		background-color: #fff;
+		width: 500px;		
+		position: relative;	
+	}
+	.commentsOsne textarea {
+		width: 100%;
+		height: 100px;
+		padding: 10px;
+		border: none;
+		border-radius: 5px;
+		resize: none;
+		font-size: 14px;
+		background-color: white;
+	}
+	.commentsOsne ul {	
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.commentsOsne ul li {
+		display: inline-block;
+		margin-right: 10px;
+	}
+	.commentsOsne ul li button {
+		padding: 5px 10px;
+		border: none;
+		border-radius: 5px;
+		background-color: #007bff;
+		color: #fff;
+		cursor: pointer;
+	}
+	.movieDetailView{
+        width: 800px;
+        height: 200px;              
+    }
+    .movieDetailView>div{
+        height: 100%;
+        float: left;
+    }
+    .movieImg{
+        width: 20%;
+        height: 100%;       
+    }
+    .movieInfoShow{
+        width: 60%;
+        height: 100%;         
+    }    
+    div{           
+        box-sizing: border-box;
+    }   
+    .movieInfo1{height: 30%;}
+    .movieInfo2{height: 40%;}
+    .movieInfo3{height: 30%;}
+	
+	.movieImgFile{
+		width:90%;
+	    height:90%;
+	    object-fit:cover;
+	}
+	.star{
+	  display:inline-block;
+	  width: 20px;height: 40px;
+	  cursor: pointer;
+	}
+	.star_left{
+	  background: url(https://pbs.twimg.com/media/FlwQNrgaEAICfMO?format=png&name=120x120) no-repeat 0 0; 
+	  background-size: 40px; 
+	  margin-right: -3px;
+	}
+	.star_right{
+	  background: url(https://pbs.twimg.com/media/FlwQNrgaEAICfMO?format=png&name=120x120) no-repeat -20px 0; 
+	  background-size: 40px; 
+	  margin-left: -3px;
+	}
+	.star.on{
+	  background-image: url(https://pbs.twimg.com/media/FlwQNrjakAAn1qw?format=png&name=120x120);
+	}
+	.rating-number{
+	  font-size: 20px;	  
+	}	
+	.commentsOne{		
+		background-color: rgb(242, 242, 242);
+	}
+	.red{
+		color:red;
+	}
+	.blue{
+		color:blue;
+	}
+	commentsOsne ul {
+    list-style:none;
+	}	 
+	commentsOsne li {
+	    float: left;
+	}
+	textarea{
+		width: 480px;
+		overflow: hidden;
+		height: 96px;
+		overflow:hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-bos-orient: vertical;
+		background-color: rgb(242, 242, 242);
+	}
+	textarea:hover{
+		cursor:pointer;
+	}
+	.heightSpace{
+		height: 40px;
+	}
+	
+	.commentsOne > div:first-child > div:first-child span {
+		font-size: 14px;
+		font-weight: bold;
+	}
+
+	
+	.commentsOne textarea {
+		width: 100%;
+		height: 100px;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		resize: none;
+		font-size: 14px;
+	}
+
+	
+	.commentsOne button.reportComment {
+		padding: 5px 10px;
+		border: none;
+		border-radius: 5px;
+		background-color: #007bff;
+		color: #fff;
+		cursor: pointer;
+	}
+
+	
+	.commentsOne .rating {
+		font-size: 20px;
+		color: #ffc107;
+	}
+	#writeBtn button {
+		border: none;
+		cursor: pointer;
+		background-color: white;
+		color: #ff52a0;
+	}
+
+	#writeBtn button:hover {
+		color: red;
+	}	
+	.comments-label {
+	display: inline-block;
+	margin-right: 10px;
+	font-weight: 550;
+	font-size: 16px;
+	}
+	#writeBtn {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	#writeBtn button {
+		margin-left: auto;
+	}
+	.movieInfo1, .movieInfo2 {
+		border-bottom: 1px solid #ccc; /* This will add a line between the three parts */
+	}
+	.movieTitle-scope{
+		font-weight: 800;
+		font-size: 20px;
+	}
+	
+	.select-box {
+		position: relative;
+		display: inline-block;
+	}
+
+	.select-box-options {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background-color: white;
+	border: 1px solid black;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: none;
+	z-index: 1;
+	width: 150px;
+	}
+
+	.select-box-options li {
+	padding: 5px;
+	}
+
+	.select-box-options li:hover {
+	background-color: lightgray;
+	cursor: pointer;
+	}

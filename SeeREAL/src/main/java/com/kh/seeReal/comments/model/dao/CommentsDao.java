@@ -83,7 +83,11 @@ public class CommentsDao {
 		return list;
 	}
 	public List<Map<String,Object>> getMyComments(Comments comments,SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("comments-mapper.getMyComments",comments);
+		System.out.println("내가원하는거1");
+		List<Map<String,Object>> alist=(ArrayList)sqlSession.selectList("comments-mapper.getMyComments",comments);
+		System.out.println(alist);
+		System.out.println("내가원하는거1");
+		return alist;
 	}
 	/*
 	public ArrayList commentsLikeSum(Comments comments,SqlSessionTemplate sqlSession) {
@@ -116,9 +120,10 @@ public class CommentsDao {
 	}
 	public List<Map<String,Object>> myComment(Comments comments,SqlSessionTemplate sqlSession){
 		List<Map<String,Object>> list =(ArrayList)sqlSession.selectList("comments-mapper.myComment", comments);
-		System.out.println("=========라스트==");
+		System.out.println("=========내가원하는거2==");
+		System.out.println(list);		
+		System.out.println("=========내가원하는거2==");
 		System.out.println(comments);
-		System.out.println(list);
 		return list; 
 		
 	}

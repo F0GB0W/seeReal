@@ -202,14 +202,18 @@ public class CommentsController {
     	}
     	return "comments/movieDetail";
     }
-    
+    /**
+     * 댓글리스트 가져오기
+     */
     @ResponseBody
     @RequestMapping(value="commentsList.co",produces="application/json; charset=UTF-8")
     public String commentsList(Comments comments,Model model) {
     	List<Map<String, Object>> commentsList=commentsService.commentsList(comments);
     	return new Gson().toJson(commentsList);  	
     }
-    
+    /**
+     * 댓글 작성하기
+     */
     @ResponseBody
     @RequestMapping(value="commentsWrite.co")
     public int commentsWrite(Comments comments,MovieRating movieRating,Model model) {
@@ -251,7 +255,9 @@ public class CommentsController {
     		return commentsService.thumbsDownCreate(commentsLike);//기록이 없을때 insert  		
     	} 	
     };
-    
+    /**
+     * 로그인한 사람이 한 좋아요 보여주기
+     */
     @ResponseBody
     @RequestMapping(value="showCommentsLike.co")
     public ArrayList showCommentsLike(String movieTitle,String movieYear,String memberNo,Model model) {
@@ -271,34 +277,37 @@ public class CommentsController {
     	
     	
     }
+    /**
+     * 내가 쓴 댓글 정보 가져오기
+     */
     @ResponseBody
     @RequestMapping(value="getMyComments.co",produces="application/json; charset=UTF-8")
     public String getMyComments(Comments comments) {
     	
-    	List<Map<String,Object>> list=commentsService.getMyComments(comments);
+    	//List<Map<String,Object>> list=commentsService.getMyComments(comments);
     	
-    	return new Gson().toJson(list);
-    	
-    	
+    	return new Gson().toJson(commentsService.getMyComments(comments));	
     }
+    
+    /*
     @ResponseBody
     @RequestMapping(value="myComments.co",produces="application/json; charset=UTF-8")
     public String MyComments(Comments comments) {
-    	
-    	
-    	
-    	
-    	return new Gson().toJson(commentsService.myComment(comments));
-    	
-    	
+    	return new Gson().toJson(commentsService.myComment(comments));	
     }
+    */
     
-    
+    /**
+     * 내 댓글 수정하기
+     */
     @ResponseBody
     @RequestMapping(value="reviseMyComments.co")
     public int reviseMyComments(Comments comments) {	
         return commentsService.reviseMyComments(comments); 	
     }
+    /**
+     * 내 댓글 삭제하기
+     */
     @ResponseBody
     @RequestMapping(value="deleteMyComments.co")
     public int deleteMyComments(Comments comments) {
@@ -311,7 +320,9 @@ public class CommentsController {
     	//return "comments/movieDetail";
     	return commentsService.deleteMyComments(comments);
     }
-    
+    /**
+     * 댓글 전체보기
+     */
     @RequestMapping(value="detailComments.co")
     public ModelAndView detailComments(@RequestParam(value="cpage",defaultValue="1") int currentPage,Comments comments,ModelAndView mv) {
     	
@@ -324,15 +335,13 @@ public class CommentsController {
     	return mv;
     	
     }
-    
+    /*
     @ResponseBody
     @RequestMapping(value="myComment.co",produces="application/json; charset=UTF-8")
     public String myComment(Comments comments) {
-    	List<Map<String,Object>> myComment=commentsService.myComment(comments);
-    	
-    	
+    	List<Map<String,Object>> myComment=commentsService.getMyComments(comments);	
     	return new Gson().toJson(myComment);
     }
-   
+   */
     
 }

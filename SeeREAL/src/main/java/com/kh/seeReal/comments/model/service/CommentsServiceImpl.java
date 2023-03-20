@@ -126,13 +126,12 @@ public class CommentsServiceImpl implements CommentsService{
 		// TODO Auto-generated method stub
 		return CommentsDao.selectCommentsListAll(comments,pi,sqlSession);
 	}
-	
+	/*
 	@Override
 	public List<Map<String,Object>> myComment(Comments comments) {
 		return CommentsDao.myComment(comments,sqlSession);
-		
 	}
-
+	*/
 	@Override
 	public int checkRatingExit(MovieRating movieRating) {
 		// TODO Auto-generated method stub

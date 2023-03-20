@@ -46,7 +46,7 @@ public interface CommentsService {
 	
 	List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi);
 	
-	List<Map<String,Object>> myComment(Comments comment);
+	//List<Map<String,Object>> myComment(Comments comment);
 	
 	int commentsLikeExit(CommentsLike commentsLike);
 	
