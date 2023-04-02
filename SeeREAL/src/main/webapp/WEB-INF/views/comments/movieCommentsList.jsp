@@ -21,6 +21,11 @@
 		<h3>리얼평</h3>
 	</div>
 	<br>
+	<div class="comment-sort">
+	  <button id="btn-latest" onclick="CommentsListSort('latest')">최신순</button>
+	  <button id="btn-like" onclick="CommentsListSort('like')">좋아요순</button>
+	</div>
+	
 	
 	<div class="commentsList-scope" align="center">
 	
@@ -43,10 +48,15 @@
 										<span>${c.NICK_NAME} &nbsp; ${c.COMMENTENROLLDATE}</span>			            
 									</div>
 									<div align="right">
-
-
-										<button class="reportComment">신고</button><!-- ss -->
-
+										<div class="select-box">
+											<button class="reportComment">신고</button>
+					 						<ul class="select-box-options">
+					 					  		<li>부적절한 게시글</li>
+					 				  			<li>스포일러성 정보</li>
+					 					  		<li>홍보 및 광고</li>
+					 					  		<li>욕설</li>
+					 						</ul>
+					 					</div>
 									</div>
 								</div>
 									    
@@ -58,12 +68,12 @@
 									<div align="left">
 										<p class="${c.MEMBER_NO }rating">★ ${c.RATING }</p>
 									</div>
-							        	<div align="right">
-								           	<i class="fa-solid fa-thumbs-up"></i><em class="like">${c.COMMENT_LIKE}</em>
-									   		<i class="fa-solid fa-thumbs-down"></i><em class="dislike">${c.COMMENT_DISLIKE }</em>
-								        </div>
-								    </div>								    
-							    </div>
+							        <div align="right">
+								        <i class="fa-solid fa-thumbs-up"></i><em class="like">${c.COMMENT_LIKE}</em>
+									   	<i class="fa-solid fa-thumbs-down"></i><em class="dislike">${c.COMMENT_DISLIKE }</em>
+								    </div>
+								</div>								    
+							 </div>
 							    <input type="hidden" value="${c.COMMENT_NO}" class="commentsNo">
 							    <input type="hidden" value="N" class="ifLikeExist">
 							</c:forEach>
@@ -97,7 +107,7 @@
 							<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${pi.currentPage + 1 }&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Next</a></li>
 						</c:otherwise>
                     </c:choose>                   
-              </ul>
+              	  </ul>
        		</div>
        </div>
        <script>
@@ -144,6 +154,120 @@
 
 
    	};
+   	
+   	
+   	function CommentsListSort(sortComments){
+   		
+   		console.log(sortComments)
+   		$.ajax({
+   			url:'commentsListSort.co',
+   			data:{"movieTitle":"${comments.movieTitle}",
+   			      "movieYear":${comments.movieYear},
+   			      "memberNo":JSON.stringify(${loginUser.memberNo}),
+   			      "sort":sortComments,
+   			      "cpage":1
+   			},
+   			success:function(list){
+
+   				var value='';
+   				
+   				for(var i in list.commentsList){
+   					
+   				
+   				result=list.commentsList[i]
+   				console.log('-----0')
+   				console.log(i)
+   				console.log(list.commentsList)
+   				console.log(list.commentsList[0])
+   				console.log('-----1')
+   				console.log(result)
+   				console.log('-----2')
+   				console.log(result.MEMBER_NO);
+   				value+='<div class="commentsOne">'
+   					 +   '<div>'
+					 +		'<div align="left">'
+					 +			'<span>'+result.NICK_NAME+ '&nbsp;' +result.COMMENTENROLLDATE+'</span>'			            
+					 +		'</div>'
+					 +		'<div align="right">';
+					  
+					 if( (result.MEMBER_NO).toString() != '${loginUser.memberNo}'){
+				value+=			'<div class="select-box">'
+					 +				'<button class="reportComment">신고</button>'
+					 +				'<ul class="select-box-options">'
+					 +					  '<li>부적절한 게시글</li>'
+					 +					  '<li>스포일러성 정보</li>'
+					 +					  '<li>홍보 및 광고</li>'
+					 +					  '<li>욕설</li>'
+					 +				'</ul>'
+					 +			'</div>';
+					 }
+					 
+					 
+				value+=		'</div>'
+					 +	'</div>'					 		    
+					 +	'<div>'
+					 +		'<textarea name="'+result.SPOILER+'" class="'+result.SPOILER+'textarea">'+result.COMMENT_CONTENT+'</textarea>'
+					 +	'</div>'							    
+					 +	'<div>'
+					 +		'<div align="left">'
+					 +			'<p class="${c.MEMBER_NO }rating">★'+ result.RATING+'</p>'
+					 +		'</div>'
+					 +       	'<div align="right">'
+					 +	           	'<i class="fa-solid fa-thumbs-up"></i><em class="like">'+result.COMMENT_LIKE+'</em>'
+					 +		   		'<i class="fa-solid fa-thumbs-down"></i><em class="dislike">'+result.COMMENT_DISLIKE+'</em>'
+					 +	        '</div>'
+					 +	    '</div>'								    
+					 +   '</div>'
+					 +   '<input type="hidden" value="'+result.COMMENT_NO+'" class="'+result.COMMENT_NO+'">';
+				}
+				
+			    console.log(value);	 
+				$('.commentsone').html(value);
+				
+				
+				
+				html='';
+				
+				html+= '<ul class="pagination">'			            	
+			        +    		if(pi.currentPage == 1){
+			        +        		'<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>'
+			        +    		}else{
+			        +        		'<li class="page-item"><a class="page-link" href="commentsListSort.co?cpage=('+pi.currentPage -1+') &movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Previous</a></li>'                  			
+			        +    		}
+			        +    		for(var t=pi.startPage;t<pi.endPage;t++){
+					+            	'<li class="page-item"><a class="page-link" href="commentsListSort.co?cpage='+t+'&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">'+t+'</a></li>'
+			        +            }   			
+			     	+			if(pi.currentPage == pi.maxPage){
+			     	+				'<li class="page-item disabled"><a class="page-link" href="">Next</a></li>'
+			     	+			}else{
+					+				'<li class="page-item"><a class="page-link" href="commentsListSort.co?cpage='+(pi.currentPage + 1)+'&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Next</a></li>'
+			     	+			}                                          			                            
+			      	+  '</ul>'
+				
+				
+   			},
+   			error:function(){
+   				console.log('실패했다메')
+   			}
+   		})
+   	};
+   	
+   	<!-- 신고하기 -->
+	$(document).on('click','.reportComment',function() {
+        // 신고 클릭 시 신고옵션 보여주기/숨기기        
+        console.log('클릭완료');
+        $(this).siblings('.select-box-options').toggle();
+       
+      
+        // 신고옵션 클릭 시
+        $('.select-box-options li').click(function() {                 
+          $('.select-box-options').hide();
+          alert('신고되었습니다')
+        });
+    });
+   	
+   	
+   	
    	$(document).on('click','div[class=commentsOne] i[class~=fa-thumbs-up]',function(){
 		
         

@@ -240,7 +240,7 @@
 	$(document).on('click','.reportComment',function() {
         // 신고 클릭 시 신고옵션 보여주기/숨기기        
         console.log('클릭완료');
-        $('.select-box-options').toggle();
+        $(this).siblings('.select-box-options').toggle();
        
       
         // 신고옵션 클릭 시
@@ -466,6 +466,8 @@
 				  movieYear:${movieYear}
 			},
 			success:function(commentsList){
+				console.log(commentsList)
+				console.log(commentsList[0])
 				value='';
 				if(commentsList.length != 0 ){
 					for(var i in commentsList){					

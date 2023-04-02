@@ -97,6 +97,20 @@ pageEncoding="UTF-8"%>
           
           $("#form1").submit();
         });
+        
+        <!--임시 -->
+	    $(document).on("click", "#titleBox", function () {         
+
+	          $("#movieTitle").val("노량진 토토로");
+	          $("#movieYear").val(2005);
+	          $("#movieImg").val($(this).children().children().eq(1).attr("src"));
+	          $("#movieDirector").val($(this).children().eq(3).text());
+	          $("#movieSubTitle").val($(this).children().eq(6).val());
+	          
+	          $("#form1").submit();
+	        });
+        
+        
       }
     </script>
   </body>

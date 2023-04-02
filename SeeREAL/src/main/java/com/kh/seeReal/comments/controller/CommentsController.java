@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.google.gson.Gson;
 import com.kh.seeReal.comments.model.service.CommentsService;
@@ -328,7 +329,7 @@ public class CommentsController {
     	
     	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 2);
     	
-    	commentsService.selectCommentsListAll(comments,pi);
+    	//commentsService.selectCommentsListAll(comments,pi);
     	
     	mv.addObject("pi", pi).addObject("commentsList",commentsService.selectCommentsListAll(comments,pi)).addObject("comments",comments).setViewName("comments/movieCommentsList");
     	
@@ -340,8 +341,48 @@ public class CommentsController {
     @RequestMapping(value="myComment.co",produces="application/json; charset=UTF-8")
     public String myComment(Comments comments) {
     	List<Map<String,Object>> myComment=commentsService.getMyComments(comments);	
-    	return new Gson().toJson(myComment);
+    	return new Gson().toJson(my.t);
     }
    */
+    
+    @ResponseBody
+    @RequestMapping(value="commentsListSort.co")  
+    public ModelAndView commetsListSort(@RequestParam(value="cpage",defaultValue="1") int currentPage,Comments comments,String sort) {
+    	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 2);
+    	
+    	ModelAndView mv=new ModelAndView(new MappingJackson2JsonView());
+    	
+    	HashMap<String,Object> commentsSortInfo=new HashMap<>();
+    	commentsSortInfo.put("PageInfo", pi);
+    	commentsSortInfo.put("Comments", comments);
+    	commentsSortInfo.put("sort", sort);
+    	List<HashMap<String,Object>> uuu=commentsService.commentsListSort(commentsSortInfo);
+    	System.out.println("443434");		
+    	System.out.println(uuu);
+    	System.out.println("443434");		
+    	//mv.addObject("pi",pi).addObject("commentsList",uuu).setViewName("jsonView");
+    	mv.addObject("pi",pi).addObject("commentsList",uuu);
+    	return mv;   	
+    }
+    
+    /*
+    @ResponseBody
+    @RequestMapping(value="commentsListSort.co",produces="application/json; charset=UTF-8")  
+    public String commetsListSort(@RequestParam(value="cpage",defaultValue="1") int currentPage,Comments comments,String sort) {
+    	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 2);
+    	
+    	HashMap<String,Object> commentsSortInfo=new HashMap<>();
+    	commentsSortInfo.put("PageInfo", pi);
+    	commentsSortInfo.put("Comments", comments);
+    	commentsSortInfo.put("sort", sort);
+    	List<HashMap<String,Object>> uuu=commentsService.commentsListSort(commentsSortInfo);
+    	System.out.println("443434");		
+    	System.out.println(uuu);
+    	System.out.println("443434");		
+    	
+    	
+    	return new Gson().toJson(uuu);
+    }
+    */ 
     
 }
