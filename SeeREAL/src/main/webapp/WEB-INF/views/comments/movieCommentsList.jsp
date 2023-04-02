@@ -44,8 +44,11 @@
 									</div>
 									<div align="right">
 
-										<button class="reportComment">신고</button><!-- ss --><!-- aa -->
 
+										
+
+
+										
 									</div>
 								</div>
 									    
