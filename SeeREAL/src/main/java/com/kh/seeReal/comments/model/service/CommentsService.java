@@ -52,4 +52,5 @@ public interface CommentsService {
 	
 	//double ratingShow(Comments comments);
 	
+	List<HashMap<String,Object>> commentsListSort(HashMap<String,Object> commentsSortInfo);
 }

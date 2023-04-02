@@ -328,7 +328,7 @@ public class CommentsController {
     	
     	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 2);
     	
-    	commentsService.selectCommentsListAll(comments,pi);
+    	//commentsService.selectCommentsListAll(comments,pi);
     	
     	mv.addObject("pi", pi).addObject("commentsList",commentsService.selectCommentsListAll(comments,pi)).addObject("comments",comments).setViewName("comments/movieCommentsList");
     	
@@ -340,8 +340,22 @@ public class CommentsController {
     @RequestMapping(value="myComment.co",produces="application/json; charset=UTF-8")
     public String myComment(Comments comments) {
     	List<Map<String,Object>> myComment=commentsService.getMyComments(comments);	
-    	return new Gson().toJson(myComment);
+    	return new Gson().toJson(my.t);
     }
    */
+    @ResponseBody
+    @RequestMapping(value="commentsListSort.co")
     
+    public ModelAndView commetsListSort(@RequestParam(value="cpage",defaultValue="1") int currentPage,Comments comments,String sort,ModelAndView mv) {
+    	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 2);
+    	
+    	HashMap<String,Object> commentsSortInfo=new HashMap<>();
+    	commentsSortInfo.put("PageInfo", pi);
+    	commentsSortInfo.put("Comments", comments);
+    	commentsSortInfo.put("sort", sort);
+    	
+    	mv.addObject("pi",pi).addObject("commentsList",commentsService.commentsListSort(commentsSortInfo)).setViewName("jsonView");
+    	return mv;
+    	//return new Gson().toJson(commentsService.commentsListSort(commentsSortInfo));
+    }
 }
