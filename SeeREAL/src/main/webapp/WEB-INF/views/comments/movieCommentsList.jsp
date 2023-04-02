@@ -45,10 +45,8 @@
 									<div align="right">
 
 
-										
+										<button class="reportComment">신고</button><!-- ss -->
 
-
-										
 									</div>
 								</div>
 									    
