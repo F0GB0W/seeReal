@@ -43,7 +43,7 @@
 										<span>${c.NICK_NAME} &nbsp; ${c.COMMENTENROLLDATE}</span>			            
 									</div>
 									<div align="right">
-										<button class="reportComment">신고</button><!-- ss -->
+										<button class="reportComment">신고</button><!-- ss --><!-- aa -->
 									</div>
 								</div>
 									    
