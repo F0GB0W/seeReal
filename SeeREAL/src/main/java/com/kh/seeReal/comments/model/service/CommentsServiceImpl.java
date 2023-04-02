@@ -150,14 +150,6 @@ public class CommentsServiceImpl implements CommentsService{
 		return CommentsDao.ratingShow(comments,sqlSession);
 	}
 	*/
-
-	@Override
-	public List<HashMap<String,Object>> commentsListSort(HashMap<String, Object> commentsSortInfo) {
-		
-		return CommentsDao.commentsListSort(commentsSortInfo,sqlSession);
-	}
-
-	
 	
 
 	

@@ -143,24 +143,4 @@ public class CommentsDao {
 		return sqlSession.selectOne("comments-mapper.ratingShow", comments);
 	}
 	*/
-	public List<HashMap<String,Object>> commentsListSort(HashMap commentsSortInfo,SqlSessionTemplate sqlSession) {
-		
-		PageInfo pi=(PageInfo)commentsSortInfo.get("PageInfo");
-		int offset= (pi.getCurrentPage()-1)*pi.getBoardLimit();
-		
-		RowBounds rowBounds=new RowBounds(offset,pi.getBoardLimit());
-		
-		System.out.println(commentsSortInfo);
-		System.out.println(rowBounds);
-		
-		 List<HashMap<String,Object>> list=sqlSession.selectList("comments-mapper.commentsListSort", commentsSortInfo, rowBounds);
-		 System.out.println("dssdsd");
-		 System.out.println(list);
-		 System.out.println("dssdsd");
-		 
-		 return list;
-	}
-	
-	
-	
 }
