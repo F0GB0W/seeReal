@@ -14,6 +14,7 @@ import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.common.model.vo.PageInfo;
+import com.kh.seeReal.report.model.vo.Report;
 
 @Service
 public class CommentsServiceImpl implements CommentsService{
@@ -120,12 +121,13 @@ public class CommentsServiceImpl implements CommentsService{
 		
 		return CommentsDao.selectCommentsCount(comments,sqlSession);
 	}
-
+	/*
 	@Override
 	public List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi) {
 		// TODO Auto-generated method stub
 		return CommentsDao.selectCommentsListAll(comments,pi,sqlSession);
 	}
+	*/
 	/*
 	@Override
 	public List<Map<String,Object>> myComment(Comments comments) {
@@ -150,11 +152,29 @@ public class CommentsServiceImpl implements CommentsService{
 		return CommentsDao.ratingShow(comments,sqlSession);
 	}
 	*/
-
+	
 	@Override
 	public List<HashMap<String,Object>> commentsListSort(HashMap<String, Object> commentsSortInfo) {
 		
 		return CommentsDao.commentsListSort(commentsSortInfo,sqlSession);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> selectCommentsListAll(HashMap<String, Object> commentsSortInfo) {
+		// TODO Auto-generated method stub
+		return CommentsDao.selectCommentsListAll(commentsSortInfo,sqlSession);
+	}
+
+	@Override
+	public int commentsReport(Report report) {
+		
+		return CommentsDao.commentsReport(report,sqlSession);
+	}
+
+	@Override
+	public int isCommentsReport(Report report) {
+		
+		return CommentsDao.isCommentsReport(report,sqlSession);
 	}
 
 	

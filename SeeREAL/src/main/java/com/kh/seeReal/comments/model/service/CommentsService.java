@@ -9,6 +9,7 @@ import com.kh.seeReal.comments.model.vo.Comments;
 import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.common.model.vo.PageInfo;
+import com.kh.seeReal.report.model.vo.Report;
 
 public interface CommentsService {
 	
@@ -44,7 +45,9 @@ public interface CommentsService {
 	
 	int selectCommentsCount(Comments comments);
 	
-	List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi);
+	//List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi);
+	
+	List<HashMap<String, Object>> selectCommentsListAll(HashMap<String,Object> commentsSortInfo);
 	
 	//List<Map<String,Object>> myComment(Comments comment);
 	
@@ -53,4 +56,8 @@ public interface CommentsService {
 	//double ratingShow(Comments comments);
 	
 	List<HashMap<String,Object>> commentsListSort(HashMap<String,Object> commentsSortInfo);
+	
+	int commentsReport(Report report);
+	
+	int isCommentsReport(Report report);
 }

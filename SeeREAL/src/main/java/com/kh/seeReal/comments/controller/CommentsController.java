@@ -36,6 +36,7 @@ import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.common.template.Pagination;
 import com.kh.seeReal.member.model.vo.Member;
+import com.kh.seeReal.report.model.vo.Report;
 
 
 
@@ -324,6 +325,7 @@ public class CommentsController {
     /**
      * 댓글 전체보기
      */
+    /*
     @RequestMapping(value="detailComments.co")
     public ModelAndView detailComments(@RequestParam(value="cpage",defaultValue="1") int currentPage,Comments comments,ModelAndView mv) {
     	
@@ -336,6 +338,33 @@ public class CommentsController {
     	return mv;
     	
     }
+    */
+    @RequestMapping(value="detailComments.co")
+    public ModelAndView detailComments(@RequestParam(value="cpage",defaultValue="1") int currentPage,
+    								   @RequestParam(value="sort",defaultValue="latest") String sort,
+    								   Comments comments,ModelAndView mv) {
+    	
+    	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 2);
+    	
+    	//commentsService.selectCommentsListAll(comments,pi);
+    	HashMap<String,Object> commentsSortInfo=new HashMap<>();
+    	commentsSortInfo.put("PageInfo", pi);
+    	commentsSortInfo.put("Comments", comments);
+    	commentsSortInfo.put("sort", sort);
+    	
+    	
+    	mv.addObject("pi", pi).addObject("commentsList",commentsService.selectCommentsListAll(commentsSortInfo)).addObject("comments",comments);
+    	mv.addObject("sort",sort);
+    	mv.setViewName("comments/movieCommentsList");
+    	System.out.println("eeeeeeeeeeeeeeeee");
+    	System.out.println(mv);
+    	System.out.println(comments);
+    	System.out.println("eeeeeeeeeeeeeeeee");
+    	return mv;
+    	
+    }
+    
+    
     /*
     @ResponseBody
     @RequestMapping(value="myComment.co",produces="application/json; charset=UTF-8")
@@ -347,7 +376,7 @@ public class CommentsController {
     
     @ResponseBody
     @RequestMapping(value="commentsListSort.co")  
-    public ModelAndView commetsListSort(@RequestParam(value="cpage",defaultValue="1") int currentPage,Comments comments,String sort) {
+    public ModelAndView commetsListSort(@RequestParam(value="cpage",defaultValue="1") int currentPage,@RequestParam(value="sort",defaultValue="latest") String sort,Comments comments) {
     	PageInfo pi=Pagination.getPageInfo(commentsService.selectCommentsCount(comments), currentPage, 10, 2);
     	
     	ModelAndView mv=new ModelAndView(new MappingJackson2JsonView());
@@ -357,7 +386,8 @@ public class CommentsController {
     	commentsSortInfo.put("Comments", comments);
     	commentsSortInfo.put("sort", sort);
     	List<HashMap<String,Object>> uuu=commentsService.commentsListSort(commentsSortInfo);
-    	System.out.println("443434");		
+    	System.out.println("443434");	
+    	System.out.println(sort);
     	System.out.println(uuu);
     	System.out.println("443434");		
     	//mv.addObject("pi",pi).addObject("commentsList",uuu).setViewName("jsonView");
@@ -384,5 +414,20 @@ public class CommentsController {
     	return new Gson().toJson(uuu);
     }
     */ 
-    
+    @ResponseBody
+    @RequestMapping(value="commentsReport.co",produces="application/json; charset=UTF-8")
+    public String commentsReport(Report report) {
+    	
+    	if(commentsService.isCommentsReport(report) == 0) {
+    		try {
+    			commentsService.commentsReport(report);
+    			return "신고완료";    			
+    		}catch (Exception e){
+    			e.printStackTrace();
+    			return "신고오류";
+    		}
+    	}else { 			
+    		return "이미신고";
+    	}
+    }
 }

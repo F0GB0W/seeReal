@@ -7,6 +7,10 @@
 	.commentsOne{		
 		background-color: rgb(242, 242, 242);
 	}
+	.comment-sort button.active {
+	  background-color: #007bff;
+  	  color: #fff;
+	}
 	.red{
 		color:red;
 	}

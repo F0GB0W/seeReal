@@ -14,6 +14,7 @@ import com.kh.seeReal.comments.model.vo.CommentsLike;
 import com.kh.seeReal.comments.model.vo.MovieRating;
 import com.kh.seeReal.common.model.vo.PageInfo;
 import com.kh.seeReal.member.model.vo.Member;
+import com.kh.seeReal.report.model.vo.Report;
 
 @Repository
 public class CommentsDao {
@@ -105,6 +106,7 @@ public class CommentsDao {
 	public int selectCommentsCount(Comments comments,SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("comments-mapper.selectCommentsCount", comments);
 	}
+	/*
 	public List<Map<String, Object>> selectCommentsListAll(Comments comments,PageInfo pi,SqlSessionTemplate sqlSession){
 		
 		int offset= (pi.getCurrentPage()-1)*pi.getBoardLimit();
@@ -115,6 +117,21 @@ public class CommentsDao {
 		System.out.println(comments);
 		
 		List<Map<String, Object>> list = (ArrayList)sqlSession.selectList("comments-mapper.selectCommentsListAll", comments,rowBounds);
+		
+		return list;
+	}
+	*/
+	public List<HashMap<String, Object>> selectCommentsListAll(HashMap<String,Object> commentsSortInfo,SqlSessionTemplate sqlSession){
+		
+		PageInfo pi=(PageInfo)commentsSortInfo.get("PageInfo");
+		int offset= (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds=new RowBounds(offset,pi.getBoardLimit());
+		
+		System.out.println("마지막");
+		
+		List<HashMap<String,Object>> list=sqlSession.selectList("comments-mapper.selectCommentsListAll", commentsSortInfo, rowBounds);
+		
 		
 		return list;
 	}
@@ -161,6 +178,11 @@ public class CommentsDao {
 		 return list;
 	}
 	
-	
-	
+	public int  commentsReport(Report report,SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.insert("comments-mapper.commentsReport");
+	}
+	public int isCommentsReport(Report report,SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("comments-mapper.isCommentsReport", report);
+	}
 }

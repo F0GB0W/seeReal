@@ -460,7 +460,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		      STATUS = 'Y'
 	
 	</select>
-	
+	<!--  
 	<select id="selectCommentsListAll" parameterType="Comments" resultType="hashmap">
 		SELECT 
 	  DISTINCT
@@ -507,6 +507,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             C.MOVIE_YEAR=#{movieYear}
     ORDER BY
             L.COMMENT_LIKE-L.COMMENT_DISLIKE DESC
+	</select>
+	-->
+	<select id="selectCommentsListAll" parameterType="hashmap" resultType="hashmap">
+		SELECT 
+	  DISTINCT
+			  MEMBER_NO,
+		      COMMENT_NO,
+		      C.COMMENT_CONTENT,
+		      C.COMMENT_ENROLLDATE,
+		      TO_CHAR(C.COMMENT_ENROLLDATE,'YYYY-MM-DD') "COMMENTENROLLDATE",
+		      C.SPOILER,
+		      C.COMMENT_REPORT,
+		      C.MOVIE_TITLE,
+		      C.MOVIE_YEAR,
+		      M.NICK_NAME,
+              L.COMMENT_LIKE,
+              L.COMMENT_DISLIKE,
+              R.RATING
+		  FROM
+		      COMMENTS C
+		  JOIN 
+		  	  MEMBER M
+		 USING 
+		 	  (MEMBER_NO)
+         JOIN
+              (SELECT
+                     COUNT(CASE WHEN COMMENT_LIKE='Y' THEN 1 END) COMMENT_LIKE,
+                     COUNT(CASE WHEN COMMENT_DISLIKE='Y' THEN 1 END) COMMENT_DISLIKE,
+                     COMMENT_NO
+                 FROM
+                     COMMENT_LIKE
+             GROUP BY 
+                     COMMENT_NO) L             
+       USING
+            (COMMENT_NO)
+       JOIN
+            MOVIE_RATING R
+       USING
+            (MEMBER_NO)    
+       WHERE
+            C.STATUS='Y'
+         AND
+            C.MOVIE_TITLE=#{Comments.movieTitle}
+         AND
+            R.MOVIE_TITLE=#{Comments.movieTitle}
+         AND
+            C.MOVIE_YEAR=#{Comments.movieYear}
+    ORDER BY 
+ 
+    <choose>
+    	<when test="sort == 'latest'.toString()">
+    		C.COMMENT_ENROLLDATE
+    	</when>
+    	<when test="sort == 'like'.toString()">
+    		L.COMMENT_LIKE-L.COMMENT_DISLIKE DESC    
+    	</when>
+    	<otherwise>
+    		C.COMMENT_ENROLLDATE
+    	</otherwise>
+    </choose>
+    
 	</select>
 	<!--  
 	<select id="myComment" parameterType="Comments" resultType="hashmap">
@@ -632,19 +693,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          AND
             C.MOVIE_YEAR=#{Comments.movieYear}
     ORDER BY 
-     		C.COMMENT_ENROLLDATE
-    <!--  
+ 
     <choose>
-    	<when test="#{sort} eq 'latest'">
+    	<when test="sort == 'latest'.toString()">
     		C.COMMENT_ENROLLDATE
     	</when>
-    	<when test="#{sort} eq 'like'">
+    	<when test="sort == 'like'.toString()">
     		L.COMMENT_LIKE-L.COMMENT_DISLIKE DESC    
     	</when>
     	<otherwise>
     		C.COMMENT_ENROLLDATE
     	</otherwise>
     </choose>
-    -->
+    
+	</select>
+	
+	<insert id="commentsReport" parameterType="Report">
+		INSERT
+		  INTO
+		      REPORT
+		      (
+		       REPORT_NO,
+			   REPORT_WRITER,
+			   REPORT_REASON,
+			   REPORT_DATE,
+			   REPORT_OCCURED,
+			   REPORT_TYPE
+		      )
+		VALUES
+		      (
+		       seq_rno.nextval,
+		       #{reportWriter},
+			   #{reportReason},
+			   SYSDATE,
+			   #{reportOccured},
+		       100		       
+		      )     
+	</insert>
+	
+	<select id="isCommentsReport" parameterType="Report" resultType="_int">
+		SELECT
+			  COUNT(*)
+		  FROM
+		      REPORT
+		 WHERE
+		      REPORT_OCCURED = #{reportOccured}
+		   AND
+		      REPORT_WRITER = (SELECT 
+		      						 NICK_NAME
+		      				     FROM
+		      				     	 MEMBER
+		      				    WHERE
+		      				         MEMBER_NO = #{reportWriter}
+		      				  )
 	</select>
 </mapper>

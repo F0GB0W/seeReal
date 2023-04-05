@@ -21,11 +21,20 @@
 		<h3>리얼평</h3>
 	</div>
 	<br>
-	<div class="comment-sort">
-	  <button id="btn-latest" onclick="CommentsListSort('latest')">최신순</button>
-	  <button id="btn-like" onclick="CommentsListSort('like')">좋아요순</button>
-	</div>
 	
+		
+	<form id="commentsSortForm" action="detailComments.co" method="get">
+	    <div class="comment-sort">
+	        <button id="btn-latest" name="sort" value="latest" ${sort == 'latest' ? 'class="active"' : ''}>최신순</button>
+	        <button id="btn-like" name="sort" value="like" ${sort == 'like' ? 'class="active"' : ''}>좋아요순</button>
+	    </div>
+	    <input type="hidden" name="movieTitle" value="${comments.movieTitle }">
+	    <input type="hidden" name="movieYear" value="${comments.movieYear }">
+	    <input type="hidden" name="memberNo" value="${comments.memberNo }">
+	    <input type="hidden" name="cpage" value="${pi.currentPage }">	    
+	</form>
+	
+	  
 	
 	<div class="commentsList-scope" align="center">
 	
@@ -48,15 +57,17 @@
 										<span>${c.NICK_NAME} &nbsp; ${c.COMMENTENROLLDATE}</span>			            
 									</div>
 									<div align="right">
-										<div class="select-box">
-											<button class="reportComment">신고</button>
-					 						<ul class="select-box-options">
-					 					  		<li>부적절한 게시글</li>
-					 				  			<li>스포일러성 정보</li>
-					 					  		<li>홍보 및 광고</li>
-					 					  		<li>욕설</li>
-					 						</ul>
-					 					</div>
+										<c:if test="${loginUser ne null }">
+											<div class="select-box">
+												<button class="reportComment">신고</button>
+						 						<ul class="select-box-options">
+						 					  		<li data-num="1">부적절한 게시글</li>
+						 				  			<li data-num="2">스포일러성 정보</li>
+						 					  		<li data-num="3">홍보 및 광고</li>
+						 					  		<li data-num="4">욕설</li>
+						 						</ul>
+						 					</div>
+					 					</c:if>
 									</div>
 								</div>
 									    
@@ -93,18 +104,18 @@
 	                    		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 	                    	</c:when>
 	                    <c:otherwise>
-	                    		<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${pi.currentPage -1 }&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Previous</a></li>                  			
+	                    		<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${pi.currentPage -1 }&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}&sort=${sort}">Previous</a></li>                  			
 	                    	</c:otherwise>
 	                    </c:choose>	                    	                    
                     <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
-                    	<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${p}&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">${p }</a></li>
+                    	<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${p}&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}&sort=${sort}">${p }</a></li>
                     </c:forEach>                                      
                     <c:choose>
                     	<c:when test="${pi.currentPage eq pi.maxPage }">
                     		<li class="page-item disabled"><a class="page-link" href="">Next</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${pi.currentPage + 1 }&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Next</a></li>
+							<li class="page-item"><a class="page-link" href="detailComments.co?cpage=${pi.currentPage + 1 }&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}&sort=${sort}">Next</a></li>
 						</c:otherwise>
                     </c:choose>                   
               	  </ul>
@@ -155,8 +166,8 @@
 
    	};
    	
-   	
-   	function CommentsListSort(sortComments){
+   	/*
+   	function CommentsListSort(sortComments,num){
    		
    		console.log(sortComments)
    		$.ajax({
@@ -165,24 +176,24 @@
    			      "movieYear":${comments.movieYear},
    			      "memberNo":JSON.stringify(${loginUser.memberNo}),
    			      "sort":sortComments,
-   			      "cpage":1
+   			      "cpage":num
    			},
    			success:function(list){
-
+				
+   				console.log('확인')
+   				console.log(sortComments)
+   				console.log(num)
+   				console.log(list.commentsList)
+   				console.log('확인')
    				var value='';
    				
    				for(var i in list.commentsList){
    					
    				
-   				result=list.commentsList[i]
-   				console.log('-----0')
-   				console.log(i)
-   				console.log(list.commentsList)
-   				console.log(list.commentsList[0])
-   				console.log('-----1')
-   				console.log(result)
-   				console.log('-----2')
-   				console.log(result.MEMBER_NO);
+   				result=list.commentsList[i];
+   				pi=list.pi;
+   				
+   				
    				value+='<div class="commentsOne">'
    					 +   '<div>'
 					 +		'<div align="left">'
@@ -221,36 +232,37 @@
 					 +   '<input type="hidden" value="'+result.COMMENT_NO+'" class="'+result.COMMENT_NO+'">';
 				}
 				
-			    console.log(value);	 
-				$('.commentsone').html(value);
+			
+				$('.commentsList').html(value);
 				
 				
 				
-				html='';
+				value2='';
 				
-				html+= '<ul class="pagination">'			            	
-			        +    		if(pi.currentPage == 1){
-			        +        		'<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>'
-			        +    		}else{
-			        +        		'<li class="page-item"><a class="page-link" href="commentsListSort.co?cpage=('+pi.currentPage -1+') &movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Previous</a></li>'                  			
-			        +    		}
-			        +    		for(var t=pi.startPage;t<pi.endPage;t++){
-					+            	'<li class="page-item"><a class="page-link" href="commentsListSort.co?cpage='+t+'&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">'+t+'</a></li>'
-			        +            }   			
-			     	+			if(pi.currentPage == pi.maxPage){
-			     	+				'<li class="page-item disabled"><a class="page-link" href="">Next</a></li>'
-			     	+			}else{
-					+				'<li class="page-item"><a class="page-link" href="commentsListSort.co?cpage='+(pi.currentPage + 1)+'&movieTitle=${comments.movieTitle}&movieYear=${comments.movieYear}">Next</a></li>'
-			     	+			}                                          			                            
-			      	+  '</ul>'
+				value2+= '<ul class="pagination">';			            	
+			              		if(pi.currentPage == 1){
+			    value2+=        		'<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
+			              		}else{
+			    value2+=        		'<li class="page-item"><a class="page-link" onclick="CommentsListSort(\''+sortComments+'\','+(pi.currnetPage-1)+')">Previous</a></li>';                  			
+			              		}
+			              		for(var t=pi.startPage;t<=pi.endPage;t++){
+				value2+=            	'<li class="page-item"><a class="page-link" onclick="CommentsListSort(\''+sortComments+'\','+t+')">'+t+'</a></li>';
+			                      }   			
+			     	  			if(pi.currentPage == pi.maxPage){
+			    value2+=				'<li class="page-item disabled"><a class="page-link" href="">Next</a></li>';
+			     	  			}else{
+				value2+=				'<li class="page-item"><a class="page-link" onclick="CommentsListSort(\''+sortComments+'\','+(pi.currnetPage+1)+')">Next</a></li>';
+			     	  			}                                          			                            
+			    value2+=  '</ul>';
 				
-				
+					$('#pagingArea').html(value2);
    			},
    			error:function(){
    				console.log('실패했다메')
    			}
    		})
    	};
+   	*/
    	
    	<!-- 신고하기 -->
 	$(document).on('click','.reportComment',function() {
@@ -260,9 +272,34 @@
        
       
         // 신고옵션 클릭 시
-        $('.select-box-options li').click(function() {                 
+        $('.select-box-options li').click(function() { 
+          console.log($(this).data("num"));
+          if(confirm('신고하시겠습니까?')){        	  
+	          $.ajax({
+	        	  url:'commentsReport.co',
+	        	  data:{"reportReason":$(this).data("num"),
+	        		  	"reportWriter":JSON.stringify(${loginUser.memberNo}),
+	        		  	"reportOccured": $(this).closest('.commentsOne').find('.commentsNo').val(),
+	        		  	"reportType":100
+	        		  	
+	        	  },
+	        	  success:function(response){
+	        	  	  if(response == "신고완료"){
+	        	  		  alert('신고완료되었습니다');
+	        	  	  }else if(response == "신고오류"){
+	        	  		  alert('신고접수실패');
+	        	  	  }else{
+	        	  		  alert('이미 신고한 댓글입니다');
+	        	  	  }
+	        	  },
+	        	  error:function(){
+	        		  alert('오류가 났습니다')
+	        	  }
+	          });
+          };
+          
           $('.select-box-options').hide();
-          alert('신고되었습니다')
+         
         });
     });
    	
@@ -340,8 +377,8 @@
 				url:'thumbsDown.co',
 				data:{"commentNo":$(this).parents('.commentsOne').next().val(),
 					  "commentWriter":JSON.stringify(${loginUser.memberNo}),//json 형태로 보내기	
-					  "disLike": $(this).attr('class')=='fa-solid fa-thumbs-down' ? 'N' : 'Y',
-					  "ifLikeExist": $(this).parents('.commentsOne').next().next().val()
+					  "disLike": $(this).attr('class')=='fa-solid fa-thumbs-down' ? 'N' : 'Y'
+					  
 				},
 				success:function(){
 					console.log('싫어요 성공');
